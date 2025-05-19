@@ -135,9 +135,10 @@
                         </label>
                     </div>
 
-                    <x-primary-button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3.5 px-4 rounded-lg transition duration-200 shadow-md mt-6">
-                        {{ __('Se connecter') }}
-                    </x-primary-button>
+                    <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3.5 px-4 rounded-lg transition duration-200 shadow-md mt-6">
+    {{ __('Se connecter') }}
+</button>
+
                 </form>
             </div>
         </div>
