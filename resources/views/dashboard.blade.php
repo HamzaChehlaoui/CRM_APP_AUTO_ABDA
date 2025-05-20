@@ -208,7 +208,7 @@
                             <i class="fas fa-cog"></i>
                         </button>
                         </a>
-                       <form method="POST" action="{{ route('logout') }}">
+                    <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button class="text-gray-500 hover:text-nucleus-primary transition-colors">
                             <i class="fas fa-sign-out-alt"></i>
