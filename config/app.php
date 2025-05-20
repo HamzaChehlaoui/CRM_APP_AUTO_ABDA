@@ -139,7 +139,7 @@ return [
     */
 
 
-    
+
     'maintenance' => [
         'driver' => 'file',
         // 'store'  => 'redis',
@@ -157,7 +157,7 @@ return [
     */
 
     'providers' => [
-
+   
         /*
          * Laravel Framework Service Providers...
          */
