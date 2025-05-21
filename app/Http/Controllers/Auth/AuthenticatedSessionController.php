@@ -29,7 +29,25 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        $user = Auth::user();
+
+    switch ($user->role_id) {
+        case 1:
+            return redirect()->route('dashboard');
+
+        case 2:
+            return redirect()->route('manager.dashboard');
+
+        case 3:
+
+            return redirect()->route('managerSafi.dashboard');
+        case 4:
+
+            return redirect()->route('managerEssaouira.dashboard');
+        case 5:
+        default:
+            return redirect()->route('managerSidiBennour.dashboard');
+    }
     }
 
     /**

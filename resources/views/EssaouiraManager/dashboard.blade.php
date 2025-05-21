@@ -225,7 +225,7 @@
             <header class="bg-white shadow-sm border-b border-gray-200 py-4 px-6">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h1 class="text-2xl font-bold text-gray-800">Tableau de Bord Directeur Général</h1>
+                        <h1 class="text-2xl font-bold text-gray-800">Tableau de Bord Essaouira Manager</h1>
                         <p class="text-sm text-gray-500">Vue d'ensemble de votre CRM automobile</p>
                     </div>
                     <div class="flex items-center space-x-4">

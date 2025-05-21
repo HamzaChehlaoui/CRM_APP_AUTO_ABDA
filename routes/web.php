@@ -26,6 +26,22 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/managerSafi',function (){
+        return view('SafiManager.dashboard');
+    })->name('managerSafi.dashboard');
+
+    Route::get('/managerEssaouira',function (){
+        return view('EssaouiraManager.dashboard');
+    })->name('managerEssaouira.dashboard');
+
+    Route::get('/managerSidiBennour',function (){
+        return view('SidiBennourManager.dashboard');
+    })->name('managerSidiBennour.dashboard');
+
+    Route::get('/manager',function (){
+        return view('AssistantDirector.dashboard');
+    })->name('manager.dashboard');
 });
 
 require __DIR__.'/auth.php';
