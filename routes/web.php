@@ -100,6 +100,34 @@ Route::get('/exporterSafi', function(){
         return view('SafiManager.exporter');
 });
 
+
+//static page Essaouira
+Route::get('/suivisEssaouira', function(){
+        return view('EssaouiraManager.suivis');
+});
+
+Route::get('/notificationsEssaouira', function(){
+        return view('EssaouiraManager.notifications');
+});
+Route::get('/prospectsEssaouira', function(){
+        return view('EssaouiraManager.prospects');
+});
+Route::get('/clientsEssaouira', function(){
+        return view('EssaouiraManager.clients');
+});
+Route::get('/entretiensEssaouira', function(){
+        return view('EssaouiraManager.entretiens');
+});
+Route::get('/reclamationsEssaouira', function(){
+        return view('EssaouiraManager.reclamations');
+});
+Route::get('/statistiquesEssaouira', function(){
+        return view('EssaouiraManager.statistiques');
+});
+Route::get('/exporterEssaouira', function(){
+        return view('EssaouiraManager.exporter');
+});
+
 Route::get('/dashboardAdmin', function () {
     return view('Admin.dashboard');
 
