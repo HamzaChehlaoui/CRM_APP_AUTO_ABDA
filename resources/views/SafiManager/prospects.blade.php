@@ -152,42 +152,42 @@
 
                 <h2 class="text-xs uppercase text-gray-500 font-semibold mb-3">Navigation</h2>
                 <nav class="space-y-1">
-                    <a href="/dashboardAdmin" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
+                    <a href="/managerSafi" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
                         <i class="fas fa-tachometer-alt mr-2 text-gray-500"></i>
                         Tableau de Bord
                     </a>
-                    <a href="/prospectsAdmin" class="flex items-center py-2 px-3 rounded-md bg-nucleus-light text-nucleus-primary font-medium ">
+                    <a href="/prospectsSafi" class="flex items-center py-2 px-3 rounded-md bg-nucleus-light text-nucleus-primary font-medium ">
                         <i class="fas fa-users mr-2  text-nucleus-primary"></i>
                         Prospects
                     </a>
-                    <a href="/suivisAdmin" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
+                    <a href="/suivisSafi" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
                         <i class="fas fa-calendar-alt mr-2 text-gray-500"></i>
                         Suivis
                     </a>
-                    <a href="/notificationsAdmin" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
+                    <a href="/notificationsSafi" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
                         <i class="fas fa-bell mr-2 text-gray-500"></i>
                         Notifications
                         <span class="ml-auto bg-red-100 text-red-500 text-xs font-semibold px-2 py-0.5 rounded-full">3</span>
                     </a>
-                    <a href="/clientsAdmin" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
+                    <a href="/clientsSafi" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
                         <i class="fas fa-car mr-2 text-gray-500"></i>
                         Clients
                     </a>
-                    <a href="/entretiensAdmin" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
+                    <a href="/entretiensSafi" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
                         <i class="fas fa-wrench mr-2 text-gray-500"></i>
                         Entretiens
                         <span class="ml-auto bg-yellow-100 text-yellow-500 text-xs font-semibold px-2 py-0.5 rounded-full">8</span>
                     </a>
-                    <a href="/reclamationsAdmin" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
+                    <a href="/reclamationsSafi" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
                         <i class="fas fa-exclamation-triangle mr-2 text-gray-500"></i>
                         Réclamations
                         <span class="ml-auto bg-orange-100 text-orange-500 text-xs font-semibold px-2 py-0.5 rounded-full">4</span>
                     </a>
-                    <a href="/statistiquesAdim" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
+                    <a href="/statistiquesSafi" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
                         <i class="fas fa-chart-bar mr-2 text-gray-500"></i>
                         Statistiques
                     </a>
-                    <a href="/exporterAdim" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
+                    <a href="/exporterSafi" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
                         <i class="fas fa-file-export mr-2 text-gray-500"></i>
                         Exporter
                     </a>

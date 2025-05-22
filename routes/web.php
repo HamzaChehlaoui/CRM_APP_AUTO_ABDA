@@ -73,6 +73,33 @@ Route::get('/exporterDirector', function(){
 });
 
 
+//static page Safi
+Route::get('/suivisSafi', function(){
+        return view('SafiManager.suivis');
+});
+
+Route::get('/notificationsSafi', function(){
+        return view('SafiManager.notifications');
+});
+Route::get('/prospectsSafi', function(){
+        return view('SafiManager.prospects');
+});
+Route::get('/clientsSafi', function(){
+        return view('SafiManager.clients');
+});
+Route::get('/entretiensSafi', function(){
+        return view('SafiManager.entretiens');
+});
+Route::get('/reclamationsSafi', function(){
+        return view('SafiManager.reclamations');
+});
+Route::get('/statistiquesSafi', function(){
+        return view('SafiManager.statistiques');
+});
+Route::get('/exporterSafi', function(){
+        return view('SafiManager.exporter');
+});
+
 Route::get('/dashboardAdmin', function () {
     return view('Admin.dashboard');
 
