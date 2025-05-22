@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//static pages
+//static pages admin
 
 Route::get('/', function () {
     return view('welcome');
@@ -38,12 +38,41 @@ Route::get('/entretiensAdmin', function(){
 Route::get('/reclamationsAdmin', function(){
         return view('Admin.reclamations');
 });
-Route::get('/statistiquesAdim', function(){
+Route::get('/statistiquesAdmin', function(){
         return view('Admin.statistiques');
 });
-Route::get('/exporterAdim', function(){
+Route::get('/exporterAdmin', function(){
         return view('Admin.exporter');
 });
+
+//static page AssistantDirector
+Route::get('/suivisDirector', function(){
+        return view('AssistantDirector.suivis');
+});
+
+Route::get('/notificationsDirector', function(){
+        return view('AssistantDirector.notifications');
+});
+Route::get('/prospectsDirector', function(){
+        return view('AssistantDirector.prospects');
+});
+Route::get('/clientsDirector', function(){
+        return view('AssistantDirector.clients');
+});
+Route::get('/entretiensDirector', function(){
+        return view('AssistantDirector.entretiens');
+});
+Route::get('/reclamationsDirector', function(){
+        return view('AssistantDirector.reclamations');
+});
+Route::get('/statistiquesDirector', function(){
+        return view('AssistantDirector.statistiques');
+});
+Route::get('/exporterDirector', function(){
+        return view('AssistantDirector.exporter');
+});
+
+
 Route::get('/dashboardAdmin', function () {
     return view('Admin.dashboard');
 

@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Entretiens - AutoCRM</title>
+    <title>Réclamations - AutoCRM</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-      <script>
+     <script>
         tailwind.config = {
             theme: {
                 extend: {
@@ -124,7 +124,7 @@
 
     <div class="flex h-screen w-screen overflow-hidden">
 
-       <!-- Sidebar -->
+      <!-- Sidebar -->
         <aside class="w-64 bg-white shadow-md flex flex-col z-10">
             <div class="bg-gradient-to-r from-nucleus-primary to-nucleus-hover text-white px-6 py-5 flex items-center space-x-3 relative overflow-hidden shadow-md">
                 <div class="absolute top-0 right-0 w-24 h-24 bg-white/10 rounded-full -translate-y-12 -translate-x-6"></div>
@@ -152,42 +152,42 @@
 
                 <h2 class="text-xs uppercase text-gray-500 font-semibold mb-3">Navigation</h2>
                 <nav class="space-y-1">
-                    <a href="/dashboardAdmin" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
+                    <a href="/manager" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
                         <i class="fas fa-tachometer-alt mr-2 text-gray-500"></i>
                         Tableau de Bord
                     </a>
-                    <a href="/prospectsAdmin" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
+                    <a href="/prospectsDirector" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
                         <i class="fas fa-users mr-2 text-gray-500"></i>
                         Prospects
                     </a>
-                    <a href="/suivisAdmin" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
+                    <a href="/suivisDirector" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
                         <i class="fas fa-calendar-alt mr-2 text-gray-500"></i>
                         Suivis
                     </a>
-                    <a href="/notificationsAdmin" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
+                    <a href="/notificationsDirector" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
                         <i class="fas fa-bell mr-2 text-gray-500"></i>
                         Notifications
                         <span class="ml-auto bg-red-100 text-red-500 text-xs font-semibold px-2 py-0.5 rounded-full">3</span>
                     </a>
-                    <a href="/clientsAdmin" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
+                    <a href="/clientsDirector" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
                         <i class="fas fa-car mr-2   text-gray-500"></i>
                         Clients
                     </a>
-                    <a href="/entretiensAdmin" class="flex items-center py-2 px-3 rounded-md bg-nucleus-light text-nucleus-primary font-medium">
-                        <i class="fas fa-wrench mr-2 text-nucleus-primary"></i>
+                    <a href="/entretiensDirector" class="flex items-center py-2 px-3 rounded-md  hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
+                        <i class="fas fa-wrench mr-2 text-gray-500"></i>
                         Entretiens
                         <span class="ml-auto bg-yellow-100 text-yellow-500 text-xs font-semibold px-2 py-0.5 rounded-full">8</span>
                     </a>
-                    <a href="/reclamationsAdmin" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
-                        <i class="fas fa-exclamation-triangle mr-2 text-gray-500"></i>
+                    <a href="/reclamationsDirector" class="flex items-center py-2 px-3 rounded-mdbg-nucleus-light text-nucleus-primary font-medium ">
+                        <i class="fas fa-exclamation-triangle mr-2  text-nucleus-primary"></i>
                         Réclamations
                         <span class="ml-auto bg-orange-100 text-orange-500 text-xs font-semibold px-2 py-0.5 rounded-full">4</span>
                     </a>
-                    <a href="/statistiquesAdmin" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
+                    <a href="/statistiquesDirector" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
                         <i class="fas fa-chart-bar mr-2 text-gray-500"></i>
                         Statistiques
                     </a>
-                    <a href="/exporterAdmin" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
+                    <a href="/exporterDirector" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
                         <i class="fas fa-file-export mr-2 text-gray-500"></i>
                         Exporter
                     </a>
@@ -218,15 +218,14 @@
             </div>
         </aside>
 
-
         <!-- Main Content -->
         <div class="flex-1 flex flex-col overflow-hidden">
             <!-- Header -->
             <header class="bg-white shadow-sm border-b border-gray-200 py-4 px-6">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h1 class="text-2xl font-bold text-gray-800">Entretiens</h1>
-                        <p class="text-sm text-gray-500">Gérez les entretiens et réparations des véhicules</p>
+                        <h1 class="text-2xl font-bold text-gray-800">Réclamations</h1>
+                        <p class="text-sm text-gray-500">Gérez les réclamations clients</p>
                     </div>
                     <div class="flex items-center space-x-4">
                         <button class="p-2 rounded-full hover:bg-gray-100 text-gray-500 transition-colors relative">
@@ -251,26 +250,38 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
                     <div class="bg-white rounded-xl shadow-card p-6">
                         <div class="flex items-center justify-between mb-4">
-                            <div class="w-12 h-12 rounded-lg bg-primary-100 flex items-center justify-center">
-                                <i class="fas fa-tools text-xl text-primary-600"></i>
+                            <div class="w-12 h-12 rounded-lg bg-red-100 flex items-center justify-center">
+                                <i class="fas fa-exclamation-circle text-xl text-red-600"></i>
                             </div>
-                            <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium">↑ 5%</span>
+                            <span class="bg-red-100 text-red-700 text-xs px-2 py-1 rounded-full font-medium">↑ 4%</span>
                         </div>
-                        <h3 class="text-lg font-semibold text-gray-800 mb-1">Total Entretiens</h3>
-                        <p class="text-3xl font-bold text-primary-600">248</p>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-1">Total Réclamations</h3>
+                        <p class="text-3xl font-bold text-red-600">32</p>
                         <p class="text-sm text-gray-500 mt-1">Ce mois-ci</p>
                     </div>
 
                     <div class="bg-white rounded-xl shadow-card p-6">
                         <div class="flex items-center justify-between mb-4">
-                            <div class="w-12 h-12 rounded-lg bg-yellow-100 flex items-center justify-center">
-                                <i class="fas fa-clock text-xl text-yellow-600"></i>
+                            <div class="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center">
+                                <i class="fas fa-clipboard-list text-xl text-blue-600"></i>
                             </div>
-                            <span class="bg-yellow-100 text-yellow-700 text-xs px-2 py-1 rounded-full font-medium">↑ 12%</span>
+                            <span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full font-medium">↑ 2%</span>
                         </div>
-                        <h3 class="text-lg font-semibold text-gray-800 mb-1">En attente</h3>
-                        <p class="text-3xl font-bold text-yellow-600">8</p>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-1">Nouvelles</h3>
+                        <p class="text-3xl font-bold text-blue-600">4</p>
                         <p class="text-sm text-gray-500 mt-1">À traiter</p>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-card p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 rounded-lg bg-yellow-100 flex items-center justify-center">
+                                <i class="fas fa-spinner text-xl text-yellow-600"></i>
+                            </div>
+                            <span class="bg-yellow-100 text-yellow-700 text-xs px-2 py-1 rounded-full font-medium">↑ 8%</span>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-1">En cours</h3>
+                        <p class="text-3xl font-bold text-yellow-600">12</p>
+                        <p class="text-sm text-gray-500 mt-1">En traitement</p>
                     </div>
 
                     <div class="bg-white rounded-xl shadow-card p-6">
@@ -278,23 +289,11 @@
                             <div class="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center">
                                 <i class="fas fa-check-circle text-xl text-green-600"></i>
                             </div>
-                            <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium">↑ 8%</span>
+                            <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium">↑ 15%</span>
                         </div>
-                        <h3 class="text-lg font-semibold text-gray-800 mb-1">Terminés</h3>
-                        <p class="text-3xl font-bold text-green-600">42</p>
-                        <p class="text-sm text-gray-500 mt-1">Cette semaine</p>
-                    </div>
-
-                    <div class="bg-white rounded-xl shadow-card p-6">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center">
-                                <i class="fas fa-calendar-check text-xl text-purple-600"></i>
-                            </div>
-                            <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium">↑ 3%</span>
-                        </div>
-                        <h3 class="text-lg font-semibold text-gray-800 mb-1">Planifiés</h3>
-                        <p class="text-3xl font-bold text-purple-600">15</p>
-                        <p class="text-sm text-gray-500 mt-1">Prochains jours</p>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-1">Résolues</h3>
+                        <p class="text-3xl font-bold text-green-600">16</p>
+                        <p class="text-sm text-gray-500 mt-1">Ce mois-ci</p>
                     </div>
                 </div>
 
@@ -302,7 +301,7 @@
                 <div class="flex flex-col md:flex-row md:items-center justify-between mb-6 space-y-4 md:space-y-0">
                     <div class="flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
                         <div class="relative w-full sm:w-64">
-                            <input type="text" placeholder="Rechercher un entretien..."
+                            <input type="text" placeholder="Rechercher une réclamation..."
                                    class="w-full rounded-md border border-gray-200 py-2 pl-10 pr-4 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                 <i class="fas fa-search text-gray-400"></i>
@@ -319,8 +318,8 @@
                             </div>
                             <div class="relative">
                                 <button class="flex items-center space-x-2 rounded-md border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
-                                    <i class="fas fa-calendar text-gray-400"></i>
-                                    <span>Période</span>
+                                    <i class="fas fa-sort text-gray-400"></i>
+                                    <span>Trier par</span>
                                     <i class="fas fa-chevron-down text-xs text-gray-500"></i>
                                 </button>
                                 <!-- Dropdown menu would go here -->
@@ -329,7 +328,7 @@
                     </div>
                     <button class="flex items-center justify-center space-x-2 rounded-md bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
                         <i class="fas fa-plus"></i>
-                        <span>Nouvel Entretien</span>
+                        <span>Nouvelle Réclamation</span>
                     </button>
                 </div>
 
@@ -337,24 +336,24 @@
                 <div class="border-b border-gray-200 mb-6">
                     <nav class="-mb-px flex space-x-8">
                         <a href="#" class="whitespace-nowrap py-4 px-1 border-b-2 border-primary-500 font-medium text-sm text-primary-600">
-                            Tous
+                            Toutes
                         </a>
                         <a href="#" class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300">
-                            Planifiés
+                            Nouvelles
                         </a>
                         <a href="#" class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300">
                             En cours
                         </a>
                         <a href="#" class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300">
-                            Terminés
+                            Résolues
                         </a>
                         <a href="#" class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300">
-                            Annulés
+                            Fermées
                         </a>
                     </nav>
                 </div>
 
-                <!-- Maintenance Table -->
+                <!-- Complaints Table -->
                 <div class="bg-white rounded-xl shadow-card overflow-hidden">
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">
@@ -364,10 +363,13 @@
                                         Référence
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Client & Véhicule
+                                        Client
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Type
+                                        Sujet
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Priorité
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Date
@@ -383,8 +385,45 @@
                             <tbody class="bg-white divide-y divide-gray-200">
                                 <tr class="hover:bg-gray-50">
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-gray-900">#ENT-2025-001</div>
+                                        <div class="text-sm font-medium text-gray-900">#REC-2025-001</div>
                                         <div class="text-xs text-gray-500">Créé le 15/05/2025</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="h-8 w-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-medium">TP</div>
+                                            <div class="ml-3">
+                                                <div class="text-sm font-medium text-gray-900">Thomas Petit</div>
+                                                <div class="text-sm text-gray-500">Audi A3 - 2023</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="text-sm text-gray-900">Problème de climatisation</div>
+                                        <div class="text-xs text-gray-500 truncate max-w-xs">La climatisation ne fonctionne plus correctement depuis la dernière révision.</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full complaint-priority-high">
+                                            Haute
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        20 mai 2025
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full complaint-status-new">
+                                            Nouvelle
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        <button class="text-primary-600 hover:text-primary-900 mr-2"><i class="fas fa-eye"></i></button>
+                                        <button class="text-primary-600 hover:text-primary-900 mr-2"><i class="fas fa-edit"></i></button>
+                                        <button class="text-primary-600 hover:text-primary-900"><i class="fas fa-reply"></i></button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">#REC-2025-002</div>
+                                        <div class="text-xs text-gray-500">Créé le 14/05/2025</div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center">
@@ -395,29 +434,33 @@
                                             </div>
                                         </div>
                                     </td>
+                                    <td class="px-6 py-4">
+                                        <div class="text-sm text-gray-900">Retard de livraison</div>
+                                        <div class="text-xs text-gray-500 truncate max-w-xs">La pièce commandée n'est toujours pas arrivée après 3 semaines d'attente.</div>
+                                    </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full maintenance-type-revision">
-                                            Révision
+                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full complaint-priority-medium">
+                                            Moyenne
                                         </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        21 mai 2025 - 10:30
+                                        14 mai 2025
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full maintenance-status-scheduled">
-                                            Planifié
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full complaint-status-in-progress">
+                                            En cours
                                         </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                         <button class="text-primary-600 hover:text-primary-900 mr-2"><i class="fas fa-eye"></i></button>
                                         <button class="text-primary-600 hover:text-primary-900 mr-2"><i class="fas fa-edit"></i></button>
-                                        <button class="text-primary-600 hover:text-primary-900"><i class="fas fa-check"></i></button>
+                                        <button class="text-primary-600 hover:text-primary-900"><i class="fas fa-reply"></i></button>
                                     </td>
                                 </tr>
                                 <tr class="hover:bg-gray-50">
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-gray-900">#ENT-2025-002</div>
-                                        <div class="text-xs text-gray-500">Créé le 14/05/2025</div>
+                                        <div class="text-sm font-medium text-gray-900">#REC-2025-003</div>
+                                        <div class="text-xs text-gray-500">Créé le 10/05/2025</div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center">
@@ -428,17 +471,21 @@
                                             </div>
                                         </div>
                                     </td>
+                                    <td class="px-6 py-4">
+                                        <div class="text-sm text-gray-900">Bruit moteur anormal</div>
+                                        <div class="text-xs text-gray-500 truncate max-w-xs">Bruit anormal au démarrage du véhicule depuis la dernière révision.</div>
+                                    </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full maintenance-type-repair">
-                                            Réparation
+                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full complaint-priority-high">
+                                            Haute
                                         </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        20 mai 2025 - 14:00
+                                        10 mai 2025
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full maintenance-status-in-progress">
-                                            En cours
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full complaint-status-resolved">
+                                            Résolue
                                         </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -449,74 +496,8 @@
                                 </tr>
                                 <tr class="hover:bg-gray-50">
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-gray-900">#ENT-2025-003</div>
-                                        <div class="text-xs text-gray-500">Créé le 12/05/2025</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="h-8 w-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-medium">PT</div>
-                                            <div class="ml-3">
-                                                <div class="text-sm font-medium text-gray-900">Pierre Thomas</div>
-                                                <div class="text-sm text-gray-500">Citroën C4 - 2023</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full maintenance-type-diagnostic">
-                                            Diagnostic
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        18 mai 2025 - 09:15
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full maintenance-status-completed">
-                                            Terminé
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <button class="text-primary-600 hover:text-primary-900 mr-2"><i class="fas fa-eye"></i></button>
-                                        <button class="text-primary-600 hover:text-primary-900 mr-2"><i class="fas fa-edit"></i></button>
-                                        <button class="text-primary-600 hover:text-primary-900"><i class="fas fa-file-pdf"></i></button>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-gray-900">#ENT-2025-004</div>
-                                        <div class="text-xs text-gray-500">Créé le 10/05/2025</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="h-8 w-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-medium">LM</div>
-                                            <div class="ml-3">
-                                                <div class="text-sm font-medium text-gray-900">Lucie Martin</div>
-                                                <div class="text-sm text-gray-500">BMW Série 3 - 2021</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full maintenance-type-other">
-                                            Pneus
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        15 mai 2025 - 11:00
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full maintenance-status-cancelled">
-                                            Annulé
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <button class="text-primary-600 hover:text-primary-900 mr-2"><i class="fas fa-eye"></i></button>
-                                        <button class="text-primary-600 hover:text-primary-900 mr-2"><i class="fas fa-edit"></i></button>
-                                        <button class="text-primary-600 hover:text-primary-900"><i class="fas fa-redo"></i></button>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-gray-900">#ENT-2025-005</div>
-                                        <div class="text-xs text-gray-500">Créé le 16/05/2025</div>
+                                        <div class="text-sm font-medium text-gray-900">#REC-2025-004</div>
+                                        <div class="text-xs text-gray-500">Créé le 05/05/2025</div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center">
@@ -527,23 +508,27 @@
                                             </div>
                                         </div>
                                     </td>
+                                    <td class="px-6 py-4">
+                                        <div class="text-sm text-gray-900">Facture incorrecte</div>
+                                        <div class="text-xs text-gray-500 truncate max-w-xs">Erreur sur la facture de la dernière révision, montant trop élevé.</div>
+                                    </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full maintenance-type-revision">
-                                            Révision
+                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full complaint-priority-low">
+                                            Basse
                                         </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        22 mai 2025 - 15:30
+                                        05 mai 2025
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full maintenance-status-scheduled">
-                                            Planifié
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full complaint-status-closed">
+                                            Fermée
                                         </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                         <button class="text-primary-600 hover:text-primary-900 mr-2"><i class="fas fa-eye"></i></button>
                                         <button class="text-primary-600 hover:text-primary-900 mr-2"><i class="fas fa-edit"></i></button>
-                                        <button class="text-primary-600 hover:text-primary-900"><i class="fas fa-check"></i></button>
+                                        <button class="text-primary-600 hover:text-primary-900"><i class="fas fa-redo"></i></button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -562,7 +547,7 @@
                         <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
                             <div>
                                 <p class="text-sm text-gray-700">
-                                    Affichage de <span class="font-medium">1</span> à <span class="font-medium">5</span> sur <span class="font-medium">248</span> résultats
+                                    Affichage de <span class="font-medium">1</span> à <span class="font-medium">4</span> sur <span class="font-medium">32</span> résultats
                                 </p>
                             </div>
                             <div>
@@ -584,10 +569,10 @@
                                         ...
                                     </span>
                                     <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
-                                        49
+                                        7
                                     </a>
                                     <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
-                                        50
+                                        8
                                     </a>
                                     <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
                                         <span class="sr-only">Suivant</span>

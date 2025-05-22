@@ -184,11 +184,11 @@
                         Réclamations
                         <span class="ml-auto bg-orange-100 text-orange-500 text-xs font-semibold px-2 py-0.5 rounded-full">4</span>
                     </a>
-                    <a href="/statistiquesAdmin" class="flex items-center py-2 px-3 rounded-md bg-nucleus-light text-nucleus-primary font-medium ">
+                    <a href="/statistiquesAdim" class="flex items-center py-2 px-3 rounded-md bg-nucleus-light text-nucleus-primary font-medium ">
                         <i class="fas fa-chart-bar mr-2  text-nucleus-primary"></i>
                         Statistiques
                     </a>
-                    <a href="/exporterAdmin" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
+                    <a href="/exporterAdim" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
                         <i class="fas fa-file-export mr-2 text-gray-500"></i>
                         Exporter
                     </a>
