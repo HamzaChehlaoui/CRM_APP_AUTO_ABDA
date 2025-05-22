@@ -41,6 +41,9 @@ Route::get('/reclamationsAdmin', function(){
 Route::get('/statistiquesAdim', function(){
         return view('Admin.statistiques');
 });
+Route::get('/exporterAdim', function(){
+        return view('Admin.exporter');
+});
 Route::get('/dashboardAdmin', function () {
     return view('Admin.dashboard');
 

@@ -188,7 +188,7 @@
                         <i class="fas fa-chart-bar mr-2  text-nucleus-primary"></i>
                         Statistiques
                     </a>
-                    <a href="#" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
+                    <a href="/exporterAdim" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
                         <i class="fas fa-file-export mr-2 text-gray-500"></i>
                         Exporter
                     </a>
