@@ -32,6 +32,9 @@ Route::get('/prospectsAdmin', function(){
 Route::get('/clientsAdmin', function(){
         return view('Admin.clients');
 });
+Route::get('/entretiensAdmin', function(){
+        return view('Admin.entretiens');
+});
 Route::get('/dashboardAdmin', function () {
     return view('Admin.dashboard');
 

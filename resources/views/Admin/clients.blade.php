@@ -118,7 +118,7 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #a8a8a8;
         }
-    </style>
+</style>
 </head>
 <body class="h-full w-full font-sans bg-gray-50">
 
@@ -173,7 +173,7 @@
                         <i class="fas fa-car mr-2  text-nucleus-primary"></i>
                         Clients
                     </a>
-                    <a href="#" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
+                    <a href="/entretiensAdmin" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
                         <i class="fas fa-wrench mr-2 text-gray-500"></i>
                         Entretiens
                         <span class="ml-auto bg-yellow-100 text-yellow-500 text-xs font-semibold px-2 py-0.5 rounded-full">8</span>
