@@ -15,14 +15,22 @@ use Illuminate\Support\Facades\Route;
 */
 
 //static pages
+
 Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/suivisAdmin', function(){
         return view('Admin.suivis');
 });
+
+Route::get('/notificationsAdmin', function(){
+        return view('Admin.notifications');
+});
 Route::get('/prospectsAdmin', function(){
         return view('Admin.prospects');
+});
+Route::get('/clientsAdmin', function(){
+        return view('Admin.clients');
 });
 Route::get('/dashboardAdmin', function () {
     return view('Admin.dashboard');
