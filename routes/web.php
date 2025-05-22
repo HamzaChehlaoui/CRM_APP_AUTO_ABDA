@@ -35,6 +35,12 @@ Route::get('/clientsAdmin', function(){
 Route::get('/entretiensAdmin', function(){
         return view('Admin.entretiens');
 });
+Route::get('/reclamationsAdmin', function(){
+        return view('Admin.reclamations');
+});
+Route::get('/statistiquesAdim', function(){
+        return view('Admin.statistiques');
+});
 Route::get('/dashboardAdmin', function () {
     return view('Admin.dashboard');
 
