@@ -14,145 +14,89 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//static pages admin
-
+// Home
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/suivisAdmin', function(){
-        return view('Admin.suivis');
+
+// Admin Static Pages
+Route::prefix('')->group(function () {
+    Route::view('/suivisAdmin', 'Admin.suivis');
+    Route::view('/notificationsAdmin', 'Admin.notifications');
+    Route::view('/prospectsAdmin', 'Admin.prospects');
+    Route::view('/clientsAdmin', 'Admin.clients');
+    Route::view('/entretiensAdmin', 'Admin.entretiens');
+    Route::view('/reclamationsAdmin', 'Admin.reclamations');
+    Route::view('/statistiquesAdmin', 'Admin.statistiques');
+    Route::view('/exporterAdmin', 'Admin.exporter');
 });
 
-Route::get('/notificationsAdmin', function(){
-        return view('Admin.notifications');
-});
-Route::get('/prospectsAdmin', function(){
-        return view('Admin.prospects');
-});
-Route::get('/clientsAdmin', function(){
-        return view('Admin.clients');
-});
-Route::get('/entretiensAdmin', function(){
-        return view('Admin.entretiens');
-});
-Route::get('/reclamationsAdmin', function(){
-        return view('Admin.reclamations');
-});
-Route::get('/statistiquesAdmin', function(){
-        return view('Admin.statistiques');
-});
-Route::get('/exporterAdmin', function(){
-        return view('Admin.exporter');
+// Assistant Director Static Pages
+Route::prefix('')->group(function () {
+    Route::view('/suivisDirector', 'AssistantDirector.suivis');
+    Route::view('/notificationsDirector', 'AssistantDirector.notifications');
+    Route::view('/prospectsDirector', 'AssistantDirector.prospects');
+    Route::view('/clientsDirector', 'AssistantDirector.clients');
+    Route::view('/entretiensDirector', 'AssistantDirector.entretiens');
+    Route::view('/reclamationsDirector', 'AssistantDirector.reclamations');
+    Route::view('/statistiquesDirector', 'AssistantDirector.statistiques');
+    Route::view('/exporterDirector', 'AssistantDirector.exporter');
 });
 
-//static page AssistantDirector
-Route::get('/suivisDirector', function(){
-        return view('AssistantDirector.suivis');
+// Safi Manager Static Pages
+Route::prefix('')->group(function () {
+    Route::view('/suivisSafi', 'SafiManager.suivis');
+    Route::view('/notificationsSafi', 'SafiManager.notifications');
+    Route::view('/prospectsSafi', 'SafiManager.prospects');
+    Route::view('/clientsSafi', 'SafiManager.clients');
+    Route::view('/entretiensSafi', 'SafiManager.entretiens');
+    Route::view('/reclamationsSafi', 'SafiManager.reclamations');
+    Route::view('/statistiquesSafi', 'SafiManager.statistiques');
+    Route::view('/exporterSafi', 'SafiManager.exporter');
 });
 
-Route::get('/notificationsDirector', function(){
-        return view('AssistantDirector.notifications');
-});
-Route::get('/prospectsDirector', function(){
-        return view('AssistantDirector.prospects');
-});
-Route::get('/clientsDirector', function(){
-        return view('AssistantDirector.clients');
-});
-Route::get('/entretiensDirector', function(){
-        return view('AssistantDirector.entretiens');
-});
-Route::get('/reclamationsDirector', function(){
-        return view('AssistantDirector.reclamations');
-});
-Route::get('/statistiquesDirector', function(){
-        return view('AssistantDirector.statistiques');
-});
-Route::get('/exporterDirector', function(){
-        return view('AssistantDirector.exporter');
+// Essaouira Manager Static Pages
+Route::prefix('')->group(function () {
+    Route::view('/suivisEssaouira', 'EssaouiraManager.suivis');
+    Route::view('/notificationsEssaouira', 'EssaouiraManager.notifications');
+    Route::view('/prospectsEssaouira', 'EssaouiraManager.prospects');
+    Route::view('/clientsEssaouira', 'EssaouiraManager.clients');
+    Route::view('/entretiensEssaouira', 'EssaouiraManager.entretiens');
+    Route::view('/reclamationsEssaouira', 'EssaouiraManager.reclamations');
+    Route::view('/statistiquesEssaouira', 'EssaouiraManager.statistiques');
+    Route::view('/exporterEssaouira', 'EssaouiraManager.exporter');
 });
 
-
-//static page Safi
-Route::get('/suivisSafi', function(){
-        return view('SafiManager.suivis');
+// Sidi Bennour Manager Static Pages
+Route::prefix('')->group(function () {
+    Route::view('/suivisSidiBennour', 'SidiBennourManager.suivis');
+    Route::view('/notificationsSidiBennour', 'SidiBennourManager.notifications');
+    Route::view('/prospectsSidiBennour', 'SidiBennourManager.prospects');
+    Route::view('/clientsSidiBennour', 'SidiBennourManager.clients');
+    Route::view('/entretiensSidiBennour', 'SidiBennourManager.entretiens');
+    Route::view('/reclamationsSidiBennour', 'SidiBennourManager.reclamations');
+    Route::view('/statistiquesSidiBennour', 'SidiBennourManager.statistiques');
+    Route::view('/exporterSidiBennour', 'SidiBennourManager.exporter');
 });
 
-Route::get('/notificationsSafi', function(){
-        return view('SafiManager.notifications');
-});
-Route::get('/prospectsSafi', function(){
-        return view('SafiManager.prospects');
-});
-Route::get('/clientsSafi', function(){
-        return view('SafiManager.clients');
-});
-Route::get('/entretiensSafi', function(){
-        return view('SafiManager.entretiens');
-});
-Route::get('/reclamationsSafi', function(){
-        return view('SafiManager.reclamations');
-});
-Route::get('/statistiquesSafi', function(){
-        return view('SafiManager.statistiques');
-});
-Route::get('/exporterSafi', function(){
-        return view('SafiManager.exporter');
-});
-
-
-//static page Essaouira
-Route::get('/suivisEssaouira', function(){
-        return view('EssaouiraManager.suivis');
-});
-
-Route::get('/notificationsEssaouira', function(){
-        return view('EssaouiraManager.notifications');
-});
-Route::get('/prospectsEssaouira', function(){
-        return view('EssaouiraManager.prospects');
-});
-Route::get('/clientsEssaouira', function(){
-        return view('EssaouiraManager.clients');
-});
-Route::get('/entretiensEssaouira', function(){
-        return view('EssaouiraManager.entretiens');
-});
-Route::get('/reclamationsEssaouira', function(){
-        return view('EssaouiraManager.reclamations');
-});
-Route::get('/statistiquesEssaouira', function(){
-        return view('EssaouiraManager.statistiques');
-});
-Route::get('/exporterEssaouira', function(){
-        return view('EssaouiraManager.exporter');
-});
-
+// Admin Dashboard
 Route::get('/dashboardAdmin', function () {
     return view('Admin.dashboard');
-
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+// Authenticated Routes
 Route::middleware('auth')->group(function () {
+    // Profile routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::get('/managerSafi',function (){
-        return view('SafiManager.dashboard');
-    })->name('managerSafi.dashboard');
-
-    Route::get('/managerEssaouira',function (){
-        return view('EssaouiraManager.dashboard');
-    })->name('managerEssaouira.dashboard');
-
-    Route::get('/managerSidiBennour',function (){
-        return view('SidiBennourManager.dashboard');
-    })->name('managerSidiBennour.dashboard');
-
-    Route::get('/manager',function (){
-        return view('AssistantDirector.dashboard');
-    })->name('manager.dashboard');
+    // Dashboards for managers
+    Route::view('/managerSafi', 'SafiManager.dashboard')->name('managerSafi.dashboard');
+    Route::view('/managerEssaouira', 'EssaouiraManager.dashboard')->name('managerEssaouira.dashboard');
+    Route::view('/managerSidiBennour', 'SidiBennourManager.dashboard')->name('managerSidiBennour.dashboard');
+    Route::view('/manager', 'AssistantDirector.dashboard')->name('manager.dashboard');
 });
 
+// Authentication Routes
 require __DIR__.'/auth.php';
