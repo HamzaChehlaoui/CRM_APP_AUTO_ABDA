@@ -14,12 +14,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//static pages
 Route::get('/', function () {
-    return view('testsuivis');
+    return view('welcome');
 });
+Route::get('/suivisAdmin', function(){
+        return view('Admin.suivis');
+});
+Route::get('/prospectsAdmin', function(){
+        return view('Admin.prospects');
+});
+Route::get('/dashboardAdmin', function () {
+    return view('Admin.dashboard');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

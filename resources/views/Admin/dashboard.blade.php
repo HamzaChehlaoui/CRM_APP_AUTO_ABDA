@@ -153,15 +153,15 @@
 
                 <h2 class="text-xs uppercase text-gray-500 font-semibold mb-3">Navigation</h2>
                 <nav class="space-y-1">
-                    <a href="#" class="flex items-center py-2 px-3 rounded-md bg-nucleus-light text-nucleus-primary font-medium">
+                    <a href="/dashboardAdmin" class="flex items-center py-2 px-3 rounded-md bg-nucleus-light text-nucleus-primary font-medium">
                         <i class="fas fa-tachometer-alt mr-2 text-nucleus-primary"></i>
                         Tableau de Bord
                     </a>
-                    <a href="#" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
+                    <a href="/prospectsAdmin" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
                         <i class="fas fa-users mr-2 text-gray-500"></i>
                         Prospects
                     </a>
-                    <a href="#" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
+                    <a href="/suivisAdmin" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
                         <i class="fas fa-calendar-alt mr-2 text-gray-500"></i>
                         Suivis
                     </a>
