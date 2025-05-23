@@ -54,7 +54,7 @@ $user = User::create([
 
         event(new Registered($user));
 
-        // Auth::login($user);
+        
 
          return redirect('/register')->with('success', 'Account created successfully!');
     }

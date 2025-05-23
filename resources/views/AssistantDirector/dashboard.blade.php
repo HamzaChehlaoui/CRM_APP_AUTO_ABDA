@@ -196,6 +196,10 @@
                         <i class="fas fa-user-plus mr-2 text-gray-500"></i>
                         Register
                     </a>
+                    <a href="/users" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
+                        <i class="fas fa-users mr-2  text-gray-500"></i>
+                        Users
+                    </a>
                 </nav>
             </div>
 

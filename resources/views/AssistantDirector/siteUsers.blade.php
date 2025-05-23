@@ -156,8 +156,8 @@
                         <i class="fas fa-tachometer-alt mr-2 text-gray-500"></i>
                         Tableau de Bord
                     </a>
-                    <a href="/prospectsDirector" class="flex items-center py-2 px-3 rounded-md bg-nucleus-light text-nucleus-primary font-medium ">
-                        <i class="fas fa-users mr-2  text-nucleus-primary"></i>
+                    <a href="/prospectsDirector" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
+                        <i class="fas fa-users mr-2  text-gray-500"></i>
                         Prospects
                     </a>
                     <a href="/suivisDirector" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
@@ -195,8 +195,8 @@
                         <i class="fas fa-user-plus mr-2 text-gray-500"></i>
                         Register
                     </a>
-                    <a href="/users" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium transition-colors duration-200">
-                        <i class="fas fa-users mr-2  text-gray-500"></i>
+                    <a href="/users" class="flex items-center py-2 px-3 rounded-md bg-nucleus-light text-nucleus-primary font-medium ">
+                        <i class="fas fa-users mr-2  text-nucleus-primary"></i>
                         Users
                     </a>
                 </nav>
@@ -285,7 +285,7 @@
                     </div>
                     <button class="flex items-center justify-center space-x-2 rounded-md bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
                         <i class="fas fa-plus"></i>
-                        <span>Nouveau Prospect</span>
+                        <span>Nouveau User</span>
                     </button>
                 </div>
 
@@ -296,238 +296,57 @@
                             <thead class="bg-gray-50">
                                 <tr>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Client
+                                        Name
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Contact
+                                        Email
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Véhicule
+                                        Branch
                                     </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Date
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Statut
-                                    </th>
+
                                     <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Actions
                                     </th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
+                                @foreach($users as $user)
                                 <tr class="hover:bg-gray-50">
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center">
                                             <div class="h-10 w-10 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-medium">ML</div>
                                             <div class="ml-4">
-                                                <div class="text-sm font-medium text-gray-900">Martin Leclerc</div>
-                                                <div class="text-sm text-gray-500">ID: #PRO-2025-001</div>
+                                                <div class="text-sm font-medium text-gray-900">{{$user->name}}</div>
+                                                <div class="text-sm text-gray-500">id##{{$user->id}}</div>
                                             </div>
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">martin.l@example.com</div>
-                                        <div class="text-sm text-gray-500">06 12 34 56 78</div>
+                                        <div class="text-sm text-gray-900">{{$user->email}}</div>
+
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">Renault Clio</div>
-                                        <div class="text-sm text-gray-500">Essence, Automatique</div>
+                                        <div class="text-sm text-gray-900">{{$user->branch->name}}</div>
+                                        <div class="text-sm text-gray-500">{{$user->name}}</div>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        15 mai 2025
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full status-new">
-                                            Nouveau
-                                        </span>
-                                    </td>
+
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                         <button class="text-primary-600 hover:text-primary-900 mr-2"><i class="fas fa-eye"></i></button>
                                         <button class="text-primary-600 hover:text-primary-900 mr-2"><i class="fas fa-edit"></i></button>
                                         <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
                                     </td>
                                 </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="h-10 w-10 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-medium">SD</div>
-                                            <div class="ml-4">
-                                                <div class="text-sm font-medium text-gray-900">Sophie Dubois</div>
-                                                <div class="text-sm text-gray-500">ID: #PRO-2025-002</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">sophie.d@example.com</div>
-                                        <div class="text-sm text-gray-500">06 23 45 67 89</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">Peugeot 3008</div>
-                                        <div class="text-sm text-gray-500">Diesel, Manuelle</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        14 mai 2025
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full status-interested">
-                                            Intéressé
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <button class="text-primary-600 hover:text-primary-900 mr-2"><i class="fas fa-eye"></i></button>
-                                        <button class="text-primary-600 hover:text-primary-900 mr-2"><i class="fas fa-edit"></i></button>
-                                        <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="h-10 w-10 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-medium">PT</div>
-                                            <div class="ml-4">
-                                                <div class="text-sm font-medium text-gray-900">Pierre Thomas</div>
-                                                <div class="text-sm text-gray-500">ID: #PRO-2025-003</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">pierre.t@example.com</div>
-                                        <div class="text-sm text-gray-500">06 34 56 78 90</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">Citroën C4</div>
-                                        <div class="text-sm text-gray-500">Hybride, Automatique</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        12 mai 2025
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full status-sold">
-                                            Vendu
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <button class="text-primary-600 hover:text-primary-900 mr-2"><i class="fas fa-eye"></i></button>
-                                        <button class="text-primary-600 hover:text-primary-900 mr-2"><i class="fas fa-edit"></i></button>
-                                        <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="h-10 w-10 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-medium">LM</div>
-                                            <div class="ml-4">
-                                                <div class="text-sm font-medium text-gray-900">Lucie Martin</div>
-                                                <div class="text-sm text-gray-500">ID: #PRO-2025-004</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">lucie.m@example.com</div>
-                                        <div class="text-sm text-gray-500">06 45 67 89 01</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">BMW Série 3</div>
-                                        <div class="text-sm text-gray-500">Essence, Automatique</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        10 mai 2025
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full status-not-interested">
-                                            Non intéressé
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <button class="text-primary-600 hover:text-primary-900 mr-2"><i class="fas fa-eye"></i></button>
-                                        <button class="text-primary-600 hover:text-primary-900 mr-2"><i class="fas fa-edit"></i></button>
-                                        <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="h-10 w-10 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-medium">TP</div>
-                                            <div class="ml-4">
-                                                <div class="text-sm font-medium text-gray-900">Thomas Petit</div>
-                                                <div class="text-sm text-gray-500">ID: #PRO-2025-005</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">thomas.p@example.com</div>
-                                        <div class="text-sm text-gray-500">06 56 78 90 12</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">Audi A3</div>
-                                        <div class="text-sm text-gray-500">Essence, Automatique</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        9 mai 2025
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full status-interested">
-                                            Intéressé
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <button class="text-primary-600 hover:text-primary-900 mr-2"><i class="fas fa-eye"></i></button>
-                                        <button class="text-primary-600 hover:text-primary-900 mr-2"><i class="fas fa-edit"></i></button>
-                                        <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
-                                    </td>
-                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
                     <!-- Pagination -->
-                    <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
-                        <div class="flex-1 flex justify-between sm:hidden">
-                            <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-                                Précédent
-                            </a>
-                            <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-                                Suivant
-                            </a>
-                        </div>
-                        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                            <div>
-                                <p class="text-sm text-gray-700">
-                                    Affichage de <span class="font-medium">1</span> à <span class="font-medium">5</span> sur <span class="font-medium">42</span> résultats
-                                </p>
-                            </div>
-                            <div>
-                                <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                                    <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                                        <span class="sr-only">Précédent</span>
-                                        <i class="fas fa-chevron-left h-5 w-5"></i>
-                                    </a>
-                                    <a href="#" aria-current="page" class="z-10 bg-primary-50 border-primary-500 text-primary-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
-                                        1
-                                    </a>
-                                    <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
-                                        2
-                                    </a>
-                                    <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
-                                        3
-                                    </a>
-                                    <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">
-                                        ...
-                                    </span>
-                                    <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
-                                        8
-                                    </a>
-                                    <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
-                                        9
-                                    </a>
-                                    <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                                        <span class="sr-only">Suivant</span>
-                                        <i class="fas fa-chevron-right h-5 w-5"></i>
-                                    </a>
-                                </nav>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                   <div class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
+    <div class="flex justify-center">
+        {{ $users->appends(request()->query())->links() }}
+    </div>
+</div>
             </div>
         </div>
     </div>

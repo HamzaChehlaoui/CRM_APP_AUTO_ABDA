@@ -3,7 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisteredUserController;
-
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -43,7 +43,7 @@ Route::prefix('')->group(function () {
     Route::view('/suivisDirector', 'AssistantDirector.suivis');
     Route::view('/notificationsDirector', 'AssistantDirector.notifications');
     Route::view('/prospectsDirector', 'AssistantDirector.prospects');
-
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::view('/clientsDirector', 'AssistantDirector.clients');
     Route::view('/entretiensDirector', 'AssistantDirector.entretiens');
     Route::view('/reclamationsDirector', 'AssistantDirector.reclamations');
