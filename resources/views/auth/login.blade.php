@@ -35,7 +35,7 @@
 <body class="h-full w-full font-sans">
     <div class="flex h-screen w-screen">
         <div class="w-1/2 hidden md:block relative">
-            <img src="https://images8.alphacoders.com/131/1311546.jpg"
+            <img src="img/1311546.jpg"
                  alt="Cover"
                  class="absolute inset-0 w-full h-full object-cover">
             <div class="absolute inset-0 bg-nucleus-dark bg-opacity-60 p-12 text-white flex flex-col justify-between">
