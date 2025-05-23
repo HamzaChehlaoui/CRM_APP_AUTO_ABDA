@@ -232,8 +232,8 @@
             <header class="bg-white shadow-sm border-b border-gray-200 py-4 px-6">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h1 class="text-2xl font-bold text-gray-800">Prospects</h1>
-                        <p class="text-sm text-gray-500">Gérez vos prospects et leurs informations</p>
+                        <h1 class="text-2xl font-bold text-gray-800">Utilisateurs</h1>
+                        <p class="text-sm text-gray-500">Gérez Utilisateurs</p>
                     </div>
                     <div class="flex items-center space-x-4">
                         <button class="p-2 rounded-full hover:bg-gray-100 text-gray-500 transition-colors relative">
@@ -254,40 +254,7 @@
 
             <!-- Main Content Area -->
             <div class="flex-1 p-6 overflow-y-auto">
-                <!-- Filters and Actions -->
-                <div class="flex flex-col md:flex-row md:items-center justify-between mb-6 space-y-4 md:space-y-0">
-                    <div class="flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
-                        <div class="relative w-full sm:w-64">
-                            <input type="text" placeholder="Rechercher un prospect..."
-                                   class="w-full rounded-md border border-gray-200 py-2 pl-10 pr-4 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                <i class="fas fa-search text-gray-400"></i>
-                            </div>
-                        </div>
-                        <div class="flex space-x-2">
-                            <div class="relative">
-                                <button class="flex items-center space-x-2 rounded-md border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
-                                    <i class="fas fa-filter text-gray-400"></i>
-                                    <span>Filtres</span>
-                                    <i class="fas fa-chevron-down text-xs text-gray-500"></i>
-                                </button>
-                                <!-- Dropdown menu would go here -->
-                            </div>
-                            <div class="relative">
-                                <button class="flex items-center space-x-2 rounded-md border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
-                                    <i class="fas fa-sort text-gray-400"></i>
-                                    <span>Trier par</span>
-                                    <i class="fas fa-chevron-down text-xs text-gray-500"></i>
-                                </button>
-                                <!-- Dropdown menu would go here -->
-                            </div>
-                        </div>
-                    </div>
-                    <button class="flex items-center justify-center space-x-2 rounded-md bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
-                        <i class="fas fa-plus"></i>
-                        <span>Nouveau User</span>
-                    </button>
-                </div>
+
 
                 <!-- Prospects Table -->
                 <div class="bg-white rounded-xl shadow-card overflow-hidden">
@@ -315,8 +282,10 @@
                                 <tr class="hover:bg-gray-50">
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center">
-                                            <div class="h-10 w-10 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-medium">ML</div>
-                                            <div class="ml-4">
+                                <div class="h-10 w-10 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-medium">
+                                    {{ strtoupper(substr($user->name, 0, 2)) }}
+                                </div>
+                                <div class="ml-4">
                                                 <div class="text-sm font-medium text-gray-900">{{$user->name}}</div>
                                                 <div class="text-sm text-gray-500">id##{{$user->id}}</div>
                                             </div>
