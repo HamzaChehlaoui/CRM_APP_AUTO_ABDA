@@ -51,7 +51,7 @@ Route::prefix('')->group(function () {
     Route::view('/statistiquesDirector', 'AssistantDirector.statistiques');
     Route::view('/exporterDirector', 'AssistantDirector.exporter');
 });
-
+Route::middleware(['auth', 'verified'])->group(function () {
 // Safi Manager Static Pages
 Route::prefix('')->group(function () {
     Route::view('/suivisSafi', 'SafiManager.suivis');
@@ -63,7 +63,7 @@ Route::prefix('')->group(function () {
     Route::view('/statistiquesSafi', 'SafiManager.statistiques');
     Route::view('/exporterSafi', 'SafiManager.exporter');
 });
-
+});
 // Essaouira Manager Static Pages
 Route::prefix('')->group(function () {
     Route::view('/suivisEssaouira', 'EssaouiraManager.suivis');

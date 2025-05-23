@@ -53,8 +53,8 @@ $user = User::create([
 ]);
 
         event(new Registered($user));
+    
 
-        
 
          return redirect('/register')->with('success', 'Account created successfully!');
     }
