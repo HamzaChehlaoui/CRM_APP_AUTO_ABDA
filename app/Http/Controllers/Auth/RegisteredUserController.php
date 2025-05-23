@@ -20,7 +20,7 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        return view('AssistantDirector.register');
     }
 
     /**
@@ -34,7 +34,7 @@ class RegisteredUserController extends Controller
     'name' => ['required', 'string', 'max:255'],
     'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
     'password' => ['required', 'confirmed', Rules\Password::defaults()],
-    'branch_id' => ['required', 'exists:branches,id'],  
+    'branch_id' => ['required', 'exists:branches,id'],
 ]);
 $branchRoleMap = [
     1 => 3, // branch_id 1 (Safi) => role_id 3 (Branch Manager - Safi)
@@ -54,8 +54,8 @@ $user = User::create([
 
         event(new Registered($user));
 
-        Auth::login($user);
+        // Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+         return redirect('/register')->with('success', 'Account created successfully!');
     }
 }

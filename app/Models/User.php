@@ -35,4 +35,6 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Branch::class);
     }
+    public const ROLE_MANAGER = 2;
+
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\RegisteredUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 // Home
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 // Admin Static Pages
@@ -32,10 +33,17 @@ Route::prefix('')->group(function () {
 });
 
 // Assistant Director Static Pages
+Route::middleware(['auth', 'manager'])->group(function () {
+    Route::get('register', [RegisteredUserController::class, 'create'])
+                ->name('register');
+
+    Route::post('register', [RegisteredUserController::class, 'store']);
+});
 Route::prefix('')->group(function () {
     Route::view('/suivisDirector', 'AssistantDirector.suivis');
     Route::view('/notificationsDirector', 'AssistantDirector.notifications');
     Route::view('/prospectsDirector', 'AssistantDirector.prospects');
+
     Route::view('/clientsDirector', 'AssistantDirector.clients');
     Route::view('/entretiensDirector', 'AssistantDirector.entretiens');
     Route::view('/reclamationsDirector', 'AssistantDirector.reclamations');

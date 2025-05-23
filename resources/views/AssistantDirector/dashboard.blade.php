@@ -192,6 +192,10 @@
                         <i class="fas fa-file-export mr-2 text-gray-500"></i>
                         Exporter
                     </a>
+                    <a href="/register" class="flex items-center py-2 px-3 rounded-md hover:bg-nucleus-light hover:text-nucleus-primary font-medium  transition-colors duration-200">
+                        <i class="fas fa-user-plus mr-2 text-gray-500"></i>
+                        Register
+                    </a>
                 </nav>
             </div>
 
