@@ -44,6 +44,7 @@ Route::prefix('')->group(function () {
     Route::view('/notificationsDirector', 'AssistantDirector.notifications');
     Route::view('/prospectsDirector', 'AssistantDirector.prospects');
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
     Route::view('/clientsDirector', 'AssistantDirector.clients');
     Route::view('/entretiensDirector', 'AssistantDirector.entretiens');
     Route::view('/reclamationsDirector', 'AssistantDirector.reclamations');

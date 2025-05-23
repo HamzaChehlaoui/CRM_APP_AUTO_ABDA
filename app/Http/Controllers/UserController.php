@@ -14,4 +14,10 @@ public function index()
     whereNotIn('role_id', [1, 2])->paginate(6);
     return view('AssistantDirector.siteUsers', compact('users'));
 }
+public function destroy(User $user)
+{
+    $user->delete();
+
+    return redirect()->route('users.index')->with('success', 'Utilisateur supprimé avec succès');
+}
 }
