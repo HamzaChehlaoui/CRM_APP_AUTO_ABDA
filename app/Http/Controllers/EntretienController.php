@@ -2,63 +2,49 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Entretien;
+use App\Http\Requests\StoreEntretienRequest;
+use App\Http\Requests\UpdateEntretienRequest;
 
 class EntretienController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $entretiens = Entretien::with('client', 'user')->paginate(10);
+        return view('entretiens.index', compact('entretiens'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('entretiens.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(StoreEntretienRequest $request)
     {
-        //
+        Entretien::create($request->validated());
+        return redirect()->route('entretiens.index')->with('success', 'Entretien created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Entretien $entretien)
     {
-        //
+        $entretien->load('client', 'user');
+        return view('entretiens.show', compact('entretien'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Entretien $entretien)
     {
-        //
+        return view('entretiens.edit', compact('entretien'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(UpdateEntretienRequest $request, Entretien $entretien)
     {
-        //
+        $entretien->update($request->validated());
+        return redirect()->route('entretiens.index')->with('success', 'Entretien updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Entretien $entretien)
     {
-        //
+        $entretien->delete();
+        return redirect()->route('entretiens.index')->with('success', 'Entretien deleted successfully.');
     }
 }
