@@ -31,23 +31,9 @@ class AuthenticatedSessionController extends Controller
 
         $user = Auth::user();
 
-    switch ($user->role_id) {
-        case 1:
-            return redirect()->route('page.dashboard');
-
-        case 2:
-            return redirect()->route('page.dashboard');
-
-        case 3:
 
             return redirect()->route('page.dashboard');
-        case 4:
 
-            return redirect()->route('page.dashboard');
-        case 5:
-        default:
-            return redirect()->route('page.dashboard');
-    }
     }
 
     /**
