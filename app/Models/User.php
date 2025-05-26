@@ -40,6 +40,16 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     $this->notify(new \App\Notifications\CustomVerifyEmail());
 }
+
+    public function clients()
+    {
+        return $this->hasMany(Client::class, 'created_by');
+    }
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
+    }
     public const ROLE_MANAGER = 2;
 
 }
