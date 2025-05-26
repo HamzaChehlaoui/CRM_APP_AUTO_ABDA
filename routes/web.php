@@ -31,7 +31,6 @@ Route::middleware(['auth', 'manager'])->group(function () {
 Route::prefix('')->group(function () {
     Route::view('/suivis', 'page.suivis');
     Route::view('/notifications', 'page.notifications');
-    Route::view('/prospects', 'page.prospects');
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
     Route::view('/clients', 'page.clients');
