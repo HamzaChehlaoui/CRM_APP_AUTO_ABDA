@@ -11,10 +11,19 @@ class Branch extends Model
 
     protected $fillable = ['name'];
 
-    //rolation 
+    //rolation
 
     public function users()
     {
         return $this->hasMany(User::class);
+    }
+    public function clients()
+    {
+        return $this->hasMany(Client::class);
+    }
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
     }
 }

@@ -20,7 +20,7 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('AssistantDirector.register');
+        return view('page.register');
     }
 
     /**
@@ -53,7 +53,7 @@ $user = User::create([
 ]);
 
         event(new Registered($user));
-    
+
 
 
          return redirect('/register')->with('success', 'Account created successfully!');
