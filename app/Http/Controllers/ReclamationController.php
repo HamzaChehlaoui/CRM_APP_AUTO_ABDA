@@ -2,63 +2,49 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Reclamation;
+use App\Http\Requests\StoreReclamationRequest;
+use App\Http\Requests\UpdateReclamationRequest;
 
 class ReclamationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $reclamations = Reclamation::with('client', 'user')->paginate(10);
+        return view('reclamations.index', compact('reclamations'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('reclamations.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(StoreReclamationRequest $request)
     {
-        //
+        Reclamation::create($request->validated());
+        return redirect()->route('reclamations.index')->with('success', 'Reclamation created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Reclamation $reclamation)
     {
-        //
+        $reclamation->load('client', 'user');
+        return view('reclamations.show', compact('reclamation'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Reclamation $reclamation)
     {
-        //
+        return view('reclamations.edit', compact('reclamation'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(UpdateReclamationRequest $request, Reclamation $reclamation)
     {
-        //
+        $reclamation->update($request->validated());
+        return redirect()->route('reclamations.index')->with('success', 'Reclamation updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Reclamation $reclamation)
     {
-        //
+        $reclamation->delete();
+        return redirect()->route('reclamations.index')->with('success', 'Reclamation deleted successfully.');
     }
 }
