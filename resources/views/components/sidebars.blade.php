@@ -38,35 +38,35 @@
 
         <h2 class="text-xs uppercase text-gray-500 font-semibold mb-3">Navigation</h2>
         <nav class="space-y-1">
-            <a href="/manager" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('manager') }}">
-                <i class="fas fa-tachometer-alt mr-2 {{ iconClass('manager') }}"></i> Tableau de Bord
+            <a href="/dashboard" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('dashboard') }}">
+                <i class="fas fa-tachometer-alt mr-2 {{ iconClass('dashboard') }}"></i> Tableau de Bord
             </a>
-            <a href="/prospectsDirector" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('prospectsDirector') }}">
-                <i class="fas fa-users mr-2 {{ iconClass('prospectsDirector') }}"></i> Prospects
+            <a href="/prospects" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('prospects') }}">
+                <i class="fas fa-users mr-2 {{ iconClass('prospects') }}"></i> Prospects
             </a>
-            <a href="/suivisDirector" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('suivisDirector') }}">
-                <i class="fas fa-calendar-alt mr-2 {{ iconClass('suivisDirector') }}"></i> Suivis
+            <a href="/suivis" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('suivis') }}">
+                <i class="fas fa-calendar-alt mr-2 {{ iconClass('suivis') }}"></i> Suivis
             </a>
-            <a href="/notificationsDirector" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('notificationsDirector') }}">
-                <i class="fas fa-bell mr-2 {{ iconClass('notificationsDirector') }}"></i> Notifications
+            <a href="/notifications" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('notifications') }}">
+                <i class="fas fa-bell mr-2 {{ iconClass('notifications') }}"></i> Notifications
                 <span class="ml-auto bg-red-100 text-red-500 text-xs font-semibold px-2 py-0.5 rounded-full">3</span>
             </a>
-            <a href="/clientsDirector" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('clientsDirector') }}">
-                <i class="fas fa-car mr-2 {{ iconClass('clientsDirector') }}"></i> Clients
+            <a href="/clients" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('clients') }}">
+                <i class="fas fa-car mr-2 {{ iconClass('clients') }}"></i> Clients
             </a>
-            <a href="/entretiensDirector" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('entretiensDirector') }}">
-                <i class="fas fa-wrench mr-2 {{ iconClass('entretiensDirector') }}"></i> Entretiens
+            <a href="/entretiens" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('entretiens') }}">
+                <i class="fas fa-wrench mr-2 {{ iconClass('entretiens') }}"></i> Entretiens
                 <span class="ml-auto bg-yellow-100 text-yellow-500 text-xs font-semibold px-2 py-0.5 rounded-full">8</span>
             </a>
-            <a href="/reclamationsDirector" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('reclamationsDirector') }}">
-                <i class="fas fa-exclamation-triangle mr-2 {{ iconClass('reclamationsDirector') }}"></i> Réclamations
+            <a href="/reclamations" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('reclamations') }}">
+                <i class="fas fa-exclamation-triangle mr-2 {{ iconClass('reclamations') }}"></i> Réclamations
                 <span class="ml-auto bg-orange-100 text-orange-500 text-xs font-semibold px-2 py-0.5 rounded-full">4</span>
             </a>
-            <a href="/statistiquesDirector" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('statistiquesDirector') }}">
-                <i class="fas fa-chart-bar mr-2 {{ iconClass('statistiquesDirector') }}"></i> Statistiques
+            <a href="/statistiques" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('statistiques') }}">
+                <i class="fas fa-chart-bar mr-2 {{ iconClass('statistiques') }}"></i> Statistiques
             </a>
-            <a href="/exporterDirector" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('exporterDirector') }}">
-                <i class="fas fa-file-export mr-2 {{ iconClass('exporterDirector') }}"></i> Exporter
+            <a href="/exporter" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('exporter') }}">
+                <i class="fas fa-file-export mr-2 {{ iconClass('exporter') }}"></i> Exporter
             </a>
             @if($user && $user->role_id==2)
             <a href="/register" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('register') }}">
