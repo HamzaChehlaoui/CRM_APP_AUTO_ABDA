@@ -15,5 +15,9 @@ class Car extends Model
     {
         return $this->hasMany(Invoice::class);
     }
-}
 
+    public function entretiens(): HasMany
+    {
+        return $this->hasMany(Entretien::class);
+    }
+}
