@@ -25,6 +25,7 @@ class ClientSeeder extends Seeder
                 'email' => $faker->email,
                 'branch_id' => $faker->randomElement($branches),
                 'created_by' => $faker->randomElement($users),
+                'branch_id'=>2,
             ]);
         }
     }

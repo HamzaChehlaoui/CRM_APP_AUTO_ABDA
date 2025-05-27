@@ -27,6 +27,7 @@ class EntretienSeeder extends Seeder
                 'scheduled_at' => $faker->dateTimeBetween('-6 months', '+3 months'),
                 'description' => $faker->text(100),
                 'status' => $faker->randomElement(['planifié', 'réalisé', 'annulé']),
+                'branch_id'=>3,
             ]);
         }
     }

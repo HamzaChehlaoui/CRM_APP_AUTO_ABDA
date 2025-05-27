@@ -23,6 +23,7 @@ class CarSeeder extends Seeder
                 'chassis_number' => $faker->unique()->bothify('CH########'),
                 'color' => $faker->safeColorName(),
                 'year' => $faker->numberBetween(2015, 2024),
+                'branch_id'=>1,
             ]);
         }
     }

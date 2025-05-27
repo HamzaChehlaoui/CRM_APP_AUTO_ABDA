@@ -22,6 +22,7 @@ class ReclamationSeeder extends Seeder
                 'user_id' => $faker->randomElement($users),
                 'description' => $faker->text(150),
                 'status' => $faker->randomElement(['nouvelle', 'en_cours', 'résolue']),
+                'branch_id'=>1,
             ]);
         }
     }
