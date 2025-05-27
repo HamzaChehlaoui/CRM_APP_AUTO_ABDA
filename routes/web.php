@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DashboardController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -41,6 +42,7 @@ Route::prefix('')->group(function () {
 });
 
 
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 // Authenticated Routes
 Route::middleware('auth')->group(function () {
@@ -50,7 +52,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 
-    Route::view('/dashboard', 'page.dashboard')->name('page.dashboard');
+    // Route::view('/dashboard', 'page.dashboard')->name('page.dashboard');
 });
 
 // Authentication Routes
