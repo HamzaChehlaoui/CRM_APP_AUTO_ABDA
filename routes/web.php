@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ClientController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -41,8 +42,9 @@ Route::prefix('')->group(function () {
     Route::view('/exporter', 'page.exporter');
 });
 
+Route::get('/clients/post-sale-stats', [ClientController::class, 'postSaleStats']);
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('page.dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 // Authenticated Routes
 Route::middleware('auth')->group(function () {
@@ -52,7 +54,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 
-    // Route::view('/dashboard', 'page.dashboard')->name('page.dashboard');
 });
 
 // Authentication Routes
