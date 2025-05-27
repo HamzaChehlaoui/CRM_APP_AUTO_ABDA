@@ -20,6 +20,9 @@ return new class extends Migration
             $table->string('chassis_number')->unique()->comment('Numéro de châssis (VIN)');
             $table->string('color')->nullable()->comment('Couleur');
             $table->year('year')->nullable()->comment('Année de fabrication');
+            $table->foreignId('branch_id')->constrained('branches')->onDelete('cascade')->comment('Agence / Succursale');
+        $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->comment('Utilisateur qui a enregistré le client');
+
             $table->timestamps();
         });
     }

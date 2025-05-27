@@ -17,7 +17,9 @@ return new class extends Migration
         $table->string('title');
         $table->text('content');
         $table->boolean('is_read')->default(false);
-        $table->timestamps();
+        $table->foreignId('branch_id')->constrained('branches')->onDelete('cascade')->comment('Agence / Succursale');
+        $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->comment('Utilisateur qui a enregistré le client');
+   $table->timestamps();
     });
     }
 
