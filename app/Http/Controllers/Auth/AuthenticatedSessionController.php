@@ -32,7 +32,7 @@ class AuthenticatedSessionController extends Controller
         $user = Auth::user();
 
 
-            return redirect()->route('page.dashboard');
+            return redirect()->route('dashboard');
 
     }
 
