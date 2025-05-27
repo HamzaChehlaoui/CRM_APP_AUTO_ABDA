@@ -1,12 +1,4 @@
 @php
-    function activeClass($pattern) {
-        return request()->is($pattern) ? 'bg-nucleus-light text-nucleus-primary' : 'hover:bg-nucleus-light hover:text-nucleus-primary';
-    }
-
-    function iconClass($pattern) {
-        return request()->is($pattern) ? 'text-nucleus-primary' : 'text-gray-500';
-    }
-
     $user = Auth::user();
 @endphp
 
@@ -41,7 +33,7 @@
             <a href="/dashboard" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('dashboard') }}">
                 <i class="fas fa-tachometer-alt mr-2 {{ iconClass('dashboard') }}"></i> Tableau de Bord
             </a>
-            
+
             <a href="/suivis" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('suivis') }}">
                 <i class="fas fa-calendar-alt mr-2 {{ iconClass('suivis') }}"></i> Suivis
             </a>
