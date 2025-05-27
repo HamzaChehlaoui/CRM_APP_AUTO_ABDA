@@ -17,7 +17,7 @@
             <!-- Header -->
             <header class="bg-white shadow-sm border-b border-gray-200 py-4 px-6">
                 <div class="flex items-center justify-between">
-                   <div>
+                    <div>
                         <h1 class="text-2xl font-bold text-gray-800">
                             @if(Auth::user()->role_id == 1)
                                 Tableau de Bord - Directeur Général
@@ -65,8 +65,8 @@
                             </div>
                             <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium">↑ 12%</span>
                         </div>
-                        <h3 class="text-lg font-semibold text-gray-800 mb-1">Nouveaux Prospects</h3>
-                        <p class="text-3xl font-bold text-nucleus-primary">53</p>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-1">Total des clients</h3>
+                        <p class="text-3xl font-bold text-nucleus-primary">530</p>
                         <p class="text-sm text-gray-500 mt-1">Cette semaine</p>
                     </div>
 
@@ -111,7 +111,7 @@
                     <!-- Charts / Graphs -->
                     <div class="bg-white rounded-xl shadow-card p-6 col-span-2">
                         <div class="flex justify-between items-center mb-6">
-                            <h3 class="text-lg font-semibold text-gray-800">Suivi des Prospects</h3>
+                            <h3 class="text-lg font-semibold text-gray-800">Suivi des Clients</h3>
                             <div class="flex space-x-2">
                                 <button class="px-3 py-1 text-sm bg-nucleus-light text-nucleus-primary rounded-md hover:bg-nucleus-primary hover:text-white transition-colors">Semaine</button>
                                 <button class="px-3 py-1 text-sm bg-white text-gray-500 rounded-md hover:bg-gray-100 transition-colors">Mois</button>
@@ -125,7 +125,7 @@
 
                     <!-- Summary by Status -->
                     <div class="bg-white rounded-xl shadow-card p-6">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-6">Statut des Prospects</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-6">Statut des Clients</h3>
                         <div class="h-64 relative">
                             <canvas id="statusChart"></canvas>
                         </div>

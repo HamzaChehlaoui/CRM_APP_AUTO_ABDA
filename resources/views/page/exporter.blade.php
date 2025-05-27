@@ -47,7 +47,6 @@
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Type de données</label>
                             <select class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500">
-                                <option value="prospects">Prospects</option>
                                 <option value="clients">Clients</option>
                                 <option value="suivis">Suivis</option>
                                 <option value="entretiens">Entretiens</option>
@@ -61,10 +60,7 @@
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Format</label>
                             <div class="flex space-x-4">
-                                <label class="inline-flex items-center">
-                                    <input type="radio" name="format" value="csv" class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded" checked>
-                                    <span class="ml-2 text-gray-700">CSV</span>
-                                </label>
+                               
                                 <label class="inline-flex items-center">
                                     <input type="radio" name="format" value="excel" class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded">
                                     <span class="ml-2 text-gray-700">Excel</span>
