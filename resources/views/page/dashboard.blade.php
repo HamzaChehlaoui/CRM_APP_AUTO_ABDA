@@ -54,57 +54,77 @@
                 </div>
             </header>
 
-        
+
             <div class="flex-1 p-6 overflow-y-auto">
                 <!-- Summary Stats -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    <div class="bg-white rounded-xl shadow-card p-6 card-hover">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center">
-                                <i class="fas fa-user-plus text-xl text-nucleus-primary"></i>
+                        <div class="bg-white rounded-xl shadow-card p-6 card-hover">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center">
+                                    <i class="fas fa-user-plus text-xl text-nucleus-primary"></i>
+                                </div>
+                                @php
+                                    $isPositive = str_starts_with($percentageClients, '+');
+                                    $colorBg = $isPositive ? 'bg-green-100' : 'bg-red-100';
+                                    $colorText = $isPositive ? 'text-green-700' : 'text-red-700';
+                                @endphp
+                                <span class="{{ $colorBg }} {{ $colorText }} text-xs px-2 py-1 rounded-full font-medium">{{ $percentageClients }}</span>
                             </div>
-                            <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium">↑ 12%</span>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-1">Total des clients</h3>
+                            <p class="text-3xl font-bold text-nucleus-primary">{{ $totalClientsCurrent }}</p>
+                            <p class="text-sm text-gray-500 mt-1">Cette semaine</p>
                         </div>
-                        <h3 class="text-lg font-semibold text-gray-800 mb-1">Total des clients</h3>
-                        <p class="text-3xl font-bold text-nucleus-primary">530</p>
-                        <p class="text-sm text-gray-500 mt-1">Cette semaine</p>
-                    </div>
 
-                    <div class="bg-white rounded-xl shadow-card p-6 card-hover">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="w-12 h-12 rounded-lg bg-yellow-100 flex items-center justify-center">
-                                <i class="fas fa-phone-alt text-xl text-yellow-600"></i>
+                        <div class="bg-white rounded-xl shadow-card p-6 card-hover">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 rounded-lg bg-yellow-100 flex items-center justify-center">
+                                    <i class="fas fa-phone-alt text-xl text-yellow-600"></i>
+                                </div>
+                                @php
+                                    $isPositive = str_starts_with($percentageSuivis, '+');
+                                    $colorBg = $isPositive ? 'bg-green-100' : 'bg-red-100';
+                                    $colorText = $isPositive ? 'text-green-700' : 'text-red-700';
+                                @endphp
+                                <span class="{{ $colorBg }} {{ $colorText }} text-xs px-2 py-1 rounded-full font-medium">{{ $percentageSuivis }}</span>
                             </div>
-                            <span class="bg-yellow-100 text-yellow-700 text-xs px-2 py-1 rounded-full font-medium">↑ 5%</span>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-1">Suivis en Cours</h3>
+                            <p class="text-3xl font-bold text-yellow-600">{{ $suivisEnCoursCurrent }}</p>
+                            <p class="text-sm text-gray-500 mt-1">Nécessitent une action</p>
                         </div>
-                        <h3 class="text-lg font-semibold text-gray-800 mb-1">Suivis en Cours</h3>
-                        <p class="text-3xl font-bold text-yellow-600">18</p>
-                        <p class="text-sm text-gray-500 mt-1">Nécessitent une action</p>
-                    </div>
 
-                    <div class="bg-white rounded-xl shadow-card p-6 card-hover">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center">
-                                <i class="fas fa-users text-xl text-green-600"></i>
+                        <div class="bg-white rounded-xl shadow-card p-6 card-hover">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center">
+                                    <i class="fas fa-users text-xl text-green-600"></i>
+                                </div>
+                                @php
+                                    $isPositive = str_starts_with($percentageActive, '+');
+                                    $colorBg = $isPositive ? 'bg-green-100' : 'bg-red-100';
+                                    $colorText = $isPositive ? 'text-green-700' : 'text-red-700';
+                                @endphp
+                                <span class="{{ $colorBg }} {{ $colorText }} text-xs px-2 py-1 rounded-full font-medium">{{ $percentageActive }}</span>
                             </div>
-                            <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium">↑ 8%</span>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-1">Clients Actifs</h3>
+                            <p class="text-3xl font-bold text-green-600">{{ $activeClientsCurrent }}</p>
+                            <p class="text-sm text-gray-500 mt-1">Total des clients</p>
                         </div>
-                        <h3 class="text-lg font-semibold text-gray-800 mb-1">Clients Actifs</h3>
-                        <p class="text-3xl font-bold text-green-600">125</p>
-                        <p class="text-sm text-gray-500 mt-1">Total des clients</p>
-                    </div>
 
-                    <div class="bg-white rounded-xl shadow-card p-6 card-hover">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center">
-                                <i class="fas fa-car text-xl text-purple-600"></i>
+                        <div class="bg-white rounded-xl shadow-card p-6 card-hover">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center">
+                                    <i class="fas fa-car text-xl text-purple-600"></i>
+                                </div>
+                                @php
+                                    $isPositive = str_starts_with($percentageSales, '+');
+                                    $colorBg = $isPositive ? 'bg-green-100' : 'bg-red-100';
+                                    $colorText = $isPositive ? 'text-green-700' : 'text-red-700';
+                                @endphp
+                                <span class="{{ $colorBg }} {{ $colorText }} text-xs px-2 py-1 rounded-full font-medium">{{ $percentageSales }}</span>
                             </div>
-                            <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium">↑ 15%</span>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-1">Ventes</h3>
+                            <p class="text-3xl font-bold text-purple-600">{{ $salesThisMonthCurrent }}</p>
+                            <p class="text-sm text-gray-500 mt-1">Ce mois-ci</p>
                         </div>
-                        <h3 class="text-lg font-semibold text-gray-800 mb-1">Ventes</h3>
-                        <p class="text-3xl font-bold text-purple-600">42</p>
-                        <p class="text-sm text-gray-500 mt-1">Ce mois-ci</p>
-                    </div>
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
