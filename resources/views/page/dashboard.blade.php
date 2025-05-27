@@ -57,75 +57,113 @@
 
             <div class="flex-1 p-6 overflow-y-auto">
                 <!-- Summary Stats -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                        <div class="bg-white rounded-xl shadow-card p-6 card-hover">
-                            <div class="flex items-center justify-between mb-4">
-                                <div class="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center">
-                                    <i class="fas fa-user-plus text-xl text-nucleus-primary"></i>
-                                </div>
-                                @php
-                                    $isPositive = str_starts_with($percentageClients, '+');
-                                    $colorBg = $isPositive ? 'bg-green-100' : 'bg-red-100';
-                                    $colorText = $isPositive ? 'text-green-700' : 'text-red-700';
-                                @endphp
-                                <span class="{{ $colorBg }} {{ $colorText }} text-xs px-2 py-1 rounded-full font-medium">{{ $percentageClients }}</span>
-                            </div>
-                            <h3 class="text-lg font-semibold text-gray-800 mb-1">Total des clients</h3>
-                            <p class="text-3xl font-bold text-nucleus-primary">{{ $totalClientsCurrent }}</p>
-                            <p class="text-sm text-gray-500 mt-1">Cette semaine</p>
-                        </div>
+                <!-- Branch Filter (Only for Admin and Assistant) -->
+@if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
+<div class="mb-6">
+    <div class="bg-white rounded-xl shadow-card p-4">
+        <form method="GET" action="{{ route('dashboard') }}" class="flex items-center gap-4">
+            <label for="branch_filter" class="text-sm font-medium text-gray-700">Filtrer par succursale:</label>
+            <select name="branch_filter" id="branch_filter"
+                    class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-nucleus-primary focus:border-transparent bg-white min-w-[200px]"
+                    onchange="this.form.submit()">
+                <option value="all" {{ $selectedBranch == 'all' ? 'selected' : '' }}>
+                    Toutes les succursales
+                </option>
+                @foreach($branches as $branch)
+                    <option value="{{ $branch->id }}" {{ $selectedBranch == $branch->id ? 'selected' : '' }}>
+                        {{ $branch->name }}
+                    </option>
+                @endforeach
+            </select>
 
-                        <div class="bg-white rounded-xl shadow-card p-6 card-hover">
-                            <div class="flex items-center justify-between mb-4">
-                                <div class="w-12 h-12 rounded-lg bg-yellow-100 flex items-center justify-center">
-                                    <i class="fas fa-phone-alt text-xl text-yellow-600"></i>
-                                </div>
-                                @php
-                                    $isPositive = str_starts_with($percentageSuivis, '+');
-                                    $colorBg = $isPositive ? 'bg-green-100' : 'bg-red-100';
-                                    $colorText = $isPositive ? 'text-green-700' : 'text-red-700';
-                                @endphp
-                                <span class="{{ $colorBg }} {{ $colorText }} text-xs px-2 py-1 rounded-full font-medium">{{ $percentageSuivis }}</span>
-                            </div>
-                            <h3 class="text-lg font-semibold text-gray-800 mb-1">Suivis en Cours</h3>
-                            <p class="text-3xl font-bold text-yellow-600">{{ $suivisEnCoursCurrent }}</p>
-                            <p class="text-sm text-gray-500 mt-1">Nécessitent une action</p>
-                        </div>
+            <!-- Loading indicator -->
+            <div id="loading-indicator" class="hidden">
+                <svg class="animate-spin h-5 w-5 text-nucleus-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+            </div>
+        </form>
+    </div>
+</div>
 
-                        <div class="bg-white rounded-xl shadow-card p-6 card-hover">
-                            <div class="flex items-center justify-between mb-4">
-                                <div class="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center">
-                                    <i class="fas fa-users text-xl text-green-600"></i>
-                                </div>
-                                @php
-                                    $isPositive = str_starts_with($percentageActive, '+');
-                                    $colorBg = $isPositive ? 'bg-green-100' : 'bg-red-100';
-                                    $colorText = $isPositive ? 'text-green-700' : 'text-red-700';
-                                @endphp
-                                <span class="{{ $colorBg }} {{ $colorText }} text-xs px-2 py-1 rounded-full font-medium">{{ $percentageActive }}</span>
-                            </div>
-                            <h3 class="text-lg font-semibold text-gray-800 mb-1">Clients Actifs</h3>
-                            <p class="text-3xl font-bold text-green-600">{{ $activeClientsCurrent }}</p>
-                            <p class="text-sm text-gray-500 mt-1">Total des clients</p>
-                        </div>
+<script>
+document.getElementById('branch_filter').addEventListener('change', function() {
+    document.getElementById('loading-indicator').classList.remove('hidden');
+});
+</script>
+@endif
 
-                        <div class="bg-white rounded-xl shadow-card p-6 card-hover">
-                            <div class="flex items-center justify-between mb-4">
-                                <div class="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center">
-                                    <i class="fas fa-car text-xl text-purple-600"></i>
-                                </div>
-                                @php
-                                    $isPositive = str_starts_with($percentageSales, '+');
-                                    $colorBg = $isPositive ? 'bg-green-100' : 'bg-red-100';
-                                    $colorText = $isPositive ? 'text-green-700' : 'text-red-700';
-                                @endphp
-                                <span class="{{ $colorBg }} {{ $colorText }} text-xs px-2 py-1 rounded-full font-medium">{{ $percentageSales }}</span>
-                            </div>
-                            <h3 class="text-lg font-semibold text-gray-800 mb-1">Ventes</h3>
-                            <p class="text-3xl font-bold text-purple-600">{{ $salesThisMonthCurrent }}</p>
-                            <p class="text-sm text-gray-500 mt-1">Ce mois-ci</p>
-                        </div>
-                </div>
+<!-- Summary Stats -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div class="bg-white rounded-xl shadow-card p-6 card-hover">
+        <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center">
+                <i class="fas fa-user-plus text-xl text-nucleus-primary"></i>
+            </div>
+            @php
+                $isPositive = str_starts_with($percentageClients, '+');
+                $colorBg = $isPositive ? 'bg-green-100' : 'bg-red-100';
+                $colorText = $isPositive ? 'text-green-700' : 'text-red-700';
+            @endphp
+            <span class="{{ $colorBg }} {{ $colorText }} text-xs px-2 py-1 rounded-full font-medium">{{ $percentageClients }}</span>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-800 mb-1">Total des clients</h3>
+        <p class="text-3xl font-bold text-nucleus-primary">{{ $totalClientsCurrent }}</p>
+        <p class="text-sm text-gray-500 mt-1">Cette semaine</p>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-card p-6 card-hover">
+        <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 rounded-lg bg-yellow-100 flex items-center justify-center">
+                <i class="fas fa-phone-alt text-xl text-yellow-600"></i>
+            </div>
+            @php
+                $isPositive = str_starts_with($percentageSuivis, '+');
+                $colorBg = $isPositive ? 'bg-green-100' : 'bg-red-100';
+                $colorText = $isPositive ? 'text-green-700' : 'text-red-700';
+            @endphp
+            <span class="{{ $colorBg }} {{ $colorText }} text-xs px-2 py-1 rounded-full font-medium">{{ $percentageSuivis }}</span>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-800 mb-1">Suivis en Cours</h3>
+        <p class="text-3xl font-bold text-yellow-600">{{ $suivisEnCoursCurrent }}</p>
+        <p class="text-sm text-gray-500 mt-1">Nécessitent une action</p>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-card p-6 card-hover">
+        <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center">
+                <i class="fas fa-users text-xl text-green-600"></i>
+            </div>
+            @php
+                $isPositive = str_starts_with($percentageActive, '+');
+                $colorBg = $isPositive ? 'bg-green-100' : 'bg-red-100';
+                $colorText = $isPositive ? 'text-green-700' : 'text-red-700';
+            @endphp
+            <span class="{{ $colorBg }} {{ $colorText }} text-xs px-2 py-1 rounded-full font-medium">{{ $percentageActive }}</span>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-800 mb-1">Clients Actifs</h3>
+        <p class="text-3xl font-bold text-green-600">{{ $activeClientsCurrent }}</p>
+        <p class="text-sm text-gray-500 mt-1">Total des clients</p>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-card p-6 card-hover">
+        <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center">
+                <i class="fas fa-car text-xl text-purple-600"></i>
+            </div>
+            @php
+                $isPositive = str_starts_with($percentageSales, '+');
+                $colorBg = $isPositive ? 'bg-green-100' : 'bg-red-100';
+                $colorText = $isPositive ? 'text-green-700' : 'text-red-700';
+            @endphp
+            <span class="{{ $colorBg }} {{ $colorText }} text-xs px-2 py-1 rounded-full font-medium">{{ $percentageSales }}</span>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-800 mb-1">Ventes</h3>
+        <p class="text-3xl font-bold text-purple-600">{{ $salesThisMonthCurrent }}</p>
+        <p class="text-sm text-gray-500 mt-1">Ce mois-ci</p>
+    </div>
+</div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <!-- Charts / Graphs -->
@@ -133,9 +171,11 @@
                         <div class="flex justify-between items-center mb-6">
                             <h3 class="text-lg font-semibold text-gray-800">Suivi des Clients</h3>
                             <div class="flex space-x-2">
-                                <button class="px-3 py-1 text-sm bg-nucleus-light text-nucleus-primary rounded-md hover:bg-nucleus-primary hover:text-white transition-colors">Semaine</button>
-                                <button class="px-3 py-1 text-sm bg-white text-gray-500 rounded-md hover:bg-gray-100 transition-colors">Mois</button>
-                                <button class="px-3 py-1 text-sm bg-white text-gray-500 rounded-md hover:bg-gray-100 transition-colors">Année</button>
+                               <div class="flex space-x-2">
+                                    <button onclick="changePeriod('week')" class="period-btn px-3 py-1 text-sm bg-white text-gray-500 rounded-md hover:bg-nucleus-primary hover:text-white transition-colors">Semaine</button>
+                                    <button onclick="changePeriod('month')" class="period-btn px-3 py-1 text-sm bg-white text-gray-500 rounded-md hover:bg-nucleus-primary hover:text-white transition-colors">Mois</button>
+                                    <button onclick="changePeriod('year')" class="period-btn px-3 py-1 text-sm bg-white text-gray-500 rounded-md hover:bg-nucleus-primary hover:text-white transition-colors">Année</button>
+                                </div>
                             </div>
                         </div>
                         <div class="h-64 relative">
@@ -143,13 +183,14 @@
                         </div>
                     </div>
 
-                    <!-- Summary by Status -->
+                   <!-- Summary by Post-Sale Status -->
                     <div class="bg-white rounded-xl shadow-card p-6">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-6">Statut des Clients</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-6">Phase Post-Vente</h3>
                         <div class="h-64 relative">
                             <canvas id="statusChart"></canvas>
                         </div>
                     </div>
+
 
                     <!-- Recent Leads -->
                     <div class="bg-white rounded-xl shadow-card p-6 col-span-2">
@@ -344,168 +385,149 @@
     </div>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
         // Line chart for Prospects
-        const prospectsCtx = document.getElementById('prospectsChart').getContext('2d');
-        const prospectsChart = new Chart(prospectsCtx, {
-            type: 'line',
-            data: {
-                labels: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
-                datasets: [
-                    {
-                        label: 'Nouveaux Prospects',
-                        data: [8, 12, 5, 9, 14, 3, 2],
-                        borderColor: '#3A5CDB',
-                        backgroundColor: 'rgba(58, 92, 219, 0.1)',
-                        tension: 0.4,
-                        fill: true,
-                        pointBackgroundColor: '#3A5CDB',
-                        pointRadius: 4,
-                        pointHoverRadius: 6
-                    },
-                    {
-                        label: 'Suivis Effectués',
-                        data: [4, 6, 3, 8, 5, 2, 1],
-                        borderColor: '#22c55e',
-                        backgroundColor: 'rgba(34, 197, 94, 0.05)',
-                        tension: 0.4,
-                        fill: true,
-                        pointBackgroundColor: '#22c55e',
-                        pointRadius: 4,
-                        pointHoverRadius: 6
-                    }
-                ]
+       // Line chart for Real Clients (Vendus)
+const prospectsCtx = document.getElementById('prospectsChart').getContext('2d');
+let prospectsChart = new Chart(prospectsCtx, {
+    type: 'line',
+    data: {
+        labels: @json($labels),
+        datasets: [{
+            label: 'Clients Vendu',
+            data: @json($clientsVendus),
+            borderColor: '#3A5CDB',
+            backgroundColor: 'rgba(58, 92, 219, 0.1)',
+            tension: 0.4,
+            fill: true,
+            pointBackgroundColor: '#3A5CDB',
+            pointRadius: 4,
+            pointHoverRadius: 6
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'top',
+                align: 'end',
+                labels: {
+                    boxWidth: 10,
+                    usePointStyle: true,
+                    pointStyle: 'circle'
+                }
             },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                        align: 'end',
-                        labels: {
-                            boxWidth: 10,
-                            usePointStyle: true,
-                            pointStyle: 'circle'
-                        }
-                    },
-                    tooltip: {
-                        backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                        titleColor: '#262626',
-                        bodyColor: '#525252',
-                        bodyFont: {
-                            size: 12
-                        },
-                        borderColor: '#e5e5e5',
-                        borderWidth: 1,
-                        padding: 10,
-                        boxPadding: 5,
-                        usePointStyle: true,
-                        callbacks: {
-                            labelPointStyle: function(context) {
-                                return {
-                                    pointStyle: 'circle',
-                                    rotation: 0
-                                };
-                            }
-                        }
-                    }
+            tooltip: {
+                backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                titleColor: '#262626',
+                bodyColor: '#525252',
+                bodyFont: { size: 12 },
+                borderColor: '#e5e5e5',
+                borderWidth: 1,
+                padding: 10,
+                boxPadding: 5
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: { font: { size: 11 }, color: '#737373' },
+                grid: { color: 'rgba(0, 0, 0, 0.05)', drawBorder: false }
+            },
+            x: {
+                ticks: { font: { size: 11 }, color: '#737373' },
+                grid: { display: false, drawBorder: false }
+            }
+        }
+    }
+});
+fetch('/clients/post-sale-stats')
+        .then(response => response.json())
+        .then(data => {
+            const labelsMap = {
+                'en_attente_livraison': 'En attente de livraison',
+                'livre': 'Livré',
+                'sav_1ere_visite': '1ère visite SAV',
+                'relance': 'À relancer'
+            };
+
+            const colorMap = {
+                'en_attente_livraison': '#f59e0b',
+                'livre': '#22c55e',
+                'sav_1ere_visite': '#3b82f6',
+                'relance': '#ef4444'
+            };
+
+            const labels = [];
+            const values = [];
+            const backgroundColors = [];
+
+            for (let key in data) {
+                if (labelsMap[key]) {
+                    labels.push(labelsMap[key]);
+                    values.push(data[key]);
+                    backgroundColors.push(colorMap[key]);
+                }
+            }
+
+            const statusCtx = document.getElementById('statusChart').getContext('2d');
+            new Chart(statusCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: values,
+                        backgroundColor: backgroundColors,
+                        borderWidth: 0,
+                        hoverOffset: 6
+                    }]
                 },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            color: 'rgba(0, 0, 0, 0.05)',
-                            drawBorder: false
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 10,
+                                padding: 15,
+                                usePointStyle: true,
+                                pointStyle: 'circle'
+                            }
                         },
-                        ticks: {
-                            font: {
-                                size: 11
+                        tooltip: {
+                            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                            titleColor: '#262626',
+                            bodyColor: '#525252',
+                            bodyFont: {
+                                size: 12
                             },
-                            color: '#737373'
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false,
-                            drawBorder: false
-                        },
-                        ticks: {
-                            font: {
-                                size: 11
-                            },
-                            color: '#737373'
-                        }
-                    }
-                }
-            }
-        });
-
-        // Doughnut chart for Status
-        const statusCtx = document.getElementById('statusChart').getContext('2d');
-        const statusChart = new Chart(statusCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Nouveau', 'Intéressé', 'Vendu', 'Non intéressé'],
-                datasets: [{
-                    data: [35, 28, 15, 22],
-                    backgroundColor: [
-                        '#38bdf8',
-                        '#f59e0b',
-                        '#22c55e',
-                        '#ef4444'
-                    ],
-                    borderWidth: 0,
-                    hoverOffset: 6
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                cutout: '70%',
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            boxWidth: 10,
-                            padding: 15,
-                            usePointStyle: true,
-                            pointStyle: 'circle'
-                        }
-                    },
-                    tooltip: {
-                        backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                        titleColor: '#262626',
-                        bodyColor: '#525252',
-                        bodyFont: {
-                            size: 12
-                        },
-                        borderColor: '#e5e5e5',
-                        borderWidth: 1,
-                        padding: 10,
-                        boxPadding: 5,
-                        callbacks: {
-                            label: function(context) {
-                                let label = context.label || '';
-                                let value = context.formattedValue || '';
-                                return `${label}: ${value}%`;
+                            borderColor: '#e5e5e5',
+                            borderWidth: 1,
+                            padding: 10,
+                            boxPadding: 5,
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.label}: ${context.formattedValue}`;
+                                }
                             }
                         }
                     }
                 }
-            }
+            });
+        })
+        .catch(error => {
+            console.error("Erreur lors du chargement des données post-vente:", error);
         });
 
-        // Animation for card hover
-        document.querySelectorAll('.card-hover').forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                card.style.transform = 'translateY(-4px)';
-                card.style.boxShadow = '0 15px 30px rgba(58, 92, 219, 0.1)';
-            });
-
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'translateY(0)';
-                card.style.boxShadow = '';
-            });
         });
+ function changePeriod(period) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('period', period);
+        window.location.href = url.toString();
+    }
+
     </script>
 @endsection
