@@ -11,17 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-       Schema::create('clients', function (Blueprint $table) {
+    Schema::create('clients', function (Blueprint $table) {
         $table->id();
         $table->string('full_name')->comment('Nom complet');
         $table->string('phone')->comment('Téléphone');
         $table->string('cin')->unique()->comment('Carte d\'identité nationale');
         $table->string('address')->nullable()->comment('Adresse');
         $table->string('email')->nullable()->comment('Email');
-
         $table->foreignId('branch_id')->constrained('branches')->onDelete('cascade')->comment('Agence / Succursale');
         $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->comment('Utilisateur qui a enregistré le client');
-
+        $table->enum('post_sale_status', [
+        'en_attente_livraison',
+        'livre',
+        'sav_1ere_visite',
+        'relance'
+    ])->default('en_attente_livraison')->comment('Phase post-vente');
         $table->timestamps();
 });
     }
