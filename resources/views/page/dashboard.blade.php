@@ -54,7 +54,7 @@
                 </div>
             </header>
 
-            <!-- Main Dashboard Content Area -->
+        
             <div class="flex-1 p-6 overflow-y-auto">
                 <!-- Summary Stats -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
