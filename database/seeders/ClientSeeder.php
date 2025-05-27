@@ -16,7 +16,7 @@ class ClientSeeder extends Seeder
         $branches = Branch::pluck('id')->toArray();
         $users = User::pluck('id')->toArray();
 
-        foreach (range(1, 10) as $i) {
+        foreach (range(1, 50) as $i) {
             Client::create([
                 'full_name' => $faker->name,
                 'phone' => $faker->phoneNumber,
@@ -26,6 +26,7 @@ class ClientSeeder extends Seeder
                 'branch_id' => $faker->randomElement($branches),
                 'created_by' => $faker->randomElement($users),
                 'branch_id'=>2,
+                'post_sale_status'=>'livre',
             ]);
         }
     }
