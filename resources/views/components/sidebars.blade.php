@@ -71,8 +71,10 @@
 
     <div class="mt-auto p-4 border-t border-gray-200">
         <div class="flex items-center space-x-3">
-            <div class="w-10 h-10 rounded-full bg-nucleus-primary text-white flex items-center justify-center font-semibold">DG</div>
-            <div>
+            <div class="w-10 h-10 rounded-full bg-nucleus-primary text-white flex items-center justify-center font-semibold">
+                    {{ strtoupper(Str::substr(explode(' ', $user->name)[0], 0, 1) . Str::substr(explode(' ', $user->name)[1] ?? '', 0, 1)) }}
+            </div>
+        <div>
                 <p class="text-sm font-medium text-gray-800">{{ $user->name }}</p>
                 <p class="text-xs text-gray-500">Accès complet</p>
             </div>
