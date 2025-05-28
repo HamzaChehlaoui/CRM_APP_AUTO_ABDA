@@ -195,114 +195,94 @@ document.getElementById('branch_filter').addEventListener('change', function() {
 
 
                     <!-- Recent Leads -->
-                    <div class="bg-white rounded-xl shadow-card p-6 col-span-2">
-                        <div class="flex justify-between items-center mb-6">
-                            <h3 class="text-lg font-semibold text-gray-800">Prospects Récents</h3>
-                            <button class="text-nucleus-primary hover:text-nucleus-hover text-sm font-medium">Voir tout</button>
+                <!-- Professional Customer Tracking Section -->
+                    <div class="bg-white rounded-xl shadow-card p-6 col-span-3">
+                        <div class="flex justify-between items-center mb-8">
+                            <div>
+                                <h3 class="text-2xl font-bold text-gray-900 mb-1">Suivi des Clients</h3>
+                                <p class="text-sm text-gray-600">Gestion et suivi de la clientèle</p>
+                            </div>
+                            <button class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg transition-all duration-200 shadow-sm hover:shadow-md">
+                                Voir tout
+                            </button>
                         </div>
 
-                        <div class="overflow-x-auto">
-                            <table class="min-w-full">
-                                <thead>
-                                    <tr class="text-left text-sm font-medium text-gray-500 border-b border-gray-200">
-                                        <th class="pb-3 pl-1">Client</th>
-                                        <th class="pb-3">Véhicule</th>
-                                        <th class="pb-3">Date</th>
-                                        <th class="pb-3">Statut</th>
-                                        <th class="pb-3 text-right">Actions</th>
+                        <div class="rounded-lg border border-gray-200 overflow-x-auto">
+                            <table class="w-full table-auto">
+                                <thead class="bg-gray-50">
+                                    <tr class="text-left text-sm font-semibold text-gray-700">
+                                        <th class="px-6 py-4 border-b border-gray-200">Client</th>
+                                        <th class="px-6 py-4 border-b border-gray-200">Véhicule</th>
+                                        <th class="px-6 py-4 border-b border-gray-200">Date de vente</th>
+                                        <th class="px-6 py-4 border-b border-gray-200">Statut du paiement</th>
+                                        <th class="px-6 py-4 border-b border-gray-200">Durée de la garantie</th>
+                                        <th class="px-6 py-4 border-b border-gray-200">Dernier entretien</th>
+                                        <th class="px-6 py-4 border-b border-gray-200 text-center">Action</th>
                                     </tr>
                                 </thead>
-                                <tbody class="divide-y divide-gray-100">
-                                    <tr class="hover:bg-gray-50">
-                                        <td class="py-3 pl-1">
+                                <tbody class="bg-white divide-y divide-gray-100">
+                                    <tr class="hover:bg-gray-50 transition-colors duration-200">
+                                        <td class="px-6 py-5">
                                             <div class="flex items-center">
-                                                <div class="h-8 w-8 rounded-full bg-nucleus-primary/10 flex items-center justify-center text-nucleus-primary font-medium">ML</div>
-                                                <div class="ml-3">
-                                                    <p class="text-sm font-medium text-gray-800">Martin Leclerc</p>
-                                                    <p class="text-xs text-gray-500">martin.l@example.com</p>
+                                                <div class="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center">
+                                                    <span class="text-blue-700 font-bold text-sm">ML</span>
+                                                </div>
+                                                <div class="ml-4">
+                                                    <p class="text-sm font-semibold text-gray-900">Martin Leclerc</p>
+                                                    <p class="text-sm text-gray-500">martin.l@example.com</p>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="py-3">
-                                            <p class="text-sm font-medium text-gray-800">Renault Clio</p>
-                                            <p class="text-xs text-gray-500">Essence, Automatique</p>
+                                        <td class="px-6 py-5">
+                                            <div>
+                                                <p class="text-sm font-semibold text-gray-900">Renault Clio</p>
+                                                <p class="text-sm text-gray-500">Essence • Automatique</p>
+                                            </div>
                                         </td>
-                                        <td class="py-3">
-                                            <p class="text-sm text-gray-600">15 mai 2025</p>
+                                        <td class="px-6 py-5">
+                                            <p class="text-sm font-medium text-gray-700">15 mai 2025</p>
                                         </td>
-                                        <td class="py-3">
-                                            <span class="text-xs px-2 py-1 rounded-full status-new">Nouveau</span>
+                                        <td class="px-6 py-5">
+                                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                                                <i class="fas fa-check-circle mr-1"></i>
+                                                Paiement complet
+                                            </span>
                                         </td>
-                                        <td class="py-3 text-right">
-                                            <button class="text-gray-500 hover:text-nucleus-primary p-1"><i class="fas fa-phone"></i></button>
-                                            <button class="text-gray-500 hover:text-nucleus-primary p-1"><i class="fas fa-envelope"></i></button>
-                                            <button class="text-gray-500 hover:text-nucleus-primary p-1"><i class="fas fa-ellipsis-v"></i></button>
+                                        <td class="px-6 py-5">
+                                            <div>
+                                                <p class="text-sm font-medium text-gray-700">2 ans</p>
+                                                <p class="text-xs text-gray-500">Jusqu'au 15 mai 2027</p>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-5">
+                                            <p class="text-sm font-medium text-gray-700">10 avril 2025</p>
+                                        </td>
+                                        <td class="px-6 py-5">
+                                            <div class="flex justify-center space-x-2">
+                                                <button title="Contacter le service client" class="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200">
+                                                    <i class="fas fa-headset text-sm"></i>
+                                                </button>
+                                                <button title="Envoyer un rappel d'entretien" class="p-2 text-gray-400 hover:text-amber-600 hover:bg-amber-50 rounded-lg transition-all duration-200">
+                                                    <i class="fas fa-bell text-sm"></i>
+                                                </button>
+                                                <button title="Mettre à jour le statut de paiement" class="p-2 text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-lg transition-all duration-200">
+                                                    <i class="fas fa-credit-card text-sm"></i>
+                                                </button>
+                                                <button title="Ajouter une note" class="p-2 text-gray-400 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-all duration-200">
+                                                    <i class="fas fa-sticky-note text-sm"></i>
+                                                </button>
+                                                <button title="Plus d'options" class="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-all duration-200">
+                                                    <i class="fas fa-ellipsis-v text-sm"></i>
+                                                </button>
+                                            </div>
                                         </td>
                                     </tr>
-                                
                                 </tbody>
                             </table>
                         </div>
                     </div>
 
-                    <!-- Calendar / Tasks -->
-                    <div class="bg-white rounded-xl shadow-card p-6">
-                        <div class="flex justify-between items-center mb-6">
-                            <h3 class="text-lg font-semibold text-gray-800">À Faire Aujourd'hui</h3>
-                            <button class="text-nucleus-primary hover:text-nucleus-hover text-sm font-medium">+ Ajouter</button>
-                        </div>
 
-                        <ul class="space-y-3">
-                            <li class="flex items-center p-3 bg-nucleus-light rounded-lg">
-                                <div class="h-8 w-8 rounded-full bg-nucleus-primary/20 flex items-center justify-center text-nucleus-primary mr-3">
-                                    <i class="fas fa-phone"></i>
-                                </div>
-                                <div class="flex-1">
-                                    <p class="font-medium text-sm text-gray-800">Appeler Mme. Dubois</p>
-                                    <p class="text-xs text-gray-500">10:30 - Citroën C3</p>
-                                </div>
-                                <button class="text-gray-400 hover:text-nucleus-primary">
-                                    <i class="fas fa-check-circle"></i>
-                                </button>
-                            </li>
-                            <li class="flex items-center p-3 bg-gray-50 rounded-lg">
-                                <div class="h-8 w-8 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600 mr-3">
-                                    <i class="fas fa-calendar-check"></i>
-                                </div>
-                                <div class="flex-1">
-                                    <p class="font-medium text-sm text-gray-800">Essai routier M. Bernard</p>
-                                    <p class="text-xs text-gray-500">14:00 - Renault Captur</p>
-                                </div>
-                                <button class="text-gray-400 hover:text-nucleus-primary">
-                                    <i class="fas fa-check-circle"></i>
-                                </button>
-                            </li>
-                            <li class="flex items-center p-3 bg-gray-50 rounded-lg">
-                                <div class="h-8 w-8 rounded-full bg-green-100 flex items-center justify-center text-green-600 mr-3">
-                                    <i class="fas fa-file-signature"></i>
-                                </div>
-                                <div class="flex-1">
-                                    <p class="font-medium text-sm text-gray-800">Finaliser contrat Famille Richard</p>
-                                    <p class="text-xs text-gray-500">16:30 - Peugeot 5008</p>
-                                </div>
-                                <button class="text-gray-400 hover:text-nucleus-primary">
-                                    <i class="fas fa-check-circle"></i>
-                                </button>
-                            </li>
-                            <li class="flex items-center p-3 bg-gray-50 rounded-lg">
-                                <div class="h-8 w-8 rounded-full bg-red-100 flex items-center justify-center text-red-600 mr-3">
-                                    <i class="fas fa-exclamation-circle"></i>
-                                </div>
-                                <div class="flex-1">
-                                    <p class="font-medium text-sm text-gray-800">Réclamation client à traiter</p>
-                                    <p class="text-xs text-gray-500">Urgent - M. Petit</p>
-                                </div>
-                                <button class="text-gray-400 hover:text-nucleus-primary">
-                                    <i class="fas fa-check-circle"></i>
-                                </button>
-                            </li>
-                        </ul>
-                    </div>
                 </div>
             </div>
         </div>
