@@ -135,19 +135,20 @@ class DashboardService
 
         return [$clientsVendus, $labels];
     }
-    public function getPostSaleStats($user, $selectedBranch = 'all'): array
-    {
-        $branchInfo = $this->resolveBranchInfo($user, $selectedBranch);
+   public function getPostSaleStats($user, $selectedBranch = 'all'): array
+{
+    $branchInfo = $this->resolveBranchInfo($user, $selectedBranch);
 
-        /** @var \Illuminate\Database\Eloquent\Builder $clientsQuery */
-        $clientsQuery = $branchInfo['clientsQuery'];
+    /** @var \Illuminate\Database\Eloquent\Builder $clientsQuery */
+    $clientsQuery = $branchInfo['clientsQuery'];
 
-        return [
-            'en_attente_livraison' => (clone $clientsQuery)->where('post_sale_status', 'en_attente_livraison')->count(),
-            'livre' => (clone $clientsQuery)->where('post_sale_status', 'livre')->count(),
-            'sav_1ere_visite' => (clone $clientsQuery)->where('post_sale_status', 'sav_1ere_visite')->count(),
-            'relance' => (clone $clientsQuery)->where('post_sale_status', 'relance')->count(),
-        ];
-    }
+    return [
+        'en_attente_livraison' => (clone $clientsQuery)->where('post_sale_status', 'en_attente_livraison')->count(),
+        'livre' => (clone $clientsQuery)->where('post_sale_status', 'livre')->count(),
+        'sav_1ere_visite' => (clone $clientsQuery)->where('post_sale_status', 'sav_1ere_visite')->count(),
+        'relance' => (clone $clientsQuery)->where('post_sale_status', 'relance')->count(),
+    ];
+}
+
 
 }
