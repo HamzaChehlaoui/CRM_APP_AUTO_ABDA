@@ -42,9 +42,6 @@ Route::prefix('')->group(function () {
     Route::view('/exporter', 'page.exporter');
 });
 
-Route::get('/clients/post-sale-stats', [DashboardController::class, 'postSaleStats']);
-
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 // Authenticated Routes
 Route::middleware('auth')->group(function () {
@@ -53,6 +50,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    Route::get('/clients/post-sale-stats', [DashboardController::class, 'postSaleStats']);
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 });
 
