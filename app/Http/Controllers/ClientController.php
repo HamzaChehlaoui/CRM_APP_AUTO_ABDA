@@ -5,15 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
-
+use App\Models\Invoice;
 
 class ClientController extends Controller
 {
     public function index()
-    {
-        $clients = Client::with('branch')->paginate(10);
-        return view('clients.index', compact('clients'));
-    }
+{
+    $sales = Invoice::with(['client', 'car'])->latest()->paginate(5);
+
+    return view('page.dashboard', compact('sales'));
+}
     public function create()
     {
         return view('clients.create');

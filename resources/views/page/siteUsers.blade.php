@@ -7,7 +7,7 @@
 
     <div class="flex h-screen w-screen overflow-hidden">
 
-          <!-- Sidebar -->
+        <!-- Sidebar -->
         <x-sidebar />
 
         <!-- Main Content -->
@@ -99,7 +99,7 @@
     <i class="fas fa-trash"></i>
 </button>
 
-                <div id="confirmModal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center hidden z-50" style="backdrop-filter: blur(2px);">
+<div id="confirmModal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center hidden z-50" style="backdrop-filter: blur(2px);">
     <div class="bg-white rounded-xl shadow-2xl max-w-md w-full mx-4 border border-gray-100">
         <!-- Header -->
         <div class="px-6 py-5 border-b border-gray-200">
@@ -114,7 +114,7 @@
         </div>
 
         <!-- Content -->
-      <div class="px-6 py-5 w-full overflow-hidden">
+    <div class="px-6 py-5 w-full overflow-hidden">
     <p class="text-gray-800 text-base font-medium leading-relaxed break-words whitespace-normal" id="confirmMessage">
         Êtes-vous sûr de vouloir supprimer ?
     </p>

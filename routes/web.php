@@ -55,6 +55,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 });
+// routes/web.php
+
 
 // Authentication Routes
 require __DIR__.'/auth.php';

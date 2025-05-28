@@ -171,7 +171,7 @@ document.getElementById('branch_filter').addEventListener('change', function() {
                         <div class="flex justify-between items-center mb-6">
                             <h3 class="text-lg font-semibold text-gray-800">Suivi des Clients</h3>
                             <div class="flex space-x-2">
-                               <div class="flex space-x-2">
+                                <div class="flex space-x-2">
                                     <button onclick="changePeriod('week')" class="period-btn px-3 py-1 text-sm bg-white text-gray-500 rounded-md hover:bg-nucleus-primary hover:text-white transition-colors">Semaine</button>
                                     <button onclick="changePeriod('month')" class="period-btn px-3 py-1 text-sm bg-white text-gray-500 rounded-md hover:bg-nucleus-primary hover:text-white transition-colors">Mois</button>
                                     <button onclick="changePeriod('year')" class="period-btn px-3 py-1 text-sm bg-white text-gray-500 rounded-md hover:bg-nucleus-primary hover:text-white transition-colors">Année</button>
@@ -193,7 +193,7 @@ document.getElementById('branch_filter').addEventListener('change', function() {
                         </div>
                     </div>
 
-                <!-- Suivi des Clients -->
+                        <!-- Suivi des Clients -->
                     <div class="bg-white rounded-xl shadow-card p-6 col-span-3">
                         <div class="flex justify-between items-center mb-8">
                             <div>
@@ -215,68 +215,78 @@ document.getElementById('branch_filter').addEventListener('change', function() {
                                         <th class="px-6 py-4 border-b border-gray-200">Statut du paiement</th>
                                         <th class="px-6 py-4 border-b border-gray-200">Durée de la garantie</th>
                                         <th class="px-6 py-4 border-b border-gray-200">Dernier entretien</th>
-                                        <th class="px-6 py-4 border-b border-gray-200 text-center">Action</th>
                                     </tr>
                                 </thead>
-                                <tbody class="bg-white divide-y divide-gray-100">
-                                    <tr class="hover:bg-gray-50 transition-colors duration-200">
-                                        <td class="px-6 py-5">
-                                            <div class="flex items-center">
-                                                <div class="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center">
-                                                    <span class="text-blue-700 font-bold text-sm">ML</span>
-                                                </div>
-                                                <div class="ml-4">
-                                                    <p class="text-sm font-semibold text-gray-900">Martin Leclerc</p>
-                                                    <p class="text-sm text-gray-500">martin.l@example.com</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-5">
-                                            <div>
-                                                <p class="text-sm font-semibold text-gray-900">Renault Clio</p>
-                                                <p class="text-sm text-gray-500">Essence • Automatique</p>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-5">
-                                            <p class="text-sm font-medium text-gray-700">15 mai 2025</p>
-                                        </td>
-                                        <td class="px-6 py-5">
-                                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200">
-                                                <i class="fas fa-check-circle mr-1"></i>
-                                                Paiement complet
-                                            </span>
-                                        </td>
-                                        <td class="px-6 py-5">
-                                            <div>
-                                                <p class="text-sm font-medium text-gray-700">2 ans</p>
-                                                <p class="text-xs text-gray-500">Jusqu'au 15 mai 2027</p>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-5">
-                                            <p class="text-sm font-medium text-gray-700">10 avril 2025</p>
-                                        </td>
-                                        <td class="px-6 py-5">
-                                            <div class="flex justify-center space-x-2">
-                                                <button title="Contacter le service client" class="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200">
-                                                    <i class="fas fa-headset text-sm"></i>
-                                                </button>
-                                                <button title="Envoyer un rappel d'entretien" class="p-2 text-gray-400 hover:text-amber-600 hover:bg-amber-50 rounded-lg transition-all duration-200">
-                                                    <i class="fas fa-bell text-sm"></i>
-                                                </button>
-                                                <button title="Mettre à jour le statut de paiement" class="p-2 text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-lg transition-all duration-200">
-                                                    <i class="fas fa-credit-card text-sm"></i>
-                                                </button>
-                                                <button title="Ajouter une note" class="p-2 text-gray-400 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-all duration-200">
-                                                    <i class="fas fa-sticky-note text-sm"></i>
-                                                </button>
-                                                <button title="Plus d'options" class="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-all duration-200">
-                                                    <i class="fas fa-ellipsis-v text-sm"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
+                               <tbody class="bg-white divide-y divide-gray-100">
+@foreach ($sales as $sale)
+    <tr class="hover:bg-gray-50 transition-colors duration-200">
+        <td class="px-6 py-5">
+            <div class="flex items-center">
+                <div class="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center">
+                    <span class="text-blue-700 font-bold text-sm">
+                        {{ strtoupper(substr($sale->client->full_name, 0, 2)) }}
+                    </span>
+                </div>
+                <div class="ml-4">
+                    <p class="text-sm font-semibold text-gray-900">{{ $sale->client->full_name }}</p>
+                    <p class="text-sm text-gray-500">{{ $sale->client->email }}</p>
+                </div>
+            </div>
+        </td>
+
+        <td class="px-6 py-5">
+            <div>
+                <p class="text-sm font-semibold text-gray-900">{{ $sale->car->brand }} {{ $sale->car->model }}</p>
+                <p class="text-sm text-gray-500">{{ $sale->car->year }} • {{ $sale->car->color }}</p>
+            </div>
+        </td>
+
+        <td class="px-6 py-5">
+            <p class="text-sm font-medium text-gray-700">{{ \Carbon\Carbon::parse($sale->sale_date)->translatedFormat('d F Y') }}</p>
+        </td>
+
+        <td class="px-6 py-5">
+            @if ($sale->total_amount > 0)
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                    <i class="fas fa-check-circle mr-1"></i>
+                    Paiement complet
+                </span>
+            @else
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-800 border border-amber-200">
+                    <i class="fas fa-clock mr-1"></i>
+                    En attente
+                </span>
+            @endif
+        </td>
+
+        <td class="px-6 py-5">
+            <div>
+                <p class="text-sm font-medium text-gray-700">2 ans</p>
+                <p class="text-xs text-gray-500">Jusqu’au
+                  {{ \Carbon\Carbon::parse($sale->sale_date)->addYears(2)->translatedFormat('d F Y') }}
+                </p>
+            </div>
+        </td>
+
+        <td class="px-6 py-5">
+            <p class="text-sm font-medium text-gray-700">
+              {{ \Carbon\Carbon::parse($sale->sale_date)->addMonths(10)->translatedFormat('d F Y') }}
+            </p>
+        </td>
+
+        <td class="px-6 py-5">
+            <div class="flex justify-center space-x-2">
+            </div>
+        </td>
+    </tr>
+@endforeach
+</tbody>
+
                             </table>
+                            <div class="mt-4">
+    {{ $sales->links() }}
+</div>
+
                         </div>
                     </div>
 
