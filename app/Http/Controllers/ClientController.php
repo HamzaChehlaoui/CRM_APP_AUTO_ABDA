@@ -6,6 +6,7 @@ use App\Models\Client;
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 
+
 class ClientController extends Controller
 {
     public function index()
@@ -13,15 +14,6 @@ class ClientController extends Controller
         $clients = Client::with('branch')->paginate(10);
         return view('clients.index', compact('clients'));
     }
-    public function postSaleStats()
-{
-    return response()->json([
-        'en_attente_livraison' => Client::where('post_sale_status', 'en_attente_livraison')->count(),
-        'livre' => Client::where('post_sale_status', 'livre')->count(),
-        'sav_1ere_visite' => Client::where('post_sale_status', 'sav_1ere_visite')->count(),
-        'relance' => Client::where('post_sale_status', 'relance')->count(),
-    ]);
-}
     public function create()
     {
         return view('clients.create');
