@@ -183,7 +183,7 @@ document.getElementById('branch_filter').addEventListener('change', function() {
                         </div>
                     </div>
 
-                   <!-- Summary by Post-Sale Status -->
+                    <!-- Summary by Post-Sale Status -->
                     <div class="bg-white rounded-xl shadow-card p-6">
 
                         <h3 class="text-lg font-semibold text-gray-800 mb-6">Phase Post-Vente</h3>
@@ -193,9 +193,7 @@ document.getElementById('branch_filter').addEventListener('change', function() {
                         </div>
                     </div>
 
-
-                    <!-- Recent Leads -->
-                <!-- Professional Customer Tracking Section -->
+                <!-- Suivi des Clients -->
                     <div class="bg-white rounded-xl shadow-card p-6 col-span-3">
                         <div class="flex justify-between items-center mb-8">
                             <div>
