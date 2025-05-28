@@ -185,7 +185,9 @@ document.getElementById('branch_filter').addEventListener('change', function() {
 
                    <!-- Summary by Post-Sale Status -->
                     <div class="bg-white rounded-xl shadow-card p-6">
+
                         <h3 class="text-lg font-semibold text-gray-800 mb-6">Phase Post-Vente</h3>
+
                         <div class="h-64 relative">
                             <canvas id="statusChart"></canvas>
                         </div>
@@ -442,7 +444,10 @@ let prospectsChart = new Chart(prospectsCtx, {
         }
     }
 });
-fetch('/clients/post-sale-stats')
+function fetchPostSaleStats() {
+    const branchFilter = document.getElementById('branch_filter').value;
+
+    fetch(`/clients/post-sale-stats?branch_filter=${branchFilter}`)
         .then(response => response.json())
         .then(data => {
             const labelsMap = {
@@ -472,7 +477,12 @@ fetch('/clients/post-sale-stats')
             }
 
             const statusCtx = document.getElementById('statusChart').getContext('2d');
-            new Chart(statusCtx, {
+
+            if (window.statusChartInstance) {
+                window.statusChartInstance.destroy();
+            }
+
+            window.statusChartInstance = new Chart(statusCtx, {
                 type: 'doughnut',
                 data: {
                     labels: labels,
@@ -521,13 +531,9 @@ fetch('/clients/post-sale-stats')
         .catch(error => {
             console.error("Erreur lors du chargement des données post-vente:", error);
         });
+}
+        fetchPostSaleStats();
 
-        });
- function changePeriod(period) {
-        const url = new URL(window.location.href);
-        url.searchParams.set('period', period);
-        window.location.href = url.toString();
-    }
-
+});
     </script>
 @endsection
