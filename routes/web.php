@@ -42,7 +42,7 @@ Route::prefix('')->group(function () {
     Route::view('/exporter', 'page.exporter');
 });
 
-Route::get('/clients/post-sale-stats', [ClientController::class, 'postSaleStats']);
+Route::get('/clients/post-sale-stats', [DashboardController::class, 'postSaleStats']);
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
