@@ -1,4 +1,24 @@
 <div class="rounded-lg border border-gray-200 overflow-x-auto">
+    @if(auth()->user()->role_id==1||auth()->user()->role_id==2)
+    <div class="mb-4 flex flex-wrap gap-2">
+    <button
+        wire:click="$set('selectedBranch', 'all')"
+        class="px-4 py-2 rounded-lg text-white
+               {{ $selectedBranch === 'all' ? 'bg-blue-600' : 'bg-gray-400' }}">
+            Toutes
+    </button>
+
+    @foreach($branches as $branch)
+        <button
+            wire:click="$set('selectedBranch', '{{ $branch->id }}')"
+            class="px-4 py-2 rounded-lg text-white
+                   {{ $selectedBranch == $branch->id ? 'bg-blue-600' : 'bg-gray-400' }}">
+            {{ $branch->name }}
+        </button>
+    @endforeach
+</div>
+@endif
+
                             <table class="w-full table-auto">
                                 <thead class="bg-gray-50">
                                     <tr class="text-left text-sm font-semibold text-gray-700">

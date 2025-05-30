@@ -216,7 +216,6 @@ document.getElementById('branch_filter').addEventListener('change', function() {
                 </div>
             </div>
         </div>
-
     </div>
 
  <script>
