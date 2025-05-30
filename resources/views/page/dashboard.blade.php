@@ -9,7 +9,7 @@
     <div class="flex h-screen w-screen overflow-hidden">
 
         <!-- Sidebar -->
-      <x-sidebar />
+    <x-sidebar />
 
 
         <!-- Main Content -->
