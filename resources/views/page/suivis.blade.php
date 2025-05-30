@@ -4,12 +4,10 @@
 
 @section('content')
 <body class="h-full w-full font-sans bg-gray-50">
+<div class="flex h-screen w-screen overflow-hidden">
 
-    <div class="flex h-screen w-screen overflow-hidden">
-
-          <!-- Sidebar -->
-        <x-sidebar />
-
+<!-- Sidebar -->
+        <x-sidebar/>
         <!-- Main Content -->
         <div class="flex-1 flex flex-col overflow-hidden">
             <!-- Header -->
@@ -142,129 +140,6 @@
                         </div>
                     </div>
 
-                    <!-- Follow-up Card 2 -->
-                    <div class="bg-white rounded-xl shadow-card p-4">
-                        <div class="flex">
-                            <div class="mr-4">
-                                <div class="h-12 w-12 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600">
-                                    <i class="fas fa-car"></i>
-                                </div>
-                            </div>
-                            <div class="flex-1">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <h3 class="text-lg font-medium text-gray-900">Essai routier avec Nicolas Bernard</h3>
-                                        <div class="flex items-center mt-1 text-sm text-gray-500">
-                                            <i class="fas fa-clock mr-1"></i>
-                                            <span>14:00</span>
-                                            <span class="mx-2">•</span>
-                                            <span class="px-2 py-0.5 rounded-full follow-type-test text-xs">Essai</span>
-                                            <span class="mx-2">•</span>
-                                            <span class="px-2 py-0.5 rounded-full status-interested text-xs">Intéressé</span>
-                                        </div>
-                                    </div>
-                                    <div class="flex space-x-2">
-                                        <button class="p-1 rounded-md text-gray-400 hover:text-gray-500">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="p-1 rounded-md text-gray-400 hover:text-gray-500">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div class="mt-3 bg-gray-50 p-3 rounded-md">
-                                    <p class="text-sm text-gray-600">Essai du Renault Captur Hybride. Client intéressé par les performances et la consommation.</p>
-                                </div>
-
-                                <div class="mt-4 flex justify-between items-center">
-                                    <div class="flex items-center">
-                                        <div class="h-8 w-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-medium mr-2">NB</div>
-                                        <div>
-                                            <p class="text-sm font-medium">Nicolas Bernard</p>
-                                            <p class="text-xs text-gray-500">06 78 90 12 34</p>
-                                        </div>
-                                    </div>
-                                    <div class="flex space-x-2">
-                                        <button class="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
-                                            <i class="fas fa-phone mr-1.5"></i>
-                                            Appeler
-                                        </button>
-                                        <button class="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
-                                            <i class="fas fa-envelope mr-1.5"></i>
-                                            Email
-                                        </button>
-                                        <button class="inline-flex items-center px-3 py-1.5 border border-transparent shadow-sm text-xs font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
-                                            <i class="fas fa-check mr-1.5"></i>
-                                            Terminé
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Follow-up Card 3 -->
-                    <div class="bg-white rounded-xl shadow-card p-4">
-                        <div class="flex">
-                            <div class="mr-4">
-                                <div class="h-12 w-12 rounded-full bg-green-100 flex items-center justify-center text-green-600">
-                                    <i class="fas fa-handshake"></i>
-                                </div>
-                            </div>
-                            <div class="flex-1">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <h3 class="text-lg font-medium text-gray-900">Finalisation contrat Famille Richard</h3>
-                                        <div class="flex items-center mt-1 text-sm text-gray-500">
-                                            <i class="fas fa-clock mr-1"></i>
-                                            <span>16:30</span>
-                                            <span class="mx-2">•</span>
-                                            <span class="px-2 py-0.5 rounded-full follow-type-meeting text-xs">Rendez-vous</span>
-                                            <span class="mx-2">•</span>
-                                            <span class="px-2 py-0.5 rounded-full status-interested text-xs">Intéressé</span>
-                                        </div>
-                                    </div>
-                                    <div class="flex space-x-2">
-                                        <button class="p-1 rounded-md text-gray-400 hover:text-gray-500">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="p-1 rounded-md text-gray-400 hover:text-gray-500">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div class="mt-3 bg-gray-50 p-3 rounded-md">
-                                    <p class="text-sm text-gray-600">Rendez-vous pour finaliser le contrat d'achat du Peugeot 5008. Préparer les documents de financement et d'assurance.</p>
-                                </div>
-
-                                <div class="mt-4 flex justify-between items-center">
-                                    <div class="flex items-center">
-                                        <div class="h-8 w-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-medium mr-2">ER</div>
-                                        <div>
-                                            <p class="text-sm font-medium">Émilie Richard</p>
-                                            <p class="text-xs text-gray-500">06 89 01 23 45</p>
-                                        </div>
-                                    </div>
-                                    <div class="flex space-x-2">
-                                        <button class="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
-                                            <i class="fas fa-phone mr-1.5"></i>
-                                            Appeler
-                                        </button>
-                                        <button class="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
-                                            <i class="fas fa-envelope mr-1.5"></i>
-                                            Email
-                                        </button>
-                                        <button class="inline-flex items-center px-3 py-1.5 border border-transparent shadow-sm text-xs font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
-                                            <i class="fas fa-check mr-1.5"></i>
-                                            Terminé
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
