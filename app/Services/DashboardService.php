@@ -149,6 +149,14 @@ class DashboardService
         'relance' => (clone $clientsQuery)->where('post_sale_status', 'relance')->count(),
     ];
 }
+public function getFilteredInvoices($user, $selectedBranch)
+{
+    $branchInfo = $this->resolveBranchInfo($user, $selectedBranch);
 
+    /** @var \Illuminate\Database\Eloquent\Builder $invoicesQuery */
+    $invoicesQuery = $branchInfo['invoicesQuery'];
+
+    return $invoicesQuery->with(['client', 'car']);
+}
 
 }
