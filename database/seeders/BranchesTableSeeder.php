@@ -10,7 +10,9 @@ class BranchesTableSeeder extends Seeder
     public function run(): void
     {
         DB::table('branches')->insert([
-            ['name' => 'Safi'],
+            ['name' => 'Magasin Safi'],
+            ['name' => 'Carrosserie Safi'],
+            ['name' => 'Atelier Safi'],
             ['name' => 'Essaouira'],
             ['name' => 'Sidi Bennour'],
         ]);
