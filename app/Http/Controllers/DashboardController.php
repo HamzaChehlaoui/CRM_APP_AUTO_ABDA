@@ -22,10 +22,9 @@ public function index(Request $request, DashboardService $dashboardService)
     $selectedBranch = $request->get('branch_filter', 'all');
     $period = $request->get('period', 'week');
 
-    
     // Spécifier les branches et les demandes
     $data = $dashboardService->resolveBranchInfo($user, $selectedBranch);
-        $sales = Invoice::with(['client', 'car'])->latest()->paginate(5);
+
 
     // Statistiques générales
     $stats = $dashboardService->getDashboardStats(
@@ -42,10 +41,10 @@ public function index(Request $request, DashboardService $dashboardService)
         'selectedBranch' => $selectedBranch,
         'clientsVendus' => $clientsVendus,
         'labels' => $labels,
-        'sales'=>$sales,
     ]));
 }
-  public function postSaleStats(Request $request, DashboardService $dashboardService)
+
+public function postSaleStats(Request $request, DashboardService $dashboardService)
 {
     $user = auth()->user();
     $selectedBranch = $request->get('branch_filter', 'all');
