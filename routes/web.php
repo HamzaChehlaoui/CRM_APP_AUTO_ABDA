@@ -30,17 +30,7 @@ Route::middleware(['auth', 'manager'])->group(function () {
 
     Route::post('register', [RegisteredUserController::class, 'store']);
 });
-Route::prefix('')->group(function () {
-    Route::view('/suivis', 'page.suivis');
-    Route::view('/notifications', 'page.notifications');
-    Route::get('/users', [UserController::class, 'index'])->name('users.index');
-    Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
-    Route::view('/clients', 'page.clients');
-    Route::view('/entretiens', 'page.entretiens');
-    Route::view('/reclamations', 'page.reclamations');
-    Route::view('/statistiques', 'page.statistiques');
-    Route::view('/exporter', 'page.exporter');
-});
+
 
 
 // Authenticated Routes
@@ -53,6 +43,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/clients/post-sale-stats', [DashboardController::class, 'postSaleStats']);
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::prefix('')->group(function () {
+    Route::view('/suivis', 'page.suivis');
+    Route::view('/notifications', 'page.notifications');
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+    Route::view('/clients', 'page.clients');
+    Route::view('/entretiens', 'page.entretiens');
+    Route::view('/reclamations', 'page.reclamations');
+    Route::view('/statistiques', 'page.statistiques');
+    Route::view('/exporter', 'page.exporter');
+});
 
 });
 // routes/web.php
