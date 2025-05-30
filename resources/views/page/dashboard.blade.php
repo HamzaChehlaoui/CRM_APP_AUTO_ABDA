@@ -24,10 +24,14 @@
                             @elseif(Auth::user()->role_id ==2)
                                 Tableau de Bord - Assistant Directeur
                             @elseif(Auth::user()->role_id == 3)
-                                Tableau de Bord - Employé de Safi
-                            @elseif(Auth::user()->role_id == 4)
+                                Tableau de Bord - Employé de Magasin Safi
+                            @elseif(Auth::user()->role_id==4)
+                                Tableau de Bord - Employé de Carrosserie Safi
+                            @elseif(Auth::user()->role_id==5)
+                                Tableau de Bord - Employé de Atelier Safi
+                            @elseif(Auth::user()->role_id == 6)
                                 Tableau de Bord - Employé de Essaouira
-                            @elseif(Auth::user()->role_id == 5)
+                            @elseif(Auth::user()->role_id == 7)
                                 Tableau de Bord - Employé de Sidi Bennour
                             @else
                                 Tableau de Bord
