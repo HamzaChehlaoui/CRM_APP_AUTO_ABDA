@@ -10,8 +10,6 @@
 
         <!-- Sidebar -->
     <x-sidebar />
-
-
         <!-- Main Content -->
         <div class="flex-1 flex flex-col overflow-hidden">
             <!-- Header -->
@@ -205,9 +203,9 @@ document.getElementById('branch_filter').addEventListener('change', function() {
                                 <h3 class="text-2xl font-bold text-gray-900 mb-1">Suivi des Clients</h3>
                                 <p class="text-sm text-gray-600">Gestion et suivi de la clientèle</p>
                             </div>
-                            <button class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg transition-all duration-200 shadow-sm hover:shadow-md">
+                            <a href="/suivis" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg transition-all duration-200 shadow-sm hover:shadow-md">
                                 Voir tout
-                            </button>
+                            </a>
                         </div>
 
 
