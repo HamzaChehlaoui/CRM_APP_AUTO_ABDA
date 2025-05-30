@@ -19,7 +19,7 @@
 </div>
 @endif
 
-                            <table class="w-full table-auto">
+                    <table class="w-full table-auto">
                                 <thead class="bg-gray-50">
                                     <tr class="text-left text-sm font-semibold text-gray-700">
                                         <th class="px-6 py-4 border-b border-gray-200">Client</th>
