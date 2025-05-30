@@ -12,9 +12,11 @@ class RolesTableSeeder extends Seeder
         DB::table('roles')->insert([
             ['name' => 'General Director'],
             ['name' => 'Assistant Director'],
-            ['name' => 'Branch Manager - Safi'],
-            ['name' => 'Branch Manager - Essaouira'],
-            ['name' => 'Branch Manager - Sidi Bennour'],
+            ['name' => 'Branch Magasin - Safi'],
+            ['name' => 'Branch Crrosserie - Safi'],
+            ['name' => 'Branch Atelier - Safi'],
+            ['name' => 'Branch - Essaouira'],
+            ['name' => 'Branch - Sidi Bennour'],
         ]);
     }
 }
