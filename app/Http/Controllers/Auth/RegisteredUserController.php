@@ -44,7 +44,7 @@ $branchRoleMap = [
     5 => 7, // branch_id 5 (Sidi Bennour) => role_id 7 (Branch  - Sidi Bennour)
 ];
 
-$roleId = $branchRoleMap[$request->branch_id] ?? 3;
+$roleId = $branchRoleMap[$request->branch_id] ?? 5;
 
 $user = User::create([
     'name' => $request->name,
