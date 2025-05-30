@@ -37,9 +37,11 @@ class RegisteredUserController extends Controller
     'branch_id' => ['required', 'exists:branches,id'],
 ]);
 $branchRoleMap = [
-    1 => 3, // branch_id 1 (Safi) => role_id 3 (Branch Manager - Safi)
-    2 => 4, // branch_id 2 (Essaouira) => role_id 4 (Branch Manager - Essaouira)
-    3 => 5, // branch_id 3 (Sidi Bennour) => role_id 5 (Branch Manager - Sidi Bennour)
+    1 => 3, // branch_id 1 (Safi) => role_id 3 (Branch Magasin - Safi)
+    2 => 4, // branch_id 2 (Safi) => role_id 4 (Branch Carrosserie - Safi)
+    3 => 5, // branch_id 3 (Safi) => role_id 5 (Branch Atelier - Safi)
+    4 => 6, // branch_id 4 (Essaouira) => role_id 6 (Branch  - Essaouira)
+    5 => 7, // branch_id 5 (Sidi Bennour) => role_id 7 (Branch  - Sidi Bennour)
 ];
 
 $roleId = $branchRoleMap[$request->branch_id] ?? 3;
@@ -56,6 +58,6 @@ $user = User::create([
 
 
 
-         return redirect('/register')->with('success', 'Account created successfully!');
+        return redirect('/register')->with('success', 'Account created successfully!');
     }
 }
