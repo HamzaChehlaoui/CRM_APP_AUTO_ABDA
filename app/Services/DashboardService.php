@@ -21,8 +21,12 @@ class DashboardService
 
             if ($selectedBranch !== 'all') {
                 $clientsQuery->where('branch_id', $selectedBranch);
-                $suivisQuery->where('branch_id', $selectedBranch);
-                $invoicesQuery->where('branch_id', $selectedBranch);
+                 $suivisQuery->whereHas('client', function ($query) use ($selectedBranch) {
+                    $query->where('branch_id', $selectedBranch);
+                });
+                $invoicesQuery->whereHas('client', function ($query) use ($selectedBranch) {
+                    $query->where('branch_id', $selectedBranch);
+                });
             }
 
             return [
