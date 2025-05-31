@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Suivi extends Model
 {
     protected $fillable = [
-        'client_id', 'user_id', 'note', 'status', 'date_suivi'
+        'client_id', 'user_id', 'note', 'status', 'date_suivi' , 'branch_id'
     ];
 
     public function client(): BelongsTo
@@ -20,4 +20,6 @@ class Suivi extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+
 }
