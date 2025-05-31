@@ -17,8 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
             $table->text('description');
             $table->enum('status', ['nouvelle', 'en_cours', 'résolue'])->default('nouvelle');
-             $table->foreignId('branch_id')->constrained('branches')->onDelete('cascade')->comment('Agence / Succursale');
-        $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->comment('Utilisateur qui a enregistré le client');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->comment('Utilisateur qui a enregistré le client');
 
             $table->timestamps();
         });
