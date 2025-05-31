@@ -39,14 +39,12 @@
                 <!-- Calendar Navigation -->
                 <div class="flex justify-between items-center mb-6">
                     <div class="flex items-center space-x-4">
-                        <button class="p-2 rounded-md border border-gray-200 bg-white text-gray-500 hover:bg-gray-50">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <h2 class="text-xl font-semibold">21 Mai 2025</h2>
-                        <button class="p-2 rounded-md border border-gray-200 bg-white text-gray-500 hover:bg-gray-50">
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                    </div>
+    <button class="p-2 rounded-md border border-gray-200 bg-white text-gray-500 hover:bg-gray-50" title="Afficher la liste des branches">
+        <i class="fas fa-chevron-down"></i>
+    </button>
+    <h2 class="text-xl font-semibold">Filtrer par branche</h2>
+
+</div>
                     @if(auth()->user()->role_id!=1 && auth()->user()->role_id!=2)
                     <div class="flex space-x-2">
                         <button class="flex items-center justify-center space-x-2 rounded-md bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
@@ -60,21 +58,16 @@
                 <!-- Tabs -->
                 <div class="border-b border-gray-200 mb-6">
                     <nav class="-mb-px flex space-x-8">
-                        <a href="#" class="whitespace-nowrap py-4 px-1 border-b-2 border-primary-500 font-medium text-sm text-primary-600">
-                            Tous
-                        </a>
-                        <a href="#" class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300">
-                            Appels
-                        </a>
-                        <a href="#" class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300">
-                            Emails
-                        </a>
-                        <a href="#" class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300">
-                            Rendez-vous
-                        </a>
-                        <a href="#" class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300">
-                            Essais
-                        </a>
+                        <form method="GET" action="{{ route('page.suivis') }}" class="mb-4">
+    <select name="branch" onchange="this.form.submit()" class="border rounded p-2">
+        <option value="all" {{ $selectedBranch == 'all' ? 'selected' : '' }}>all</option>
+        @foreach($branches as $branch)
+            <option value="{{ $branch->id }}" {{ $selectedBranch == $branch->id ? 'selected' : '' }}>
+                {{ $branch->name }}
+            </option>
+        @endforeach
+    </select>
+</form>
                     </nav>
                 </div>
 
@@ -130,6 +123,8 @@
                             </div>
                         </div>
                         </div>
+                        <p><strong>Branche:</strong> {{ $suivi->client->branch->name ?? ' indéfini' }}</p>
+
                         <div class="flex space-x-2">
                             <button class="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
                                 <i class="fas fa-phone mr-1.5"></i>
