@@ -23,7 +23,7 @@ class SuiviSeeder extends Seeder
                 'note' => $faker->sentence(),
                 'status' => $faker->randomElement(['en_cours', 'termine', 'annule']),
                 'date_suivi' => $faker->dateTimeBetween('-1 year', 'now'),
-                'branch_id'=>1,
+            
             ]);
         }
     }
