@@ -18,8 +18,7 @@ return new class extends Migration
             $table->text('note');
             $table->enum('status', ['en_cours', 'termine', 'annule'])->default('en_cours');
             $table->date('date_suivi');
-            $table->foreignId('branch_id')->constrained('branches')->onDelete('cascade')->comment('Agence / Succursale');
-        $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->comment('Utilisateur qui a enregistré le client');
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->comment('Utilisateur qui a enregistré le client');
 
             $table->timestamps();
         });
