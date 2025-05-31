@@ -49,18 +49,11 @@
                     @endif
                 </div>
 
-                <!-- Tabs -->
-                 @if(auth()->user()->role_id==1 && auth()->user()->role_id==2)
-                           <div class="flex items-center space-x-4">
-    <button class="p-2 rounded-md border border-gray-200 bg-white text-gray-500 hover:bg-gray-50" title="Afficher la liste des branches">
-        <i class="fas fa-chevron-down"></i>
-    </button>
-    <h2 class="text-xl font-semibold">Filtrer par branche</h2>
-
-</div>
-                <div class="border-b border-gray-200 mb-6">
-                    <nav class="-mb-px flex space-x-8">
-                        <form method="GET" action="{{ route('page.suivis') }}" class="mb-4">
+                <!-- filter -->
+              @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
+<div class="mb-6">
+    <div class="bg-white rounded-xl shadow-card p-4">
+       <form method="GET" action="{{ route('page.suivis') }}" class="mb-4">
     <select name="branch" onchange="this.form.submit()" class="border rounded p-2">
         <option value="all" {{ $selectedBranch == 'all' ? 'selected' : '' }}>all</option>
         @foreach($branches as $branch)
@@ -70,9 +63,15 @@
         @endforeach
     </select>
 </form>
-                    </nav>
-                </div>
- @endif
+    </div>
+</div>
+
+<script>
+document.getElementById('branch_filter').addEventListener('change', function() {
+    document.getElementById('loading-indicator').classList.remove('hidden');
+});
+</script>
+@endif
                 <!-- Follow-ups List -->
                 <div class="space-y-4">
 <!-- Follow-up Cards Container -->

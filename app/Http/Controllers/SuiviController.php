@@ -6,25 +6,28 @@ use App\Http\Requests\StoreSuiviRequest;
 use App\Http\Requests\UpdateSuiviRequest;
 use App\Models\Branch;
 use Illuminate\Http\Request;
+use App\Services\DashboardService;
 
 class SuiviController extends Controller
 {
-public function index(Request $request)
+public function index(Request $request ,DashboardService $dashboardService)
 {
     $selectedBranch = $request->input('branch', 'all');
+    $user = auth()->user();
 
-    $suivis = Suivi::with('client.branch', 'user')
-        ->whereHas('client', function ($query) use ($selectedBranch) {
-            if ($selectedBranch !== 'all') {
-                $query->where('branch_id', $selectedBranch);
-            }
-        })
+    $data = $dashboardService->resolveBranchInfo($user, $selectedBranch);
+
+    $suivis = $data['suivisQuery']
+        ->with('client.branch', 'user')
         ->paginate(5);
 
-    $branches = Branch::all();
-
-    return view('page.suivis', compact('suivis', 'branches', 'selectedBranch'));
+    return view('page.suivis', [
+        'suivis' => $suivis,
+        'branches' => $data['branches'],
+        'selectedBranch' => $selectedBranch
+    ]);
 }
+
 
 
     public function create()
