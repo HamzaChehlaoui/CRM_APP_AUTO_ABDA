@@ -20,7 +20,6 @@ class NotificationSeeder extends Seeder
                 'title' => $faker->sentence(4),
                 'content' => $faker->paragraph(),
                 'is_read' => $faker->boolean(),
-                'branch_id'=>1,
             ]);
         }
     }
