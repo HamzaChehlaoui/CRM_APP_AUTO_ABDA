@@ -27,7 +27,6 @@ return new class extends Migration
             $table->foreignId('client_id')->constrained('clients')->onDelete('cascade')->comment('Client');
             $table->foreignId('car_id')->constrained('cars')->onDelete('cascade')->comment('Véhicule');
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null')->comment('Utilisateur qui a créé la facture');
-            $table->foreignId('branch_id')->constrained('branches')->onDelete('cascade')->comment('Agence / Succursale');
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->comment('Utilisateur qui a enregistré le client');
 
             $table->timestamps();
