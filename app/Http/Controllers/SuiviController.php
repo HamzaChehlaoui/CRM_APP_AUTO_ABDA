@@ -1,18 +1,21 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Suivi;
 use App\Http\Requests\StoreSuiviRequest;
 use App\Http\Requests\UpdateSuiviRequest;
 
 class SuiviController extends Controller
 {
-    public function index()
-    {
-        $suivis = Suivi::with('client', 'user')->paginate(10);
-        return view('suivis.index', compact('suivis'));
-    }
+   public function index()
+{
+    $suivis = Suivi::with('client', 'user')
+                ->whereHas('client') 
+                ->paginate(5);
+
+    return view('page.suivis', compact('suivis'));
+}
+
 
     public function create()
     {
