@@ -33,8 +33,6 @@ class InvoiceSeeder extends Seeder
                 'client_id' => $faker->randomElement($clients),
                 'car_id' => $faker->randomElement($cars),
                 'user_id' => $faker->randomElement($users),
-                'branch_id' => $faker->randomElement($branches),
-                'branch_id'=>2,
             ]);
         }
     }
