@@ -4,16 +4,26 @@ namespace App\Http\Controllers;
 use App\Models\Suivi;
 use App\Http\Requests\StoreSuiviRequest;
 use App\Http\Requests\UpdateSuiviRequest;
+use App\Models\Branch;
+use Illuminate\Http\Request;
 
 class SuiviController extends Controller
 {
-   public function index()
+public function index(Request $request)
 {
-    $suivis = Suivi::with('client', 'user')
-                ->whereHas('client') 
-                ->paginate(5);
+    $selectedBranch = $request->input('branch', 'all');
 
-    return view('page.suivis', compact('suivis'));
+    $suivis = Suivi::with('client.branch', 'user')
+        ->whereHas('client', function ($query) use ($selectedBranch) {
+            if ($selectedBranch !== 'all') {
+                $query->where('branch_id', $selectedBranch);
+            }
+        })
+        ->paginate(5);
+
+    $branches = Branch::all();
+
+    return view('page.suivis', compact('suivis', 'branches', 'selectedBranch'));
 }
 
 
