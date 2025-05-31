@@ -38,13 +38,7 @@
             <div class="flex-1 p-6 overflow-y-auto">
                 <!-- Calendar Navigation -->
                 <div class="flex justify-between items-center mb-6">
-                    <div class="flex items-center space-x-4">
-    <button class="p-2 rounded-md border border-gray-200 bg-white text-gray-500 hover:bg-gray-50" title="Afficher la liste des branches">
-        <i class="fas fa-chevron-down"></i>
-    </button>
-    <h2 class="text-xl font-semibold">Filtrer par branche</h2>
 
-</div>
                     @if(auth()->user()->role_id!=1 && auth()->user()->role_id!=2)
                     <div class="flex space-x-2">
                         <button class="flex items-center justify-center space-x-2 rounded-md bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
@@ -56,6 +50,14 @@
                 </div>
 
                 <!-- Tabs -->
+                 @if(auth()->user()->role_id==1 && auth()->user()->role_id==2)
+                           <div class="flex items-center space-x-4">
+    <button class="p-2 rounded-md border border-gray-200 bg-white text-gray-500 hover:bg-gray-50" title="Afficher la liste des branches">
+        <i class="fas fa-chevron-down"></i>
+    </button>
+    <h2 class="text-xl font-semibold">Filtrer par branche</h2>
+
+</div>
                 <div class="border-b border-gray-200 mb-6">
                     <nav class="-mb-px flex space-x-8">
                         <form method="GET" action="{{ route('page.suivis') }}" class="mb-4">
@@ -70,7 +72,7 @@
 </form>
                     </nav>
                 </div>
-
+ @endif
                 <!-- Follow-ups List -->
                 <div class="space-y-4">
 <!-- Follow-up Cards Container -->

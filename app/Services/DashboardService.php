@@ -12,40 +12,49 @@ use Illuminate\Support\Facades\Auth;
 
 class DashboardService
 {
-    public function resolveBranchInfo($user, $selectedBranch): array
-    {
-        if ($user->role_id == 1 || $user->role_id == 2) {
-            $clientsQuery = Client::query();
-            $suivisQuery = Suivi::query();
-            $invoicesQuery = Invoice::query();
+     public function resolveBranchInfo($user, $selectedBranch): array
+{
+    if ($user->role_id == 1 || $user->role_id == 2) {
+        $clientsQuery = Client::query();
+        $suivisQuery = Suivi::query();
+        $invoicesQuery = Invoice::query();
 
-            if ($selectedBranch !== 'all') {
-                $clientsQuery->where('branch_id', $selectedBranch);
-                 $suivisQuery->whereHas('client', function ($query) use ($selectedBranch) {
-                    $query->where('branch_id', $selectedBranch);
-                });
-                $invoicesQuery->whereHas('client', function ($query) use ($selectedBranch) {
-                    $query->where('branch_id', $selectedBranch);
-                });
-            }
+        if ($selectedBranch !== 'all') {
+            $clientsQuery->where('branch_id', $selectedBranch);
 
-            return [
-                'clientsQuery' => $clientsQuery,
-                'suivisQuery' => $suivisQuery,
-                'invoicesQuery' => $invoicesQuery,
-                'branches' => Branch::all()
-            ];
+            $suivisQuery->whereHas('client', function ($query) use ($selectedBranch) {
+                $query->where('branch_id', $selectedBranch);
+            });
+
+            $invoicesQuery->whereHas('client', function ($query) use ($selectedBranch) {
+                $query->where('branch_id', $selectedBranch);
+            });
         }
 
-        $branchId = $user->branch_id;
-
         return [
-            'clientsQuery' => Client::where('branch_id', $branchId),
-            'suivisQuery' => Suivi::where('branch_id', $branchId),
-            'invoicesQuery' => Invoice::where('branch_id', $branchId),
-            'branches' => collect()
+            'clientsQuery' => $clientsQuery,
+            'suivisQuery' => $suivisQuery,
+            'invoicesQuery' => $invoicesQuery,
+            'branches' => Branch::all()
         ];
     }
+
+    $branchId = $user->branch_id;
+
+    return [
+        'clientsQuery' => Client::where('branch_id', $branchId),
+
+        'suivisQuery' => Suivi::whereHas('client', function ($query) use ($branchId) {
+            $query->where('branch_id', $branchId);
+        }),
+
+        'invoicesQuery' => Invoice::whereHas('client', function ($query) use ($branchId) {
+            $query->where('branch_id', $branchId);
+        }),
+
+        'branches' => collect()
+    ];
+}
 
     public function calculatePercentageChange($current, $previous): string
     {
