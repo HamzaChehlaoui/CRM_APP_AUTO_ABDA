@@ -1,102 +1,79 @@
-<div class="rounded-lg border border-gray-200 overflow-x-auto">
-    @if(auth()->user()->role_id==1||auth()->user()->role_id==2)
-    <div class="mb-4 flex flex-wrap gap-2">
-    <button
-        wire:click="$set('selectedBranch', 'all')"
-        class="px-4 py-2 rounded-lg text-white
-               {{ $selectedBranch === 'all' ? 'bg-blue-600' : 'bg-gray-400' }}">
-            Toutes
-    </button>
+ <!-- Follow-ups List -->
+                <div class="space-y-4">
+<!-- Follow-up Cards Container -->
+<div class="bg-white rounded-xl shadow-card p-4">
+    <div class="flex flex-col space-y-4">
+        @foreach($suivis as $suivi)
+            <div class="flex p-4 border rounded-md bg-white shadow-sm">
+                <div class="mr-4">
+<div class="h-12 w-12 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-medium mr-2"> {{ strtoupper(substr($suivi->client->full_name, 0, 2)) }}</div>
 
-    @foreach($branches as $branch)
-        <button
-            wire:click="$set('selectedBranch', '{{ $branch->id }}')"
-            class="px-4 py-2 rounded-lg text-white
-                   {{ $selectedBranch == $branch->id ? 'bg-blue-600' : 'bg-gray-400' }}">
-            {{ $branch->name }}
-        </button>
-    @endforeach
-</div>
-@endif
+                </div>
+                <div class="flex-1">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="text-lg font-medium text-gray-900">{{$suivi->client->full_name}}</h3>
+                            <div class="flex items-center mt-1 text-sm text-gray-500">
+                                <i class="fas fa-clock mr-1"></i>
+                                <span>{{$suivi->date_suivi}}</span>
+                                <span class="px-2 py-0.5 rounded-full follow-type-call text-xs"></span>
 
-                    <table class="w-full table-auto">
-                                <thead class="bg-gray-50">
-                                    <tr class="text-left text-sm font-semibold text-gray-700">
-                                        <th class="px-6 py-4 border-b border-gray-200">Client</th>
-                                        <th class="px-6 py-4 border-b border-gray-200">Véhicule</th>
-                                        <th class="px-6 py-4 border-b border-gray-200">Date de vente</th>
-                                        <th class="px-6 py-4 border-b border-gray-200">Statut du paiement</th>
-                                        <th class="px-6 py-4 border-b border-gray-200">Durée de la garantie</th>
-                                        <th class="px-6 py-4 border-b border-gray-200">Dernier entretien</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="bg-white divide-y divide-gray-100">
-                                        @foreach ($sales as $sale)
-                                            <tr class="hover:bg-gray-50 transition-colors duration-200">
-                                                <td class="px-6 py-5">
-                                                    <div class="flex items-center">
-                                                        <div class="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center">
-                                                            <span class="text-blue-700 font-bold text-sm">
-                                                                {{ strtoupper(substr($sale->client->full_name, 0, 2)) }}
-                                                            </span>
-                                                        </div>
-                                                        <div class="ml-4">
-                                                            <p class="text-sm font-semibold text-gray-900">{{ $sale->client->full_name }}</p>
-                                                            <p class="text-sm text-gray-500">{{ $sale->client->email }}</p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-
-                                                <td class="px-6 py-5">
-                                                    <div>
-                                                        <p class="text-sm font-semibold text-gray-900">{{ $sale->car->brand }} {{ $sale->car->model }}</p>
-                                                        <p class="text-sm text-gray-500">{{ $sale->car->year }} • {{ $sale->car->color }}</p>
-                                                    </div>
-                                                </td>
-
-                                                <td class="px-6 py-5">
-                                                    <p class="text-sm font-medium text-gray-700">{{ \Carbon\Carbon::parse($sale->sale_date)->translatedFormat('d F Y') }}</p>
-                                                </td>
-
-                                                <td class="px-6 py-5">
-                                                    @if ($sale->total_amount > 0)
-                                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200">
-                                                            <i class="fas fa-check-circle mr-1"></i>
-                                                            Paiement complet
-                                                        </span>
-                                                    @else
-                                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-800 border border-amber-200">
-                                                            <i class="fas fa-clock mr-1"></i>
-                                                            En attente
-                                                        </span>
-                                                    @endif
-                                                </td>
-
-                                                <td class="px-6 py-5">
-                                                    <div>
-                                                        <p class="text-sm font-medium text-gray-700">2 ans</p>
-                                                        <p class="text-xs text-gray-500">Jusqu’au
-                                                        {{ \Carbon\Carbon::parse($sale->sale_date)->addYears(2)->translatedFormat('d F Y') }}
-                                                        </p>
-                                                    </div>
-                                                </td>
-
-                                                <td class="px-6 py-5">
-                                                    <p class="text-sm font-medium text-gray-700">
-                                                    {{ \Carbon\Carbon::parse($sale->sale_date)->addMonths(10)->translatedFormat('d F Y') }}
-                                                    </p>
-                                                </td>
-
-                                                <td class="px-6 py-5">
-                                                    <div class="flex justify-center space-x-2">
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                </tbody>
-
-                            </table>
-                            <div class="mt-4">
-                                {{ $sales->links() }}
+                                <span class="px-2 py-0.5 rounded-full status-interested text-xs">{{$suivi->status}}</span>
                             </div>
                         </div>
+                        <div class="flex space-x-2">
+                            <button class="p-1 rounded-md text-gray-400 hover:text-gray-500 edit-suivi-btn" data-suivi-id="{{$suivi->id}}">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="p-1 rounded-md text-gray-400 hover:text-gray-500 delete-suivi-btn" data-suivi-id="{{$suivi->id}}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="mt-3 bg-gray-50 p-3 rounded-md">
+                        <p class="text-sm text-gray-600">{{$suivi->note}}</p>
+                    </div>
+
+                    <div class="mt-4 flex justify-between items-center">
+                        <div class="flex gap-2">
+                        <div class="flex items-center">
+                        <i class="fas fa-phone mr-1.5"></i>
+                                <div class="m-1">
+                                <p class="text-xs text-gray-500">{{$suivi->client->phone}}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                        <i class="fas fa-envelope mr-1.5"></i>
+                                <div class="m-1">
+                                <p class="text-xs text-gray-500">{{$suivi->client->email}}</p>
+                            </div>
+                        </div>
+                        </div>
+                        <p><strong>Branche:</strong> {{ $suivi->client->branch->name ?? ' indéfini' }}</p>
+
+                        <div class="flex space-x-2">
+                            <button class="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50" onclick="window.open('tel:{{$suivi->client->phone}}')">
+                                <i class="fas fa-phone mr-1.5"></i>
+                                Appeler
+                            </button>
+                            <button class="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50" onclick="window.open('mailto:{{$suivi->client->email}}')">
+                                <i class="fas fa-envelope mr-1.5"></i>
+                                Email
+                            </button>
+                            <button class="inline-flex items-center px-3 py-1.5 border border-transparent shadow-sm text-xs font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 complete-suivi-btn" data-suivi-id="{{$suivi->id}}">
+                                <i class="fas fa-check mr-1.5"></i>
+                                Terminé
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+        <div class="mt-4">
+            {{$suivis->links()}}
+        </div>
+    </div>
+</div>
+
+                </div>
