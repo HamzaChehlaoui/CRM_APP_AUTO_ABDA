@@ -209,7 +209,7 @@ document.getElementById('branch_filter').addEventListener('change', function() {
                         </div>
 
 
-                        @livewire('sales-table')
+                        
 
 
                     </div>
