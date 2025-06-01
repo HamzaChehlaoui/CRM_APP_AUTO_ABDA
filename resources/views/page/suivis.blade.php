@@ -36,12 +36,17 @@
 
             <!-- Main Content Area -->
             <div class="flex-1 p-6 overflow-y-auto">
+                @if(session('success'))
+    <div class="mb-4 p-4 bg-green-100 border border-green-300 text-green-800 rounded-md">
+        {{ session('success') }}
+    </div>
+@endif
                 <!-- Calendar Navigation -->
                 <div class="flex justify-between items-center mb-6">
 
                     @if(auth()->user()->role_id!=1 && auth()->user()->role_id!=2)
                     <div class="flex space-x-2">
-                        <button class="flex items-center justify-center space-x-2 rounded-md bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
+                        <button id="nouveauSuiviBtn" class="flex items-center justify-center space-x-2 rounded-md bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
                             <i class="fas fa-plus"></i>
                             <span>Nouveau Suivi</span>
                         </button>
@@ -72,88 +77,225 @@ document.getElementById('branch_filter').addEventListener('change', function() {
 });
 </script>
 @endif
-                <!-- Follow-ups List -->
-                <div class="space-y-4">
-<!-- Follow-up Cards Container -->
-<div class="bg-white rounded-xl shadow-card p-4">
-    <div class="flex flex-col space-y-4">
-        @foreach($suivis as $suivi)
-            <div class="flex p-4 border rounded-md bg-white shadow-sm">
-                <div class="mr-4">
-<div class="h-12 w-12 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-medium mr-2"> {{ strtoupper(substr($suivi->client->full_name, 0, 2)) }}</div>
-
-                </div>
-                <div class="flex-1">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h3 class="text-lg font-medium text-gray-900">{{$suivi->client->full_name}}</h3>
-                            <div class="flex items-center mt-1 text-sm text-gray-500">
-                                <i class="fas fa-clock mr-1"></i>
-                                <span>{{$suivi->date_suivi}}</span>
-                                <span class="px-2 py-0.5 rounded-full follow-type-call text-xs"></span>
-
-                                <span class="px-2 py-0.5 rounded-full status-interested text-xs">{{$suivi->status}}</span>
-                            </div>
-                        </div>
-                        <div class="flex space-x-2">
-                            <button class="p-1 rounded-md text-gray-400 hover:text-gray-500">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="p-1 rounded-md text-gray-400 hover:text-gray-500">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="mt-3 bg-gray-50 p-3 rounded-md">
-                        <p class="text-sm text-gray-600">{{$suivi->note}}</p>
-                    </div>
-
-                    <div class="mt-4 flex justify-between items-center">
-                        <div class="flex gap-2">
-                        <div class="flex items-center">
-                        <i class="fas fa-phone mr-1.5"></i>
-                                <div class="m-1">
-                                <p class="text-xs text-gray-500">{{$suivi->client->phone}}</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center">
-                        <i class="fas fa-envelope mr-1.5"></i>
-                                <div class="m-1">
-                                <p class="text-xs text-gray-500">{{$suivi->client->email}}</p>
-                            </div>
-                        </div>
-                        </div>
-                        <p><strong>Branche:</strong> {{ $suivi->client->branch->name ?? ' indéfini' }}</p>
-
-                        <div class="flex space-x-2">
-                            <button class="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-                                <i class="fas fa-phone mr-1.5"></i>
-                                Appeler
-                            </button>
-                            <button class="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-                                <i class="fas fa-envelope mr-1.5"></i>
-                                Email
-                            </button>
-                            <button class="inline-flex items-center px-3 py-1.5 border border-transparent shadow-sm text-xs font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700">
-                                <i class="fas fa-check mr-1.5"></i>
-                                Terminé
-                            </button>
-                        </div>
-                    </div>
-                </div>
+               @livewire('sales-table')
             </div>
-        @endforeach
-        <div class="mt-4">
-            {{$suivis->links()}}
+        </div>
+    </div>
+
+    <!-- Nouveau Suivi Modal -->
+<div id="nouveauSuiviModal" class="fixed inset-0 z-50 hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <!-- Background overlay -->
+        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+
+        <!-- Center the modal -->
+        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+        <!-- Modal panel -->
+        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+            <form id="nouveauSuiviForm" action="{{ route('suivis.store') }}" method="POST">
+                @csrf
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4" id="modal-title">
+                                <i class="fas fa-plus mr-2 text-primary-600"></i>
+                                Nouveau Suivi
+                            </h3>
+
+                            <div class="space-y-4">
+                                <!-- Client Selection -->
+                                <div>
+                                    <label for="client_id" class="block text-sm font-medium text-gray-700 mb-1">
+                                        Client <span class="text-red-500">*</span>
+                                    </label>
+                                    <select id="client_id" name="client_id" required class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                                        <option value="">Sélectionner un client</option>
+                                        @foreach($clients as $client)
+                                            <option value="{{ $client->id }}">{{ $client->full_name }} - {{ $client->phone }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <!-- Follow-up Date -->
+                                <div>
+                                    <label for="date" class="block text-sm font-medium text-gray-700 mb-1">
+                                        Date de Suivi <span class="text-red-500">*</span>
+                                    </label>
+                                    <input type="date" id="date" name="date_suivi" required
+                                           class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                                </div>
+
+                                <!-- Status -->
+                                <div>
+                                    <label for="status" class="block text-sm font-medium text-gray-700 mb-1">
+                                        Statut
+                                    </label>
+                                    <select id="status" name="status" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                                        <option value="en_cours" selected>En Cours</option>
+                                        <option value="termine">Terminé</option>
+                                        <option value="annule">Annulé</option>
+                                    </select>
+                                </div>
+
+                                <!-- Notes -->
+                                <div>
+                                    <label for="note" class="block text-sm font-medium text-gray-700 mb-1">
+                                        Notes <span class="text-red-500">*</span>
+                                    </label>
+                                    <textarea id="note" name="note" rows="4" required
+                                              placeholder="Ajouter des notes sur ce suivi..."
+                                              class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 resize-none"></textarea>
+                                </div>
+
+                                <!-- Hidden fields -->
+                                <input type="hidden" name="user_id" value="{{ auth()->id() }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-primary-600 text-base font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 sm:ml-3 sm:w-auto sm:text-sm">
+                        <i class="fas fa-save mr-2"></i>
+                        Créer le Suivi
+                    </button>
+                    <button type="button" id="cancelModalBtn" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                        Annuler
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
-                </div>
-            </div>
-        </div>
-    </div>
+<!-- JavaScript -->
+<script>
+// Modal Functions
+function openNouveauSuiviModal() {
+    console.log('Opening modal...');
+    document.getElementById('nouveauSuiviModal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+
+    // Set default date to current date
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const formattedDate = `${year}-${month}-${day}`;
+    document.getElementById('date').value = formattedDate;
+}
+
+function closeNouveauSuiviModal() {
+    console.log('Closing modal...');
+    document.getElementById('nouveauSuiviModal').classList.add('hidden');
+    document.body.style.overflow = 'auto';
+    document.getElementById('nouveauSuiviForm').reset();
+}
+
+// Event Listeners
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM Content Loaded');
+
+    // Nouveau Suivi Button
+    const nouveauSuiviButton = document.getElementById('nouveauSuiviBtn');
+    if (nouveauSuiviButton) {
+        console.log('Nouveau Suivi button found');
+        nouveauSuiviButton.addEventListener('click', function(e) {
+            console.log('Nouveau Suivi button clicked');
+            e.preventDefault();
+            openNouveauSuiviModal();
+        });
+    } else {
+        console.log('Nouveau Suivi button not found');
+    }
+
+    // Cancel Modal Button
+    const cancelBtn = document.getElementById('cancelModalBtn');
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            closeNouveauSuiviModal();
+        });
+    }
+
+    // Close modal when clicking outside
+    const modal = document.getElementById('nouveauSuiviModal');
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeNouveauSuiviModal();
+            }
+        });
+    }
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            const modal = document.getElementById('nouveauSuiviModal');
+            if (modal && !modal.classList.contains('hidden')) {
+                closeNouveauSuiviModal();
+            }
+        }
+    });
+
+    // Form submission handling
+    const form = document.getElementById('nouveauSuiviForm');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            console.log('Form submitted');
+            // Add any form validation here if needed
+        });
+    }
+
+    // Edit buttons
+    const editButtons = document.querySelectorAll('.edit-suivi-btn');
+    editButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const suiviId = this.getAttribute('data-suivi-id');
+            console.log('Edit suivi:', suiviId);
+            // Add edit functionality here
+        });
+    });
+
+    // Delete buttons
+    const deleteButtons = document.querySelectorAll('.delete-suivi-btn');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const suiviId = this.getAttribute('data-suivi-id');
+            if (confirm('Êtes-vous sûr de vouloir supprimer ce suivi?')) {
+                console.log('Delete suivi:', suiviId);
+                // Add delete functionality here
+            }
+        });
+    });
+
+    // Complete buttons
+    const completeButtons = document.querySelectorAll('.complete-suivi-btn');
+    completeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const suiviId = this.getAttribute('data-suivi-id');
+            if (confirm('Marquer ce suivi comme terminé?')) {
+                console.log('Complete suivi:', suiviId);
+                // Add complete functionality here
+            }
+        });
+    });
+});
+
+// Branch filter script (if needed)
+const branchFilter = document.getElementById('branch_filter');
+if (branchFilter) {
+    branchFilter.addEventListener('change', function() {
+        const loadingIndicator = document.getElementById('loading-indicator');
+        if (loadingIndicator) {
+            loadingIndicator.classList.remove('hidden');
+        }
+    });
+}
+</script>
+
 </body>
+<script src="{{ asset('js/suivis.js') }}" defer></script>
 @endsection
-</html>
