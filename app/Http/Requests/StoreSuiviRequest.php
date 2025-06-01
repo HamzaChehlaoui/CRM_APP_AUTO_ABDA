@@ -12,7 +12,7 @@ class StoreSuiviRequest extends FormRequest
             'client_id' => 'required|exists:clients,id',
             'user_id' => 'nullable|exists:users,id',
             'note' => 'required|string',
-            'date' => 'required|date',
+            'date_suivi' => 'required|date',
         ];
     }
 }
