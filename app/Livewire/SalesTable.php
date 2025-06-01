@@ -1,7 +1,10 @@
 <?php
+
 namespace App\Livewire;
+
 use Livewire\Component;
 use Livewire\WithPagination;
+use App\Models\Client;
 use App\Services\DashboardService;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,28 +14,29 @@ class SalesTable extends Component
 
     public $selectedBranch = 'all';
 
-    protected $paginationTheme = 'tailwind';
-
-    protected DashboardService $branchInfoService;
-
-    // Constructor Injection
-    public function boot(DashboardService $branchInfoService)
+    public function updatedSelectedBranch()
     {
-        $this->branchInfoService = $branchInfoService;
+        $this->resetPage();
     }
 
     public function render()
     {
         $user = Auth::user();
 
-        $branchInfo = $this->branchInfoService->resolveBranchInfo($user, $this->selectedBranch);
+        $dashboardService = app(DashboardService::class);
 
-        $sales = $branchInfo['invoicesQuery']->paginate(5);
+        $data = $dashboardService->resolveBranchInfo($user, $this->selectedBranch);
+
+        $suivis = $data['suivisQuery']
+            ->with('client.branch', 'user')
+            ->paginate(5);
+
+        $clients = $data['clientsQuery'] ?? Client::where('branch_id', $data['branchId'])->get();
 
         return view('livewire.sales-table', [
-            'sales' => $sales,
-            'branches' => $branchInfo['branches'],
+            'suivis' => $suivis,
+            'branches' => $data['branches'],
+            'clients' => $clients,
         ]);
     }
 }
-
