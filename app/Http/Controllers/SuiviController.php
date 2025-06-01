@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateSuiviRequest;
 use App\Models\Branch;
 use Illuminate\Http\Request;
 use App\Services\DashboardService;
+use App\Models\Client;
 
 class SuiviController extends Controller
 {
@@ -17,15 +18,14 @@ public function index(Request $request ,DashboardService $dashboardService)
 
     $data = $dashboardService->resolveBranchInfo($user, $selectedBranch);
 
-    $suivis = $data['suivisQuery']
-        ->with('client.branch', 'user')
-        ->paginate(5);
 
-    return view('page.suivis', [
-        'suivis' => $suivis,
-        'branches' => $data['branches'],
-        'selectedBranch' => $selectedBranch
-    ]);
+
+$clients = ($data['clientsQuery'] ?? Client::where('branch_id', $data['branchId']))->get();
+return view('page.suivis', [
+    'branches' => $data['branches'],
+    'selectedBranch' => $selectedBranch,
+    'clients' => $clients // Add this
+]);
 }
 
 
@@ -36,10 +36,13 @@ public function index(Request $request ,DashboardService $dashboardService)
     }
 
     public function store(StoreSuiviRequest $request)
-    {
-        Suivi::create($request->validated());
-        return redirect()->route('suivis.index')->with('success', 'Suivi created successfully.');
-    }
+{
+    $data = $request->validated();
+    $data['created_by'] = auth()->id(); // Add this if you want to track who created it
+
+    Suivi::create($data);
+    return redirect()->route('page.suivis')->with('success', 'Suivi created successfully.');
+}
 
     public function show(Suivi $suivi)
     {
