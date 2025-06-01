@@ -54,29 +54,7 @@
                     @endif
                 </div>
 
-                <!-- filter -->
-              @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
-<div class="mb-6">
-    <div class="bg-white rounded-xl shadow-card p-4">
-       <form method="GET" action="{{ route('page.suivis') }}" class="mb-4">
-    <select name="branch" onchange="this.form.submit()" class="border rounded p-2">
-        <option value="all" {{ $selectedBranch == 'all' ? 'selected' : '' }}>all</option>
-        @foreach($branches as $branch)
-            <option value="{{ $branch->id }}" {{ $selectedBranch == $branch->id ? 'selected' : '' }}>
-                {{ $branch->name }}
-            </option>
-        @endforeach
-    </select>
-</form>
-    </div>
-</div>
-
-<script>
-document.getElementById('branch_filter').addEventListener('change', function() {
-    document.getElementById('loading-indicator').classList.remove('hidden');
-});
-</script>
-@endif
+                
                @livewire('sales-table')
             </div>
         </div>
