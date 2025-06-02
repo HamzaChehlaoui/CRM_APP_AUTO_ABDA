@@ -40,39 +40,15 @@
             <div class="flex-1 p-6 overflow-y-auto">
 
                 <!-- Filters and Actions -->
-                <div class="flex flex-col md:flex-row md:items-center justify-between mb-6 space-y-4 md:space-y-0">
-                    <div class="flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
-                        <div class="relative w-full sm:w-64">
-                            <input type="text" placeholder="Rechercher un client..."
-                                    class="w-full rounded-md border border-gray-200 py-2 pl-10 pr-4 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                <i class="fas fa-search text-gray-400"></i>
-                            </div>
-                        </div>
-                        <div class="flex space-x-2">
-                            <div class="relative">
-                                <button class="flex items-center space-x-2 rounded-md border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
-                                    <i class="fas fa-filter text-gray-400"></i>
-                                    <span>Filtres</span>
-                                    <i class="fas fa-chevron-down text-xs text-gray-500"></i>
-                                </button>
-                                <!-- Dropdown menu would go here -->
-                            </div>
-                            <div class="relative">
-                                <button class="flex items-center space-x-2 rounded-md border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
-                                    <i class="fas fa-sort text-gray-400"></i>
-                                    <span>Trier par</span>
-                                    <i class="fas fa-chevron-down text-xs text-gray-500"></i>
-                                </button>
-                                <!-- Dropdown menu would go here -->
-                            </div>
-                        </div>
-                    </div>
+
+                    @if(auth()->user()->role_id != 1 && auth()->user()->role_id != 2)
+
                     <button class="flex items-center justify-center space-x-2 rounded-md bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
                         <i class="fas fa-plus"></i>
                         <span>Nouveau Client</span>
                     </button>
-                </div>
+                    @endif
+
 @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
 <div class="mb-6">
     <div class="bg-white rounded-xl shadow-card p-4">
