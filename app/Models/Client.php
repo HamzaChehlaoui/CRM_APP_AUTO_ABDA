@@ -43,4 +43,9 @@ class Client extends Model
     {
         return $this->hasMany(Reclamation::class);
     }
+    public function cars()
+{
+    return $this->hasMany(Car::class);
+}
+
 }
