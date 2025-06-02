@@ -6,13 +6,30 @@ use App\Models\Client;
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 use App\Models\Invoice;
+use Illuminate\Http\Request;
+use App\Services\DashboardService;
 
 class ClientController extends Controller
 {
-    public function index()
+    public function index(Request $request, DashboardService $dashboardService)
 {
-    $clients = Client::with('cars')->paginate(8);
-    return view('page.clients', compact('clients'));
+    $user = auth()->user();
+    $selectedBranch = $request->get('branch_filter', 'all');
+    $data = $dashboardService->resolveBranchInfo($user, $selectedBranch);
+    $stats = $dashboardService->getDashboardStats(
+        $data['clientsQuery'],
+        $data['suivisQuery'],
+        $data['invoicesQuery']
+    );
+    $clients = $data['clientsQuery']
+    ->with('cars')
+    ->paginate(8);
+
+    return view('page.clients', array_merge($stats, [
+        'branches' => $data['branches'],
+        'selectedBranch' => $selectedBranch,
+        'clients' =>$clients,
+    ]));
 }
     public function create()
     {
