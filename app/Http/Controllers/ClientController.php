@@ -11,9 +11,9 @@ class ClientController extends Controller
 {
     public function index()
 {
-    $sales = Invoice::with(['client', 'car'])->latest()->paginate(5);
+    $clients = Client::with('cars')->get();
+    return view('page.clients', compact('clients'));
 
-    return view('page.dashboard', compact('sales'));
 }
     public function create()
     {
