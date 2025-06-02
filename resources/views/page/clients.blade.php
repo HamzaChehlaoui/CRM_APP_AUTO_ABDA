@@ -127,67 +127,82 @@
                 <!-- Clients Table -->
                 <div class="bg-white rounded-xl shadow-card overflow-hidden">
                     <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Client
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Contact
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Véhicule(s)
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Dernière visite
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Statut
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Actions
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="h-10 w-10 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-medium">PT</div>
-                                            <div class="ml-4">
-                                                <div class="text-sm font-medium text-gray-900">Pierre Thomas</div>
-                                                <div class="text-sm text-gray-500">ID: #CLI-2025-001</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">pierre.t@example.com</div>
-                                        <div class="text-sm text-gray-500">06 34 56 78 90</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">Citroën C4</div>
-                                        <div class="text-sm text-gray-500">2023 - Hybride</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        12 mai 2025
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full client-status-active">
-                                            Actif
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <button class="text-primary-600 hover:text-primary-900 mr-2"><i class="fas fa-eye"></i></button>
-                                        <button class="text-primary-600 hover:text-primary-900 mr-2"><i class="fas fa-edit"></i></button>
-                                        <button class="text-primary-600 hover:text-primary-900"><i class="fas fa-car"></i></button>
-                                    </td>
-                                </tr>
-
-                            </tbody>
-                        </table>
+                    <table class="min-w-full divide-y divide-gray-200 shadow-sm rounded-lg overflow-hidden">
+    <thead class="bg-gray-50">
+        <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Client</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Contact</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Véhicule</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Dernière visite</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Statut</th>
+            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
+        </tr>
+    </thead>
+    <tbody class="bg-white divide-y divide-gray-200">
+        @foreach ($clients as $client)
+            <tr class="hover:bg-gray-50">
+                <!-- Client -->
+                <td class="px-6 py-4 whitespace-nowrap flex items-center">
+                    <div class="h-10 w-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold">
+                        {{ strtoupper(substr($client->full_name, 0, 1)) }}
                     </div>
-                
+                    <div class="ml-4">
+                        <div class="text-sm font-medium text-gray-900">{{ $client->full_name }}</div>
+                        <div class="text-sm text-gray-500">CIN: {{ $client->cin }}</div>
+                    </div>
+                </td>
+
+                <!-- Contact -->
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-900">{{ $client->email ?? '—' }}</div>
+                    <div class="text-sm text-gray-500">{{ $client->phone }}</div>
+                </td>
+
+                <!-- Véhicule -->
+                <td class="px-6 py-4 whitespace-nowrap">
+                    @if ($client->cars->isNotEmpty())
+                        @php $car = $client->cars->first(); @endphp
+                        <div class="text-sm text-gray-900">{{ $car->brand }} {{ $car->model }}</div>
+                        <div class="text-sm text-gray-500">{{ $car->year }} - {{ ucfirst($car->energy_type) }}</div>
+                    @else
+                        <div class="text-sm text-gray-500">—</div>
+                    @endif
+                </td>
+
+                <!-- Dernière visite -->
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {{ $client->updated_at->format('d M Y') }}
+                </td>
+
+                <!-- Statut -->
+                <td class="px-6 py-4 whitespace-nowrap">
+                    @php
+                        $statusColors = [
+                            'en_attente_livraison' => 'bg-yellow-100 text-yellow-800',
+                            'livre' => 'bg-green-100 text-green-800',
+                            'sav_1ere_visite' => 'bg-blue-100 text-blue-800',
+                            'relance' => 'bg-red-100 text-red-800',
+                        ];
+                    @endphp
+                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $statusColors[$client->post_sale_status] ?? 'bg-gray-100 text-gray-800' }}">
+                        {{ ucfirst(str_replace('_', ' ', $client->post_sale_status)) }}
+                    </span>
+                </td>
+
+                <!-- Actions -->
+                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
+                    <a href="#" class="text-blue-600 hover:text-blue-900" title="Voir"><i class="fas fa-eye"></i></a>
+                    <a href="#" class="text-yellow-600 hover:text-yellow-900" title="Modifier"><i class="fas fa-edit"></i></a>
+                    <a href="#" class="text-indigo-600 hover:text-indigo-900" title="Véhicules"><i class="fas fa-car"></i></a>
+                </td>
+            </tr>
+        @endforeach
+    </tbody>
+</table>
+
+
+                    </div>
+
                 </div>
             </div>
         </div>
