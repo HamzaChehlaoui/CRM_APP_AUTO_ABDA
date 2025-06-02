@@ -50,7 +50,7 @@ Route::middleware('auth')->group(function () {
     Route::view('/notifications', 'page.notifications');
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
-    Route::view('/clients', 'page.clients');
+    Route::get('/clients' ,[ClientController::class, 'index'])->name('client.index');
     Route::view('/entretiens', 'page.entretiens');
     Route::view('/reclamations', 'page.reclamations');
     Route::view('/statistiques', 'page.statistiques');
