@@ -42,4 +42,19 @@ class SalesTable extends Component
             'clients' => $clients,
         ]);
     }
+protected $listeners = ['deleteSuiviJS' => 'deleteSuivi'];
+
+    public function deleteSuivi($suiviId)
+{
+
+    $suivi = Suivi::find($suiviId);
+
+    if ($suivi) {
+        $suivi->delete();
+        session()->flash('message', 'Suivi supprimé avec succès.');
+    } else {
+        session()->flash('error', 'Suivi non trouvé.');
+    }
+}
+
 }
