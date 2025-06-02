@@ -79,9 +79,7 @@
                                     <button class="inline-flex items-center px-3 py-1.5 border border-gray-300 text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50" onclick="window.open('mailto:{{ $suivi->client->email }}')">
                                         <i class="fas fa-envelope mr-1.5"></i> Email
                                     </button>
-                                    <button wire:click="completeSuivi({{ $suivi->id }})" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700">
-                                        <i class="fas fa-check mr-1.5"></i> Terminé
-                                    </button>
+                                   
                                 </div>
                             </div>
                         </div>
