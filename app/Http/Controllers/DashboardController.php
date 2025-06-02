@@ -32,7 +32,10 @@ public function index(Request $request, DashboardService $dashboardService)
         $data['suivisQuery'],
         $data['invoicesQuery']
     );
-
+    $clients = $data['clientsQuery']
+    ->with('cars')
+    ->take(6)
+    ->get();
     /// Clients vendus par terme
     [$clientsVendus, $labels] = $dashboardService->getClientsVendus($data['invoicesQuery'], $period);
 
@@ -41,6 +44,7 @@ public function index(Request $request, DashboardService $dashboardService)
         'selectedBranch' => $selectedBranch,
         'clientsVendus' => $clientsVendus,
         'labels' => $labels,
+        'clients' =>$clients,
     ]));
 }
 

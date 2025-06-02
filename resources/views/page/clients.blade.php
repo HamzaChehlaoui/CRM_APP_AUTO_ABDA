@@ -38,7 +38,7 @@
 
             <!-- Main Content Area -->
             <div class="flex-1 p-6 overflow-y-auto">
-               
+
                 <!-- Filters and Actions -->
                 <div class="flex flex-col md:flex-row md:items-center justify-between mb-6 space-y-4 md:space-y-0">
                     <div class="flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
@@ -150,11 +150,10 @@
     </tbody>
 </table>
 
- <div class="mt-4">
-                {{ $clients->links() }}
-            </div>
-
-                    </div>
+                <div class="mt-4">
+                                {{ $clients->links() }}
+                </div>
+</div>
 
                 </div>
             </div>
