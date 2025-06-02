@@ -101,7 +101,7 @@
                                         Date de Suivi <span class="text-red-500">*</span>
                                     </label>
                                     <input type="date" id="date" name="date_suivi" required
-                                           class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                                            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
                                 </div>
 
                                 <!-- Status -->
