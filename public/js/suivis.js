@@ -148,71 +148,71 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Delete buttons
     const deleteButtons = document.querySelectorAll('.delete-suivi-btn');
-    deleteButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            const suiviId = this.getAttribute('data-suivi-id');
+    // deleteButtons.forEach(button => {
+    //     button.addEventListener('click', function(e) {
+    //         e.preventDefault();
+    //         const suiviId = this.getAttribute('data-suivi-id');
 
-            if (confirm('Êtes-vous sûr de vouloir supprimer ce suivi?')) {
-                console.log('Delete suivi:', suiviId);
+    //         if (confirm('Êtes-vous sûr de vouloir supprimer ce suivi?')) {
+    //             console.log('Delete suivi:', suiviId);
 
-                // Send delete request
-                fetch(`/suivis/${suiviId}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                        'Content-Type': 'application/json',
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        location.reload(); // Reload page to reflect changes
-                    } else {
-                        alert('Erreur lors de la suppression');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Erreur lors de la suppression');
-                });
-            }
-        });
-    });
+    //             // Send delete request
+    //             fetch(`/suivis/${suiviId}`, {
+    //                 method: 'DELETE',
+    //                 headers: {
+    //                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+    //                     'Content-Type': 'application/json',
+    //                 }
+    //             })
+    //             .then(response => response.json())
+    //             .then(data => {
+    //                 if (data.success) {
+    //                     location.reload(); // Reload page to reflect changes
+    //                 } else {
+    //                     alert('Erreur lors de la suppression');
+    //                 }
+    //             })
+    //             .catch(error => {
+    //                 console.error('Error:', error);
+    //                 alert('Erreur lors de la suppression');
+    //             });
+    //         }
+    //     });
+    // });
 
     // Complete buttons
     const completeButtons = document.querySelectorAll('.complete-suivi-btn');
-    completeButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            const suiviId = this.getAttribute('data-suivi-id');
+    // completeButtons.forEach(button => {
+    //     button.addEventListener('click', function(e) {
+    //         e.preventDefault();
+    //         const suiviId = this.getAttribute('data-suivi-id');
 
-            if (confirm('Marquer ce suivi comme terminé?')) {
-                console.log('Complete suivi:', suiviId);
+    //         if (confirm('Marquer ce suivi comme terminé?')) {
+    //             console.log('Complete suivi:', suiviId);
 
-                // Send update request
-                fetch(`/suivis/${suiviId}/complete`, {
-                    method: 'PATCH',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                        'Content-Type': 'application/json',
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        location.reload(); // Reload page to reflect changes
-                    } else {
-                        alert('Erreur lors de la mise à jour');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Erreur lors de la mise à jour');
-                });
-            }
-        });
-    });
+    //             // Send update request
+    //             fetch(`/suivis/${suiviId}/complete`, {
+    //                 method: 'PATCH',
+    //                 headers: {
+    //                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+    //                     'Content-Type': 'application/json',
+    //                 }
+    //             })
+    //             .then(response => response.json())
+    //             .then(data => {
+    //                 if (data.success) {
+    //                     location.reload(); // Reload page to reflect changes
+    //                 } else {
+    //                     alert('Erreur lors de la mise à jour');
+    //                 }
+    //             })
+    //             .catch(error => {
+    //                 console.error('Error:', error);
+    //                 alert('Erreur lors de la mise à jour');
+    //             });
+    //         }
+    //     });
+    // });
 
     // Branch filter functionality (if exists)
     const branchFilter = document.getElementById('branch_filter');

@@ -7,10 +7,8 @@
 
     <div class="flex h-screen w-screen overflow-hidden">
 
-       <!-- Sidebar -->
+    <!-- Sidebar -->
         <x-sidebar />
-
-
         <!-- Main Content -->
         <div class="flex-1 flex flex-col overflow-hidden">
             <!-- Header -->
@@ -46,7 +44,6 @@
                             <div class="w-12 h-12 rounded-lg bg-primary-100 flex items-center justify-center">
                                 <i class="fas fa-tools text-xl text-primary-600"></i>
                             </div>
-                            <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium">↑ 5%</span>
                         </div>
                         <h3 class="text-lg font-semibold text-gray-800 mb-1">Total Entretiens</h3>
                         <p class="text-3xl font-bold text-primary-600">248</p>
@@ -58,7 +55,6 @@
                             <div class="w-12 h-12 rounded-lg bg-yellow-100 flex items-center justify-center">
                                 <i class="fas fa-clock text-xl text-yellow-600"></i>
                             </div>
-                            <span class="bg-yellow-100 text-yellow-700 text-xs px-2 py-1 rounded-full font-medium">↑ 12%</span>
                         </div>
                         <h3 class="text-lg font-semibold text-gray-800 mb-1">En attente</h3>
                         <p class="text-3xl font-bold text-yellow-600">8</p>
@@ -70,7 +66,6 @@
                             <div class="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center">
                                 <i class="fas fa-check-circle text-xl text-green-600"></i>
                             </div>
-                            <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium">↑ 8%</span>
                         </div>
                         <h3 class="text-lg font-semibold text-gray-800 mb-1">Terminés</h3>
                         <p class="text-3xl font-bold text-green-600">42</p>
@@ -82,7 +77,6 @@
                             <div class="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center">
                                 <i class="fas fa-calendar-check text-xl text-purple-600"></i>
                             </div>
-                            <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium">↑ 3%</span>
                         </div>
                         <h3 class="text-lg font-semibold text-gray-800 mb-1">Planifiés</h3>
                         <p class="text-3xl font-bold text-purple-600">15</p>
@@ -206,189 +200,11 @@
                                         <button class="text-primary-600 hover:text-primary-900"><i class="fas fa-check"></i></button>
                                     </td>
                                 </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-gray-900">#ENT-2025-002</div>
-                                        <div class="text-xs text-gray-500">Créé le 14/05/2025</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="h-8 w-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-medium">JD</div>
-                                            <div class="ml-3">
-                                                <div class="text-sm font-medium text-gray-900">Jean Dupont</div>
-                                                <div class="text-sm text-gray-500">Audi Q5 - 2023</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full maintenance-type-repair">
-                                            Réparation
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        20 mai 2025 - 14:00
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full maintenance-status-in-progress">
-                                            En cours
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <button class="text-primary-600 hover:text-primary-900 mr-2"><i class="fas fa-eye"></i></button>
-                                        <button class="text-primary-600 hover:text-primary-900 mr-2"><i class="fas fa-edit"></i></button>
-                                        <button class="text-primary-600 hover:text-primary-900"><i class="fas fa-check"></i></button>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-gray-900">#ENT-2025-003</div>
-                                        <div class="text-xs text-gray-500">Créé le 12/05/2025</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="h-8 w-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-medium">PT</div>
-                                            <div class="ml-3">
-                                                <div class="text-sm font-medium text-gray-900">Pierre Thomas</div>
-                                                <div class="text-sm text-gray-500">Citroën C4 - 2023</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full maintenance-type-diagnostic">
-                                            Diagnostic
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        18 mai 2025 - 09:15
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full maintenance-status-completed">
-                                            Terminé
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <button class="text-primary-600 hover:text-primary-900 mr-2"><i class="fas fa-eye"></i></button>
-                                        <button class="text-primary-600 hover:text-primary-900 mr-2"><i class="fas fa-edit"></i></button>
-                                        <button class="text-primary-600 hover:text-primary-900"><i class="fas fa-file-pdf"></i></button>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-gray-900">#ENT-2025-004</div>
-                                        <div class="text-xs text-gray-500">Créé le 10/05/2025</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="h-8 w-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-medium">LM</div>
-                                            <div class="ml-3">
-                                                <div class="text-sm font-medium text-gray-900">Lucie Martin</div>
-                                                <div class="text-sm text-gray-500">BMW Série 3 - 2021</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full maintenance-type-other">
-                                            Pneus
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        15 mai 2025 - 11:00
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full maintenance-status-cancelled">
-                                            Annulé
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <button class="text-primary-600 hover:text-primary-900 mr-2"><i class="fas fa-eye"></i></button>
-                                        <button class="text-primary-600 hover:text-primary-900 mr-2"><i class="fas fa-edit"></i></button>
-                                        <button class="text-primary-600 hover:text-primary-900"><i class="fas fa-redo"></i></button>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-gray-900">#ENT-2025-005</div>
-                                        <div class="text-xs text-gray-500">Créé le 16/05/2025</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="h-8 w-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-medium">ML</div>
-                                            <div class="ml-3">
-                                                <div class="text-sm font-medium text-gray-900">Martin Leclerc</div>
-                                                <div class="text-sm text-gray-500">Renault Clio - 2024</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full maintenance-type-revision">
-                                            Révision
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        22 mai 2025 - 15:30
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full maintenance-status-scheduled">
-                                            Planifié
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <button class="text-primary-600 hover:text-primary-900 mr-2"><i class="fas fa-eye"></i></button>
-                                        <button class="text-primary-600 hover:text-primary-900 mr-2"><i class="fas fa-edit"></i></button>
-                                        <button class="text-primary-600 hover:text-primary-900"><i class="fas fa-check"></i></button>
-                                    </td>
-                                </tr>
+
                             </tbody>
                         </table>
                     </div>
-                    <!-- Pagination -->
-                    <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
-                        <div class="flex-1 flex justify-between sm:hidden">
-                            <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-                                Précédent
-                            </a>
-                            <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-                                Suivant
-                            </a>
-                        </div>
-                        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                            <div>
-                                <p class="text-sm text-gray-700">
-                                    Affichage de <span class="font-medium">1</span> à <span class="font-medium">5</span> sur <span class="font-medium">248</span> résultats
-                                </p>
-                            </div>
-                            <div>
-                                <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                                    <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                                        <span class="sr-only">Précédent</span>
-                                        <i class="fas fa-chevron-left h-5 w-5"></i>
-                                    </a>
-                                    <a href="#" aria-current="page" class="z-10 bg-primary-50 border-primary-500 text-primary-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
-                                        1
-                                    </a>
-                                    <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
-                                        2
-                                    </a>
-                                    <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
-                                        3
-                                    </a>
-                                    <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">
-                                        ...
-                                    </span>
-                                    <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
-                                        49
-                                    </a>
-                                    <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
-                                        50
-                                    </a>
-                                    <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                                        <span class="sr-only">Suivant</span>
-                                        <i class="fas fa-chevron-right h-5 w-5"></i>
-                                    </a>
-                                </nav>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>

@@ -54,7 +54,7 @@
                     @endif
                 </div>
 
-                
+
                @livewire('sales-table')
             </div>
         </div>
@@ -238,28 +238,28 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Delete buttons
-    const deleteButtons = document.querySelectorAll('.delete-suivi-btn');
-    deleteButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const suiviId = this.getAttribute('data-suivi-id');
-            if (confirm('Êtes-vous sûr de vouloir supprimer ce suivi?')) {
-                console.log('Delete suivi:', suiviId);
-                // Add delete functionality here
-            }
-        });
-    });
+    // const deleteButtons = document.querySelectorAll('.delete-suivi-btn');
+    // deleteButtons.forEach(button => {
+    //     button.addEventListener('click', function() {
+    //         const suiviId = this.getAttribute('data-suivi-id');
+    //         if (confirm('Êtes-vous sûr de vouloir supprimer ce suivi?')) {
+    //             console.log('Delete suivi:', suiviId);
+    //             // Add delete functionality here
+    //         }
+    //     });
+    // });
 
     // Complete buttons
     const completeButtons = document.querySelectorAll('.complete-suivi-btn');
-    completeButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const suiviId = this.getAttribute('data-suivi-id');
-            if (confirm('Marquer ce suivi comme terminé?')) {
-                console.log('Complete suivi:', suiviId);
-                // Add complete functionality here
-            }
-        });
-    });
+    // completeButtons.forEach(button => {
+    //     button.addEventListener('click', function() {
+    //         const suiviId = this.getAttribute('data-suivi-id');
+    //         if (confirm('Marquer ce suivi comme terminé?')) {
+    //             console.log('Complete suivi:', suiviId);
+    //             // Add complete functionality here
+    //         }
+    //     });
+    // });
 });
 
 // Branch filter script (if needed)
