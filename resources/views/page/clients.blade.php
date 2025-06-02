@@ -38,63 +38,13 @@
 
             <!-- Main Content Area -->
             <div class="flex-1 p-6 overflow-y-auto">
-                <!-- Stats Cards -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-                    <div class="bg-white rounded-xl shadow-card p-6">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="w-12 h-12 rounded-lg bg-primary-100 flex items-center justify-center">
-                                <i class="fas fa-users text-xl text-primary-600"></i>
-                            </div>
-                            <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium">↑ 8%</span>
-                        </div>
-                        <h3 class="text-lg font-semibold text-gray-800 mb-1">Total Clients</h3>
-                        <p class="text-3xl font-bold text-primary-600">125</p>
-                        <p class="text-sm text-gray-500 mt-1">Actifs et inactifs</p>
-                    </div>
-
-                    <div class="bg-white rounded-xl shadow-card p-6">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center">
-                                <i class="fas fa-user-check text-xl text-green-600"></i>
-                            </div>
-                            <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium">↑ 5%</span>
-                        </div>
-                        <h3 class="text-lg font-semibold text-gray-800 mb-1">Clients Actifs</h3>
-                        <p class="text-3xl font-bold text-green-600">98</p>
-                        <p class="text-sm text-gray-500 mt-1">Derniers 12 mois</p>
-                    </div>
-
-                    <div class="bg-white rounded-xl shadow-card p-6">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="w-12 h-12 rounded-lg bg-yellow-100 flex items-center justify-center">
-                                <i class="fas fa-star text-xl text-yellow-600"></i>
-                            </div>
-                            <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium">↑ 12%</span>
-                        </div>
-                        <h3 class="text-lg font-semibold text-gray-800 mb-1">Clients VIP</h3>
-                        <p class="text-3xl font-bold text-yellow-600">24</p>
-                        <p class="text-sm text-gray-500 mt-1">Programme fidélité</p>
-                    </div>
-
-                    <div class="bg-white rounded-xl shadow-card p-6">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center">
-                                <i class="fas fa-car text-xl text-purple-600"></i>
-                            </div>
-                            <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium">↑ 3%</span>
-                        </div>
-                        <h3 class="text-lg font-semibold text-gray-800 mb-1">Véhicules</h3>
-                        <p class="text-3xl font-bold text-purple-600">142</p>
-                        <p class="text-sm text-gray-500 mt-1">En parc client</p>
-                    </div>
-                </div>
-
+               
                 <!-- Filters and Actions -->
                 <div class="flex flex-col md:flex-row md:items-center justify-between mb-6 space-y-4 md:space-y-0">
                     <div class="flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
                         <div class="relative w-full sm:w-64">
                             <input type="text" placeholder="Rechercher un client..."
-                                   class="w-full rounded-md border border-gray-200 py-2 pl-10 pr-4 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                                    class="w-full rounded-md border border-gray-200 py-2 pl-10 pr-4 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                 <i class="fas fa-search text-gray-400"></i>
                             </div>
