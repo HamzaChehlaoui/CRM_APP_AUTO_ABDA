@@ -11,9 +11,8 @@ class ClientController extends Controller
 {
     public function index()
 {
-    $clients = Client::with('cars')->get();
+    $clients = Client::with('cars')->paginate(6);
     return view('page.clients', compact('clients'));
-
 }
     public function create()
     {
