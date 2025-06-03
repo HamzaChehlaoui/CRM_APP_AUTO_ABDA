@@ -35,7 +35,7 @@ class ClientsTable extends Component
 
     public function updatingSelectedBranch()
     {
-        $this->resetPage(); 
+        $this->resetPage();
     }
 
     public function render(DashboardService $dashboardService)
@@ -45,7 +45,7 @@ class ClientsTable extends Component
 
         $clients = $data['clientsQuery']
             ->with('cars')
-            ->paginate(8);
+            ->paginate(4);
 
         return view('livewire.clients-table', [
             'clients' => $clients,
