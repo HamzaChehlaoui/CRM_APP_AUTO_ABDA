@@ -8,6 +8,7 @@ class StoreClientRequest extends FormRequest
     public function authorize() { return true; }
     public function rules()
     {
+        
         return [
             'client.full_name' => 'required|string|max:255',
             'client.phone' => 'required|string|max:20',
@@ -31,30 +32,33 @@ class StoreClientRequest extends FormRequest
             'invoice.purchase_order_number' => 'nullable|string|max:255',
             'invoice.delivery_note_number' => 'nullable|string|max:255',
             'invoice.payment_order_reference' => 'nullable|string|max:255',
+            'invoice.image' => 'nullable|image|mimes:png,jpg,jpeg|max:10240', // 10MB max
         ];
     }
+
     public function messages()
-{
-    return [
-        'client.full_name.required' => 'Le nom complet est obligatoire.',
-        'client.phone.required' => 'Le numéro de téléphone est obligatoire.',
-        'client.cin.required' => "La carte d'identité nationale est obligatoire.",
-        'client.cin.unique' => "La carte d'identité nationale est déjà enregistrée.",
-        'car.brand.required' => 'La marque est obligatoire.',
-        'car.model.required' => 'Le modèle est obligatoire.',
-        'car.ivn.required' => 'L’identifiant véhicule neuf (IVN) est obligatoire.',
-        'car.ivn.unique' => 'L’IVN est déjà enregistré.',
-        'car.registration_number.required' => "Le numéro d'immatriculation est obligatoire.",
-        'car.registration_number.unique' => "Le numéro d'immatriculation est déjà enregistré.",
-        'car.chassis_number.required' => 'Le numéro de châssis est obligatoire.',
-        'car.chassis_number.unique' => 'Le numéro de châssis est déjà enregistré.',
-        'invoice.invoice_number.required' => 'Le numéro de facture est obligatoire.',
-        'invoice.invoice_number.unique' => 'Le numéro de facture est déjà enregistré.',
-        'invoice.sale_date.required' => 'La date de la facture est obligatoire.',
-        'invoice.total_amount.required' => 'Le montant total est obligatoire.',
-        'invoice.total_amount.numeric' => 'Le montant total doit être un nombre.',
-    ];
-}
-
-
+    {
+        return [
+            'client.full_name.required' => 'Le nom complet est obligatoire.',
+            'client.phone.required' => 'Le numéro de téléphone est obligatoire.',
+            'client.cin.required' => "La carte d'identité nationale est obligatoire.",
+            'client.cin.unique' => "La carte d'identité nationale est déjà enregistrée.",
+            'car.brand.required' => 'La marque est obligatoire.',
+            'car.model.required' => 'Le modèle est obligatoire.',
+            'car.ivn.required' => 'L’identifiant véhicule neuf (IVN) est obligatoire.',
+            'car.ivn.unique' => 'L’IVN est déjà enregistré.',
+            'car.registration_number.required' => "Le numéro d'immatriculation est obligatoire.",
+            'car.registration_number.unique' => "Le numéro d'immatriculation est déjà enregistré.",
+            'car.chassis_number.required' => 'Le numéro de châssis est obligatoire.',
+            'car.chassis_number.unique' => 'Le numéro de châssis est déjà enregistré.',
+            'invoice.invoice_number.required' => 'Le numéro de facture est obligatoire.',
+            'invoice.invoice_number.unique' => 'Le numéro de facture est déjà enregistré.',
+            'invoice.sale_date.required' => 'La date de la facture est obligatoire.',
+            'invoice.total_amount.required' => 'Le montant total est obligatoire.',
+            'invoice.total_amount.numeric' => 'Le montant total doit être un nombre.',
+            'invoice.image.image' => 'Le fichier doit être une image.',
+            'invoice.image.mimes' => 'L’image doit être au format PNG, JPG ou JPEG.',
+            'invoice.image.max' => 'L’image ne doit pas dépasser 10MB.',
+        ];
+    }
 }
