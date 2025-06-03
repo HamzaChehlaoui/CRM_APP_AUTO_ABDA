@@ -115,7 +115,7 @@ public function storeAll(StoreClientRequest $request)
 
         DB::commit();
 
-        return redirect()->route('page.clients')->with('success', 'Le client, la voiture et la facture ont été enregistrés avec succès.');
+        return redirect()->route('client.index')->with('success', 'Le client, la voiture et la facture ont été enregistrés avec succès.');
 
     } catch (\Exception $e) {
     //    dd($e);
