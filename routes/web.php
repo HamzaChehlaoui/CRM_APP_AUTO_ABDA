@@ -55,6 +55,8 @@ Route::middleware('auth')->group(function () {
     Route::view('/reclamations', 'page.reclamations');
     Route::view('/statistiques', 'page.statistiques');
     Route::view('/exporter', 'page.exporter');
+    Route::post('/clients/store-all', [ClientController::class, 'storeAll'])->name('clients.storeAll');
+
 });
 
 });
