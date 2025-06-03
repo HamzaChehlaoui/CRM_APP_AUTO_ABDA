@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('invoice_number')->unique()->comment('Numéro de facture (numfact)');
             $table->date('sale_date')->comment('Date de la facture (date)');
             $table->decimal('total_amount', 10, 2)->comment('Montant TTC (mtttc)');
-            $table->string('ivn')->comment('Identifiant Véhicule Neuf (ivn)');
+            $table->string('image_path')->nullable()->comment('Chemin de l’image de la facture');
+            // $table->string('ivn')->comment('Identifiant Véhicule Neuf (ivn)');
 
             $table->string('accord_reference')->nullable()->comment('Accord / Contrat (accord)');
             $table->string('purchase_order_number')->nullable()->comment('Bon de commande (bc)');
