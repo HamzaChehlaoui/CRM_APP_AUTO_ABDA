@@ -48,6 +48,49 @@
                 </button>
                 @endif
 
+<div class="bg-white rounded-xl shadow-card overflow-hidden">
+    @if (session('error'))
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+        <strong class="font-bold">Erreur !</strong>
+        <span class="block sm:inline">{{ session('error') }}</span>
+    </div>
+@endif
+@if (session('success'))
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+        <strong class="font-bold">Succès !</strong>
+        <span class="block sm:inline">{{ session('success') }}</span>
+    </div>
+@endif
+    <!-- Branch Filter -->
+        @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
+            <div class="mb-6">
+                <div class="bg-white rounded-xl shadow-card p-4">
+                    <label for="branch_filter" class="text-sm font-medium text-gray-700">Filtrer par succursale:</label>
+                    <select wire:model.live="selectedBranch" class="border rounded p-2">
+                        <option value="all">Tous</option>
+                        @foreach($branches as $branch)
+                            <option value="{{ $branch->id }}">{{ $branch->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+        @endif
+
+
+                </div>
+@if (session('error'))
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+        <strong class="font-bold">Erreur !</strong>
+        <span class="block sm:inline">{{ session('error') }}</span>
+    </div>
+@endif
+@if (session('success'))
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+        <strong class="font-bold">Succès !</strong>
+        <span class="block sm:inline">{{ session('success') }}</span>
+    </div>
+@endif
+
                 <!-- Clients Table -->
                 @livewire('clients-table')
 
@@ -76,7 +119,7 @@
 
             <!-- Modal Body -->
             <div class="overflow-y-auto max-h-[calc(90vh-140px)]">
-                <form action="{{ route('clients.storeAll') }}" method="POST" class="p-8">
+                <form action="{{ route('clients.storeAll') }}" method="POST" enctype="multipart/form-data" class="p-8">
                     @csrf
 
                     <!-- Progress Indicator -->
@@ -215,7 +258,7 @@
                                 <div class="space-y-2">
                                     <label class="block text-sm font-medium text-gray-700">Date de vente *</label>
                                     <input type="date" name="invoice[sale_date]" required
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 bg-white">
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 bg-white" min="{{ date('Y-m-d') }}">
                                 </div>
                                 <div class="space-y-2">
                                     <label class="block text-sm font-medium text-gray-700">Montant TTC *</label>
@@ -226,29 +269,64 @@
                                     </div>
                                 </div>
                                 <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700">Accord / Contrat</label>
-                                    <input type="text" name="invoice[accord_reference]"
+                                    <label class="block text-sm font-medium text-gray-700">Accord / Contrat *</label>
+                                    <input type="text" name="invoice[accord_reference]" required
                                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 bg-white">
                                 </div>
                                 <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700">Bon de commande</label>
-                                    <input type="text" name="invoice[purchase_order_number]"
+                                    <label class="block text-sm font-medium text-gray-700">Bon de commande *</label>
+                                    <input type="text" name="invoice[purchase_order_number]" required
                                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 bg-white">
                                 </div>
                                 <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700">Bon de livraison</label>
-                                    <input type="text" name="invoice[delivery_note_number]"
+                                    <label class="block text-sm font-medium text-gray-700">Bon de livraison *</label>
+                                    <input type="text" name="invoice[delivery_note_number]" required
                                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 bg-white">
                                 </div>
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-gray-700">Ordre de règlement *</label>
+                                    <input type="text" name="invoice[payment_order_reference]" required
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 bg-white">
+                                </div>
+
+                                <!-- Invoice Image Upload -->
                                 <div class="space-y-2 md:col-span-2">
-                                    <label class="block text-sm font-medium text-gray-700">Ordre de règlement</label>
-                                    <input type="text" name="invoice[payment_order_reference]"
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 bg-white">
+                                    <label class="block text-sm font-medium text-gray-700">Image de la facture </label>
+                                    <div class="mt-2">
+                                        <div class="flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-green-400 transition-colors duration-200 bg-white" id="invoice-upload-area">
+                                            <div class="space-y-2 text-center" id="upload-placeholder">
+                                                <div class="mx-auto h-12 w-12 text-gray-400">
+                                                    <i class="fas fa-cloud-upload-alt text-3xl"></i>
+                                                </div>
+                                                <div class="flex text-sm text-gray-600">
+                                                    <label for="invoice-image" class="relative cursor-pointer bg-white rounded-md font-medium text-green-600 hover:text-green-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-green-500">
+                                                        <span>Télécharger un fichier</span>
+                                                        <input id="invoice-image" name="invoice[image]" type="file" accept="image/*"  class="sr-only">
+                                                    </label>
+                                                    <p class="pl-1">ou glisser-déposer</p>
+                                                </div>
+                                                <p class="text-xs text-gray-500">PNG, JPG, JPEG jusqu'à 10MB</p>
+                                            </div>
+                                            <div class="hidden" id="upload-preview">
+                                                <div class="flex items-center space-x-4">
+                                                    <img id="preview-image" class="h-20 w-20 object-cover rounded-lg border border-gray-200" src="" alt="Preview">
+                                                    <div class="flex-1">
+                                                        <p id="file-name" class="text-sm font-medium text-gray-900"></p>
+                                                        <p id="file-size" class="text-xs text-gray-500"></p>
+                                                        <button type="button" id="remove-image" class="mt-1 text-xs text-red-600 hover:text-red-500">
+                                                            <i class="fas fa-trash mr-1"></i>Supprimer
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </form>
+                <!-- Modal Footer -->
                 <div class="bg-gray-50 px-8 py-6 border-t border-gray-200">
                     <div class="flex items-center justify-between">
                         <p class="text-sm text-gray-500">
@@ -270,69 +348,10 @@
                 </div>
             </div>
 
-            <!-- Modal Footer -->
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const openBtn = document.getElementById('openModalBtn');
-            const modal = document.getElementById('clientModal');
-            const closeBtn = document.getElementById('closeModalBtn');
-            const cancelBtn = document.getElementById('cancelModalBtn');
-            const form = modal.querySelector('form');
 
-            // Open modal
-            if (openBtn) {
-                openBtn.addEventListener('click', () => {
-                    modal.classList.remove('hidden');
-                    document.body.style.overflow = 'hidden';
-                });
-            }
-
-            // Close modal functions
-            function closeModal() {
-                modal.classList.add('hidden');
-                document.body.style.overflow = 'auto';
-                form.reset();
-            }
-
-            closeBtn.addEventListener('click', closeModal);
-            cancelBtn.addEventListener('click', closeModal);
-
-            // Close on backdrop click
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    closeModal();
-                }
-            });
-
-            // Close on Escape key
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-                    closeModal();
-                }
-            });
-
-            // Form submission handling
-            form.addEventListener('submit', function(e) {
-                const submitBtn = form.querySelector('button[type="submit"]');
-                const originalText = submitBtn.innerHTML;
-
-                submitBtn.disabled = true;
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Enregistrement...';
-
-                // Re-enable after a delay in case of errors
-                setTimeout(() => {
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = originalText;
-                }, 5000);
-            });
-
-            // Add form ID for submit button
-            form.id = 'clientForm';
-        });
-    </script>
-
+<script src="js/client.js"></script>
 </body>
 @endsection
