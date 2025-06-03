@@ -25,7 +25,6 @@ class InvoiceSeeder extends Seeder
                 'invoice_number' => $faker->unique()->bothify('INV#####'),
                 'sale_date' => $faker->dateTimeBetween('-2 years', 'now'),
                 'total_amount' => $faker->randomFloat(2, 15000, 400000),
-                'ivn' => $faker->unique()->bothify('IVN#####'),
                 'accord_reference' => $faker->bothify('ACD###'),
                 'purchase_order_number' => $faker->bothify('BC###'),
                 'delivery_note_number' => $faker->bothify('BL###'),
