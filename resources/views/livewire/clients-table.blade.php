@@ -1,5 +1,6 @@
 
 <div class="bg-white rounded-xl shadow-card overflow-hidden">
+    
     <!-- Branch Filter -->
         @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
             <div class="mb-6">
@@ -89,8 +90,8 @@
                     </table>
 
                     <div class="mt-4">
-    {{ $clients->links() }}
-</div>
+                        {{ $clients->links() }}
+                    </div>
 
                     </div>
 
