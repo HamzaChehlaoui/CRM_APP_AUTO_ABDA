@@ -8,8 +8,17 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Car extends Model
 {
     protected $fillable = [
-        'brand', 'model', 'ivn', 'registration_number', 'chassis_number', 'color', 'year'
-    ];
+    'brand',
+    'model',
+    'ivn',
+    'registration_number',
+    'chassis_number',
+    'color',
+    'year',
+    'client_id',
+    'branch_id',
+    'created_by',
+];
 
     public function invoices(): HasMany
     {
