@@ -332,5 +332,5 @@
     </div>
 
 <script src="js/client.js"></script>
- </body>
+</body>
 @endsection
