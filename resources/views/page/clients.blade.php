@@ -64,6 +64,8 @@
                         </div>
                     @endif
 
+
+
                 <!-- Clients Table -->
                 @livewire('clients-table')
 
@@ -324,7 +326,6 @@
         </div>
     </div>
 
-
 <script src="js/client.js"></script>
-</body>
+ </body>
 @endsection
