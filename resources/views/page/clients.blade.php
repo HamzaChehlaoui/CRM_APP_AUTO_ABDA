@@ -50,35 +50,19 @@
 
 <div class="bg-white rounded-xl shadow-card overflow-hidden">
 
-    <!-- Branch Filter -->
-        @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
-            <div class="mb-6">
-                <div class="bg-white rounded-xl shadow-card p-4">
-                    <label for="branch_filter" class="text-sm font-medium text-gray-700">Filtrer par succursale:</label>
-                    <select wire:model.live="selectedBranch" class="border rounded p-2">
-                        <option value="all">Tous</option>
-                        @foreach($branches as $branch)
-                            <option value="{{ $branch->id }}">{{ $branch->name }}</option>
-                        @endforeach
-                    </select>
                 </div>
-            </div>
-        @endif
-
-
-                </div>
-@if (session('error'))
-    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-        <strong class="font-bold">Erreur !</strong>
-        <span class="block sm:inline">{{ session('error') }}</span>
-    </div>
-@endif
-@if (session('success'))
-    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
-        <strong class="font-bold">Succès !</strong>
-        <span class="block sm:inline">{{ session('success') }}</span>
-    </div>
-@endif
+                    @if (session('error'))
+                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                            <strong class="font-bold">Erreur !</strong>
+                            <span class="block sm:inline">{{ session('error') }}</span>
+                        </div>
+                    @endif
+                    @if (session('success'))
+                        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+                            <strong class="font-bold">Succès !</strong>
+                            <span class="block sm:inline">{{ session('success') }}</span>
+                        </div>
+                    @endif
 
                 <!-- Clients Table -->
                 @livewire('clients-table')
