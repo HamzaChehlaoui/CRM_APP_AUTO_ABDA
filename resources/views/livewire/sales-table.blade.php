@@ -1,12 +1,19 @@
 <div class="relative">
     <div class="space-y-4">
-        @if (session()->has('message'))
-            <div class="mb-4 p-4 bg-green-100 border border-green-300 text-green-800 rounded-md">{{ session('message') }}</div>
-        @endif
+       @if (session()->has('message'))
+    <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 5000)" x-show="show"
+         class="mb-4 p-4 bg-green-100 border border-green-300 text-green-800 rounded-md transition-opacity duration-500 ease-in-out">
+        {{ session('message') }}
+    </div>
+@endif
 
-        @if (session()->has('error'))
-            <div class="mb-4 p-4 bg-red-100 border border-red-300 text-red-800 rounded-md">{{ session('error') }}</div>
-        @endif
+@if (session()->has('error'))
+    <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 5000)" x-show="show"
+         class="mb-4 p-4 bg-red-100 border border-red-300 text-red-800 rounded-md transition-opacity duration-500 ease-in-out">
+        {{ session('error') }}
+    </div>
+@endif
+
 
         <!-- Branch Filter -->
         @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2)

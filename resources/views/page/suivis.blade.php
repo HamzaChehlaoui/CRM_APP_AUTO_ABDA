@@ -36,8 +36,13 @@
 
             <!-- Main Content Area -->
             <div class="flex-1 p-6 overflow-y-auto">
-                @if(session('success'))
-    <div class="mb-4 p-4 bg-green-100 border border-green-300 text-green-800 rounded-md">
+        @if(session('success'))
+    <div
+        x-data="{ show: true }"
+        x-init="setTimeout(() => show = false, 5000)"
+        x-show="show"
+        class="mb-4 p-4 bg-green-100 border border-green-300 text-green-800 rounded-md transition-opacity duration-500 ease-in-out"
+    >
         {{ session('success') }}
     </div>
 @endif
@@ -239,29 +244,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Delete buttons
-    // const deleteButtons = document.querySelectorAll('.delete-suivi-btn');
-    // deleteButtons.forEach(button => {
-    //     button.addEventListener('click', function() {
-    //         const suiviId = this.getAttribute('data-suivi-id');
-    //         if (confirm('Êtes-vous sûr de vouloir supprimer ce suivi?')) {
-    //             console.log('Delete suivi:', suiviId);
-    //             // Add delete functionality here
-    //         }
-    //     });
-    // });
 
-    // Complete buttons
-    const completeButtons = document.querySelectorAll('.complete-suivi-btn');
-    // completeButtons.forEach(button => {
-    //     button.addEventListener('click', function() {
-    //         const suiviId = this.getAttribute('data-suivi-id');
-    //         if (confirm('Marquer ce suivi comme terminé?')) {
-    //             console.log('Complete suivi:', suiviId);
-    //             // Add complete functionality here
-    //         }
-    //     });
-    // });
 });
 
 // Branch filter script (if needed)
