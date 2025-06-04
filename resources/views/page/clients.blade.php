@@ -4,7 +4,10 @@
 
 @section('content')
 <body class="h-full w-full font-sans bg-gray-50">
+    <style>
+        [x-cloak] { display: none !important; }
 
+    </style>
     <div class="flex h-screen w-screen overflow-hidden">
 
        <!-- Sidebar -->

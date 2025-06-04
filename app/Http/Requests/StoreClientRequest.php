@@ -8,7 +8,7 @@ class StoreClientRequest extends FormRequest
     public function authorize() { return true; }
     public function rules()
     {
-        
+
         return [
             'client.full_name' => 'required|string|max:255',
             'client.phone' => 'required|string|max:20',
@@ -32,7 +32,7 @@ class StoreClientRequest extends FormRequest
             'invoice.purchase_order_number' => 'nullable|string|max:255',
             'invoice.delivery_note_number' => 'nullable|string|max:255',
             'invoice.payment_order_reference' => 'nullable|string|max:255',
-            'invoice.image' => 'nullable|image|mimes:png,jpg,jpeg|max:10240', // 10MB max
+            'invoice.image' => 'nullable|image|max:10240', // 10MB max
         ];
     }
 

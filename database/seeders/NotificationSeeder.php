@@ -11,16 +11,16 @@ class NotificationSeeder extends Seeder
 {
     public function run(): void
     {
-        $faker = Factory::create('fr_FR');
-        $users = User::pluck('id')->toArray();
+        // $faker = Factory::create('fr_FR');
+        // $users = User::pluck('id')->toArray();
 
-        foreach (range(1, 10) as $i) {
-            Notification::create([
-                'user_id' => $faker->randomElement($users),
-                'title' => $faker->sentence(4),
-                'content' => $faker->paragraph(),
-                'is_read' => $faker->boolean(),
-            ]);
-        }
+        // foreach (range(1, 10) as $i) {
+        //     Notification::create([
+        //         'user_id' => $faker->randomElement($users),
+        //         'title' => $faker->sentence(4),
+        //         'content' => $faker->paragraph(),
+        //         'is_read' => $faker->boolean(),
+        //     ]);
+        // }
     }
 }
