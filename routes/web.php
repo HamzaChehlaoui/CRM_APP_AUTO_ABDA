@@ -53,12 +53,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
     Route::get('/factures' ,[InvoiceController::class, 'index'])->name('invoice.index');
     Route::get('/clients' ,[ClientController::class, 'index'])->name('client.index');
-
+    Route::post('invoice/store-all', [InvoiceController::class, 'storeAll'])->name('invoice.storeAll');
     Route::view('/reclamations', 'page.reclamations');
     Route::view('/statistiques', 'page.statistiques');
     Route::view('/exporter', 'page.exporter');
-    Route::post('/clients/store-all', [ClientController::class, 'storeAll'])->name('clients.storeAll');
-
+Route::post('clients', [ClientController::class, 'store'])->name('clients.store');
 });
 
 });

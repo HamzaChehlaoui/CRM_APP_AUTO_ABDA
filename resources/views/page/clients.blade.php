@@ -101,7 +101,7 @@
 
             <!-- Modal Body -->
             <div class="overflow-y-auto max-h-[calc(90vh-140px)]">
-                <form action="{{ route('clients.storeAll') }}" method="POST" enctype="multipart/form-data" class="p-8">
+                <form action="{{ route('clients.store') }}" method="POST" enctype="multipart/form-data" class="p-8">
                     @csrf
 
                     <!-- Progress Indicator -->

@@ -99,7 +99,7 @@
 
             <!-- Modal Body -->
             <div class="overflow-y-auto max-h-[calc(90vh-140px)]">
-                <form action="{{ route('clients.storeAll') }}" method="POST" enctype="multipart/form-data" class="p-8">
+                <form action="{{ route('invoice.storeAll') }}" method="POST" enctype="multipart/form-data" class="p-8">
                     @csrf
 
                     <!-- Progress Indicator -->
@@ -130,14 +130,13 @@
 
                     <!-- Client Information -->
                     <!-- Client Information -->
-<div class="mb-8">
+<<div class="mb-8">
     <div class="flex items-center mb-6">
         <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
             <i class="fas fa-user text-blue-600"></i>
         </div>
         <h3 class="text-lg font-semibold text-gray-900">Sélection Client</h3>
     </div>
-
     <div class="bg-blue-50 rounded-lg p-6">
         <div class="space-y-2">
             <label class="block text-sm font-medium text-gray-700">Client *</label>
@@ -145,30 +144,9 @@
                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
                 <option value="">Sélectionner un client</option>
                 @foreach($clients as $client)
-                    <option value="{{ $client->id }}">
-                        {{ $client->name }} {{ $client->full_name }}
-
-                    </option>
+                    <option value="{{ $client->id }}">{{ $client->full_name }}</option>
                 @endforeach
             </select>
-
-            @if($clients->isEmpty())
-                <div class="mt-3 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                    <div class="flex">
-                        <div class="flex-shrink-0">
-                            <i class="fas fa-exclamation-triangle text-yellow-400"></i>
-                        </div>
-                        <div class="ml-3">
-                            <p class="text-sm text-yellow-800">
-                                Aucun client trouvé dans votre agence.
-                                <a href="{{ route('clients.create') }}" class="font-medium underline hover:text-yellow-900">
-                                    Créer un nouveau client
-                                </a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            @endif
         </div>
     </div>
 </div>
@@ -219,17 +197,16 @@
                                     <input type="number" name="car[year]" min="1900" max="2099" step="1"
                                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
                                 </div>
-                                <div class="spase-y-2 mt-2">
-                                <label class="block text-sm font-medium text-gray-700">Phase post-vente</label>
-
-                                <select name="phase_post-vente" id="phase_post-vente" required
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
-                                        <option value="en_attente_livraison">en attente livraison</option>
-                                        <option value="relance">relance</option>
-                                        <option value="sav_1ere_visite">sav 1ere visite</option>
-                                        <option value="livre">livre</option>
-                                    </select>
-                            </div>
+                                <div class="space-y-2">
+        <label class="block text-sm font-medium text-gray-700">Phase post-vente</label>
+        <select name="car[post_sale_status]" id="post_sale_status" required
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
+            <option value="en_attente_livraison">En attente livraison</option>
+            <option value="relance">Relance</option>
+            <option value="sav_1ere_visite">SAV 1ère visite</option>
+            <option value="livre">Livré</option>
+        </select>
+    </div>
                             </div>
                         </div>
                     </div>
