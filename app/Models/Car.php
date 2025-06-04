@@ -29,4 +29,9 @@ class Car extends Model
     {
         return $this->hasMany(Entretien::class);
     }
+    public function client()
+{
+    return $this->belongsTo(Client::class);
+}
+
 }
