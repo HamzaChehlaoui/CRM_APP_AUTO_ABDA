@@ -26,7 +26,7 @@ class ClientController extends Controller
     );
     $clients = $data['clientsQuery']
     ->with('cars')
-    ->paginate(8);
+    ->paginate(3);
 
     return view('page.clients', array_merge($stats, [
         'branches' => $data['branches'],
