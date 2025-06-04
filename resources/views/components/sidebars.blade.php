@@ -33,7 +33,9 @@
             <a href="/dashboard" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('dashboard') }}">
                 <i class="fas fa-tachometer-alt mr-2 {{ iconClass('dashboard') }}"></i> Tableau de Bord
             </a>
-
+            <a href="/clients" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('clients') }}">
+                <i class="fas fa-car mr-2 {{ iconClass('clients') }}"></i> Clients
+            </a>
             <a href="/suivis" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('suivis') }}">
                 <i class="fas fa-calendar-alt mr-2 {{ iconClass('suivis') }}"></i> Suivis
             </a>
@@ -41,9 +43,11 @@
                 <i class="fas fa-bell mr-2 {{ iconClass('notifications') }}"></i> Notifications
                 <span class="ml-auto bg-red-100 text-red-500 text-xs font-semibold px-2 py-0.5 rounded-full">3</span>
             </a>
-            <a href="/clients" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('clients') }}">
-                <i class="fas fa-car mr-2 {{ iconClass('clients') }}"></i> Clients
+            <a href="/factures" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('factures') }}">
+                <i class="fas fa-file-invoice mr-2 {{ iconClass('factures') }}"></i> factures
+
             </a>
+
             <a href="/entretiens" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('entretiens') }}">
                 <i class="fas fa-wrench mr-2 {{ iconClass('entretiens') }}"></i> Entretiens
                 <span class="ml-auto bg-yellow-100 text-yellow-500 text-xs font-semibold px-2 py-0.5 rounded-full">8</span>
