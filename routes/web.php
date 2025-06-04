@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\SuiviController;
 
 /*
@@ -50,7 +51,9 @@ Route::middleware('auth')->group(function () {
     Route::view('/notifications', 'page.notifications');
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+    Route::get('/factures' ,[InvoiceController::class, 'index'])->name('invoice.index');
     Route::get('/clients' ,[ClientController::class, 'index'])->name('client.index');
+
     Route::view('/entretiens', 'page.entretiens');
     Route::view('/reclamations', 'page.reclamations');
     Route::view('/statistiques', 'page.statistiques');
