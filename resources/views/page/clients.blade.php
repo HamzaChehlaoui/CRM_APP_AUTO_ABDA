@@ -72,7 +72,9 @@
     </div>
 @endif
                 <!-- Clients Table -->
-                @livewire('clients-table')
+                <div class="bg-white rounded-xl shadow-card overflow-hidden">
+                {{-- @livewire('clients-table') --}}
+                </div>
 
             </div>
         </div>
@@ -88,7 +90,7 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <h2 class="text-2xl font-bold">Nouveau Client</h2>
-                        <p class="text-primary-100 mt-1">Ajoutez un client, sa voiture et sa facture</p>
+                        <p class="text-primary-100 mt-1">Ajoutez un client</p>
                     </div>
                     <button id="closeModalBtn"
                         class="text-white hover:text-primary-100 transition-colors duration-200 p-2 hover:bg-white hover:bg-opacity-10 rounded-lg">
@@ -111,20 +113,7 @@
                                 </div>
                                 <span class="ml-3 text-sm font-medium text-gray-900">Client</span>
                             </div>
-                            <div class="w-16 h-0.5 bg-gray-300"></div>
-                            <div class="flex items-center">
-                                <div class="w-10 h-10 bg-primary-600 rounded-full flex items-center justify-center text-white font-semibold">
-                                    <i class="fas fa-car text-sm"></i>
-                                </div>
-                                <span class="ml-3 text-sm font-medium text-gray-900">Voiture</span>
-                            </div>
-                            <div class="w-16 h-0.5 bg-gray-300"></div>
-                            <div class="flex items-center">
-                                <div class="w-10 h-10 bg-primary-600 rounded-full flex items-center justify-center text-white font-semibold">
-                                    <i class="fas fa-file-invoice text-sm"></i>
-                                </div>
-                                <span class="ml-3 text-sm font-medium text-gray-900">Facture</span>
-                            </div>
+
                         </div>
                     </div>
 
@@ -169,142 +158,6 @@
                         </div>
                     </div>
 
-                    <!-- Car Information -->
-                    <div class="mb-8">
-                        <div class="flex items-center mb-6">
-                            <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
-                                <i class="fas fa-car text-blue-600"></i>
-                            </div>
-                            <h3 class="text-lg font-semibold text-gray-900">Informations Voiture</h3>
-                        </div>
-
-                        <div class="bg-blue-50 rounded-lg p-6">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700">Marque *</label>
-                                    <input type="text" name="car[brand]" required
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700">Modèle *</label>
-                                    <input type="text" name="car[model]" required
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700">IVN *</label>
-                                    <input type="text" name="car[ivn]" required
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700">Numéro d'immatriculation *</label>
-                                    <input type="text" name="car[registration_number]" required
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700">Numéro de châssis *</label>
-                                    <input type="text" name="car[chassis_number]" required
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700">Couleur</label>
-                                    <input type="text" name="car[color]"
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
-                                </div>
-                                <div class="space-y-2 md:col-span-2">
-                                    <label class="block text-sm font-medium text-gray-700">Année de fabrication</label>
-                                    <input type="number" name="car[year]" min="1900" max="2099" step="1"
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Invoice Information -->
-                    <div class="mb-8">
-                        <div class="flex items-center mb-6">
-                            <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3">
-                                <i class="fas fa-file-invoice text-green-600"></i>
-                            </div>
-                            <h3 class="text-lg font-semibold text-gray-900">Informations Facture</h3>
-                        </div>
-
-                        <div class="bg-green-50 rounded-lg p-6">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700">Numéro de facture *</label>
-                                    <input type="text" name="invoice[invoice_number]" required
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 bg-white">
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700">Date de vente *</label>
-                                    <input type="date" name="invoice[sale_date]" required
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 bg-white" min="{{ date('Y-m-d') }}">
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700">Montant TTC *</label>
-                                    <div class="relative">
-                                        <input type="number" name="invoice[total_amount]" step="0.01" min="0" required
-                                            class="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 bg-white">
-                                        <span class="absolute right-3 top-3 text-gray-500 text-sm">MAD</span>
-                                    </div>
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700">Accord / Contrat *</label>
-                                    <input type="text" name="invoice[accord_reference]" required
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 bg-white">
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700">Bon de commande *</label>
-                                    <input type="text" name="invoice[purchase_order_number]" required
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 bg-white">
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700">Bon de livraison *</label>
-                                    <input type="text" name="invoice[delivery_note_number]" required
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 bg-white">
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700">Ordre de règlement *</label>
-                                    <input type="text" name="invoice[payment_order_reference]" required
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 bg-white">
-                                </div>
-
-                                <!-- Invoice Image Upload -->
-                                <div class="space-y-2 md:col-span-2">
-                                    <label class="block text-sm font-medium text-gray-700">Image de la facture </label>
-                                    <div class="mt-2">
-                                        <div class="flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-green-400 transition-colors duration-200 bg-white" id="invoice-upload-area">
-                                            <div class="space-y-2 text-center" id="upload-placeholder">
-                                                <div class="mx-auto h-12 w-12 text-gray-400">
-                                                    <i class="fas fa-cloud-upload-alt text-3xl"></i>
-                                                </div>
-                                                <div class="flex text-sm text-gray-600">
-                                                    <label for="invoice-image" class="relative cursor-pointer bg-white rounded-md font-medium text-green-600 hover:text-green-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-green-500">
-                                                        <span>Télécharger un fichier</span>
-                                                        <input id="invoice-image" name="invoice[image]" type="file" accept="image/*"  class="sr-only">
-                                                    </label>
-                                                    <p class="pl-1">ou glisser-déposer</p>
-                                                </div>
-                                                <p class="text-xs text-gray-500">PNG, JPG, JPEG jusqu'à 10MB</p>
-                                            </div>
-                                            <div class="hidden" id="upload-preview">
-                                                <div class="flex items-center space-x-4">
-                                                    <img id="preview-image" class="h-20 w-20 object-cover rounded-lg border border-gray-200" src="" alt="Preview">
-                                                    <div class="flex-1">
-                                                        <p id="file-name" class="text-sm font-medium text-gray-900"></p>
-                                                        <p id="file-size" class="text-xs text-gray-500"></p>
-                                                        <button type="button" id="remove-image" class="mt-1 text-xs text-red-600 hover:text-red-500">
-                                                            <i class="fas fa-trash mr-1"></i>Supprimer
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </form>
                 <!-- Modal Footer -->
                 <div class="bg-gray-50 px-8 py-6 border-t border-gray-200">
