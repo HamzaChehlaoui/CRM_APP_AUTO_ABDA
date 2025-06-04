@@ -45,7 +45,7 @@ class ClientsTable extends Component
 
         $clients = $data['clientsQuery']
             ->with('cars')
-            ->paginate(4);
+            ->paginate(6);
 
         return view('livewire.clients-table', [
             'clients' => $clients,
