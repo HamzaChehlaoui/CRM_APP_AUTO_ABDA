@@ -26,7 +26,7 @@ class ClientController extends Controller
     );
     $clients = $data['clientsQuery']
     ->with('cars')
-    ->paginate(3);
+    ->get();
 
     return view('page.clients', array_merge($stats, [
         'branches' => $data['branches'],
@@ -37,7 +37,7 @@ class ClientController extends Controller
     public function create()
 {
     // $userBranchId = auth()->user()->branch_id;
-    return view('page.clients', compact('userBranchId'));
+    return view('page.factures', compact('userBranchId'));
 }
 
 public function storeAll(StoreClientRequest $request)
