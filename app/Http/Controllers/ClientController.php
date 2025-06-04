@@ -127,7 +127,7 @@ public function storeAll(StoreClientRequest $request)
 
     public function show(Client $client)
     {
-        $client->load(['invoices', 'suivis', 'reclamations', 'entretiens']);
+        $client->load(['invoices', 'suivis', 'reclamations']);
         return view('clients.show', compact('client'));
     }
 

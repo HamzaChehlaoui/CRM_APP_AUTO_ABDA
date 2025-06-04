@@ -85,9 +85,7 @@
                         <a href="#" class="py-4 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap">
                             Ventes
                         </a>
-                        <a href="#" class="py-4 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap">
-                            Entretiens
-                        </a>
+                        
                         <a href="#" class="py-4 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap">
                             Satisfaction client
                         </a>
@@ -120,17 +118,7 @@
                         <p class="text-sm text-gray-500 mt-1">Ce mois-ci</p>
                     </div>
 
-                    <div class="bg-white rounded-xl shadow-card p-6">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="w-12 h-12 rounded-lg bg-yellow-100 flex items-center justify-center">
-                                <i class="fas fa-wrench text-xl text-yellow-600"></i>
-                            </div>
-                            <span class="bg-yellow-100 text-yellow-700 text-xs px-2 py-1 rounded-full font-medium">↑ 5%</span>
-                        </div>
-                        <h3 class="text-lg font-semibold text-gray-800 mb-1">Entretiens</h3>
-                        <p class="text-3xl font-bold text-yellow-600">87</p>
-                        <p class="text-sm text-gray-500 mt-1">Ce mois-ci</p>
-                    </div>
+
 
                     <div class="bg-white rounded-xl shadow-card p-6">
                         <div class="flex items-center justify-between mb-4">

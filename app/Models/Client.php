@@ -34,10 +34,7 @@ class Client extends Model
         return $this->hasMany(Suivi::class);
     }
 
-    public function entretiens(): HasMany
-    {
-        return $this->hasMany(Entretien::class);
-    }
+  
 
     public function reclamations(): HasMany
     {

@@ -21,7 +21,6 @@ class DatabaseSeeder extends Seeder
             InvoiceSeeder::class,
             SuiviSeeder::class,
             NotificationSeeder::class,
-            EntretienSeeder::class,
             ReclamationSeeder::class,
         ]);
     }

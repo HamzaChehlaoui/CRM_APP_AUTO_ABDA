@@ -54,7 +54,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/factures' ,[InvoiceController::class, 'index'])->name('invoice.index');
     Route::get('/clients' ,[ClientController::class, 'index'])->name('client.index');
 
-    Route::view('/entretiens', 'page.entretiens');
     Route::view('/reclamations', 'page.reclamations');
     Route::view('/statistiques', 'page.statistiques');
     Route::view('/exporter', 'page.exporter');

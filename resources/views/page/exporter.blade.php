@@ -49,7 +49,6 @@
                             <select class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500">
                                 <option value="clients">Clients</option>
                                 <option value="suivis">Suivis</option>
-                                <option value="entretiens">Entretiens</option>
                                 <option value="reclamations">Réclamations</option>
                                 <option value="ventes">Ventes</option>
                                 <option value="vehicules">Véhicules</option>
@@ -60,7 +59,7 @@
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Format</label>
                             <div class="flex space-x-4">
-                               
+
                                 <label class="inline-flex items-center">
                                     <input type="radio" name="format" value="excel" class="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded">
                                     <span class="ml-2 text-gray-700">Excel</span>
@@ -359,7 +358,6 @@
                                 </tr>
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">15/05/2025 11:20</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Entretiens</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Excel</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">David Girard</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">124</td>
