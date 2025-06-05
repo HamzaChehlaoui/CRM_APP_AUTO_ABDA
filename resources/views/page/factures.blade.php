@@ -197,16 +197,16 @@
                                     <input type="number" name="car[year]" min="1900" max="2099" step="1"
                                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
                                 </div>
-                                <div class="space-y-2">
-        <label class="block text-sm font-medium text-gray-700">Phase post-vente</label>
-        <select name="car[post_sale_status]" id="post_sale_status" required
-            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
-            <option value="en_attente_livraison">En attente livraison</option>
-            <option value="relance">Relance</option>
-            <option value="sav_1ere_visite">SAV 1ère visite</option>
-            <option value="livre">Livré</option>
-        </select>
-    </div>
+                            <div class="space-y-2">
+    <label class="block text-sm font-medium text-gray-700">Statut après-vente *</label>
+    <select name="car[post_sale_status]" required
+        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
+        <option value="en_attente_livraison">En attente livraison</option>
+        <option value="livre">Livré</option>
+        <option value="sav_1ere_visite">SAV 1ère visite</option>
+        <option value="relance">Relance</option>
+    </select>
+</div>
                             </div>
                         </div>
                     </div>
