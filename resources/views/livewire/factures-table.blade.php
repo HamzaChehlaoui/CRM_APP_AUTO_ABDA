@@ -16,10 +16,18 @@
     @endif
 
     <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-        @foreach($clients as $client)
+        @foreach($invoices as $invoice)
             @php
-                $invoice = $client->invoices->first();
-                $car = $client->cars->first();
+                $client = $invoice->client;
+                $car = $invoice->car; // Assuming invoice has a direct relationship to a car
+                $status = $car->post_sale_status;
+                $colors = [
+                    'en_attente_livraison' => 'bg-yellow-100 text-yellow-800 border-yellow-300',
+                    'livre' => 'bg-green-100 text-green-800 border-green-300',
+                    'sav_1ere_visite' => 'bg-blue-100 text-blue-800 border-blue-300',
+                    'relance' => 'bg-red-100 text-red-800 border-red-300',
+                ];
+                $colorClass = $colors[$status] ?? 'bg-gray-100 text-gray-800 border-gray-300';
             @endphp
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow duration-200">
                 {{-- Card Header --}}
@@ -34,20 +42,9 @@
                                 <p class="text-sm text-gray-500">CIN: {{ $client->cin }}</p>
                             </div>
                         </div>
-                        @php
-    $status = $client->post_sale_status;
-    $colors = [
-        'en_attente_livraison' => 'bg-yellow-100 text-yellow-800 border-yellow-300',
-        'livre' => 'bg-green-100 text-green-800 border-green-300',
-        'sav_1ere_visite' => 'bg-blue-100 text-blue-800 border-blue-300',
-        'relance' => 'bg-red-100 text-red-800 border-red-300',
-    ];
-    $colorClass = $colors[$status] ?? 'bg-gray-100 text-gray-800 border-gray-300';
-@endphp
-
-<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border {{ $colorClass }}">
-    {{ $status }}
-</span>
+                        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border {{ $colorClass }}">
+                            {{ $status }}
+                        </span>
                     </div>
                 </div>
 
@@ -112,48 +109,46 @@
                 @endif
 
                 {{-- Invoice Info --}}
-                @if($invoice)
-                    <div class="px-6 py-4 bg-green-50 border-t border-green-100">
-                        <div class="flex items-center mb-3">
-                            <i class="fas fa-file-invoice text-green-600 mr-2"></i>
-                            <h4 class="font-medium text-gray-900">Facture</h4>
+                <div class="px-6 py-4 bg-green-50 border-t border-green-100">
+                    <div class="flex items-center mb-3">
+                        <i class="fas fa-file-invoice text-green-600 mr-2"></i>
+                        <h4 class="font-medium text-gray-900">Facture</h4>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 text-sm">
+                        <div>
+                            <span class="text-gray-600">N° Facture:</span>
+                            <p class="font-medium text-gray-900">{{ $invoice->invoice_number }}</p>
                         </div>
-                        <div class="grid grid-cols-2 gap-3 text-sm">
-                            <div>
-                                <span class="text-gray-600">N° Facture:</span>
-                                <p class="font-medium text-gray-900">{{ $invoice->invoice_number }}</p>
-                            </div>
-                            <div>
-                                <span class="text-gray-600">Date vente:</span>
-                                <p class="font-medium text-gray-900">{{ \Carbon\Carbon::parse($invoice->sale_date)->format('d/m/Y') }}</p>
-                            </div>
-                            <div class="col-span-2">
-                                <span class="text-gray-600">Montant TTC:</span>
-                                <p class="font-bold text-lg text-green-600">{{ number_format($invoice->total_amount, 2, ',', ' ') }} DH</p>
-                            </div>
+                        <div>
+                            <span class="text-gray-600">Date vente:</span>
+                            <p class="font-medium text-gray-900">{{ \Carbon\Carbon::parse($invoice->sale_date)->format('d/m/Y') }}</p>
                         </div>
-                        <div class="mt-3 pt-3 border-t border-green-200">
-                            <div class="grid grid-cols-2 gap-2 text-xs">
-                                <div>
-                                    <span class="text-gray-600">Accord:</span>
-                                    <span class="text-gray-900 ml-1">{{ $invoice->accord_reference }}</span>
-                                </div>
-                                <div>
-                                    <span class="text-gray-600">Bon commande:</span>
-                                    <span class="text-gray-900 ml-1">{{ $invoice->purchase_order_number }}</span>
-                                </div>
-                                <div>
-                                    <span class="text-gray-600">Bon livraison:</span>
-                                    <span class="text-gray-900 ml-1">{{ $invoice->delivery_note_number }}</span>
-                                </div>
-                                <div>
-                                    <span class="text-gray-600">Ordre règlement:</span>
-                                    <span class="text-gray-900 ml-1">{{ $invoice->payment_order_reference }}</span>
-                                </div>
+                        <div class="col-span-2">
+                            <span class="text-gray-600">Montant TTC:</span>
+                            <p class="font-bold text-lg text-green-600">{{ number_format($invoice->total_amount, 2, ',', ' ') }} DH</p>
+                        </div>
+                    </div>
+                    <div class="mt-3 pt-3 border-t border-green-200">
+                        <div class="grid grid-cols-2 gap-2 text-xs">
+                            <div>
+                                <span class="text-gray-600">Accord:</span>
+                                <span class="text-gray-900 ml-1">{{ $invoice->accord_reference }}</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-600">Bon commande:</span>
+                                <span class="text-gray-900 ml-1">{{ $invoice->purchase_order_number }}</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-600">Bon livraison:</span>
+                                <span class="text-gray-900 ml-1">{{ $invoice->delivery_note_number }}</span>
+                            </div>
+                            <div>
+                                <span class="text-gray-600">Ordre règlement:</span>
+                                <span class="text-gray-900 ml-1">{{ $invoice->payment_order_reference }}</span>
                             </div>
                         </div>
                     </div>
-                @endif
+                </div>
 
                 {{-- Card Footer --}}
                 <div class="px-6 py-4 bg-gray-50 border-t border-gray-100">
@@ -178,41 +173,30 @@
                                         </button>
                                         <h2 class="text-lg font-semibold mb-4">Image de la Facture</h2>
 
-                                        @if($invoice && $invoice->image_path)
-                                            @php
-                                                // Try different path combinations
-                                                $imagePath = $invoice->image_path;
-                                                $fullPath = null;
+                                        @php
+                                            $imagePath = $invoice->image_path;
+                                            $fullPath = null;
 
-                                                // Check if it's a storage path
-                                                if (file_exists(storage_path('app/public/' . $imagePath))) {
-                                                    $fullPath = asset('storage/' . $imagePath);
-                                                }
-                                                // Check if it's already in public
-                                                elseif (file_exists(public_path($imagePath))) {
-                                                    $fullPath = asset($imagePath);
-                                                }
-                                                // Check if it's in public/storage
-                                                elseif (file_exists(public_path('storage/' . $imagePath))) {
-                                                    $fullPath = asset('storage/' . $imagePath);
-                                                }
-                                            @endphp
+                                            if (file_exists(storage_path('app/public/' . $imagePath))) {
+                                                $fullPath = asset('storage/' . $imagePath);
+                                            }
+                                            elseif (file_exists(public_path($imagePath))) {
+                                                $fullPath = asset($imagePath);
+                                            }
+                                            elseif (file_exists(public_path('storage/' . $imagePath))) {
+                                                $fullPath = asset('storage/' . $imagePath);
+                                            }
+                                        @endphp
 
-                                            @if($fullPath)
-                                                <img src="{{ $fullPath }}" alt="Facture"
-                                                    class="w-full rounded border shadow-sm max-h-96 object-contain"
-                                                    onerror="this.parentElement.innerHTML='<p class=\'text-red-500 text-sm\'>Erreur lors du chargement de l\'image</p>'">
-                                            @else
-                                                <div class="text-center py-8">
-                                                    <i class="fas fa-exclamation-triangle text-yellow-500 text-3xl mb-3"></i>
-                                                    <p class="text-sm text-gray-600">Image introuvable</p>
-                                                    <p class="text-xs text-gray-400 mt-1">Chemin: {{ $imagePath }}</p>
-                                                </div>
-                                            @endif
+                                        @if($fullPath)
+                                            <img src="{{ $fullPath }}" alt="Facture {{ $invoice->invoice_number }}"
+                                                class="w-full rounded border shadow-sm max-h-96 object-contain"
+                                                onerror="this.parentElement.innerHTML='<p class=\'text-red-500 text-sm\'>Erreur lors du chargement de l\'image</p>'">
                                         @else
                                             <div class="text-center py-8">
-                                                <i class="fas fa-image text-gray-400 text-3xl mb-3"></i>
-                                                <p class="text-sm text-gray-500">Aucune image disponible pour cette facture.</p>
+                                                <i class="fas fa-exclamation-triangle text-yellow-500 text-3xl mb-3"></i>
+                                                <p class="text-sm text-gray-600">Image introuvable</p>
+                                                <p class="text-xs text-gray-400 mt-1">Chemin: {{ $imagePath }}</p>
                                             </div>
                                         @endif
                                     </div>
@@ -236,7 +220,7 @@
     </div>
 
     <div class="mt-4">
-        {{ $clients->links() }}
+        {{ $invoices->links() }}
     </div>
 
 </div>
