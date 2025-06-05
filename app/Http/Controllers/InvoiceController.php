@@ -42,6 +42,7 @@ class InvoiceController extends Controller
 
     public function storeAll(StoreInvoiceRequest $request)
 {
+
     $validated = $request->validated();
 
     Log::info('Validated data:', $validated);
