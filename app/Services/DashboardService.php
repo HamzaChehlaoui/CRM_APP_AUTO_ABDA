@@ -148,20 +148,31 @@ class DashboardService
 
         return [$clientsVendus, $labels];
     }
-   public function getPostSaleStats($user, $selectedBranch = 'all'): array
+ public function getPostSaleStats($user, $selectedBranch = 'all'): array
 {
     $branchInfo = $this->resolveBranchInfo($user, $selectedBranch);
-
     /** @var \Illuminate\Database\Eloquent\Builder $clientsQuery */
     $clientsQuery = $branchInfo['clientsQuery'];
 
     return [
-        'en_attente_livraison' => (clone $clientsQuery)->where('post_sale_status', 'en_attente_livraison')->count(),
-        'livre' => (clone $clientsQuery)->where('post_sale_status', 'livre')->count(),
-        'sav_1ere_visite' => (clone $clientsQuery)->where('post_sale_status', 'sav_1ere_visite')->count(),
-        'relance' => (clone $clientsQuery)->where('post_sale_status', 'relance')->count(),
+        'en_attente_livraison' => (clone $clientsQuery)
+            ->whereHas('cars', fn($q) => $q->where('post_sale_status', 'en_attente_livraison'))
+            ->count(),
+
+        'livre' => (clone $clientsQuery)
+            ->whereHas('cars', fn($q) => $q->where('post_sale_status', 'livre'))
+            ->count(),
+
+        'sav_1ere_visite' => (clone $clientsQuery)
+            ->whereHas('cars', fn($q) => $q->where('post_sale_status', 'sav_1ere_visite'))
+            ->count(),
+
+        'relance' => (clone $clientsQuery)
+            ->whereHas('cars', fn($q) => $q->where('post_sale_status', 'relance'))
+            ->count(),
     ];
 }
+
 public function getFilteredInvoices($user, $selectedBranch)
 {
     $branchInfo = $this->resolveBranchInfo($user, $selectedBranch);
