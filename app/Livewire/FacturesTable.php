@@ -5,8 +5,8 @@ namespace App\Livewire;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 use App\Services\DashboardService;
+use App\Models\Invoice;
 
 class FacturesTable extends Component
 {
@@ -43,12 +43,12 @@ class FacturesTable extends Component
         $user = Auth::user();
         $data = $dashboardService->resolveBranchInfo($user, $this->selectedBranch);
 
-        $clients = $data['clientsQuery']
-            ->with('cars')
+        $invoices = $data['invoicesQuery']
+            ->with(['client', 'car'])
             ->paginate(6);
 
         return view('livewire.factures-table', [
-            'clients' => $clients,
+            'invoices' => $invoices,
             'branches' => $this->branches,
             'selectedBranch' => $this->selectedBranch,
             'stats' => $this->stats,
