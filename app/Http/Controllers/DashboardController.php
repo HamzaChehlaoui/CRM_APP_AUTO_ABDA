@@ -34,7 +34,7 @@ public function index(Request $request, DashboardService $dashboardService)
     );
     $clients = $data['clientsQuery']
     ->with('cars')
-    ->take(3)
+    ->take(8)
     ->get();
     /// Clients vendus par terme
     [$clientsVendus, $labels] = $dashboardService->getClientsVendus($data['invoicesQuery'], $period);
