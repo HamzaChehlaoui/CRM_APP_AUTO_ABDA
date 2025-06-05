@@ -73,7 +73,7 @@
 @endif
                 <!-- Clients Table -->
                 <div class="bg-white rounded-xl shadow-card overflow-hidden">
-                {{-- @livewire('clients-table') --}}
+                @livewire('clients-table')
                 </div>
 
             </div>
