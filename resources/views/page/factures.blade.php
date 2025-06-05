@@ -230,7 +230,7 @@
                                 <div class="space-y-2">
                                     <label class="block text-sm font-medium text-gray-700">Date de vente *</label>
                                     <input type="date" name="invoice[sale_date]" required
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 bg-white" min="{{ date('Y-m-d') }}">
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 bg-white" >
                                 </div>
                                 <div class="space-y-2">
                                     <label class="block text-sm font-medium text-gray-700">Montant TTC *</label>
@@ -260,7 +260,16 @@
                                     <input type="text" name="invoice[payment_order_reference]" required
                                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 bg-white">
                                 </div>
-
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-gray-700">Statut Facture *</label>
+                                        <select name="invoice[statut_facture]" required
+                                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
+                                            <option value="creation" selected>Creation</option>
+                                            <option value="facturé">Facturé</option>
+                                            <option value="envoyée_pour_paiement">Envoyée pour paiement</option>
+                                            <option value="paiement">Paiement</option>
+                                        </select>
+                                </div>
                                 <!-- Invoice Image Upload -->
                                 <div class="space-y-2 md:col-span-2">
                                     <label class="block text-sm font-medium text-gray-700">Image de la facture </label>
