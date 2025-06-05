@@ -44,7 +44,11 @@
                         <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border {{ $colorClass }}">
                             {{ $status }}
                         </span>
+                        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border bg-blue-100 text-blue-800 border-blue-300">
+                            {{ $invoice->statut_facture }}
+                        </span>
                     </div>
+
                 </div>
 
                 {{-- Client Info --}}
@@ -204,9 +208,6 @@
 
                             <button class="p-2 text-yellow-600 hover:bg-yellow-100 rounded-lg transition-colors" title="Modifier">
                                 <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="p-2 text-green-600 hover:bg-green-100 rounded-lg transition-colors" title="Véhicules">
-                                <i class="fas fa-car"></i>
                             </button>
                             <button class="p-2 text-purple-600 hover:bg-purple-100 rounded-lg transition-colors" title="Factures">
                                 <i class="fas fa-file-invoice-dollar"></i>
