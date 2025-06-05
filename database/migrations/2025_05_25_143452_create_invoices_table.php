@@ -24,7 +24,12 @@ return new class extends Migration
             $table->string('purchase_order_number')->nullable()->comment('Bon de commande (bc)');
             $table->string('delivery_note_number')->nullable()->comment('Bon de livraison (bl)');
             $table->string('payment_order_reference')->nullable()->comment('Ordre de règlement (or)');
-
+             $table->enum('statut_facture', [
+            'creation',
+            'facturé',
+            'envoyée_pour_paiement',
+            'paiement'
+        ])->default('creation')->comment('statut_facture');
             $table->foreignId('client_id')->constrained('clients')->onDelete('cascade')->comment('Client');
             $table->foreignId('car_id')->constrained('cars')->onDelete('cascade')->comment('Véhicule');
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null')->comment('Utilisateur qui a créé la facture');
