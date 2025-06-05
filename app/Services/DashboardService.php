@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class DashboardService
 {
@@ -150,28 +151,33 @@ class DashboardService
     }
 public function getPostSaleStats($user, $selectedBranch = 'all'): array
 {
-    $branchInfo = $this->resolveBranchInfo($user, $selectedBranch);
-    /** @var \Illuminate\Database\Eloquent\Builder $clientsQuery */
-    $clientsQuery = $branchInfo['clientsQuery'];
+    $query = DB::table('clients')
+        ->join('cars', 'clients.id', '=', 'cars.client_id');
+
+    if ($selectedBranch !== 'all') {
+        $query->where('clients.branch_id', $selectedBranch);
+    }
 
     return [
-        'en_attente_livraison' => (clone $clientsQuery)
-            ->whereHas('cars', fn($q) => $q->where('post_sale_status', 'en_attente_livraison'))
+        'en_attente_livraison' => (clone $query)
+            ->where('cars.post_sale_status', 'en_attente_livraison')
             ->count(),
 
-        'livre' => (clone $clientsQuery)
-            ->whereHas('cars', fn($q) => $q->where('post_sale_status', 'livre'))
+        'livre' => (clone $query)
+            ->where('cars.post_sale_status', 'livre')
             ->count(),
 
-        'sav_1ere_visite' => (clone $clientsQuery)
-            ->whereHas('cars', fn($q) => $q->where('post_sale_status', 'sav_1ere_visite'))
+        'sav_1ere_visite' => (clone $query)
+            ->where('cars.post_sale_status', 'sav_1ere_visite')
             ->count(),
 
-        'relance' => (clone $clientsQuery)
-            ->whereHas('cars', fn($q) => $q->where('post_sale_status', 'relance'))
+        'relance' => (clone $query)
+            ->where('cars.post_sale_status', 'relance')
             ->count(),
     ];
 }
+
+
 
 public function getFilteredInvoices($user, $selectedBranch)
 {
