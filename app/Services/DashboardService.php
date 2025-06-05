@@ -177,8 +177,6 @@ public function getPostSaleStats($user, $selectedBranch = 'all'): array
         ];
     }
 
-
-
 public function getFilteredInvoices($user, $selectedBranch)
     {
         $branchInfo = $this->resolveBranchInfo($user, $selectedBranch);
