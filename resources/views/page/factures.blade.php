@@ -130,83 +130,83 @@
 
                     <!-- Client Information -->
                     <!-- Client Information -->
-<<div class="mb-8">
-    <div class="flex items-center mb-6">
-        <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
-            <i class="fas fa-user text-blue-600"></i>
-        </div>
-        <h3 class="text-lg font-semibold text-gray-900">Sélection Client</h3>
-    </div>
-    <div class="bg-blue-50 rounded-lg p-6">
-        <div class="space-y-2">
-            <label class="block text-sm font-medium text-gray-700">Client *</label>
-            <select name="client_id" id="client_id" required
-                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
-                <option value="">Sélectionner un client</option>
-                @foreach($clients as $client)
-                    <option value="{{ $client->id }}">{{ $client->full_name }}</option>
-                @endforeach
-            </select>
-        </div>
-    </div>
-</div>
-
-                    <!-- Car Information -->
                     <div class="mb-8">
                         <div class="flex items-center mb-6">
                             <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
-                                <i class="fas fa-car text-blue-600"></i>
+                                <i class="fas fa-user text-blue-600"></i>
                             </div>
-                            <h3 class="text-lg font-semibold text-gray-900">Informations Voiture</h3>
+                            <h3 class="text-lg font-semibold text-gray-900">Sélection Client</h3>
                         </div>
-
                         <div class="bg-blue-50 rounded-lg p-6">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700">Marque *</label>
-                                    <input type="text" name="car[brand]" required
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700">Modèle *</label>
-                                    <input type="text" name="car[model]" required
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700">IVN *</label>
-                                    <input type="text" name="car[ivn]" required
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700">Numéro d'immatriculation *</label>
-                                    <input type="text" name="car[registration_number]" required
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700">Numéro de châssis *</label>
-                                    <input type="text" name="car[chassis_number]" required
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700">Couleur</label>
-                                    <input type="text" name="car[color]"
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700">Année de fabrication</label>
-                                    <input type="number" name="car[year]" min="1900" max="2099" step="1"
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
-                                </div>
                             <div class="space-y-2">
-    <label class="block text-sm font-medium text-gray-700">Statut après-vente *</label>
-    <select name="car[post_sale_status]" required
-        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
-        <option value="en_attente_livraison">En attente livraison</option>
-        <option value="livre">Livré</option>
-        <option value="sav_1ere_visite">SAV 1ère visite</option>
-        <option value="relance">Relance</option>
-    </select>
-</div>
+                                <label class="block text-sm font-medium text-gray-700">Client *</label>
+                                <select name="client_id" id="client_id" required
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
+                                    <option value="">Sélectionner un client</option>
+                                    @foreach($clients as $client)
+                                        <option value="{{ $client->id }}">{{ $client->full_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                                        <!-- Car Information -->
+                                        <div class="mb-8">
+                                            <div class="flex items-center mb-6">
+                                                <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                                                    <i class="fas fa-car text-blue-600"></i>
+                                                </div>
+                                                <h3 class="text-lg font-semibold text-gray-900">Informations Voiture</h3>
+                                            </div>
+
+                                            <div class="bg-blue-50 rounded-lg p-6">
+                                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                                    <div class="space-y-2">
+                                                        <label class="block text-sm font-medium text-gray-700">Marque *</label>
+                                                        <input type="text" name="car[brand]" required
+                                                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
+                                                    </div>
+                                                    <div class="space-y-2">
+                                                        <label class="block text-sm font-medium text-gray-700">Modèle *</label>
+                                                        <input type="text" name="car[model]" required
+                                                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
+                                                    </div>
+                                                    <div class="space-y-2">
+                                                        <label class="block text-sm font-medium text-gray-700">IVN *</label>
+                                                        <input type="text" name="car[ivn]" required
+                                                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
+                                                    </div>
+                                                    <div class="space-y-2">
+                                                        <label class="block text-sm font-medium text-gray-700">Numéro d'immatriculation *</label>
+                                                        <input type="text" name="car[registration_number]" required
+                                                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
+                                                    </div>
+                                                    <div class="space-y-2">
+                                                        <label class="block text-sm font-medium text-gray-700">Numéro de châssis *</label>
+                                                        <input type="text" name="car[chassis_number]" required
+                                                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
+                                                    </div>
+                                                    <div class="space-y-2">
+                                                        <label class="block text-sm font-medium text-gray-700">Couleur</label>
+                                                        <input type="text" name="car[color]"
+                                                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
+                                                    </div>
+                                                    <div class="space-y-2">
+                                                        <label class="block text-sm font-medium text-gray-700">Année de fabrication</label>
+                                                        <input type="number" name="car[year]" min="1900" max="2099" step="1"
+                                                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
+                                                    </div>
+                                                <div class="space-y-2">
+                        <label class="block text-sm font-medium text-gray-700">Statut après-vente *</label>
+                        <select name="car[post_sale_status]" required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
+                            <option value="en_attente_livraison">En attente livraison</option>
+                            <option value="livre">Livré</option>
+                            <option value="sav_1ere_visite">SAV 1ère visite</option>
+                            <option value="relance">Relance</option>
+                        </select>
+                    </div>
                             </div>
                         </div>
                     </div>

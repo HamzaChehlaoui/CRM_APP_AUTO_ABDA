@@ -74,18 +74,18 @@ class DashboardService
         $suivisEnCoursCurrent = (clone $suivisQuery)->where('status', 'en_cours')->count();
         $activeClientsCurrent = (clone $clientsQuery)->whereHas('invoices')->count();
         $salesThisMonthCurrent = (clone $invoicesQuery)->whereMonth('sale_date', $now->month)
-                                                      ->whereYear('sale_date', $now->year)
-                                                      ->count();
+                                                    ->whereYear('sale_date', $now->year)
+                                                    ->count();
 
         // Last month
         $totalClientsLast = (clone $clientsQuery)->whereMonth('created_at', $lastMonth->month)
-                                                 ->whereYear('created_at', $lastMonth->year)
-                                                 ->count();
+                                                ->whereYear('created_at', $lastMonth->year)
+                                                ->count();
 
         $suivisEnCoursLast = (clone $suivisQuery)->where('status', 'en_cours')
-                                                 ->whereMonth('created_at', $lastMonth->month)
-                                                 ->whereYear('created_at', $lastMonth->year)
-                                                 ->count();
+                                                ->whereMonth('created_at', $lastMonth->month)
+                                                ->whereYear('created_at', $lastMonth->year)
+                                                ->count();
 
         $activeClientsLast = (clone $clientsQuery)->whereHas('invoices', function ($q) use ($lastMonth) {
             $q->whereMonth('sale_date', $lastMonth->month)
