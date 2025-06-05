@@ -148,7 +148,7 @@ class DashboardService
 
         return [$clientsVendus, $labels];
     }
- public function getPostSaleStats($user, $selectedBranch = 'all'): array
+public function getPostSaleStats($user, $selectedBranch = 'all'): array
 {
     $branchInfo = $this->resolveBranchInfo($user, $selectedBranch);
     /** @var \Illuminate\Database\Eloquent\Builder $clientsQuery */

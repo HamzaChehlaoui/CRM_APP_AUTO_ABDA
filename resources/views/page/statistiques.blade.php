@@ -73,65 +73,9 @@
                     </div>
                 </div>
 
-                <!-- Tabs -->
-                <div class="border-b border-gray-200 mb-6">
-                    <nav class="flex -mb-px space-x-8">
-                        <a href="#" class="py-4 px-1 border-b-2 border-primary-500 font-medium text-sm text-primary-600 whitespace-nowrap">
-                            Vue d'ensemble
-                        </a>
-                        <a href="#" class="py-4 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap">
-                            Prospects
-                        </a>
-                        <a href="#" class="py-4 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap">
-                            Ventes
-                        </a>
-                        
-                        <a href="#" class="py-4 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap">
-                            Satisfaction client
-                        </a>
-                    </nav>
-                </div>
-
-                <!-- Summary Stats -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    <div class="bg-white rounded-xl shadow-card p-6">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center">
-                                <i class="fas fa-user-plus text-xl text-primary-600"></i>
-                            </div>
-                            <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium">↑ 12%</span>
-                        </div>
-                        <h3 class="text-lg font-semibold text-gray-800 mb-1">Nouveaux Prospects</h3>
-                        <p class="text-3xl font-bold text-primary-600">53</p>
-                        <p class="text-sm text-gray-500 mt-1">Ce mois-ci</p>
-                    </div>
-
-                    <div class="bg-white rounded-xl shadow-card p-6">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center">
-                                <i class="fas fa-car text-xl text-purple-600"></i>
-                            </div>
-                            <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium">↑ 15%</span>
-                        </div>
-                        <h3 class="text-lg font-semibold text-gray-800 mb-1">Ventes</h3>
-                        <p class="text-3xl font-bold text-purple-600">42</p>
-                        <p class="text-sm text-gray-500 mt-1">Ce mois-ci</p>
-                    </div>
 
 
 
-                    <div class="bg-white rounded-xl shadow-card p-6">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center">
-                                <i class="fas fa-smile text-xl text-green-600"></i>
-                            </div>
-                            <span class="bg-red-100 text-red-700 text-xs px-2 py-1 rounded-full font-medium">↓ 2%</span>
-                        </div>
-                        <h3 class="text-lg font-semibold text-gray-800 mb-1">Satisfaction</h3>
-                        <p class="text-3xl font-bold text-green-600">92%</p>
-                        <p class="text-sm text-gray-500 mt-1">Ce mois-ci</p>
-                    </div>
-                </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <!-- Main Chart -->
