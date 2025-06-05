@@ -25,6 +25,7 @@ class StoreInvoiceRequest extends FormRequest
         'invoice.purchase_order_number' => 'nullable|string|max:255',
         'invoice.delivery_note_number' => 'nullable|string|max:255',
         'invoice.payment_order_reference' => 'nullable|string|max:255',
+        'invoice.statut_facture' => 'required|in:creation,facturé,envoyée_pour_paiement,paiement',
         'invoice.image' => 'nullable|image|mimes:png,jpg,jpeg|max:10240', // 10MB max
     ];
 }
