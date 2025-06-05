@@ -83,6 +83,7 @@ class InvoiceController extends Controller
             'purchase_order_number' => $validated['invoice']['purchase_order_number'] ?? null,
             'delivery_note_number' => $validated['invoice']['delivery_note_number'] ?? null,
             'payment_order_reference' => $validated['invoice']['payment_order_reference'] ?? null,
+            'statut_facture'=> $validated['invoice']['statut_facture'],
             'client_id' => $client->id,
             'car_id' => $car->id,
             'user_id' => auth()->id(),
