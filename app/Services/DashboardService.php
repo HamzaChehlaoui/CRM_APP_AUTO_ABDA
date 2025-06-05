@@ -13,51 +13,51 @@ use Illuminate\Support\Facades\DB;
 
 class DashboardService
 {
-     public function resolveBranchInfo($user, $selectedBranch): array
-{
-    if ($user->role_id == 1 || $user->role_id == 2) {
-        $clientsQuery = Client::query();
-        $suivisQuery = Suivi::query();
-        $invoicesQuery = Invoice::query();
+public function resolveBranchInfo($user, $selectedBranch): array
+    {
+        if ($user->role_id == 1 || $user->role_id == 2) {
+            $clientsQuery = Client::query();
+            $suivisQuery = Suivi::query();
+            $invoicesQuery = Invoice::query();
 
-        if ($selectedBranch !== 'all') {
-            $clientsQuery->where('branch_id', $selectedBranch);
+            if ($selectedBranch !== 'all') {
+                $clientsQuery->where('branch_id', $selectedBranch);
 
-            $suivisQuery->whereHas('client', function ($query) use ($selectedBranch) {
-                $query->where('branch_id', $selectedBranch);
-            });
+                $suivisQuery->whereHas('client', function ($query) use ($selectedBranch) {
+                    $query->where('branch_id', $selectedBranch);
+                });
 
-            $invoicesQuery->whereHas('client', function ($query) use ($selectedBranch) {
-                $query->where('branch_id', $selectedBranch);
-            });
+                $invoicesQuery->whereHas('client', function ($query) use ($selectedBranch) {
+                    $query->where('branch_id', $selectedBranch);
+                });
+            }
+
+            return [
+                'clientsQuery' => $clientsQuery,
+                'suivisQuery' => $suivisQuery,
+                'invoicesQuery' => $invoicesQuery,
+                'branches' => Branch::all()
+            ];
         }
 
+        $branchId = $user->branch_id;
+
         return [
-            'clientsQuery' => $clientsQuery,
-            'suivisQuery' => $suivisQuery,
-            'invoicesQuery' => $invoicesQuery,
-            'branches' => Branch::all()
+            'clientsQuery' => Client::where('branch_id', $branchId),
+
+            'suivisQuery' => Suivi::whereHas('client', function ($query) use ($branchId) {
+                $query->where('branch_id', $branchId);
+            }),
+
+            'invoicesQuery' => Invoice::whereHas('client', function ($query) use ($branchId) {
+                $query->where('branch_id', $branchId);
+            }),
+
+            'branches' => collect()
         ];
     }
 
-    $branchId = $user->branch_id;
-
-    return [
-        'clientsQuery' => Client::where('branch_id', $branchId),
-
-        'suivisQuery' => Suivi::whereHas('client', function ($query) use ($branchId) {
-            $query->where('branch_id', $branchId);
-        }),
-
-        'invoicesQuery' => Invoice::whereHas('client', function ($query) use ($branchId) {
-            $query->where('branch_id', $branchId);
-        }),
-
-        'branches' => collect()
-    ];
-}
-
-    public function calculatePercentageChange($current, $previous): string
+public function calculatePercentageChange($current, $previous): string
     {
         if ($previous == 0) return '0%';
         $change = (($current - $previous) / $previous) * 100;
@@ -65,7 +65,7 @@ class DashboardService
         return $sign . round($change) . '%';
     }
 
-    public function getDashboardStats($clientsQuery, $suivisQuery, $invoicesQuery): array
+public function getDashboardStats($clientsQuery, $suivisQuery, $invoicesQuery): array
     {
         $now = Carbon::now();
         $lastMonth = $now->copy()->subMonth();
@@ -109,7 +109,7 @@ class DashboardService
         ];
     }
 
-    public function getClientsVendus($invoicesQuery, string $period): array
+public function getClientsVendus($invoicesQuery, string $period): array
     {
         $clientsVendus = [];
         $labels = [];
@@ -150,43 +150,43 @@ class DashboardService
         return [$clientsVendus, $labels];
     }
 public function getPostSaleStats($user, $selectedBranch = 'all'): array
-{
-    $query = DB::table('clients')
-        ->join('cars', 'clients.id', '=', 'cars.client_id');
+    {
+        $query = DB::table('clients')
+            ->join('cars', 'clients.id', '=', 'cars.client_id');
 
-    if ($selectedBranch !== 'all') {
-        $query->where('clients.branch_id', $selectedBranch);
+        if ($selectedBranch !== 'all') {
+            $query->where('clients.branch_id', $selectedBranch);
+        }
+
+        return [
+            'en_attente_livraison' => (clone $query)
+                ->where('cars.post_sale_status', 'en_attente_livraison')
+                ->count(),
+
+            'livre' => (clone $query)
+                ->where('cars.post_sale_status', 'livre')
+                ->count(),
+
+            'sav_1ere_visite' => (clone $query)
+                ->where('cars.post_sale_status', 'sav_1ere_visite')
+                ->count(),
+
+            'relance' => (clone $query)
+                ->where('cars.post_sale_status', 'relance')
+                ->count(),
+        ];
     }
-
-    return [
-        'en_attente_livraison' => (clone $query)
-            ->where('cars.post_sale_status', 'en_attente_livraison')
-            ->count(),
-
-        'livre' => (clone $query)
-            ->where('cars.post_sale_status', 'livre')
-            ->count(),
-
-        'sav_1ere_visite' => (clone $query)
-            ->where('cars.post_sale_status', 'sav_1ere_visite')
-            ->count(),
-
-        'relance' => (clone $query)
-            ->where('cars.post_sale_status', 'relance')
-            ->count(),
-    ];
-}
 
 
 
 public function getFilteredInvoices($user, $selectedBranch)
-{
-    $branchInfo = $this->resolveBranchInfo($user, $selectedBranch);
+    {
+        $branchInfo = $this->resolveBranchInfo($user, $selectedBranch);
 
-    /** @var \Illuminate\Database\Eloquent\Builder $invoicesQuery */
-    $invoicesQuery = $branchInfo['invoicesQuery'];
+        /** @var \Illuminate\Database\Eloquent\Builder $invoicesQuery */
+        $invoicesQuery = $branchInfo['invoicesQuery'];
 
-    return $invoicesQuery->with(['client', 'car']);
-}
+        return $invoicesQuery->with(['client', 'car']);
+    }
 
 }
