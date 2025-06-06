@@ -120,11 +120,113 @@ class InvoiceController extends Controller
         return view('invoices.edit', compact('invoice'));
     }
 
-    public function update(UpdateInvoiceRequest $request, Invoice $invoice)
+    public function updateInvoice(Request $request, $id)
     {
-        $invoice->update($request->validated());
-        return redirect()->route('invoices.index')->with('success', 'Invoice updated successfully.');
+        // Validation rules
+        $validatedData = $request->validate([
+            // Car fields
+            'car_brand' => 'nullable|string|max:100',
+            'car_model' => 'nullable|string|max:100',
+            'car_year' => 'nullable|integer|min:1900|max:' . (date('Y') + 1),
+            'car_color' => 'nullable|string|max:50',
+            'car_registration' => 'nullable|string|max:20',
+            'car_status' => 'nullable|in:en_attente_livraison,livre,sav_1ere_visite,relance',
+            'car_ivn' => 'nullable|string|max:50',
+            'car_chassis' => 'nullable|string|max:100',
+
+            // Invoice fields
+            'invoice_number' => 'required|string|max:50',
+            'sale_date' => 'required|date',
+            'statut_facture' => 'required|in:creation,facturé,envoyée_pour_paiement,paiement',
+            'total_amount' => 'required|numeric|min:0',
+            'accord_reference' => 'nullable|string|max:100',
+            'purchase_order_number' => 'nullable|string|max:50',
+            'delivery_note_number' => 'nullable|string|max:50',
+            'payment_order_reference' => 'nullable|string|max:100',
+        ], [
+            // Custom error messages
+            'invoice_number.required' => 'Le numéro de facture est obligatoire.',
+            'sale_date.required' => 'La date de vente est obligatoire.',
+            'statut_facture.required' => 'Le statut de la facture est obligatoire.',
+            'total_amount.required' => 'Le montant TTC est obligatoire.',
+            'total_amount.numeric' => 'Le montant TTC doit être un nombre.',
+            'car_year.integer' => 'L\'année doit être un nombre entier.',
+            'car_year.min' => 'L\'année doit être supérieure à 1900.',
+            'car_year.max' => 'L\'année ne peut pas être dans le futur.',
+        ]);
+
+        try {
+            // Start database transaction
+            DB::beginTransaction();
+
+            // Find the invoice with its car relationship
+            $invoice = Invoice::with('car')->findOrFail($id);
+
+            // Update invoice data
+            $invoice->update([
+                'invoice_number' => $validatedData['invoice_number'],
+                'sale_date' => $validatedData['sale_date'],
+                'statut_facture' => $validatedData['statut_facture'],
+                'total_amount' => $validatedData['total_amount'],
+                'accord_reference' => $validatedData['accord_reference'],
+                'purchase_order_number' => $validatedData['purchase_order_number'],
+                'delivery_note_number' => $validatedData['delivery_note_number'],
+                'payment_order_reference' => $validatedData['payment_order_reference'],
+            ]);
+
+            // Update car data if car exists and car data is provided
+            if ($invoice->car && ($validatedData['car_brand'] || $validatedData['car_model'])) {
+                $invoice->car->update([
+                    'brand' => $validatedData['car_brand'],
+                    'model' => $validatedData['car_model'],
+                    'year' => $validatedData['car_year'],
+                    'color' => $validatedData['car_color'],
+                    'registration_number' => $validatedData['car_registration'],
+                    'status' => $validatedData['car_status'],
+                    'ivn' => $validatedData['car_ivn'],
+                    'chassis_number' => $validatedData['car_chassis'],
+                ]);
+            }
+
+            // Commit the transaction
+            DB::commit();
+
+            // Return success response
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Les modifications ont été enregistrées avec succès.',
+                    'invoice' => $invoice->fresh('car')
+                ]);
+            }
+
+            return redirect()->back()->with('success', 'Les modifications ont été enregistrées avec succès.');
+
+        } catch (\Exception $e) {
+            // Rollback transaction on error
+            DB::rollback();
+
+            // Log the error
+            Log::error('Error updating invoice: ' . $e->getMessage(), [
+                'invoice_id' => $id,
+                'user_id' => auth()->id(),
+                'data' => $validatedData
+            ]);
+
+            // Return error response
+            if ($request->ajax() || $request->wantsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Une erreur est survenue lors de l\'enregistrement. Veuillez réessayer.'
+                ], 500);
+            }
+
+            return redirect()->back()
+                ->with('error', 'Une erreur est survenue lors de l\'enregistrement. Veuillez réessayer.')
+                ->withInput();
+        }
     }
+
 
     public function destroy(Invoice $invoice)
     {
