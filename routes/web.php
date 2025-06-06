@@ -57,10 +57,22 @@ Route::middleware('auth')->group(function () {
     Route::view('/reclamations', 'page.reclamations');
     Route::view('/statistiques', 'page.statistiques');
     Route::view('/exporter', 'page.exporter');
-Route::post('clients', [ClientController::class, 'store'])->name('clients.store');
+    Route::post('clients', [ClientController::class, 'store'])->name('clients.store');
 });
 
 });
+Route::put('/invoices/{id}/update', [InvoiceController::class, 'updateInvoice'])
+    ->name('invoices.update')
+    ->middleware(['auth']);
+// Alternative route if you prefer POST method
+Route::post('/invoices/{id}/update', [InvoiceController::class, 'updateInvoice'])
+    ->name('invoices.update.post')
+    ->middleware(['auth']);
+
+// If you want to use PATCH method (RESTful)
+Route::patch('/invoices/{id}', [InvoiceController::class, 'updateInvoice'])
+    ->name('invoices.patch')
+    ->middleware(['auth']);
 // routes/web.php
 
 
