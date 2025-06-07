@@ -268,12 +268,12 @@
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Statut après-vente</label>
-                <select name="car_status"
+                <select name="post_sale_status"
                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
-                    <option value="en_attente_livraison" {{ old('car_status', $car->status) == 'en_attente_livraison' ? 'selected' : '' }}>En attente livraison</option>
-                    <option value="livre" {{ old('car_status', $car->status) == 'livre' ? 'selected' : '' }}>Livré</option>
-                    <option value="sav_1ere_visite" {{ old('car_status', $car->status) == 'sav_1ere_visite' ? 'selected' : '' }}>SAV 1ère visite</option>
-                    <option value="relance" {{ old('car_status', $car->status) == 'relance' ? 'selected' : '' }}>Relance</option>
+                    <option value="en_attente_livraison" {{ old('post_sale_status', $car->status) == 'en_attente_livraison' ? 'selected' : '' }}>En attente livraison</option>
+                    <option value="livre" {{ old('post_sale_status', $car->status) == 'livre' ? 'selected' : '' }}>Livré</option>
+                    <option value="sav_1ere_visite" {{ old('post_sale_status', $car->status) == 'sav_1ere_visite' ? 'selected' : '' }}>SAV 1ère visite</option>
+                    <option value="relance" {{ old('post_sale_status', $car->status) == 'relance' ? 'selected' : '' }}>Relance</option>
                 </select>
             </div>
             <div class="md:col-span-2">
