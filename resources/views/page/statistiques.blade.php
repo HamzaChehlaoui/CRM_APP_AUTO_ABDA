@@ -7,12 +7,9 @@
 
     <div class="flex h-screen w-screen overflow-hidden">
 
-         <!-- Sidebar -->
         <x-sidebar />
 
-        <!-- Main Content -->
         <div class="flex-1 flex flex-col overflow-hidden">
-            <!-- Header -->
             <header class="bg-white shadow-sm border-b border-gray-200 py-4 px-6">
                 <div class="flex items-center justify-between">
                     <div>
@@ -38,9 +35,7 @@
                 </div>
             </header>
 
-            <!-- Main Content Area -->
             <div class="flex-1 p-6 overflow-y-auto">
-                <!-- Date Range and Export -->
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4 sm:gap-0">
                     <div class="flex items-center space-x-2">
                         <div class="relative">
@@ -73,35 +68,8 @@
                     </div>
                 </div>
 
-
-
-
-
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Main Chart -->
-                    <div class="bg-white rounded-xl shadow-card p-6 col-span-2">
-                        <div class="flex justify-between items-center mb-6">
-                            <h3 class="text-lg font-semibold text-gray-800">Évolution des Prospects et Ventes</h3>
-                            <div class="flex space-x-2">
-                                <button class="px-3 py-1 text-sm bg-primary-50 text-primary-600 rounded-md hover:bg-primary-600 hover:text-white transition-colors">Mois</button>
-                                <button class="px-3 py-1 text-sm bg-white text-gray-500 rounded-md hover:bg-gray-100 transition-colors">Trimestre</button>
-                                <button class="px-3 py-1 text-sm bg-white text-gray-500 rounded-md hover:bg-gray-100 transition-colors">Année</button>
-                            </div>
-                        </div>
-                        <div class="h-80 relative">
-                            <canvas id="mainChart"></canvas>
-                        </div>
-                    </div>
 
-                    <!-- Conversion Rate -->
-                    <div class="bg-white rounded-xl shadow-card p-6">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-6">Taux de Conversion</h3>
-                        <div class="h-80 relative">
-                            <canvas id="conversionChart"></canvas>
-                        </div>
-                    </div>
-
-                    <!-- Sales by Model -->
                     <div class="bg-white rounded-xl shadow-card p-6 col-span-2">
                         <div class="flex justify-between items-center mb-6">
                             <h3 class="text-lg font-semibold text-gray-800">Ventes par Modèle</h3>
@@ -112,7 +80,6 @@
                         </div>
                     </div>
 
-                    <!-- Customer Satisfaction -->
                     <div class="bg-white rounded-xl shadow-card p-6">
                         <h3 class="text-lg font-semibold text-gray-800 mb-6">Satisfaction Client</h3>
                         <div class="h-80 relative">
@@ -120,7 +87,6 @@
                         </div>
                     </div>
 
-                    <!-- Top Performers -->
                     <div class="bg-white rounded-xl shadow-card p-6 col-span-1 lg:col-span-3">
                         <div class="flex justify-between items-center mb-6">
                             <h3 class="text-lg font-semibold text-gray-800">Meilleures Performances</h3>
@@ -246,148 +212,6 @@
     </div>
 
     <script>
-        // Main Chart - Prospects and Sales Evolution
-        const mainCtx = document.getElementById('mainChart').getContext('2d');
-        const mainChart = new Chart(mainCtx, {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'],
-                datasets: [
-                    {
-                        label: 'Prospects',
-                        data: [42, 38, 45, 50, 53, 48, 40, 42, 45, 48, 52, 55],
-                        borderColor: '#0ea5e9',
-                        backgroundColor: 'rgba(14, 165, 233, 0.1)',
-                        tension: 0.4,
-                        fill: true,
-                        pointBackgroundColor: '#0ea5e9',
-                        pointRadius: 4,
-                        pointHoverRadius: 6
-                    },
-                    {
-                        label: 'Ventes',
-                        data: [28, 25, 30, 35, 42, 38, 32, 30, 35, 40, 45, 48],
-                        borderColor: '#8b5cf6',
-                        backgroundColor: 'rgba(139, 92, 246, 0.05)',
-                        tension: 0.4,
-                        fill: true,
-                        pointBackgroundColor: '#8b5cf6',
-                        pointRadius: 4,
-                        pointHoverRadius: 6
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                        align: 'end',
-                        labels: {
-                            boxWidth: 10,
-                            usePointStyle: true,
-                            pointStyle: 'circle'
-                        }
-                    },
-                    tooltip: {
-                        backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                        titleColor: '#262626',
-                        bodyColor: '#525252',
-                        bodyFont: {
-                            size: 12
-                        },
-                        borderColor: '#e5e5e5',
-                        borderWidth: 1,
-                        padding: 10,
-                        boxPadding: 5,
-                        usePointStyle: true
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            color: 'rgba(0, 0, 0, 0.05)',
-                            drawBorder: false
-                        },
-                        ticks: {
-                            font: {
-                                size: 11
-                            },
-                            color: '#737373'
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false,
-                            drawBorder: false
-                        },
-                        ticks: {
-                            font: {
-                                size: 11
-                            },
-                            color: '#737373'
-                        }
-                    }
-                }
-            }
-        });
-
-        // Conversion Rate Chart
-        const conversionCtx = document.getElementById('conversionChart').getContext('2d');
-        const conversionChart = new Chart(conversionCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Convertis', 'En cours', 'Non convertis'],
-                datasets: [{
-                    data: [42, 28, 30],
-                    backgroundColor: [
-                        '#22c55e',
-                        '#f59e0b',
-                        '#ef4444'
-                    ],
-                    borderWidth: 0,
-                    hoverOffset: 6
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                cutout: '70%',
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            boxWidth: 10,
-                            padding: 15,
-                            usePointStyle: true,
-                            pointStyle: 'circle'
-                        }
-                    },
-                    tooltip: {
-                        backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                        titleColor: '#262626',
-                        bodyColor: '#525252',
-                        bodyFont: {
-                            size: 12
-                        },
-                        borderColor: '#e5e5e5',
-                        borderWidth: 1,
-                        padding: 10,
-                        boxPadding: 5,
-                        callbacks: {
-                            label: function(context) {
-                                let label = context.label || '';
-                                let value = context.formattedValue || '';
-                                return `${label}: ${value}%`;
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
         // Sales by Model Chart
         const salesByModelCtx = document.getElementById('salesByModelChart').getContext('2d');
         const salesByModelChart = new Chart(salesByModelCtx, {
