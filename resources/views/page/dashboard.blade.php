@@ -211,7 +211,7 @@ document.getElementById('branch_filter').addEventListener('change', function() {
 
 
 <div class="bg-white rounded-xl shadow-card overflow-hidden">
- 
+
                     <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200 shadow-sm rounded-lg overflow-hidden">
                         <thead class="bg-gray-50">
@@ -262,8 +262,6 @@ document.getElementById('branch_filter').addEventListener('change', function() {
                                     <!-- Actions -->
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
                                         <a href="#" class="text-blue-600 hover:text-blue-900" title="Voir"><i class="fas fa-file-invoice mr-2"></i></a>
-                                        <a href="#" class="text-yellow-600 hover:text-yellow-900" title="Modifier"><i class="fas fa-edit"></i></a>
-                                        {{-- <a href="#" class="text-indigo-600 hover:text-indigo-900" title="Véhicules"><i class="fas fa-car"></i></a> --}}
                                     </td>
                                 </tr>
                             @endforeach
