@@ -6,16 +6,19 @@ export default {
   content: [
     './resources/views/**/*.blade.php',
     './resources/js/**/*.js',
-],
+  ],
 
-
-    theme: {
-        extend: {
-            fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
-            },
-        },
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+      },
+      colors: {
+        'nucleus-dark': '#1e293b',
+        'nucleus-primary': '#3A5CDB',
+      },
     },
+  },
 
-    plugins: [forms],
+  plugins: [forms],
 };
