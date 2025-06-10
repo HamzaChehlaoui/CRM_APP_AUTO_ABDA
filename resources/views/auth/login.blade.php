@@ -4,35 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion - FollowUp CRM</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="/dist/output.css" rel="stylesheet">
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        nucleus: {
-                            primary: '#3A5CDB',
-                            hover: '#2D4EC0',
-                            light: '#F2F6FF',
-                            dark: '#0F1A42',
-                            gray: '#F5F7FA',
-                        },
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    boxShadow: {
-                        'input': '0 2px 4px rgba(0, 0, 0, 0.05)',
-                        'card': '0 10px 25px rgba(58, 92, 219, 0.07)',
-                    }
-                },
-            },
-        };
-    </script>
 </head>
 <body class="h-full w-full font-sans">
     <div class="flex h-screen w-screen">
