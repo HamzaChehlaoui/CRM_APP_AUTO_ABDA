@@ -34,7 +34,7 @@ class Client extends Model
         return $this->hasMany(Suivi::class);
     }
 
-  
+
 
     public function reclamations(): HasMany
     {
