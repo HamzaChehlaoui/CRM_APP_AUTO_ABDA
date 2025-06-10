@@ -108,47 +108,65 @@ public function getDashboardStats($clientsQuery, $suivisQuery, $invoicesQuery): 
             'percentageSales' => $this->calculatePercentageChange($salesThisMonthCurrent, $salesThisMonthLast),
         ];
     }
-
+/**
+ * Calculates the total number of sales over a given period for chart display.
+ *
+ * @param Builder $invoicesQuery The base, pre-filtered invoice query.
+ * @param string  $period        The time period ('week', 'month', or 'year').
+ * @return array                An array containing sales counts and corresponding labels.
+ */
 public function getClientsVendus($invoicesQuery, string $period): array
-    {
-        $clientsVendus = [];
-        $labels = [];
+{
+    $salesData = [];
+    $labels = [];
 
-        if ($period === 'week') {
-            foreach (range(0, 6) as $i) {
-                $day = Carbon::now()->startOfWeek()->addDays($i);
-                $count = (clone $invoicesQuery)
-                    ->whereDate('sale_date', $day)
-                    ->distinct('client_id')->count('client_id');
-                $clientsVendus[] = $count;
-            }
-            $labels = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
+    if ($period === 'week') {
+        foreach (range(0, 6) as $i) {
+            $day = Carbon::now()->startOfWeek()->addDays($i);
 
-        } elseif ($period === 'month') {
-            foreach (range(1, Carbon::now()->daysInMonth) as $i) {
-                $date = Carbon::now()->startOfMonth()->addDays($i - 1);
-                $count = (clone $invoicesQuery)
-                    ->whereDate('sale_date', $date)
-                    ->distinct('client_id')->count('client_id');
-                $clientsVendus[] = $count;
-                $labels[] = $date->day;
-            }
+            // CHANGED: Replaced distinct client count with total sales count
+            $count = (clone $invoicesQuery)
+                ->whereDate('sale_date', $day)
+                ->count();
 
-        } elseif ($period === 'year') {
-            foreach (range(1, 12) as $i) {
-                $start = Carbon::now()->startOfYear()->addMonths($i - 1)->startOfMonth();
-                $end = $start->copy()->endOfMonth();
+            $salesData[] = $count;
+        }
+        $labels = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
 
-                $count = (clone $invoicesQuery)
-                    ->whereBetween('sale_date', [$start, $end])
-                    ->distinct('client_id')->count('client_id');
-                $clientsVendus[] = $count;
-                $labels[] = $start->shortMonthName;
-            }
+    } elseif ($period === 'month') {
+        // Based on the current date, we get the number of days in the current month
+        $daysInMonth = Carbon::now()->daysInMonth;
+        foreach (range(1, $daysInMonth) as $dayNumber) {
+            $date = Carbon::now()->startOfMonth()->addDays($dayNumber - 1);
+
+            // CHANGED: Replaced distinct client count with total sales count
+            $count = (clone $invoicesQuery)
+                ->whereDate('sale_date', $date)
+                ->count();
+
+            $salesData[] = $count;
+            $labels[] = $dayNumber; // Use the day number as the label
         }
 
-        return [$clientsVendus, $labels];
+    } elseif ($period === 'year') {
+        foreach (range(1, 12) as $monthNumber) {
+            // Create a date object for the current year and the given month number
+            $date = Carbon::create(date('Y'), $monthNumber);
+            $startOfMonth = $date->copy()->startOfMonth();
+            $endOfMonth = $date->copy()->endOfMonth();
+
+            // CHANGED: Replaced distinct client count with total sales count
+            $count = (clone $invoicesQuery)
+                ->whereBetween('sale_date', [$startOfMonth, $endOfMonth])
+                ->count();
+
+            $salesData[] = $count;
+            $labels[] = $date->shortMonthName; // e.g., 'Jan', 'Feb'
+        }
     }
+
+    return [$salesData, $labels];
+}
 
 
 public function getPostSaleStats($user, $selectedBranch = 'all'): array
