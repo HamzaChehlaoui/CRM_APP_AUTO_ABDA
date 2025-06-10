@@ -8,7 +8,7 @@ export default {
     './resources/js/**/*.js',
   ],
 
-    theme: {
+     theme: {
                 extend: {
                     colors: {
                         nucleus: {
