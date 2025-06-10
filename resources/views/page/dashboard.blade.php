@@ -44,12 +44,12 @@
                             <i class="fas fa-bell"></i>
                             <span class="absolute top-0 right-0 h-4 w-4 bg-red-500 rounded-full border-2 border-white"></span>
                         </button>
-                       
+
                         <span class="h-6 border-l border-gray-300"></span>
                         <button class="flex items-center space-x-2 hover:bg-gray-100 rounded-md px-3 py-1.5 transition-colors">
-    <span class="font-medium text-sm">{{ date('d/m/Y') }}</span>
-    <i class="fas fa-calendar-alt text-xs text-gray-500"></i>
-</button>
+                            <span class="font-medium text-sm">{{ date('d/m/Y') }}</span>
+                            <i class="fas fa-calendar-alt text-xs text-gray-500"></i>
+                        </button>
 
 
                     </div>
