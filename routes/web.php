@@ -8,6 +8,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\SuiviController;
+use App\Http\Controllers\StatistiquesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,7 +56,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/clients' ,[ClientController::class, 'index'])->name('client.index');
     Route::post('invoice/store-all', [InvoiceController::class, 'storeAll'])->name('invoice.storeAll');
     Route::view('/reclamations', 'page.reclamations');
-    Route::view('/statistiques', 'page.statistiques');
+    Route::get('/statistiques', [StatistiquesController::class, 'index'])->name('statistics.index');
+    Route::get('/statistics/export', [StatistiquesController::class, 'export'])->name('statistics.export');
+
     Route::view('/exporter', 'page.exporter');
     Route::post('clients', [ClientController::class, 'store'])->name('clients.store');
 });
