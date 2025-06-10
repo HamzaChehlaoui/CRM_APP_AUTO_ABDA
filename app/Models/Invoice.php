@@ -12,6 +12,10 @@ class Invoice extends Model
         'accord_reference', 'purchase_order_number', 'delivery_note_number', 'payment_order_reference','statut_facture',
         'client_id', 'car_id', 'user_id', 'branch_id'
     ];
+    protected $casts = [
+        'sale_date' => 'date',
+        'total_amount' => 'decimal:2'
+    ];
 
     public function client(): BelongsTo
     {
@@ -31,5 +35,9 @@ class Invoice extends Model
     public function branch(): BelongsTo
     {
         return $this->belongsTo(Branch::class);
+    }
+    public function creator(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
     }
 }
