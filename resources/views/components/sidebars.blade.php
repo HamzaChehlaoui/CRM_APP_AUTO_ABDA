@@ -22,7 +22,7 @@
     <div class="p-4">
         <div class="relative mb-4">
             <input type="text" placeholder="Rechercher..."
-                   class="w-full rounded-md border border-gray-200 py-2 pl-10 pr-4 text-sm focus:border-nucleus-primary focus:outline-none focus:ring-1 focus:ring-nucleus-primary">
+                class="w-full rounded-md border border-gray-200 py-2 pl-10 pr-4 text-sm focus:border-nucleus-primary focus:outline-none focus:ring-1 focus:ring-nucleus-primary">
             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                 <i class="fas fa-search text-gray-400"></i>
             </div>
@@ -48,7 +48,7 @@
 
             </a>
 
-           
+
             <a href="/reclamations" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('reclamations') }}">
                 <i class="fas fa-exclamation-triangle mr-2 {{ iconClass('reclamations') }}"></i> Réclamations
                 <span class="ml-auto bg-orange-100 text-orange-500 text-xs font-semibold px-2 py-0.5 rounded-full">4</span>
