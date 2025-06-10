@@ -123,7 +123,6 @@
                     <div class="bg-white rounded-xl shadow-card p-6 col-span-2">
                         <div class="flex justify-between items-center mb-6">
                             <h3 class="text-lg font-semibold text-gray-800">Ventes par Modèle</h3>
-                            <button class="text-primary-600 hover:text-primary-700 text-sm font-medium">Voir tout</button>
                         </div>
                         <div class="h-80 relative">
                             @if($salesByModel->count() > 0)
@@ -151,7 +150,6 @@
                     <div class="bg-white rounded-xl shadow-card p-6 col-span-1 lg:col-span-3">
                         <div class="flex justify-between items-center mb-6">
                             <h3 class="text-lg font-semibold text-gray-800">Meilleures Performances</h3>
-                            <button class="text-primary-600 hover:text-primary-700 text-sm font-medium">Voir tout</button>
                         </div>
 
                         <div class="overflow-x-auto">
