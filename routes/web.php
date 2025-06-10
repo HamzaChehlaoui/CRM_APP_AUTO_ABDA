@@ -57,7 +57,6 @@ Route::middleware('auth')->group(function () {
     Route::post('invoice/store-all', [InvoiceController::class, 'storeAll'])->name('invoice.storeAll');
     Route::view('/reclamations', 'page.reclamations');
     Route::get('/statistiques', [StatistiquesController::class, 'index'])->name('statistics.index');
-    Route::get('/statistics/export', [StatistiquesController::class, 'export'])->name('statistics.export');
 
     Route::view('/exporter', 'page.exporter');
     Route::post('clients', [ClientController::class, 'store'])->name('clients.store');

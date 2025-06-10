@@ -149,33 +149,39 @@ public function getClientsVendus($invoicesQuery, string $period): array
 
         return [$clientsVendus, $labels];
     }
-public function getPostSaleStats($user, $selectedBranch = 'all'): array
-    {
-        $query = DB::table('clients')
-            ->join('cars', 'clients.id', '=', 'cars.client_id');
 
+
+public function getPostSaleStats($user, $selectedBranch = 'all'): array
+{
+    $query = DB::table('clients')
+        ->join('cars', 'clients.id', '=', 'cars.client_id');
+
+    if ($user->role_id == 1 || $user->role_id == 2) {
         if ($selectedBranch !== 'all') {
             $query->where('clients.branch_id', $selectedBranch);
         }
-
-        return [
-            'en_attente_livraison' => (clone $query)
-                ->where('cars.post_sale_status', 'en_attente_livraison')
-                ->count(),
-
-            'livre' => (clone $query)
-                ->where('cars.post_sale_status', 'livre')
-                ->count(),
-
-            'sav_1ere_visite' => (clone $query)
-                ->where('cars.post_sale_status', 'sav_1ere_visite')
-                ->count(),
-
-            'relance' => (clone $query)
-                ->where('cars.post_sale_status', 'relance')
-                ->count(),
-        ];
+    } else {
+        $query->where('clients.branch_id', $user->branch_id);
     }
+
+    return [
+        'en_attente_livraison' => (clone $query)
+            ->where('cars.post_sale_status', 'en_attente_livraison')
+            ->count(),
+
+        'livre' => (clone $query)
+            ->where('cars.post_sale_status', 'livre')
+            ->count(),
+
+        'sav_1ere_visite' => (clone $query)
+            ->where('cars.post_sale_status', 'sav_1ere_visite')
+            ->count(),
+
+        'relance' => (clone $query)
+            ->where('cars.post_sale_status', 'relance')
+            ->count(),
+    ];
+}
 
 public function getFilteredInvoices($user, $selectedBranch)
     {

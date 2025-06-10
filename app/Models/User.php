@@ -50,6 +50,10 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Invoice::class);
     }
+     public function suivis()
+    {
+        return $this->hasMany(Suivi::class);
+    }
     public const ROLE_MANAGER = 2;
 
 }

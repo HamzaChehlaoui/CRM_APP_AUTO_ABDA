@@ -57,7 +57,7 @@ public function store(StoreClientRequest $request)
 
         return redirect()->route('client.index')->with('success', 'Client créé avec succès.');
     } catch (\Exception $e) {
-        // dd($e);
+        
         Log::error('Error creating client: ' . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
         return back()->withErrors(['error' => 'Erreur lors de la création du client : ' . $e->getMessage()])->withInput();
     }
