@@ -74,7 +74,8 @@
         </div>
     </div>
 
-   <!-- Edit Client Modal -->
+<!-- Edit Client Modal -->
+
 @if($showEditModal)
     <div class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 backdrop-blur-sm">
         <div class="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-lg mx-4 border border-gray-100">
