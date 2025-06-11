@@ -9,6 +9,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\SuiviController;
 use App\Http\Controllers\StatistiquesController;
+use App\Http\Controllers\ExportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,8 +59,12 @@ Route::middleware('auth')->group(function () {
     Route::view('/reclamations', 'page.reclamations');
     Route::get('/statistiques', [StatistiquesController::class, 'index'])->name('statistics.index');
 
-    Route::view('/exporter', 'page.exporter');
+    // Route::view('/exporter', 'page.exporter');
     Route::post('clients', [ClientController::class, 'store'])->name('clients.store');
+    Route::get('/exporter', [ExportController::class, 'showExportPage'])->name('export.page');
+
+// Route to handle the export form submission
+Route::post('/exporter/run', [ExportController::class, 'handleExport'])->name('export.handle');
 });
 
 });
