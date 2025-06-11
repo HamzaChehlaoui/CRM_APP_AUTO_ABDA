@@ -54,7 +54,17 @@
                                 <option value="pdf">📕 PDF (.pdf)</option>
                             </select>
                         </div>
-
+                         @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
+                            <div class="space-y-3">
+                                <label for="branch_id" class="block text-sm font-semibold text-gray-700">Filtrer par branche</label>
+                                <select name="branch_id" id="branch_id" class="w-full px-4 py-3 border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 bg-white">
+                                    <option value="all">Toutes les branches</option>
+                                    @foreach($branches as $branch)
+                                        <option value="{{ $branch->id }}">{{ $branch->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @endif
                         <div class="space-y-3">
                             <label class="block text-sm font-semibold text-gray-700">Plage de dates (Optionnel)</label>
                             <div class="grid grid-cols-2 gap-3">
@@ -164,6 +174,7 @@
         <input type="hidden" name="selected_fields" id="formSelectedFields">
         <input type="hidden" name="start_date" id="formStartDate">
         <input type="hidden" name="end_date" id="formEndDate">
+        <input type="hidden" name="branch_id" id="formBranchId">
     </form>
 
     <script src="js/exporter.js"></script>
