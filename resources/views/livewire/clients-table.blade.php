@@ -1,5 +1,5 @@
 <div class="bg-white rounded-xl shadow-card overflow-hidden">
-     @if (session()->has('message'))
+    @if (session()->has('message'))
         <div class="p-4 mb-4 text-sm text-green-800 bg-green-100 rounded-lg" role="alert">
             {{ session('message') }}
         </div>
