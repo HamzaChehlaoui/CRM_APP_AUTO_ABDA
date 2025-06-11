@@ -141,9 +141,9 @@
                     <div class="group">
                         <label for="address" class="block text-sm font-semibold text-gray-800 mb-2">Address</label>
                         <input type="text"
-                               wire:model="clientData.address"
-                               id="address"
-                               class="w-full px-4 py-3 border border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50 focus:bg-white hover:border-gray-300">
+                                wire:model="clientData.address"
+                                id="address"
+                                class="w-full px-4 py-3 border border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50 focus:bg-white hover:border-gray-300">
                         @error('clientData.address')
                             <span class="text-red-500 text-sm mt-1 flex items-center">
                                 <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
