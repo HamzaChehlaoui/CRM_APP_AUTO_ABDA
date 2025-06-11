@@ -297,7 +297,7 @@
         </script>
     @endif
     <script>
-     
+
 
         // Auto-submit form when branch selection changes
         const branchSelect = document.querySelector('select[name="branch"]');
