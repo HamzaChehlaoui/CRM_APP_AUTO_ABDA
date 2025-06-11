@@ -14,9 +14,11 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <script src="//unpkg.com/alpinejs" defer></script>
-
+<script src="https://npmcdn.com/flatpickr/dist/l10n/fr.js"></script>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
     <style>
         .status-new {
             background-color: rgba(56, 189, 248, 0.1);
@@ -64,6 +66,7 @@
     @livewireStyles
 </head>
 <body>
+
     @yield('content')
 @livewireScripts
 </body>
