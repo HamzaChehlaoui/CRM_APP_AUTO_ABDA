@@ -42,7 +42,7 @@
                                 <option value="clients">📊 Clients</option>
                                 <option value="cars">🚗 Voitures</option>
                                 <option value="invoices">📄 Factures</option>
-                                {{-- <option value="all">🔄 Tous les types</option> --}}
+                                <option value="all">🔄 Tous les types</option>
                             </select>
                         </div>
 
@@ -166,120 +166,6 @@
         <input type="hidden" name="end_date" id="formEndDate">
     </form>
 
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const dataTypeSelect = document.getElementById('dataType');
-        const fieldSections = document.querySelectorAll('.export-fields');
-        const selectAllBtn = document.getElementById('selectAllBtn');
-        const deselectAllBtn = document.getElementById('deselectAllBtn');
-        const selectedCountSpan = document.getElementById('selectedCount');
-
-        const startExportBtn = document.getElementById('startExportBtn');
-        const exportForm = document.getElementById('exportForm');
-        const exportProgress = document.getElementById('exportProgress');
-        const progressBar = document.getElementById('progressBar');
-
-        const exportFormatSelector = document.getElementById('exportFormatSelector');
-        const startDateInput = document.getElementById('startDate');
-        const endDateInput = document.getElementById('endDate');
-
-        // Show/Hide field sections based on data type
-        function updateFieldSections() {
-            const selectedType = dataTypeSelect.value;
-            fieldSections.forEach(section => {
-                const sectionType = section.id.replace('fields-', '');
-                if (sectionType === selectedType || selectedType === 'all') {
-                    section.classList.remove('hidden');
-                } else {
-                    section.classList.add('hidden');
-                }
-            });
-            updateSelectedCount();
-        }
-
-        function updateSelectedCount() {
-            const checkedBoxes = document.querySelectorAll('.export-fields:not(.hidden) input[type="checkbox"]:checked');
-            selectedCountSpan.textContent = checkedBoxes.length;
-        }
-
-        function selectAllFields(select = true) {
-            const visibleCheckboxes = document.querySelectorAll('.export-fields:not(.hidden) input[type="checkbox"]');
-            visibleCheckboxes.forEach(checkbox => {
-                checkbox.checked = select;
-            });
-            updateSelectedCount();
-        }
-
-        function validateDateRange() {
-            const startDate = startDateInput.value;
-            const endDate = endDateInput.value;
-
-            if (startDate && endDate && new Date(startDate) > new Date(endDate)) {
-                alert('La date de début ne peut pas être postérieure à la date de fin.');
-                return false;
-            }
-
-            return true;
-        }
-
-        function handleExport() {
-            const selectedFields = [];
-            const checkedBoxes = document.querySelectorAll('.export-fields:not(.hidden) input[type="checkbox"]:checked');
-
-            if (checkedBoxes.length === 0) {
-                alert('Veuillez sélectionner au moins un champ à exporter.');
-                return;
-            }
-
-            if (!validateDateRange()) {
-                return;
-            }
-
-            checkedBoxes.forEach(checkbox => {
-                selectedFields.push(checkbox.getAttribute('name'));
-            });
-
-            // Set form values
-            document.getElementById('formDataType').value = dataTypeSelect.value;
-            document.getElementById('formExportFormat').value = exportFormatSelector.value;
-            document.getElementById('formStartDate').value = startDateInput.value;
-            document.getElementById('formEndDate').value = endDateInput.value;
-            document.getElementById('formSelectedFields').value = JSON.stringify(selectedFields);
-
-            // Show progress and submit
-            showExportProgress();
-            exportForm.submit();
-        }
-
-        function showExportProgress() {
-            exportProgress.classList.remove('hidden');
-            let progress = 0;
-            const interval = setInterval(() => {
-                progress += Math.random() * 20;
-                if (progress >= 100) {
-                    progress = 95; // Fake progress stops at 95%, real download will start
-                    clearInterval(interval);
-                }
-                progressBar.style.width = `${progress}%`;
-            }, 200);
-        }
-
-        // Event listeners
-        dataTypeSelect.addEventListener('change', updateFieldSections);
-        selectAllBtn.addEventListener('click', () => selectAllFields(true));
-        deselectAllBtn.addEventListener('click', () => selectAllFields(false));
-        startExportBtn.addEventListener('click', handleExport);
-
-        startDateInput.addEventListener('change', validateDateRange);
-        endDateInput.addEventListener('change', validateDateRange);
-
-        document.querySelectorAll('.export-fields input[type="checkbox"]').forEach(checkbox => {
-            checkbox.addEventListener('change', updateSelectedCount);
-        });
-
-        // Initialize
-        updateFieldSections();
-    });
-    </script>
+    <script src="js/exporter.js"></script>
 </body>
 @endsection
