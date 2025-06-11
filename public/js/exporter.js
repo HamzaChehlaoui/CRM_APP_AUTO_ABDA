@@ -100,7 +100,10 @@ function updateExportFormats() {
             document.getElementById('formStartDate').value = startDateInput.value;
             document.getElementById('formEndDate').value = endDateInput.value;
             document.getElementById('formSelectedFields').value = JSON.stringify(selectedFields);
-
+            const branchSelect = document.getElementById('branch_id');
+            if (branchSelect) {
+            document.getElementById('formBranchId').value = branchSelect.value;
+            }
             // Show progress and submit
 
             exportForm.submit();
