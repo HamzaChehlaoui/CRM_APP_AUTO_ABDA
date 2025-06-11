@@ -42,6 +42,10 @@ class ExportController extends Controller
             'total_amount' => 'Montant TTC',
             'statut_facture' => 'Statut',
             'client.full_name' => 'Client',
+            'accord_reference'=> 'Accord / Contrat (accord)',
+            'purchase_order_number' => 'Bon de commande (bc)',
+            'delivery_note_number' => 'Bon de livraison (bl)',
+            'payment_order_reference' => 'Ordre de règlement (or)',
             'car.registration_number' => 'Voiture (Immat.)',
         ]
     ];
