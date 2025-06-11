@@ -10,6 +10,8 @@ use App\Exports\GenericExport;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Excel as ExcelFormats;
+use App\Exports\AllDataExport;
+use Illuminate\Support\Facades\Log;
 
 class ExportController extends Controller
 {
@@ -44,7 +46,6 @@ class ExportController extends Controller
         ]
     ];
 
-
     public function showExportPage()
     {
         return view('page.exporter', [
@@ -56,6 +57,9 @@ class ExportController extends Controller
 
     public function handleExport(Request $request)
     {
+        ini_set('memory_limit', '512M');
+        ini_set('max_execution_time', 300);
+
         $request->validate([
             'data_type' => 'required|in:clients,cars,invoices,all',
             'export_format' => 'required|in:xlsx,csv,pdf',
@@ -70,39 +74,78 @@ class ExportController extends Controller
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
 
+        // DEBUG: Log the received data
+        Log::info('Export Request Debug:', [
+            'dataType' => $dataType,
+            'selectedFields' => $selectedFields,
+            'format' => $format
+        ]);
+
         if ($dataType === 'all') {
+            $sheetsData = [];
+            $dataTypes = ['clients', 'cars', 'invoices'];
 
-            return back()->withErrors('La fonctionnalité "Tous les types" n\'est pas encore implémentée.');
-        }
+            foreach ($dataTypes as $type) {
+                // DEBUG: Log filtering for each type
+                Log::info("Processing type: {$type}");
 
-        [$model, $query] = $this->getModelAndQuery($dataType);
+                $fieldsForType = array_filter($selectedFields, function($field) use ($type) {
+                    $matches = Str::startsWith($field, $type . '.');
+                    Log::info("Field: {$field}, Type: {$type}, Matches: " . ($matches ? 'YES' : 'NO'));
+                    return $matches;
+                });
 
+                Log::info("Fields for {$type}:", $fieldsForType);
 
-        $dateColumn = ($dataType === 'invoices') ? 'sale_date' : 'created_at';
-        if ($startDate) {
-            $query->whereDate($dateColumn, '>=', $startDate);
-        }
-        if ($endDate) {
-            $query->whereDate($dateColumn, '<=', $endDate);
-        }
+                if (!empty($fieldsForType)) {
+                    // Convert field names to remove the type prefix for processing
+                    $cleanedFields = array_map(function($field) use ($type) {
+                        return Str::after($field, $type . '.');
+                    }, $fieldsForType);
 
-        $tablePrefix = Str::plural($dataType); // clients, cars, invoices
-        $fieldsForExport = [];
-        $headings = [];
+                    Log::info("Cleaned fields for {$type}:", $cleanedFields);
 
-        foreach ($selectedFields as $fullFieldName) {
-            if (Str::startsWith($fullFieldName, $tablePrefix)) {
-                $fieldName = Str::after($fullFieldName, $tablePrefix . '.');
-                $fieldsForExport[] = $fieldName;
-                $headings[] = self::EXPORTABLE_FIELDS[$dataType][$fieldName] ?? Str::studly($fieldName);
+                    $sheetInfo = $this->prepareSheetData($type, $cleanedFields, $startDate, $endDate);
+
+                    // DEBUG: Log query and data count
+                    $data = $sheetInfo['query']->get();
+                    Log::info("Data count for {$type}: " . $data->count());
+
+                    $sheetInfo['data'] = $data;
+                    unset($sheetInfo['query']);
+
+                    $sheetsData[$type] = $sheetInfo;
+                } else {
+                    Log::info("No fields found for type: {$type}");
+                }
             }
+
+            Log::info('Final sheets data structure:', array_keys($sheetsData));
+
+            if (empty($sheetsData)) {
+                return back()->withErrors('Veuillez sélectionner au moins un champ à exporter.');
+            }
+
+            $export = new AllDataExport($sheetsData);
+            $fileName = "export_complet_" . now()->format('Y-m-d') . ".xlsx";
+
+            return Excel::download($export, $fileName, ExcelFormats::XLSX);
         }
 
-        if (empty($fieldsForExport)) {
+        // For single data type exports
+        $cleanedFields = array_map(function($field) use ($dataType) {
+            return Str::after($field, $dataType . '.');
+        }, $selectedFields);
+
+        $sheetInfo = $this->prepareSheetData($dataType, $cleanedFields, $startDate, $endDate);
+
+        if (empty($sheetInfo['fields'])) {
             return back()->withErrors('Veuillez sélectionner des champs valides pour le type de données choisi.');
         }
 
-        $export = new GenericExport($query, $headings, $fieldsForExport);
+        $data = $sheetInfo['query']->get();
+
+        $export = new GenericExport($data, $sheetInfo['headings'], $sheetInfo['fields']);
         $fileName = "export_{$dataType}_" . now()->format('Y-m-d_H-i') . ".{$format}";
 
         $formatConstant = match(strtoupper($format)) {
@@ -114,6 +157,41 @@ class ExportController extends Controller
         return Excel::download($export, $fileName, $formatConstant);
     }
 
+    private function prepareSheetData(string $type, array $selectedFields, ?string $startDate, ?string $endDate): array
+    {
+        [, $query] = $this->getModelAndQuery($type);
+
+        $dateColumn = ($type === 'invoices') ? 'sale_date' : 'created_at';
+        if ($startDate) {
+            $query->whereDate($dateColumn, '>=', $startDate);
+        }
+        if ($endDate) {
+            $query->whereDate($dateColumn, '<=', $endDate);
+        }
+
+        $fieldsForExport = [];
+        $headings = [];
+
+        foreach ($selectedFields as $fieldName) {
+            if (isset(self::EXPORTABLE_FIELDS[$type][$fieldName])) {
+                $fieldsForExport[] = $fieldName;
+                $headings[] = self::EXPORTABLE_FIELDS[$type][$fieldName];
+            } else {
+                Log::warning("Field {$fieldName} not found in exportable fields for {$type}");
+            }
+        }
+
+        Log::info("Final fields for {$type}:", [
+            'fieldsForExport' => $fieldsForExport,
+            'headings' => $headings
+        ]);
+
+        return [
+            'query' => $query,
+            'headings' => $headings,
+            'fields' => $fieldsForExport,
+        ];
+    }
 
     private function getModelAndQuery(string $dataType): array
     {
