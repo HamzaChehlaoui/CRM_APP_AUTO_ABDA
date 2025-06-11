@@ -12,6 +12,8 @@ use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Excel as ExcelFormats;
 use App\Exports\AllDataExport;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Branch;
 
 class ExportController extends Controller
 {
@@ -50,13 +52,22 @@ class ExportController extends Controller
         ]
     ];
 
-    public function showExportPage()
-    {
-        return view('page.exporter', [
-            'clientFields' => self::EXPORTABLE_FIELDS['clients'],
-            'carFields' => self::EXPORTABLE_FIELDS['cars'],
-            'invoiceFields' => self::EXPORTABLE_FIELDS['invoices'],
-        ]);
+   public function showExportPage()
+{
+    $user = Auth::user();
+    $branches = collect();
+
+    if ($user->role_id == 1 || $user->role_id == 2) {
+        $branches = Branch::all();
+    }
+
+    return view('page.exporter', [
+        'clientFields' => self::EXPORTABLE_FIELDS['clients'],
+        'carFields' => self::EXPORTABLE_FIELDS['cars'],
+        'invoiceFields' => self::EXPORTABLE_FIELDS['invoices'],
+        'branches' => $branches,
+    ]);
+
     }
 
     public function handleExport(Request $request)
@@ -70,7 +81,15 @@ class ExportController extends Controller
             'selected_fields' => 'required|json',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
+            'branch_id' => 'nullable|string',
         ]);
+        $user = Auth::user();
+    $effectiveBranchId = null;
+    if ($user->role_id == 1 || $user->role_id == 2) {
+        $effectiveBranchId = $request->input('branch_id');
+    } else {
+        $effectiveBranchId = $user->branch_id;
+    }
 
         $dataType = $request->input('data_type');
         $format = $request->input('export_format');
@@ -109,7 +128,7 @@ class ExportController extends Controller
 
                     Log::info("Cleaned fields for {$type}:", $cleanedFields);
 
-                    $sheetInfo = $this->prepareSheetData($type, $cleanedFields, $startDate, $endDate);
+        $sheetInfo = $this->prepareSheetData($type, $cleanedFields, $startDate, $endDate, $effectiveBranchId);
 
                     // DEBUG: Log query and data count
                     $data = $sheetInfo['query']->get();
@@ -141,7 +160,7 @@ class ExportController extends Controller
             return Str::after($field, $dataType . '.');
         }, $selectedFields);
 
-        $sheetInfo = $this->prepareSheetData($dataType, $cleanedFields, $startDate, $endDate);
+    $sheetInfo = $this->prepareSheetData($dataType, $cleanedFields, $startDate, $endDate, $effectiveBranchId);
 
         if (empty($sheetInfo['fields'])) {
             return back()->withErrors('Veuillez sélectionner des champs valides pour le type de données choisi.');
@@ -161,7 +180,7 @@ class ExportController extends Controller
         return Excel::download($export, $fileName, $formatConstant);
     }
 
-    private function prepareSheetData(string $type, array $selectedFields, ?string $startDate, ?string $endDate): array
+private function prepareSheetData(string $type, array $selectedFields, ?string $startDate, ?string $endDate, ?string $branchId): array
     {
         [, $query] = $this->getModelAndQuery($type);
 
@@ -172,6 +191,15 @@ class ExportController extends Controller
         if ($endDate) {
             $query->whereDate($dateColumn, '<=', $endDate);
         }
+        if ($branchId && $branchId !== 'all') {
+        if ($type === 'clients') {
+            $query->where('branch_id', $branchId);
+        } elseif ($type === 'cars' || $type === 'invoices') {
+            $query->whereHas('client', function ($q) use ($branchId) {
+                $q->where('branch_id', $branchId);
+            });
+        }
+    }
 
         $fieldsForExport = [];
         $headings = [];
