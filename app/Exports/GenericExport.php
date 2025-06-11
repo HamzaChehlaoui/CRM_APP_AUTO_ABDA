@@ -2,33 +2,34 @@
 
 namespace App\Exports;
 
-use Illuminate\Database\Eloquent\Builder;
-use Maatwebsite\Excel\Concerns\FromQuery;
+use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\Exportable;
+use Throwable;
 
-class GenericExport implements FromQuery, WithHeadings, WithMapping
+class GenericExport implements FromCollection, WithHeadings, WithMapping
 {
     use Exportable;
 
-    protected Builder $query;
+    protected Collection $data;
     protected array $headings;
     protected array $fields;
 
-    public function __construct(Builder $query, array $headings, array $fields)
+    public function __construct(Collection $data, array $headings, array $fields)
     {
-        $this->query = $query;
+        $this->data = $data;
         $this->headings = $headings;
         $this->fields = $fields;
     }
 
     /**
-     * @return Builder
+     * @return Collection
      */
-    public function query(): Builder
+    public function collection(): Collection
     {
-        return $this->query;
+        return $this->data;
     }
 
     /**
@@ -41,7 +42,6 @@ class GenericExport implements FromQuery, WithHeadings, WithMapping
 
     /**
      * @param mixed $row
-     *
      * @return array
      */
     public function map($row): array
@@ -52,6 +52,10 @@ class GenericExport implements FromQuery, WithHeadings, WithMapping
                 $relations = explode('.', $field);
                 $value = $row;
                 foreach ($relations as $relation) {
+                    if (is_null($value)) {
+                        $value = null;
+                        break;
+                    }
                     $value = $value->{$relation} ?? null;
                 }
                 $mappedRow[] = $value;
