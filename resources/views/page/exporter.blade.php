@@ -4,6 +4,12 @@
 
 @section('content')
 <body class="h-full w-full font-sans bg-gradient-to-br from-gray-50 to-gray-100">
+    <style>
+        #errorBox.hidden {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    </style>
 
     <div class="flex h-screen w-screen overflow-hidden">
 
@@ -25,7 +31,18 @@
                     </div>
                 </div>
             </header>
-
+<div
+    id="errorBox"
+    class="hidden p-4 mb-4 text-sm text-red-800 bg-red-100 rounded-lg shadow-md transition-all duration-300 ease-in-out transform translate-y-0 opacity-100"
+>
+    La date de début ne peut pas être postérieure à la date de fin.
+</div>
+<div
+    id="notificationBox"
+    class="hidden p-4 mb-4 text-sm rounded-lg shadow-md transition-all duration-300 ease-in-out transform translate-y-0 opacity-100"
+>
+    <span id="notificationMessage"></span>
+</div>
             <div class="flex-1 p-8 overflow-y-auto">
                 <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-8 mb-8">
                     <div class="flex items-center space-x-3 mb-6">
