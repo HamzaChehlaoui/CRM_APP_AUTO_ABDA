@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Reclamation extends Model
 {
     protected $fillable = [
-        'client_id', 'user_id', 'description', 'status'
+        'client_id', 'user_id', 'description', 'status' , 'Priorite'
     ];
 
     public function client(): BelongsTo
