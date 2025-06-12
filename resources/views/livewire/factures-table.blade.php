@@ -238,7 +238,7 @@
 
                                                         <!-- Car Information Section -->
                                                         @if($car)
-                                                        
+
                                                         <div class="mb-8">
 
                                                             <!-- ... existing car fields ... -->
@@ -376,5 +376,5 @@
     </div>
     <div class="mt-4">
                     {{$invoices->links()}}
-                </div>
+    </div>
 </div>
