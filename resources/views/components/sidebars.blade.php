@@ -51,7 +51,6 @@
 
             <a href="/reclamations" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('reclamations') }}">
                 <i class="fas fa-exclamation-triangle mr-2 {{ iconClass('reclamations') }}"></i> Réclamations
-                <span class="ml-auto bg-orange-100 text-orange-500 text-xs font-semibold px-2 py-0.5 rounded-full">4</span>
             </a>
             <a href="/statistiques" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('statistiques') }}">
                 <i class="fas fa-chart-bar mr-2 {{ iconClass('statistiques') }}"></i> Statistiques
