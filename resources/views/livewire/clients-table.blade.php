@@ -1,9 +1,21 @@
 <div class="bg-white rounded-xl shadow-card overflow-hidden">
-    @if (session()->has('message'))
-        <div class="p-4 mb-4 text-sm text-green-800 bg-green-100 rounded-lg" role="alert">
-            {{ session('message') }}
-        </div>
-    @endif
+   @if (session()->has('message'))
+    <div
+        x-data
+        x-init="
+            setTimeout(() => {
+                $el.remove();
+                location.reload();
+            }, 4000);
+        "
+        class="p-4 mb-4 text-sm text-green-800 bg-green-100 rounded-lg"
+        role="alert"
+    >
+        {{ session('message') }}
+    </div>
+@endif
+
+
     <!-- Branch Filter -->
     @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
         <div class="mb-6">
