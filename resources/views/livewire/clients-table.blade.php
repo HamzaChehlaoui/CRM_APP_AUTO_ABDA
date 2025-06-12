@@ -458,8 +458,15 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="px-6 py-12 text-center text-gray-500">
-                                    Aucun client trouvé.
+                                <td colspan="6" class="px-6 py-16 bg-white text-center text-gray-500" colspan="6">
+                                    <div class="flex flex-col items-center justify-center space-y-3">
+                                        <svg class="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5V4H2v16h5m5 0v-6h2v6m-6 0v-4h2v4m6 0v-2h2v2" />
+                                        </svg>
+                                        <h2 class="text-xl font-semibold text-gray-700">Aucun client trouvé</h2>
+                                        <p class="text-sm text-gray-400">Ajoutez un nouveau client pour commencer à remplir la base de données.</p>
+
+                                    </div>
                                 </td>
                             </tr>
                         @endforelse
