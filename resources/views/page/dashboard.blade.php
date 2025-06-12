@@ -210,7 +210,7 @@ document.getElementById('branch_filter').addEventListener('change', function() {
 
 
 
-<div class="bg-white rounded-xl shadow-card overflow-hidden">
+            <div class="bg-white rounded-xl shadow-card overflow-hidden">
 
                     <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200 shadow-sm rounded-lg overflow-hidden">
@@ -221,7 +221,6 @@ document.getElementById('branch_filter').addEventListener('change', function() {
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Phone</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Address</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Cin</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Action</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
@@ -259,10 +258,7 @@ document.getElementById('branch_filter').addEventListener('change', function() {
                                        <div class="text-sm text-gray-500">{{$client->cin}}</div>
                                     </td>
 
-                                    <!-- Actions -->
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
-                                        <a href="#" class="text-blue-600 hover:text-blue-900" title="Voir"><i class="fas fa-file-invoice mr-2"></i></a>
-                                    </td>
+
                                 </tr>
                             @endforeach
                         </tbody>
