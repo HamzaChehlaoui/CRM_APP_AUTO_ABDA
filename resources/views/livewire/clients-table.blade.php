@@ -61,7 +61,7 @@
                         </td>
                         <!-- Actions -->
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
-                            <a href="#" class="text-blue-600 hover:text-blue-900" title="Voir"><i class="fas fa-file-invoice mr-2"></i></a>
+                            <a href="#" class="text-blue-600 hover:text-blue-900" title="Factures"><i class="fas fa-file-invoice mr-2"></i></a>
                             <a href="" wire:click.prevent="editClient({{ $client->id }})" class="text-yellow-600 hover:text-yellow-900" title="Modifier"><i class="fas fa-edit"></i></a>
                         </td>
                     </tr>
