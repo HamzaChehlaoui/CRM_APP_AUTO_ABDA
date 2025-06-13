@@ -193,8 +193,10 @@ document.getElementById('branch_filter').addEventListener('change', function() {
 
                         <div class="h-64 relative" wire:init="initChart">
                             <canvas  id="statusChart"></canvas>
+                        
                         </div>
                     </div>
+
 
                         <!-- Clients -->
                     <div class="bg-white rounded-xl shadow-card p-6 col-span-3">
