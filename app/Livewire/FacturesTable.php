@@ -40,6 +40,7 @@ class FacturesTable extends Component
 
     public function render(DashboardService $dashboardService)
     {
+
         $user = Auth::user();
         $data = $dashboardService->resolveBranchInfo($user, $this->selectedBranch);
 
