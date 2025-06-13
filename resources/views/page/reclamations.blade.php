@@ -7,9 +7,8 @@
 
     <div class="flex h-screen w-screen overflow-hidden">
 
-      <!-- Sidebar -->
-       <x-sidebar />
-
+<!-- Sidebar -->
+    <x-sidebar />
         <!-- Main Content -->
         <div class="flex-1 flex flex-col overflow-hidden">
             <!-- Header -->
@@ -45,7 +44,7 @@
                     <div class="flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
                         <div class="relative w-full sm:w-64">
                             <input type="text" placeholder="Rechercher une réclamation..."
-                                   class="w-full rounded-md border border-gray-200 py-2 pl-10 pr-4 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                                    class="w-full rounded-md border border-gray-200 py-2 pl-10 pr-4 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                             <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                 <i class="fas fa-search text-gray-400"></i>
                             </div>
@@ -141,7 +140,7 @@
                                         <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full complaint-priority-high">
                                             Haute
                                         </span>
-                                    </td>
+                                </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                         20 mai 2025
                                     </td>
@@ -157,124 +156,9 @@
                                         </button>
                                     </td>
                                 </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-gray-900">#REC-2025-002</div>
-                                        <div class="text-xs text-gray-500">Créé le 14/05/2025</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="h-8 w-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-medium">SD</div>
-                                            <div class="ml-3">
-                                                <div class="text-sm font-medium text-gray-900">Sophie Dubois</div>
-                                                <div class="text-sm text-gray-500">Peugeot 3008 - 2022</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="text-sm text-gray-900">Retard de livraison</div>
-                                        <div class="text-xs text-gray-500 truncate max-w-xs">La pièce commandée n'est toujours pas arrivée après 3 semaines d'attente.</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full complaint-priority-medium">
-                                            Moyenne
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        14 mai 2025
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full complaint-status-in-progress">
-                                            En cours
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <button class="text-primary-600 hover:text-primary-900 mr-2"><i class="fas fa-edit"></i></button>
-                                        <button type="submit"  class="text-red-600 hover:text-red-800">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-gray-900">#REC-2025-003</div>
-                                        <div class="text-xs text-gray-500">Créé le 10/05/2025</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="h-8 w-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-medium">JD</div>
-                                            <div class="ml-3">
-                                                <div class="text-sm font-medium text-gray-900">Jean Dupont</div>
-                                                <div class="text-sm text-gray-500">Audi Q5 - 2023</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="text-sm text-gray-900">Bruit moteur anormal</div>
-                                        <div class="text-xs text-gray-500 truncate max-w-xs">Bruit anormal au démarrage du véhicule depuis la dernière révision.</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full complaint-priority-high">
-                                            Haute
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        10 mai 2025
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full complaint-status-resolved">
-                                            Résolue
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <button class="text-primary-600 hover:text-primary-900 mr-2"><i class="fas fa-edit"></i></button>
-                                        <button type="submit"  class="text-red-600 hover:text-red-800">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-gray-900">#REC-2025-004</div>
-                                        <div class="text-xs text-gray-500">Créé le 05/05/2025</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="h-8 w-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-medium">ML</div>
-                                            <div class="ml-3">
-                                                <div class="text-sm font-medium text-gray-900">Martin Leclerc</div>
-                                                <div class="text-sm text-gray-500">Renault Clio - 2024</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="text-sm text-gray-900">Facture incorrecte</div>
-                                        <div class="text-xs text-gray-500 truncate max-w-xs">Erreur sur la facture de la dernière révision, montant trop élevé.</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full complaint-priority-low">
-                                            Basse
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        05 mai 2025
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full complaint-status-closed">
-                                            Fermée
-                                        </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <button class="text-primary-600 hover:text-primary-900 mr-2"><i class="fas fa-edit"></i></button>
-                                        <button type="submit"  class="text-red-600 hover:text-red-800">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    </td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
-
                 </div>
             </div>
         </div>
