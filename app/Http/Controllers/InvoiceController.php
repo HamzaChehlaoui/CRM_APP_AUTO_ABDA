@@ -146,7 +146,7 @@ class InvoiceController extends Controller
         ], [
             // Custom error messages
             'invoice_number.required' => 'Le numéro de facture est obligatoire.',
-            'sale_date.required' => 'La date de vente est obligatoire.',
+            'sale_date.required' => 'La Date de Facture est obligatoire.',
             'statut_facture.required' => 'Le statut de la facture est obligatoire.',
             'total_amount.required' => 'Le montant TTC est obligatoire.',
             'total_amount.numeric' => 'Le montant TTC doit être un nombre.',
