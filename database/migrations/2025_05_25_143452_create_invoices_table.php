@@ -18,7 +18,9 @@ return new class extends Migration
             $table->date('sale_date')->comment('Date de la facture (date)');
             $table->decimal('total_amount', 10, 2)->comment('Montant TTC (mtttc)');
             $table->string('image_path')->nullable()->comment('Chemin de l’image de la facture');
-
+            $table->string('image_bc')->nullable()->comment('image bon de commande');
+            $table->string('image_bl')->nullable()->comment('image bon kivraison');
+            $table->string('image_or')->nullable()->comment('Accord');
             $table->string('accord_reference')->nullable()->comment('Accord / Contrat (accord)');
             $table->string('purchase_order_number')->nullable()->comment('Bon de commande (bc)');
             $table->string('delivery_note_number')->nullable()->comment('Bon de livraison (bl)');

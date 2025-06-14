@@ -10,41 +10,41 @@ class ReclamationController extends Controller
 {
     public function index()
     {
-        $reclamations = Reclamation::with('client', 'user')->paginate(10);
-        return view('reclamations.index', compact('reclamations'));
+        $reclamations = Reclamation::with('client', 'user')->paginate(6);
+        return view('page.reclamations', compact('reclamations'));
     }
 
     public function create()
     {
-        return view('reclamations.create');
+        return view('page.reclamations');
     }
 
     public function store(StoreReclamationRequest $request)
     {
         Reclamation::create($request->validated());
-        return redirect()->route('reclamations.index')->with('success', 'Reclamation created successfully.');
+        return redirect()->route('page.reclamations')->with('success', 'Reclamation created successfully.');
     }
 
     public function show(Reclamation $reclamation)
     {
         $reclamation->load('client', 'user');
-        return view('reclamations.show', compact('reclamation'));
+        return view('page.reclamations', compact('reclamation'));
     }
 
     public function edit(Reclamation $reclamation)
     {
-        return view('reclamations.edit', compact('reclamation'));
+        return view('page.reclamations', compact('reclamation'));
     }
 
     public function update(UpdateReclamationRequest $request, Reclamation $reclamation)
     {
         $reclamation->update($request->validated());
-        return redirect()->route('reclamations.index')->with('success', 'Reclamation updated successfully.');
+        return redirect()->route('page.reclamations')->with('success', 'Reclamation updated successfully.');
     }
 
     public function destroy(Reclamation $reclamation)
     {
         $reclamation->delete();
-        return redirect()->route('reclamations.index')->with('success', 'Reclamation deleted successfully.');
+        return redirect()->route('page.reclamations')->with('success', 'Reclamation deleted successfully.');
     }
 }

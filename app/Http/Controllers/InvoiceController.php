@@ -43,6 +43,7 @@ class InvoiceController extends Controller
     public function storeAll(StoreInvoiceRequest $request)
 {
 
+
     $validated = $request->validated();
 
     Log::info('Validated data:', $validated);
@@ -75,26 +76,40 @@ class InvoiceController extends Controller
         }
 
         // Prepare invoice data
-        $invoiceData = [
-            'invoice_number' => $validated['invoice']['invoice_number'],
-            'sale_date' => $validated['invoice']['sale_date'],
-            'total_amount' => $validated['invoice']['total_amount'],
-            'accord_reference' => $validated['invoice']['accord_reference'] ?? null,
-            'purchase_order_number' => $validated['invoice']['purchase_order_number'] ?? null,
-            'delivery_note_number' => $validated['invoice']['delivery_note_number'] ?? null,
-            'payment_order_reference' => $validated['invoice']['payment_order_reference'] ?? null,
-            'statut_facture'=> $validated['invoice']['statut_facture'],
-            'client_id' => $client->id,
-            'car_id' => $car->id,
-            'user_id' => auth()->id(),
-            'created_by' => auth()->id(),
-        ];
+$invoiceData = [
+    'invoice_number' => $validated['invoice']['invoice_number'],
+    'sale_date' => $validated['invoice']['sale_date'],
+    'total_amount' => $validated['invoice']['total_amount'],
+    'accord_reference' => $validated['invoice']['accord_reference'] ?? null,
+    'purchase_order_number' => $validated['invoice']['purchase_order_number'] ?? null,
+    'delivery_note_number' => $validated['invoice']['delivery_note_number'] ?? null,
+    'payment_order_reference' => $validated['invoice']['payment_order_reference'] ?? null,
+    'statut_facture' => $validated['invoice']['statut_facture'],
+    'client_id' => $client->id,
+    'car_id' => $car->id,
+    'user_id' => auth()->id(),
+    'created_by' => auth()->id(),
+];
 
-        // Handle invoice image upload
-        if ($request->hasFile('invoice.image')) {
-            $imagePath = $request->file('invoice.image')->store('invoices', 'public');
-            $invoiceData['image_path'] = $imagePath;
-        }
+if ($request->hasFile('image_invoice')) {
+    $invoiceData['image_path'] = $request->file('image_invoice')->store('invoices', 'public');
+}
+
+if ($request->hasFile('image_bc')) {
+    $invoiceData['image_bc'] = $request->file('image_bc')->store('bons_commande', 'public');
+}
+
+if ($request->hasFile('image_bl')) {
+    $invoiceData['image_bl'] = $request->file('image_bl')->store('bons_livraison', 'public');
+}
+
+if ($request->hasFile('image_or')) {
+    $invoiceData['image_or'] = $request->file('image_or')->store('ordres_reparation', 'public');
+}
+
+
+
+
 
         // Create invoice
         $invoice = Invoice::create($invoiceData);
