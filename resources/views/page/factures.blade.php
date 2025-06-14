@@ -17,27 +17,41 @@
         <div class="flex-1 flex flex-col overflow-hidden">
             <!-- Header -->
             <header class="bg-white shadow-sm border-b border-gray-200 py-4 px-6">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h1 class="text-2xl font-bold text-gray-800">Factures</h1>
-                        <p class="text-sm text-gray-500">Gérez votre portefeuille factures</p>
-                    </div>
-                    <div class="flex items-center space-x-4">
-                        <button class="p-2 rounded-full hover:bg-gray-100 text-gray-500 transition-colors relative">
-                            <i class="fas fa-bell"></i>
-                            <span class="absolute top-0 right-0 h-4 w-4 bg-red-500 rounded-full border-2 border-white"></span>
-                        </button>
+    <div class="flex items-center justify-between">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-800">Factures</h1>
+            <p class="text-sm text-gray-500">Gérez votre portefeuille factures</p>
+        </div>
 
-                        <span class="h-6 border-l border-gray-300"></span>
-                        <button class="flex items-center space-x-2 hover:bg-gray-100 rounded-md px-3 py-1.5 transition-colors">
-                            <span class="font-medium text-sm">{{ date('d/m/Y') }}</span>
-                            <i class="fas fa-calendar-alt text-xs text-gray-500"></i>
-                        </button>
-
-
-                    </div>
+        <!-- Search Box -->
+        <div class="flex-1 max-w-md mx-8">
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <i class="fas fa-search text-gray-400 text-sm"></i>
                 </div>
-            </header>
+                <input
+                    type="text"
+                    class="block w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm placeholder-gray-500"
+                    placeholder="Rechercher une facture, client, montant..."
+                    autocomplete="off"
+                >
+            
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-4">
+            <button class="p-2 rounded-full hover:bg-gray-100 text-gray-500 transition-colors relative">
+                <i class="fas fa-bell"></i>
+                <span class="absolute top-0 right-0 h-4 w-4 bg-red-500 rounded-full border-2 border-white"></span>
+            </button>
+            <span class="h-6 border-l border-gray-300"></span>
+            <button class="flex items-center space-x-2 hover:bg-gray-100 rounded-md px-3 py-1.5 transition-colors">
+                <span class="font-medium text-sm">{{ date('d/m/Y') }}</span>
+                <i class="fas fa-calendar-alt text-xs text-gray-500"></i>
+            </button>
+        </div>
+    </div>
+</header>
 
             <!-- Main Content Area -->
             <div class="flex-1 p-6 overflow-y-auto">
