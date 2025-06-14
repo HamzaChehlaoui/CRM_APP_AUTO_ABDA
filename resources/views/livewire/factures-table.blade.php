@@ -157,50 +157,92 @@
                             Dernière visite:
                         </div>
                         <div class="flex space-x-1">
-                            <div x-data="{ openInvoiceImage: false }">
-                                <button @click="openInvoiceImage = true" class="p-1.5 text-blue-600 hover:bg-blue-100 rounded-lg transition-colors" title="Voir détails">
-                                    <i class="fas fa-eye text-sm"></i>
-                                </button>
+                          @php
+    $images = [
+        'image_path' => 'Image de la Facture',
+        'image_bc' => 'Bon de Commande',
+        'image_bl' => 'Bon de Livraison',
+        'image_or' => 'Ordre de Réparation',
+    ];
 
-                                <div x-show="openInvoiceImage" x-transition x-cloak
-                                    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                                    <div @click.away="openInvoiceImage = false"
-                                        class="bg-white rounded-lg shadow-lg max-w-lg w-full p-6 relative">
-                                        <button @click="openInvoiceImage = false"
-                                            class="absolute top-2 right-2 text-gray-400 hover:text-gray-600">
-                                            <i class="fas fa-times"></i>
-                                        </button>
-                                        <h2 class="text-lg font-semibold mb-4">Image de la Facture</h2>
+    $imageUrls = [];
 
-                                        @php
-                                            $imagePath = $invoice->image_path;
-                                            $fullPath = null;
+    foreach ($images as $key => $label) {
+        $path = $invoice->$key;
+        $fullPath = null;
 
-                                            if (file_exists(storage_path('app/public/' . $imagePath))) {
-                                                $fullPath = asset('storage/' . $imagePath);
-                                            }
-                                            elseif (file_exists(public_path($imagePath))) {
-                                                $fullPath = asset($imagePath);
-                                            }
-                                            elseif (file_exists(public_path('storage/' . $imagePath))) {
-                                                $fullPath = asset('storage/' . $imagePath);
-                                            }
-                                        @endphp
+        if ($path && file_exists(storage_path('app/public/' . $path))) {
+            $fullPath = asset('storage/' . $path);
+        } elseif ($path && file_exists(public_path($path))) {
+            $fullPath = asset($path);
+        } elseif ($path && file_exists(public_path('storage/' . $path))) {
+            $fullPath = asset('storage/' . $path);
+        }
 
-                                        @if($fullPath)
-                                            <img src="{{ $fullPath }}" alt="Facture {{ $invoice->invoice_number }}"
-                                                class="w-full rounded border shadow-sm max-h-96 object-contain"
-                                                onerror="this.parentElement.innerHTML='<p class=\'text-red-500 text-sm\'>Erreur lors du chargement de l\'image</p>'">
-                                        @else
-                                            <div class="text-center py-8">
-                                                <i class="fas fa-exclamation-triangle text-yellow-500 text-3xl mb-3"></i>
-                                                <p class="text-sm text-gray-600">Image introuvable</p>
-                                                <p class="text-xs text-gray-400 mt-1">Chemin: {{ $imagePath }}</p>
-                                            </div>
-                                        @endif
-                                    </div>
-                                </div>
+        $imageUrls[$key] = [
+            'label' => $label,
+            'url' => $fullPath,
+            'path' => $path,
+        ];
+    }
+@endphp
+
+<div x-data="{ openInvoiceImage: false }">
+    <button @click="openInvoiceImage = true" class="p-1.5 text-blue-600 hover:bg-blue-100 rounded-lg transition-colors" title="Voir les images">
+        <i class="fas fa-eye text-sm"></i>
+    </button>
+
+    <div x-show="openInvoiceImage" x-transition x-cloak
+         class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+        <div @click.away="openInvoiceImage = false" class="bg-white rounded-lg shadow-lg max-w-4xl w-full p-6 relative max-h-[80vh] overflow-auto">
+            <button @click="openInvoiceImage = false"
+                    class="absolute top-2 right-2 text-gray-400 hover:text-gray-600">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2 class="text-lg font-semibold mb-4">Images associées à la facture</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                @foreach ($imageUrls as $img)
+                    <div class="border rounded-lg p-3 shadow-sm bg-gray-50">
+                        <h3 class="text-sm font-medium text-gray-700 mb-2">{{ $img['label'] }}</h3>
+
+                        @if ($img['url'])
+                            @php
+                                $extension = strtolower(pathinfo($img['path'], PATHINFO_EXTENSION));
+                            @endphp
+
+                            @if ($extension === 'pdf')
+
+                            <a href="{{ $img['url'] }}" target="_blank"
+                                   class="text-blue-600 underline flex items-center space-x-2">
+                                    <i class="fas fa-file-pdf text-red-600"></i>
+                                    <span>Voir le fichier PDF</span>
+                                </a>
+
+
+
+                            @else
+                                <img src="{{ $img['url'] }}"
+                                    alt="{{ $img['label'] }}"
+                                    class="w-full h-64 object-contain rounded border"
+                                    onerror="this.parentElement.innerHTML='<p class=\'text-red-500 text-sm\'>Erreur lors du chargement de l\'image</p>'">
+                            @endif
+
+                        @else
+                            <div class="text-center py-8">
+                                <i class="fas fa-exclamation-triangle text-yellow-500 text-3xl mb-3"></i>
+                                <p class="text-sm text-gray-600">Image introuvable</p>
+                                <p class="text-xs text-gray-400 mt-1">Chemin: {{ $img['path'] }}</p>
                             </div>
+                        @endif
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
                             {{-- Edit Modal --}}
                             <div x-data="{ openEditModal: false }">
@@ -233,7 +275,6 @@
                                                         @csrf
                                                         @method('PUT')
 
-                                                        <!-- Or if using Livewire, modify the wire:submit to: -->
                                                         <!-- <form wire:submit.prevent="updateInvoice"> -->
 
                                                         <!-- Car Information Section -->
