@@ -152,7 +152,7 @@
                     </div>
 
                                         <!-- Car Information -->
-                                        <div class="mb-8">
+                    <div class="mb-8">
                                             <div class="flex items-center mb-6">
                                                 <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
                                                     <i class="fas fa-car text-blue-600"></i>
@@ -270,135 +270,51 @@
                                             <option value="paiement">Paiement</option>
                                         </select>
                                 </div>
-                                <!-- Invoice Image Upload -->
-                                <div class="space-y-2 md:col-span-2">
-                                    <label class="block text-sm font-medium text-gray-700">Image de la facture </label>
-                                    <div class="mt-2">
-                                        <div class="flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-green-400 transition-colors duration-200 bg-white" id="invoice-upload-area">
-                                            <div class="space-y-2 text-center" id="upload-placeholder">
-                                                <div class="mx-auto h-12 w-12 text-gray-400">
-                                                    <i class="fas fa-cloud-upload-alt text-3xl"></i>
-                                                </div>
-                                                <div class="flex text-sm text-gray-600">
-                                                    <label for="invoice-image" class="relative cursor-pointer bg-white rounded-md font-medium text-green-600 hover:text-green-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-green-500">
-                                                        <span>Télécharger un fichier</span>
-                                                        <input id="invoice-image" name="invoice[image]" type="file" accept="image/*"  class="sr-only" required>
-                                                    </label>
-                                                    <p class="pl-1">ou glisser-déposer</p>
-                                                </div>
-                                                <p class="text-xs text-gray-500">PNG, JPG, JPEG jusqu'à 10MB</p>
-                                            </div>
-                                            <div class="hidden" id="upload-preview">
-                                                <div class="flex items-center space-x-4">
-                                                    <img id="preview-image" class="h-20 w-20 object-cover rounded-lg border border-gray-200" src="" alt="Preview">
-                                                    <div class="flex-1">
-                                                        <p id="file-name" class="text-sm font-medium text-gray-900"></p>
-                                                        <p id="file-size" class="text-xs text-gray-500"></p>
-                                                        <button type="button" id="remove-image" class="mt-1 text-xs text-red-600 hover:text-red-500">
-                                                            <i class="fas fa-trash mr-1"></i>Supprimer
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="space-y-2 md:col-span-2">
-                                    <label class="block text-sm font-medium text-gray-700">Image Bon livraison </label>
-                                    <div class="mt-2">
-                                        <div class="flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-green-400 transition-colors duration-200 bg-white" id="invoice-upload-area">
-                                            <div class="space-y-2 text-center" id="upload-placeholder">
-                                                <div class="mx-auto h-12 w-12 text-gray-400">
-                                                    <i class="fas fa-cloud-upload-alt text-3xl"></i>
-                                                </div>
-                                                <div class="flex text-sm text-gray-600">
-                                                    <label for="invoice-image" class="relative cursor-pointer bg-white rounded-md font-medium text-green-600 hover:text-green-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-green-500">
-                                                        <span>Télécharger un fichier</span>
-                                                        <input id="invoice-image" name="invoice[image]" type="file" accept="image/*"  class="sr-only" required>
-                                                    </label>
-                                                    <p class="pl-1">ou glisser-déposer</p>
-                                                </div>
-                                                <p class="text-xs text-gray-500">PNG, JPG, JPEG jusqu'à 10MB</p>
-                                            </div>
-                                            <div class="hidden" id="upload-preview">
-                                                <div class="flex items-center space-x-4">
-                                                    <img id="preview-image" class="h-20 w-20 object-cover rounded-lg border border-gray-200" src="" alt="Preview">
-                                                    <div class="flex-1">
-                                                        <p id="file-name" class="text-sm font-medium text-gray-900"></p>
-                                                        <p id="file-size" class="text-xs text-gray-500"></p>
-                                                        <button type="button" id="remove-image" class="mt-1 text-xs text-red-600 hover:text-red-500">
-                                                            <i class="fas fa-trash mr-1"></i>Supprimer
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="space-y-2 md:col-span-2">
-                                    <label class="block text-sm font-medium text-gray-700">Image Ordre de réparationt </label>
-                                    <div class="mt-2">
-                                        <div class="flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-green-400 transition-colors duration-200 bg-white" id="invoice-upload-area">
-                                            <div class="space-y-2 text-center" id="upload-placeholder">
-                                                <div class="mx-auto h-12 w-12 text-gray-400">
-                                                    <i class="fas fa-cloud-upload-alt text-3xl"></i>
-                                                </div>
-                                                <div class="flex text-sm text-gray-600">
-                                                    <label for="invoice-image" class="relative cursor-pointer bg-white rounded-md font-medium text-green-600 hover:text-green-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-green-500">
-                                                        <span>Télécharger un fichier</span>
-                                                        <input id="invoice-image" name="invoice[image]" type="file" accept="image/*"  class="sr-only" required>
-                                                    </label>
-                                                    <p class="pl-1">ou glisser-déposer</p>
-                                                </div>
-                                                <p class="text-xs text-gray-500">PNG, JPG, JPEG jusqu'à 10MB</p>
-                                            </div>
-                                            <div class="hidden" id="upload-preview">
-                                                <div class="flex items-center space-x-4">
-                                                    <img id="preview-image" class="h-20 w-20 object-cover rounded-lg border border-gray-200" src="" alt="Preview">
-                                                    <div class="flex-1">
-                                                        <p id="file-name" class="text-sm font-medium text-gray-900"></p>
-                                                        <p id="file-size" class="text-xs text-gray-500"></p>
-                                                        <button type="button" id="remove-image" class="mt-1 text-xs text-red-600 hover:text-red-500">
-                                                            <i class="fas fa-trash mr-1"></i>Supprimer
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="space-y-2 md:col-span-2">
-                                    <label class="block text-sm font-medium text-gray-700">Image Bon commande </label>
-                                    <div class="mt-2">
-                                        <div class="flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-green-400 transition-colors duration-200 bg-white" id="invoice-upload-area">
-                                            <div class="space-y-2 text-center" id="upload-placeholder">
-                                                <div class="mx-auto h-12 w-12 text-gray-400">
-                                                    <i class="fas fa-cloud-upload-alt text-3xl"></i>
-                                                </div>
-                                                <div class="flex text-sm text-gray-600">
-                                                    <label for="invoice-image" class="relative cursor-pointer bg-white rounded-md font-medium text-green-600 hover:text-green-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-green-500">
-                                                        <span>Télécharger un fichier</span>
-                                                        <input id="invoice-image" name="invoice[image]" type="file" accept="image/*"  class="sr-only" required>
-                                                    </label>
-                                                    <p class="pl-1">ou glisser-déposer</p>
-                                                </div>
-                                                <p class="text-xs text-gray-500">PNG, JPG, JPEG jusqu'à 10MB</p>
-                                            </div>
-                                            <div class="hidden" id="upload-preview">
-                                                <div class="flex items-center space-x-4">
-                                                    <img id="preview-image" class="h-20 w-20 object-cover rounded-lg border border-gray-200" src="" alt="Preview">
-                                                    <div class="flex-1">
-                                                        <p id="file-name" class="text-sm font-medium text-gray-900"></p>
-                                                        <p id="file-size" class="text-xs text-gray-500"></p>
-                                                        <button type="button" id="remove-image" class="mt-1 text-xs text-red-600 hover:text-red-500">
-                                                            <i class="fas fa-trash mr-1"></i>Supprimer
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+            
+@php
+    $types = [
+        'invoice' => 'Image de la facture',
+        'bl' => 'Image Bon livraison',
+        'or' => 'Image Ordre de réparation',
+        'bc' => 'Image Bon commande',
+    ];
+@endphp
+
+@foreach ($types as $type => $label)
+<div class="space-y-2 md:col-span-2" data-type="{{ $type }}">
+    <label class="block text-sm font-medium text-gray-700">{{ $label }}</label>
+    <div class="mt-2">
+        <div class="flex justify-center px-6 pt-5 pb-6 border-2 border-dashed rounded-lg transition-colors duration-200 bg-white border-gray-300 hover:border-green-400" id="upload-area-{{ $type }}">
+            <div class="space-y-2 text-center" id="placeholder-{{ $type }}">
+                <div class="mx-auto h-12 w-12 text-gray-400">
+                    <i class="fas fa-cloud-upload-alt text-3xl"></i>
+                </div>
+                <div class="flex text-sm text-gray-600">
+                    <label for="{{ $type }}-image" class="relative cursor-pointer bg-white rounded-md font-medium text-green-600 hover:text-green-500">
+                        <span>Télécharger un fichier</span>
+                        <input id="{{ $type }}-image" name="image_{{ $type }}" type="file" accept="image/*" class="sr-only" {{ $type == 'invoice' ? 'required' : '' }}>
+                    </label>
+                    <p class="pl-1">ou glisser-déposer</p>
+                </div>
+                <p class="text-xs text-gray-500">PNG, JPG, JPEG jusqu'à 10MB</p>
+            </div>
+            <div class="hidden" id="preview-{{ $type }}">
+                <div class="flex items-center space-x-4">
+                    <img id="preview-image-{{ $type }}" class="h-20 w-20 object-cover rounded-lg border border-gray-200" src="" alt="Preview">
+                    <div class="flex-1">
+                        <p id="file-name-{{ $type }}" class="text-sm font-medium text-gray-900"></p>
+                        <p id="file-size-{{ $type }}" class="text-xs text-gray-500"></p>
+                        <button type="button" id="remove-image-{{ $type }}" class="mt-1 text-xs text-red-600 hover:text-red-500">
+                            <i class="fas fa-trash mr-1"></i>Supprimer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
+
                             </div>
                         </div>
                     </div>
