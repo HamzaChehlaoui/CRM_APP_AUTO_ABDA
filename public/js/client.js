@@ -57,87 +57,117 @@
             form.id = 'clientForm';
 
 
+            const types = ['invoice', 'bl', 'or', 'bc'];
 
+            types.forEach(type => {
+                const fileInput = document.getElementById(`${type}-image`);
+                const preview = document.getElementById(`preview-${type}`);
+                const previewImage = document.getElementById(`preview-image-${type}`);
+                const placeholder = document.getElementById(`placeholder-${type}`);
+                const uploadArea = document.getElementById(`upload-area-${type}`);
+                const fileName = document.getElementById(`file-name-${type}`);
+                const fileSize = document.getElementById(`file-size-${type}`);
+                const removeBtn = document.getElementById(`remove-image-${type}`);
+                const pdfLinkContainer = preview.querySelector('.preview-pdf-link-container');
 
+                fileInput.addEventListener('change', () => {
+                    const file = fileInput.files[0];
+                    handleFile(file, {
+                        previewImage,
+                        preview,
+                        placeholder,
+                        uploadArea,
+                        fileName,
+                        fileSize,
+                        fileInput,
+                        pdfLinkContainer,
+                    });
+                });
 
+                removeBtn.addEventListener('click', () => {
+                    fileInput.value = '';
+                    fileName.textContent = '';
+                    fileSize.textContent = '';
+                    preview.classList.add('hidden');
+                    placeholder.classList.remove('hidden');
+                    uploadArea.classList.remove('border-green-500');
+                    uploadArea.classList.add('border-gray-300');
 
-document.querySelectorAll('[data-type]').forEach((section) => {
-    const type = section.dataset.type;
-    const fileInput = document.getElementById(`${type}-image`);
-    const placeholder = document.getElementById(`placeholder-${type}`);
-    const preview = document.getElementById(`preview-${type}`);
-    const previewImage = document.getElementById(`preview-image-${type}`);
-    const fileName = document.getElementById(`file-name-${type}`);
-    const fileSize = document.getElementById(`file-size-${type}`);
-    const removeBtn = document.getElementById(`remove-image-${type}`);
-    const uploadArea = document.getElementById(`upload-area-${type}`);
+                    // إزالة أي رابط PDF سابق
+                    pdfLinkContainer.innerHTML = '';
 
-    fileInput.addEventListener('change', () => handleFile(fileInput.files[0]));
+                    // إعادة إظهار الصورة إذا كانت مخفية
+                    previewImage.classList.remove('hidden');
+                    previewImage.src = '';
+                });
+            });
+        });
 
-    uploadArea.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        uploadArea.classList.add('border-green-500', 'bg-green-50');
-    });
+function handleFile(file, elements) {
+    const {
+        previewImage,
+        preview,
+        placeholder,
+        uploadArea,
+        fileName,
+        fileSize,
+        fileInput,
+        pdfLinkContainer,
+    } = elements;
 
-    uploadArea.addEventListener('dragleave', (e) => {
-        e.preventDefault();
-        uploadArea.classList.remove('border-green-500', 'bg-green-50');
-    });
+    if (!file) return;
 
-    uploadArea.addEventListener('drop', (e) => {
-        e.preventDefault();
-        uploadArea.classList.remove('border-green-500', 'bg-green-50');
-        const file = e.dataTransfer.files[0];
-        if (file && file.type.startsWith('image/')) {
-            fileInput.files = e.dataTransfer.files;
-            handleFile(file);
-        }
-    });
+    const isImage = file.type.startsWith('image/');
+    const isPDF = file.type === 'application/pdf';
 
-    removeBtn.addEventListener('click', () => {
+    if (!isImage && !isPDF) {
+        alert('Veuillez sélectionner une image ou un fichier PDF valide.');
         fileInput.value = '';
-        placeholder.classList.remove('hidden');
-        preview.classList.add('hidden');
-        uploadArea.classList.remove('border-green-500', 'bg-green-50');
-        uploadArea.classList.add('border-gray-300');
-    });
+        return;
+    }
 
-    function handleFile(file) {
-        if (!file) return;
+    if (file.size > 10 * 1024 * 1024) {
+        alert('Le fichier est trop volumineux. Max: 10MB.');
+        fileInput.value = '';
+        return;
+    }
 
-        if (!file.type.startsWith('image/')) {
-            alert('Veuillez sélectionner une image valide.');
-            fileInput.value = '';
-            return;
-        }
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        // إزالة أي رابط PDF أو صورة قديمة
+        pdfLinkContainer.innerHTML = '';
 
-        if (file.size > 10 * 1024 * 1024) {
-            alert('Le fichier est trop volumineux. Max: 10MB.');
-            fileInput.value = '';
-            return;
-        }
-
-        const reader = new FileReader();
-        reader.onload = (e) => {
+        if (isImage) {
             previewImage.src = e.target.result;
-            fileName.textContent = file.name;
-            fileSize.textContent = formatFileSize(file.size);
-            placeholder.classList.add('hidden');
-            preview.classList.remove('hidden');
-            uploadArea.classList.add('border-green-500');
-            uploadArea.classList.remove('border-gray-300');
-        };
-        reader.readAsDataURL(file);
-    }
+            previewImage.classList.remove('hidden');
+        } else {
+            // ملف PDF: إخفاء الصورة
+            previewImage.classList.add('hidden');
 
-    function formatFileSize(bytes) {
-        if (bytes === 0) return '0 Bytes';
-        const k = 1024;
-        const sizes = ['Bytes', 'KB', 'MB'];
-        const i = Math.floor(Math.log(bytes) / Math.log(k));
-        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-    }
-});
+            // إنشاء رابط PDF جديد
+            const pdfLink = document.createElement('a');
+            pdfLink.href = e.target.result;
+            pdfLink.target = "_blank";
+            pdfLink.className = "text-sm text-blue-600 underline flex items-center space-x-1";
+            pdfLink.innerHTML = `<i class="fas fa-file-pdf text-red-600"></i><span>Voir le fichier PDF</span>`;
 
+            pdfLinkContainer.appendChild(pdfLink);
+        }
 
-});
+        fileName.textContent = file.name;
+        fileSize.textContent = formatFileSize(file.size);
+        placeholder.classList.add('hidden');
+        preview.classList.remove('hidden');
+        uploadArea.classList.add('border-green-500');
+        uploadArea.classList.remove('border-gray-300');
+    };
+
+    reader.readAsDataURL(file);
+}
+
+function formatFileSize(bytes) {
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    if (bytes === 0) return '0 Byte';
+    const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+    return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+}
