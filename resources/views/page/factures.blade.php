@@ -135,7 +135,7 @@
                             </div>
                         </div>
 
-                        
+
                         <!-- Client Information -->
                         <div class="mb-8">
                             <div class="flex items-center mb-6">
@@ -148,14 +148,16 @@
                                 <div class="space-y-2">
                                     <label class="block text-sm font-medium text-gray-700">Client *</label>
                                     <select name="client_id" id="client_id" required
-                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
+                                        class="select-client w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
                                         <option value="">Sélectionner un client</option>
                                         @foreach ($clients as $client)
-                                            <option value="{{ $client->id }}">{{ $client->full_name }}</option>
+                                            <option value="{{ $client->id }}">{{ $client->full_name }} ,
+                                                {{ $client->cin }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
+
                         </div>
 
                         <!-- Car Information -->
@@ -383,5 +385,16 @@
         </div>
 
         <script src="js/client.js"></script>
+        <script>
+            new TomSelect('.select-client', {
+                create: false,
+                sortField: {
+                    field: "text",
+                    direction: "asc"
+                },
+                placeholder: "Rechercher un client..."
+            });
+        </script>
+
     </body>
 @endsection

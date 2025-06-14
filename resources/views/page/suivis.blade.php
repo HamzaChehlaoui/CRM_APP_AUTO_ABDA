@@ -90,18 +90,29 @@
 
                                     <div class="space-y-4">
                                         <!-- Client Selection -->
-                                        <div>
-                                            <label for="client_id" class="block text-sm font-medium text-gray-700 mb-1">
-                                                Client <span class="text-red-500">*</span>
-                                            </label>
-                                            <select id="client_id" name="client_id" required
-                                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
-                                                <option value="">Sélectionner un client</option>
-                                                @foreach ($clients as $client)
-                                                    <option value="{{ $client->id }}">{{ $client->full_name }} -
-                                                        {{ $client->phone }}</option>
-                                                @endforeach
-                                            </select>
+                                        <!-- Client Information -->
+                                        <div class="mb-8">
+                                            <div class="flex items-center mb-6">
+                                                <div
+                                                    class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                                                    <i class="fas fa-user text-blue-600"></i>
+                                                </div>
+                                                <h3 class="text-lg font-semibold text-gray-900">Sélection Client</h3>
+                                            </div>
+                                            <div class="bg-blue-50 rounded-lg p-6">
+                                                <div class="space-y-2">
+                                                    <label class="block text-sm font-medium text-gray-700">Client *</label>
+                                                    <select name="client_id" id="client_id" required
+                                                        class="select-client w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
+                                                        <option value="">Sélectionner un client</option>
+                                                        @foreach ($clients as $client)
+                                                            <option value="{{ $client->id }}">{{ $client->full_name }} ,
+                                                                {{ $client->cin }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+
                                         </div>
 
                                         <!-- Follow-up Date -->
@@ -263,6 +274,14 @@
                     }
                 });
             }
+            new TomSelect('.select-client', {
+                create: false,
+                sortField: {
+                    field: "text",
+                    direction: "asc"
+                },
+                placeholder: "Rechercher un client..."
+            });
         </script>
 
     </body>
