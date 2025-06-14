@@ -1,4 +1,31 @@
+<div>
+   <div class="w-full max-w-sm m-2">
+    <div class="relative">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <i
+                class="fas fa-search text-gray-400 text-sm"
+                wire:loading.remove
+                wire:target="search"
+            ></i>
+
+            <i
+                class="fas fa-spinner text-gray-400 text-sm animate-spin"
+                wire:loading
+                wire:target="search"
+            ></i>
+        </div>
+        <input
+            type="text"
+            wire:model.live.debounce.500ms="search"
+            placeholder="Rechercher une facture, client, montant..."
+            class="block w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm placeholder-gray-500"
+        >
+    </div>
+</div>
+
+
 <div class="bg-white rounded-xl shadow-card overflow-hidden">
+
     <!-- Branch Filter -->
     @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
         <div class="mb-4">
@@ -13,6 +40,8 @@
             </div>
         </div>
     @endif
+
+
 
     <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
         @forelse($invoices as $invoice)
@@ -439,4 +468,5 @@
     <div class="mt-4">
                     {{$invoices->links()}}
     </div>
+</div>
 </div>
