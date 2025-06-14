@@ -19,55 +19,62 @@
         </div>
     </div>
 
-    <div class="p-4">
-        <div class="relative mb-4">
-            <input type="text" placeholder="Rechercher..."
-                class="w-full rounded-md border border-gray-200 py-2 pl-10 pr-4 text-sm focus:border-nucleus-primary focus:outline-none focus:ring-1 focus:ring-nucleus-primary">
-            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <i class="fas fa-search text-gray-400"></i>
+ <div class="p-4">
+    <!-- Professional car-themed animation replacing the search box -->
+    <div class="relative mb-4">
+        <div class="w-full h-10 rounded-md border border-gray-200 bg-gradient-to-r from-blue-50 to-white flex items-center justify-center overflow-hidden">
+            <!-- Subtle road line -->
+            <div class="absolute inset-0 flex items-center justify-center">
+                <div class="w-3/4 h-px bg-blue-200"></div>
+            </div>
+            <!-- Professional car icon with smooth movement -->
+            <div class="relative z-10 flex items-center space-x-3">
+                <i class="fas fa-car text-blue-600 text-sm"></i>
+                <div class="flex space-x-1">
+                    <div class="w-1 h-1 bg-blue-400 rounded-full opacity-70 animate-pulse"></div>
+                    <div class="w-1 h-1 bg-blue-400 rounded-full opacity-50 animate-pulse" style="animation-delay: 0.3s;"></div>
+                    <div class="w-1 h-1 bg-blue-400 rounded-full opacity-30 animate-pulse" style="animation-delay: 0.6s;"></div>
+                </div>
             </div>
         </div>
-
-        <h2 class="text-xs uppercase text-gray-500 font-semibold mb-3">Navigation</h2>
-        <nav class="space-y-1">
-            <a href="/dashboard" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('dashboard') }}">
-                <i class="fas fa-tachometer-alt mr-2 {{ iconClass('dashboard') }}"></i> Tableau de Bord
-            </a>
-            <a href="/clients" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('clients') }}">
-                <i class="fas fa-car mr-2 {{ iconClass('clients') }}"></i> Clients
-            </a>
-            <a href="/suivis" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('suivis') }}">
-                <i class="fas fa-calendar-alt mr-2 {{ iconClass('suivis') }}"></i> Suivis
-            </a>
-            <a href="/notifications" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('notifications') }}">
-                <i class="fas fa-bell mr-2 {{ iconClass('notifications') }}"></i> Notifications
-                <span class="ml-auto bg-red-100 text-red-500 text-xs font-semibold px-2 py-0.5 rounded-full">3</span>
-            </a>
-            <a href="/factures" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('factures') }}">
-                <i class="fas fa-file-invoice mr-2 {{ iconClass('factures') }}"></i> factures
-
-            </a>
-
-
-            <a href="/reclamations" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('reclamations') }}">
-                <i class="fas fa-exclamation-triangle mr-2 {{ iconClass('reclamations') }}"></i> Réclamations
-            </a>
-            <a href="/statistiques" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('statistiques') }}">
-                <i class="fas fa-chart-bar mr-2 {{ iconClass('statistiques') }}"></i> Statistiques
-            </a>
-            <a href="/exporter" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('exporter') }}">
-                <i class="fas fa-file-export mr-2 {{ iconClass('exporter') }}"></i> Exporter
-            </a>
-            @if($user && $user->role_id==2)
-            <a href="/register" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('register') }}">
-                <i class="fas fa-user-plus mr-2 {{ iconClass('register') }}"></i> Register
-            </a>
-            <a href="/users" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('users') }}">
-                <i class="fas fa-users mr-2 {{ iconClass('users') }}"></i> Users
-            </a>
-            @endif
-        </nav>
     </div>
+    <h2 class="text-xs uppercase text-gray-500 font-semibold mb-3">Navigation</h2>
+    <nav class="space-y-1">
+        <a href="/dashboard" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('dashboard') }}">
+            <i class="fas fa-tachometer-alt mr-2 {{ iconClass('dashboard') }}"></i> Tableau de Bord
+        </a>
+        <a href="/clients" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('clients') }}">
+            <i class="fas fa-car mr-2 {{ iconClass('clients') }}"></i> Clients
+        </a>
+        <a href="/suivis" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('suivis') }}">
+            <i class="fas fa-calendar-alt mr-2 {{ iconClass('suivis') }}"></i> Suivis
+        </a>
+        <a href="/notifications" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('notifications') }}">
+            <i class="fas fa-bell mr-2 {{ iconClass('notifications') }}"></i> Notifications
+            <span class="ml-auto bg-red-100 text-red-500 text-xs font-semibold px-2 py-0.5 rounded-full">3</span>
+        </a>
+        <a href="/factures" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('factures') }}">
+            <i class="fas fa-file-invoice mr-2 {{ iconClass('factures') }}"></i> factures
+        </a>
+        <a href="/reclamations" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('reclamations') }}">
+            <i class="fas fa-exclamation-triangle mr-2 {{ iconClass('reclamations') }}"></i> Réclamations
+        </a>
+        <a href="/statistiques" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('statistiques') }}">
+            <i class="fas fa-chart-bar mr-2 {{ iconClass('statistiques') }}"></i> Statistiques
+        </a>
+        <a href="/exporter" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('exporter') }}">
+            <i class="fas fa-file-export mr-2 {{ iconClass('exporter') }}"></i> Exporter
+        </a>
+        @if($user && $user->role_id==2)
+        <a href="/register" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('register') }}">
+            <i class="fas fa-user-plus mr-2 {{ iconClass('register') }}"></i> Register
+        </a>
+        <a href="/users" class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('users') }}">
+            <i class="fas fa-users mr-2 {{ iconClass('users') }}"></i> Users
+        </a>
+        @endif
+    </nav>
+</div>
 
     <div class="mt-auto p-4 border-t border-gray-200">
         <div class="flex items-center space-x-3">
