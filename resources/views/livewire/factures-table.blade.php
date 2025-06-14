@@ -209,7 +209,7 @@
 
             @if ($img['url'])
                 <a href="{{ $img['url'] }}" download
-                   class="text-green-600 hover:text-green-800 text-sm flex items-center space-x-1">
+                    class="text-green-600 hover:text-green-800 text-sm flex items-center space-x-1">
                     <i class="fas fa-download"></i>
                     <span>Télécharger</span>
                 </a>
@@ -320,10 +320,10 @@
                                                                     <label class="block text-sm font-medium text-gray-700 mb-1">Statut après-vente</label>
                                                                     <select name="post_sale_status"
                                                                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
-                                                                        <option value="en_attente_livraison" {{ old('post_sale_status', $car->status) == 'en_attente_livraison' ? 'selected' : '' }}>En attente livraison</option>
-                                                                        <option value="livre" {{ old('post_sale_status', $car->status) == 'livre' ? 'selected' : '' }}>Livré</option>
-                                                                        <option value="sav_1ere_visite" {{ old('post_sale_status', $car->status) == 'sav_1ere_visite' ? 'selected' : '' }}>SAV 1ère visite</option>
-                                                                        <option value="relance" {{ old('post_sale_status', $car->status) == 'relance' ? 'selected' : '' }}>Relance</option>
+                                                                        <option value="en_attente_livraison" {{ old('post_sale_status', $car->post_sale_status) == 'en_attente_livraison' ? 'selected' : '' }}>En attente livraison</option>
+                                                                        <option value="livre" {{ old('post_sale_status', $car->post_sale_status) == 'livre' ? 'selected' : '' }}>Livré</option>
+                                                                        <option value="sav_1ere_visite" {{ old('post_sale_status', $car->post_sale_status) == 'sav_1ere_visite' ? 'selected' : '' }}>SAV 1ère visite</option>
+                                                                        <option value="relance" {{ old('post_sale_status', $car->post_sale_status) == 'relance' ? 'selected' : '' }}>Relance</option>
                                                                     </select>
                                                                 </div>
                                                                 <div class="md:col-span-2">
@@ -351,8 +351,10 @@
                                                                 </div>
                                                                 <div>
                                                                     <label class="block text-sm font-medium text-gray-700 mb-1">Date de Facture</label>
-                                                                    <input type="date" name="sale_date" value="{{ old('sale_date', $invoice->sale_date) }}" required
-                                                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                                                                    <input type="date" name="sale_date"
+                                                                    value="{{ old('sale_date', \Carbon\Carbon::parse($invoice->sale_date)->format('Y-m-d')) }}"
+                                                                    required
+                                                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent">
                                                                 </div>
                                                                 <div>
                                                                     <label class="block text-sm font-medium text-gray-700">Statut Facture *</label>
