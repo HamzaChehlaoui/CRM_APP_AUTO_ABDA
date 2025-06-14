@@ -236,7 +236,7 @@
                                 </div>
                             </div>
 
-                           {{-- Edit Modal --}}
+                            {{-- Edit Modal --}}
                             <div x-data="{ openEditModal: false }">
                                 <button @click="openEditModal = true" class="p-1.5 text-yellow-600 hover:bg-yellow-100 rounded-lg transition-colors" title="Modifier">
                                     <i class="fas fa-edit text-sm"></i>
@@ -266,6 +266,7 @@
                                                     <form action="{{ route('invoices.update', $invoice->id) }}" method="POST">
                                                         @csrf
                                                         @method('PUT')
+
 
 
                                                         <!-- Car Information Section -->
@@ -305,10 +306,10 @@
                                                                     <label class="block text-sm font-medium text-gray-700 mb-1">Statut après-vente</label>
                                                                     <select name="post_sale_status"
                                                                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
-                                                                        <option value="en_attente_livraison" {{ old('post_sale_status', $car->post_sale_status) == 'en_attente_livraison' ? 'selected' : '' }}>En attente livraison</option>
-                                                                        <option value="livre" {{ old('post_sale_status', $car->post_sale_status) == 'livre' ? 'selected' : '' }}>Livré</option>
-                                                                        <option value="sav_1ere_visite" {{ old('post_sale_status', $car->post_sale_status) == 'sav_1ere_visite' ? 'selected' : '' }}>SAV 1ère visite</option>
-                                                                        <option value="relance" {{ old('post_sale_status', $car->post_sale_status) == 'relance' ? 'selected' : '' }}>Relance</option>
+                                                                        <option value="en_attente_livraison" {{ old('post_sale_status', $car->status) == 'en_attente_livraison' ? 'selected' : '' }}>En attente livraison</option>
+                                                                        <option value="livre" {{ old('post_sale_status', $car->status) == 'livre' ? 'selected' : '' }}>Livré</option>
+                                                                        <option value="sav_1ere_visite" {{ old('post_sale_status', $car->status) == 'sav_1ere_visite' ? 'selected' : '' }}>SAV 1ère visite</option>
+                                                                        <option value="relance" {{ old('post_sale_status', $car->status) == 'relance' ? 'selected' : '' }}>Relance</option>
                                                                     </select>
                                                                 </div>
                                                                 <div class="md:col-span-2">
@@ -336,10 +337,8 @@
                                                                 </div>
                                                                 <div>
                                                                     <label class="block text-sm font-medium text-gray-700 mb-1">Date de Facture</label>
-                                                                    <input type="date" name="sale_date"
-                                                                    value="{{ old('sale_date', \Carbon\Carbon::parse($invoice->sale_date)->format('Y-m-d')) }}"
-                                                                    required
-                                                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                                                                    <input type="date" name="sale_date" value="{{ old('sale_date', $invoice->sale_date) }}" required
+                                                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent">
                                                                 </div>
                                                                 <div>
                                                                     <label class="block text-sm font-medium text-gray-700">Statut Facture *</label>
@@ -485,113 +484,167 @@
 <!-- Edit Client Modal -->
 
 @if($showEditModal)
-    <div class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 backdrop-blur-sm">
-        <div class="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-lg mx-4 border border-gray-100">
-            <div class="flex items-center justify-between mb-6">
-                <h2 class="text-2xl font-semibold text-gray-900">Edit Client Information</h2>
-                <button type="button" wire:click="cancelEdit" class="text-gray-400 hover:text-gray-600 transition-colors">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </div>
+    {{-- Edit Modal --}}
+                            <div x-data="{ openEditModal: false }">
+                                <button @click="openEditModal = true" class="p-1.5 text-yellow-600 hover:bg-yellow-100 rounded-lg transition-colors" title="Modifier">
+                                    <i class="fas fa-edit text-sm"></i>
+                                </button>
 
-            <form wire:submit.prevent="updateClient">
-                <div class="space-y-5">
-                    <div class="group">
-                        <label for="full_name" class="block text-sm font-semibold text-gray-800 mb-2">Full Name</label>
-                        <input type="text"
-                               wire:model="clientData.full_name"
-                               id="full_name"
-                               class="w-full px-4 py-3 border border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50 focus:bg-white hover:border-gray-300">
-                        @error('clientData.full_name')
-                            <span class="text-red-500 text-sm mt-1 flex items-center">
-                                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
-                                </svg>
-                                {{ $message }}
-                            </span>
-                        @enderror
-                    </div>
+                                {{-- Edit Modal Popup --}}
+                                <div x-show="openEditModal" x-transition x-cloak
+                                    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                                    <div @click.away="openEditModal = false"
+                                        class="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto m-4">
 
-                    <div class="group">
-                        <label for="email" class="block text-sm font-semibold text-gray-800 mb-2">Email Address</label>
-                        <input type="email"
-                               wire:model="clientData.email"
-                               id="email"
-                               class="w-full px-4 py-3 border border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50 focus:bg-white hover:border-gray-300">
-                        @error('clientData.email')
-                            <span class="text-red-500 text-sm mt-1 flex items-center">
-                                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
-                                </svg>
-                                {{ $message }}
-                            </span>
-                        @enderror
-                    </div>
+                                        {{-- Modal Header --}}
+                                        <div class="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+                                            <h2 class="text-xl font-semibold text-gray-900">
+                                                <i class="fas fa-edit text-yellow-600 mr-2"></i>
+                                                Modifier la Facture #{{ $invoice->invoice_number }}
+                                            </h2>
+                                            <button @click="openEditModal = false"
+                                                class="text-gray-400 hover:text-gray-600 transition-colors">
+                                                <i class="fas fa-times text-lg"></i>
+                                            </button>
+                                        </div>
 
-                    <div class="group">
-                        <label for="phone" class="block text-sm font-semibold text-gray-800 mb-2">Phone Number</label>
-                        <input type="text"
-                               wire:model="clientData.phone"
-                               id="phone"
-                               class="w-full px-4 py-3 border border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50 focus:bg-white hover:border-gray-300">
-                        @error('clientData.phone')
-                            <span class="text-red-500 text-sm mt-1 flex items-center">
-                                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
-                                </svg>
-                                {{ $message }}
-                            </span>
-                        @enderror
-                    </div>
+                                        {{-- Modal Body --}}
+                                        <div class="p-6">
+                                            <!-- Replace your existing form tag with this -->
+                                                    <form action="{{ route('invoices.update', $invoice->id) }}" method="POST">
+                                                        @csrf
+                                                        @method('PUT')
 
-                    <div class="group">
-                        <label for="address" class="block text-sm font-semibold text-gray-800 mb-2">Address</label>
-                        <input type="text"
-                                wire:model="clientData.address"
-                                id="address"
-                                class="w-full px-4 py-3 border border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50 focus:bg-white hover:border-gray-300">
-                        @error('clientData.address')
-                            <span class="text-red-500 text-sm mt-1 flex items-center">
-                                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
-                                </svg>
-                                {{ $message }}
-                            </span>
-                        @enderror
-                    </div>
+                                                        <!-- <form wire:submit.prevent="updateInvoice"> -->
 
-                    <div class="group">
-                        <label for="cin" class="block text-sm font-semibold text-gray-800 mb-2">National ID (CIN)</label>
-                        <input type="text"
-                                wire:model="clientData.cin"
-                                id="cin"
-                                class="w-full px-4 py-3 border border-gray-200 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-gray-50 focus:bg-white hover:border-gray-300">
-                        @error('clientData.cin')
-                            <span class="text-red-500 text-sm mt-1 flex items-center">
-                                <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
-                                </svg>
-                                {{ $message }}
-                            </span>
-                        @enderror
-                    </div>
-                </div>
+                                                        <!-- Car Information Section -->
+                                                        @if($car)
 
-                <div class="mt-8 flex justify-end space-x-4 pt-6 border-t border-gray-100">
-                    <button type="button"
-                            wire:click="cancelEdit"
-                            class="px-6 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-all duration-200 font-medium border border-gray-200 hover:border-gray-300">
-                        Cancel
-                    </button>
-                    <button type="submit"
-                            class="px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-xl hover:from-blue-700 hover:to-blue-800 transition-all duration-200 font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
-                        Save Changes
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
+                                                        <div class="mb-8">
+
+                                                            <!-- ... existing car fields ... -->
+                                                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+                                                                <div>
+                                                                    <label class="block text-sm font-medium text-gray-700 mb-1">Marque</label>
+                                                                    <input type="text" name="car_brand" value="{{ old('car_brand', $car->brand) }}"
+                                                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                                                                </div>
+                                                                <div>
+                                                                    <label class="block text-sm font-medium text-gray-700 mb-1">Modèle</label>
+                                                                    <input type="text" name="car_model" value="{{ old('car_model', $car->model) }}"
+                                                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                                                                </div>
+                                                                <div>
+                                                                    <label class="block text-sm font-medium text-gray-700 mb-1">Année</label>
+                                                                    <input type="number" name="car_year" value="{{ old('car_year', $car->year) }}"
+                                                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                                                                </div>
+                                                                <div>
+                                                                    <label class="block text-sm font-medium text-gray-700 mb-1">Couleur</label>
+                                                                    <input type="text" name="car_color" value="{{ old('car_color', $car->color) }}"
+                                                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                                                                </div>
+                                                                <div>
+                                                                    <label class="block text-sm font-medium text-gray-700 mb-1">Immatriculation</label>
+                                                                    <input type="text" name="car_registration" value="{{ old('car_registration', $car->registration_number) }}"
+                                                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                                                                </div>
+                                                                <div>
+                                                                    <label class="block text-sm font-medium text-gray-700 mb-1">Statut après-vente</label>
+                                                                    <select name="post_sale_status"
+                                                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                                                                        <option value="en_attente_livraison" {{ old('post_sale_status', $car->post_sale_status) == 'en_attente_livraison' ? 'selected' : '' }}>En attente livraison</option>
+                                                                        <option value="livre" {{ old('post_sale_status', $car->post_sale_status) == 'livre' ? 'selected' : '' }}>Livré</option>
+                                                                        <option value="sav_1ere_visite" {{ old('post_sale_status', $car->post_sale_status) == 'sav_1ere_visite' ? 'selected' : '' }}>SAV 1ère visite</option>
+                                                                        <option value="relance" {{ old('post_sale_status', $car->post_sale_status) == 'relance' ? 'selected' : '' }}>Relance</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="md:col-span-2">
+                                                                    <label class="block text-sm font-medium text-gray-700 mb-1">IVN</label>
+                                                                    <input type="text" name="car_ivn" value="{{ old('car_ivn', $car->ivn) }}"
+                                                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent font-mono">
+                                                                </div>
+                                                                <div class="md:col-span-3">
+                                                                    <label class="block text-sm font-medium text-gray-700 mb-1">Numéro châssis</label>
+                                                                    <input type="text" name="car_chassis" value="{{ old('car_chassis', $car->chassis_number) }}"
+                                                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent font-mono">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        @endif
+
+                                                        <!-- Invoice Information Section -->
+                                                        <div class="mb-8">
+                                                            <!-- ... existing invoice fields ... -->
+                                                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                                                <div>
+                                                                    <label class="block text-sm font-medium text-gray-700 mb-1">N° Facture</label>
+                                                                    <input type="text" name="invoice_number" value="{{ old('invoice_number', $invoice->invoice_number) }}" required
+                                                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                                                                </div>
+                                                                <div>
+                                                                    <label class="block text-sm font-medium text-gray-700 mb-1">Date de Facture</label>
+                                                                    <input type="date" name="sale_date"
+                                                                    value="{{ old('sale_date', \Carbon\Carbon::parse($invoice->sale_date)->format('Y-m-d')) }}"
+                                                                    required
+                                                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                                                                </div>
+                                                                <div>
+                                                                    <label class="block text-sm font-medium text-gray-700">Statut Facture *</label>
+                                                                    <select name="statut_facture" required
+                                                                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
+                                                                        <option value="creation" {{ old('statut_facture', $invoice->statut_facture) == 'creation' ? 'selected' : '' }}>Creation</option>
+                                                                        <option value="facturé" {{ old('statut_facture', $invoice->statut_facture) == 'facturé' ? 'selected' : '' }}>Facturé</option>
+                                                                        <option value="envoyée_pour_paiement" {{ old('statut_facture', $invoice->statut_facture) == 'envoyée_pour_paiement' ? 'selected' : '' }}>Envoyée pour paiement</option>
+                                                                        <option value="paiement" {{ old('statut_facture', $invoice->statut_facture) == 'paiement' ? 'selected' : '' }}>Paiement</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div>
+                                                                    <label class="block text-sm font-medium text-gray-700 mb-1">Montant TTC (DH)</label>
+                                                                    <input type="number" step="0.01" name="total_amount" value="{{ old('total_amount', $invoice->total_amount) }}" required
+                                                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                                                                </div>
+                                                                <div>
+                                                                    <label class="block text-sm font-medium text-gray-700 mb-1">Référence accord</label>
+                                                                    <input type="text" name="accord_reference" value="{{ old('accord_reference', $invoice->accord_reference) }}"
+                                                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                                                                </div>
+                                                                <div>
+                                                                    <label class="block text-sm font-medium text-gray-700 mb-1">N° bon commande</label>
+                                                                    <input type="text" name="purchase_order_number" value="{{ old('purchase_order_number', $invoice->purchase_order_number) }}"
+                                                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                                                                </div>
+                                                                <div>
+                                                                    <label class="block text-sm font-medium text-gray-700 mb-1">N° bon livraison</label>
+                                                                    <input type="text" name="delivery_note_number" value="{{ old('delivery_note_number', $invoice->delivery_note_number) }}"
+                                                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                                                                </div>
+                                                                <div>
+                                                                    <label class="block text-sm font-medium text-gray-700 mb-1">Ordre de réparation</label>
+                                                                    <input type="text" name="payment_order_reference" value="{{ old('payment_order_reference', $invoice->payment_order_reference) }}"
+                                                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Submit Button -->
+                                                        <div class="flex items-center justify-end space-x-3 pt-6 border-t border-gray-200">
+                                                            <button type="button" @click="openEditModal = false"
+                                                                class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
+                                                                <i class="fas fa-times mr-2"></i>
+                                                                Annuler
+                                                            </button>
+                                                            <button type="submit"
+                                                                class="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
+                                                                <i class="fas fa-save mr-2"></i>
+                                                                Enregistrer les modifications
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
     @endif
 </div>

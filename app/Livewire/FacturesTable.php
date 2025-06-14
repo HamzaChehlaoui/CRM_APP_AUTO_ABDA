@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Livewire;
 
 use Livewire\Component;
@@ -14,11 +15,31 @@ class FacturesTable extends Component
     public $branches = [];
     public $stats = [];
     public $search = '';
+    public $statusFacture = 'all';
+    public $statusApresVente = 'all';
 
-    protected $queryString = ['selectedBranch'];
+    public $filteredInvoiceCount = 0;   
+    public $totalInvoiceCount = 0;
+
+    protected $queryString = ['selectedBranch', 'statusFacture', 'statusApresVente', 'search'];
     protected $paginationTheme = 'tailwind';
 
     public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingSelectedBranch()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingStatusFacture()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingStatusApresVente()
     {
         $this->resetPage();
     }
@@ -36,17 +57,15 @@ class FacturesTable extends Component
         );
     }
 
-    public function updatingSelectedBranch()
-    {
-        $this->resetPage();
-    }
-
     public function render(DashboardService $dashboardService)
     {
         $user = Auth::user();
         $data = $dashboardService->resolveBranchInfo($user, $this->selectedBranch);
 
         $invoicesQuery = $data['invoicesQuery']->with(['client', 'car']);
+
+        $totalQuery = clone $invoicesQuery;
+        $this->totalInvoiceCount = $totalQuery->count();
 
         if (!empty($this->search)) {
             $invoicesQuery->where(function ($query) {
@@ -58,6 +77,19 @@ class FacturesTable extends Component
             });
         }
 
+        if ($this->statusFacture !== 'all') {
+            $invoicesQuery->where('statut_facture', $this->statusFacture);
+        }
+
+        if ($this->statusApresVente !== 'all') {
+            $invoicesQuery->whereHas('car', function ($query) {
+                $query->where('post_sale_status', $this->statusApresVente);
+            });
+        }
+
+        $this->filteredInvoiceCount = $invoicesQuery->count();
+
+
         $invoices = $invoicesQuery->paginate(6);
 
         return view('livewire.factures-table', [
@@ -65,6 +97,8 @@ class FacturesTable extends Component
             'branches' => $this->branches,
             'selectedBranch' => $this->selectedBranch,
             'stats' => $this->stats,
+            'filteredInvoiceCount' => $this->filteredInvoiceCount,
+            'totalInvoiceCount' => $this->totalInvoiceCount,
         ]);
     }
 }

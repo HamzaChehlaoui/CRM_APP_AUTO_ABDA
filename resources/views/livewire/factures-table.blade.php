@@ -1,37 +1,76 @@
 <div>
-   <div class="w-full max-w-sm m-2">
-    <div class="relative">
-        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <i
-                class="fas fa-search text-gray-400 text-sm"
-                wire:loading.remove
-                wire:target="search"
-            ></i>
 
-            <i
-                class="fas fa-spinner text-gray-400 text-sm animate-spin"
-                wire:loading
-                wire:target="search"
-            ></i>
+
+<div class="flex flex-col lg:flex-row gap-6 p-4 ">
+    <!-- Search Input -->
+    <div class="w-full lg:max-w-sm">
+        <label for="search" class="block text-sm font-semibold text-slate-700 mb-2">
+            Rechercher
+        </label>
+        <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <i class="fas fa-search text-gray-400 text-sm" wire:loading.remove wire:target="search"></i>
+                <i class="fas fa-spinner text-gray-400 text-sm animate-spin" wire:loading wire:target="search"></i>
+            </div>
+            <input
+                type="text"
+                id="search"
+                wire:model.live.debounce.500ms="search"
+                placeholder="Rechercher une facture, client, montant..."
+                class="block w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm placeholder-gray-500 shadow-sm"
+            >
         </div>
-        <input
-            type="text"
-            wire:model.live.debounce.500ms="search"
-            placeholder="Rechercher une facture, client, montant..."
-            class="block w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm placeholder-gray-500"
-        >
+
     </div>
-</div>
 
+    <!-- Invoice Status Filter -->
+    <div class="w-full lg:w-1/3">
+        <label for="status_facture_filter" class="block text-sm font-semibold text-slate-700 mb-2">
+            Statut Facture ( Totale : {{ $filteredInvoiceCount }} )
+        </label>
+        <div class="relative">
+            <select
+                wire:model.live="statusFacture"
+                id="status_facture_filter"
+                class="w-full border border-gray-300 rounded-lg px-4 py-2.5 bg-white text-sm text-slate-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all shadow-sm"
+            >
+                <option value="all">Tous les statuts</option>
+                <option value="paiement">Paiement</option>
+                <option value="envoyée_pour_paiement">Envoyée pour paiement</option>
+                <option value="facturé">Facturé</option>
+                <option value="creation">Création</option>
+            </select>
+        
+        </div>
+    </div>
 
-<div class="bg-white rounded-xl shadow-card overflow-hidden">
+    <!-- After Sale Status Filter -->
+    <div class="w-full lg:w-1/3">
+        <label for="status_apres_vente_filter" class="block text-sm font-semibold text-slate-700 mb-2">
+            Statut Après-Vente ( Totale : {{ $filteredInvoiceCount }} )
+        </label>
+        <div class="relative">
+            <select
+                wire:model.live="statusApresVente"
+                id="status_apres_vente_filter"
+                class="w-full border border-gray-300 rounded-lg px-4 py-2.5 bg-white text-sm text-slate-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all shadow-sm"
+            >
+                <option value="all">Tous les statuts</option>
+                <option value="en_attente_livraison">En attente de livraison</option>
+                <option value="livre">Livré</option>
+                <option value="sav_1ere_visite">SAV 1ère visite</option>
+                <option value="relance">Relance</option>
+            </select>
 
-    <!-- Branch Filter -->
+        </div>
+    </div>
+      <!-- Branch Filter -->
     @if(auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
-        <div class="mb-4">
-            <div class="bg-white rounded-xl shadow-card p-3">
-                <label for="branch_filter" class="text-sm font-medium text-gray-700">Filtrer par succursale:</label>
-                <select wire:model.live="selectedBranch" class="border rounded p-2">
+        <div class="w-full lg:w-1/3">
+
+                <label for="branch_filter" class="block text-sm font-semibold text-slate-700 mb-2">Filtrer par succursale:</label>
+                <div class="relative">
+                <select wire:model.live="selectedBranch" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 bg-white text-sm text-slate-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all shadow-sm">
                     <option value="all">Tous</option>
                     @foreach($branches as $branch)
                         <option value="{{ $branch->id }}">{{ $branch->name }}</option>
@@ -39,7 +78,14 @@
                 </select>
             </div>
         </div>
-    @endif
+        @endif
+
+
+</div>
+
+
+
+<div class="bg-white rounded-xl shadow-card overflow-hidden">
 
 
 

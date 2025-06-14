@@ -23,7 +23,7 @@
             <p class="text-sm text-gray-500">Gérez votre portefeuille factures</p>
         </div>
 
-       
+
         <div class="flex items-center space-x-4">
             <button class="p-2 rounded-full hover:bg-gray-100 text-gray-500 transition-colors relative">
                 <i class="fas fa-bell"></i>
