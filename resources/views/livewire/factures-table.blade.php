@@ -157,7 +157,7 @@
                             Dernière visite:
                         </div>
                         <div class="flex space-x-1">
-                          @php
+                        @php
     $images = [
         'image_path' => 'Image de la Facture',
         'image_bc' => 'Bon de Commande',
@@ -203,40 +203,46 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 @foreach ($imageUrls as $img)
-                    <div class="border rounded-lg p-3 shadow-sm bg-gray-50">
-                        <h3 class="text-sm font-medium text-gray-700 mb-2">{{ $img['label'] }}</h3>
+    <div class="border rounded-lg p-3 shadow-sm bg-gray-50">
+        <div class="flex justify-between items-center mb-2">
+            <h3 class="text-sm font-medium text-gray-700">{{ $img['label'] }}</h3>
 
-                        @if ($img['url'])
-                            @php
-                                $extension = strtolower(pathinfo($img['path'], PATHINFO_EXTENSION));
-                            @endphp
+            @if ($img['url'])
+                <a href="{{ $img['url'] }}" download
+                   class="text-green-600 hover:text-green-800 text-sm flex items-center space-x-1">
+                    <i class="fas fa-download"></i>
+                    <span>Télécharger</span>
+                </a>
+            @endif
+        </div>
 
-                            @if ($extension === 'pdf')
+        @if ($img['url'])
+            @php
+                $extension = strtolower(pathinfo($img['path'], PATHINFO_EXTENSION));
+            @endphp
 
-                            <a href="{{ $img['url'] }}" target="_blank"
-                                   class="text-blue-600 underline flex items-center space-x-2">
-                                    <i class="fas fa-file-pdf text-red-600"></i>
-                                    <span>Voir le fichier PDF</span>
-                                </a>
+            @if ($extension === 'pdf')
+                <a href="{{ $img['url'] }}" target="_blank"
+                   class="text-blue-600 underline flex items-center space-x-2">
+                    <i class="fas fa-file-pdf text-red-600"></i>
+                    <span>Voir le fichier PDF</span>
+                </a>
+            @else
+                <img src="{{ $img['url'] }}"
+                     alt="{{ $img['label'] }}"
+                     class="w-full h-64 object-contain rounded border"
+                     onerror="this.parentElement.innerHTML='<p class=\'text-red-500 text-sm\'>Erreur lors du chargement de l\'image</p>'">
+            @endif
+        @else
+            <div class="text-center py-8">
+                <i class="fas fa-exclamation-triangle text-yellow-500 text-3xl mb-3"></i>
+                <p class="text-sm text-gray-600">Image introuvable</p>
+                <p class="text-xs text-gray-400 mt-1">Chemin: {{ $img['path'] }}</p>
+            </div>
+        @endif
+    </div>
+@endforeach
 
-
-
-                            @else
-                                <img src="{{ $img['url'] }}"
-                                    alt="{{ $img['label'] }}"
-                                    class="w-full h-64 object-contain rounded border"
-                                    onerror="this.parentElement.innerHTML='<p class=\'text-red-500 text-sm\'>Erreur lors du chargement de l\'image</p>'">
-                            @endif
-
-                        @else
-                            <div class="text-center py-8">
-                                <i class="fas fa-exclamation-triangle text-yellow-500 text-3xl mb-3"></i>
-                                <p class="text-sm text-gray-600">Image introuvable</p>
-                                <p class="text-xs text-gray-400 mt-1">Chemin: {{ $img['path'] }}</p>
-                            </div>
-                        @endif
-                    </div>
-                @endforeach
             </div>
         </div>
     </div>

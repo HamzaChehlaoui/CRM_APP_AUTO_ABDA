@@ -313,7 +313,7 @@
                             type="file"
                             accept="image/*,application/pdf"
                             class="sr-only"
-                            {{ $type == 'invoice' ? 'required' : '' }}
+                            required
                         >
                     </label>
                     <p class="pl-1">ou glisser-déposer</p>
@@ -323,14 +323,14 @@
 
             <div class="hidden" id="preview-{{ $type }}">
                 <div class="flex items-center space-x-4">
-                    <!-- الصورة -->
+                    <!-- image -->
                     <img
                         id="preview-image-{{ $type }}"
                         class="h-20 w-20 object-cover rounded-lg border border-gray-200"
                         src=""
                         alt="Preview"
                     >
-                    <!-- مكان رابط PDF -->
+                    <!-- PDF -->
                     <div class="preview-pdf-link-container"></div>
 
                     <div class="flex-1">
