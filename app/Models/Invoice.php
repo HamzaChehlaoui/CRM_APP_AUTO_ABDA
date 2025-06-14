@@ -10,7 +10,9 @@ class Invoice extends Model
     protected $fillable = [
         'invoice_number', 'sale_date', 'total_amount','image_path',
         'accord_reference', 'purchase_order_number', 'delivery_note_number', 'payment_order_reference','statut_facture',
-        'client_id', 'car_id', 'user_id', 'branch_id'
+        'client_id', 'car_id', 'user_id', 'branch_id' ,'image_bl',
+        'image_or',
+        'image_bc',
     ];
     protected $casts = [
         'sale_date' => 'date',
