@@ -95,10 +95,6 @@ if ($request->hasFile('image_invoice')) {
     $invoiceData['image_path'] = $request->file('image_invoice')->store('invoices', 'public');
 }
 
-if ($request->hasFile('image_bc')) {
-    $invoiceData['image_bc'] = $request->file('image_bc')->store('bons_commande', 'public');
-}
-
 if ($request->hasFile('image_bl')) {
     $invoiceData['image_bl'] = $request->file('image_bl')->store('bons_livraison', 'public');
 }
@@ -106,6 +102,12 @@ if ($request->hasFile('image_bl')) {
 if ($request->hasFile('image_or')) {
     $invoiceData['image_or'] = $request->file('image_or')->store('ordres_reparation', 'public');
 }
+
+if ($request->hasFile('image_bc')) {
+    $invoiceData['image_bc'] = $request->file('image_bc')->store('bons_commande', 'public');
+}
+
+
 
 
 
