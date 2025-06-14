@@ -1,12 +1,10 @@
 <?php
-
 namespace App\Livewire;
 
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Auth;
 use App\Services\DashboardService;
-use App\Models\Invoice;
 
 class FacturesTable extends Component
 {
@@ -15,10 +13,15 @@ class FacturesTable extends Component
     public $selectedBranch = 'all';
     public $branches = [];
     public $stats = [];
+    public $search = '';
 
     protected $queryString = ['selectedBranch'];
-
     protected $paginationTheme = 'tailwind';
+
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
 
     public function mount(DashboardService $dashboardService)
     {
@@ -40,13 +43,22 @@ class FacturesTable extends Component
 
     public function render(DashboardService $dashboardService)
     {
-
         $user = Auth::user();
         $data = $dashboardService->resolveBranchInfo($user, $this->selectedBranch);
 
-        $invoices = $data['invoicesQuery']
-            ->with(['client', 'car'])
-            ->paginate(6);
+        $invoicesQuery = $data['invoicesQuery']->with(['client', 'car']);
+
+        if (!empty($this->search)) {
+            $invoicesQuery->where(function ($query) {
+                $query->where('invoice_number', 'like', '%' . $this->search . '%')
+                    ->orWhereHas('client', function ($q) {
+                        $q->where('full_name', 'like', '%' . $this->search . '%');
+                    })
+                    ->orWhere('total_amount', 'like', '%' . $this->search . '%');
+            });
+        }
+
+        $invoices = $invoicesQuery->paginate(6);
 
         return view('livewire.factures-table', [
             'invoices' => $invoices,
