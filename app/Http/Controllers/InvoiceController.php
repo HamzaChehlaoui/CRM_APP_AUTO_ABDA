@@ -118,7 +118,7 @@ if ($request->hasFile('image_bc')) {
 
         DB::commit();
 
-        return redirect()->route('invoices.index')->with('success', 'Voiture et facture enregistrées avec succès.');
+        return redirect()->route('invoice.index')->with('success', 'Voiture et facture enregistrées avec succès.');
     } catch (\Exception $e) {
         DB::rollBack();
         Log::error('Error in storeAll: ' . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
