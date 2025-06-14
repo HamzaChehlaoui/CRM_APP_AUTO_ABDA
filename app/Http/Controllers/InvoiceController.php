@@ -132,8 +132,10 @@ if ($request->hasFile('image_bc')) {
         return view('invoices.show', compact('invoice'));
     }
 
-    public function edit(Invoice $invoice)
+    public function edit(Invoice $id)
     {
+        $invoice = Invoice::findOrFail($id);
+        $car = $invoice->car;
         return view('invoices.edit', compact('invoice'));
     }
 
