@@ -135,7 +135,7 @@
                             </div>
                         </div>
 
-                        
+                        <!-- Client Information -->
                         <!-- Client Information -->
                         <div class="mb-8">
                             <div class="flex items-center mb-6">
