@@ -24,6 +24,7 @@
 <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet">
 <!-- JS -->
 <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <style>
         .status-new {
@@ -83,6 +84,11 @@
 
     @yield('content')
     @livewireScripts
+    <!-- Global Livewire Spinner -->
+
+
+
 </body>
 
 </html>
+
