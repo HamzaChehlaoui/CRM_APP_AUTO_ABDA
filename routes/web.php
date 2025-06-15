@@ -10,6 +10,7 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\SuiviController;
 use App\Http\Controllers\StatistiquesController;
 use App\Http\Controllers\ExportController;
+use App\Livewire\FacturesTable;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,6 +63,7 @@ Route::middleware('auth')->group(function () {
     // Route::view('/exporter', 'page.exporter');
     Route::post('clients', [ClientController::class, 'store'])->name('clients.store');
     Route::get('/exporter', [ExportController::class, 'showExportPage'])->name('export.page');
+Route::post('/invoices/delete', [FacturesTable::class, 'deleteInvoice'])->name('invoices.delete');
 
 // Route to handle the export form submission
 Route::post('/exporter/run', [ExportController::class, 'handleExport'])->name('export.handle');
