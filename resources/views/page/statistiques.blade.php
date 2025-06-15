@@ -347,3 +347,4 @@
         </script>
     </body>
 @endsection
+        @include('page.button-loading')
