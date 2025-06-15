@@ -187,6 +187,8 @@
                 </div>
             </div>
         </div>
+                @include('page.button-loading')
+
     </body>
 @endsection
 
