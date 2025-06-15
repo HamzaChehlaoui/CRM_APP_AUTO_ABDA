@@ -26,25 +26,28 @@ class StatistiquesController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        $startDate = $request->get('start_date', Carbon::now()->startOfMonth()->format('Y-m-d'));
-        $endDate = $request->get('end_date', Carbon::now()->endOfMonth()->format('Y-m-d'));
+        $startDate = $request->filled('start_date') ? $request->get('start_date') : Carbon::now()->startOfMonth()->format('Y-m-d');
+$endDate = $request->filled('end_date') ? $request->get('end_date') : Carbon::now()->endOfMonth()->format('Y-m-d');
+
         $selectedBranch = $request->get('branch', in_array($user->role_id, [1, 2]) ? 'all' : $user->branch_id);
 
         $branchData = $this->resolveBranchQueries($user, $selectedBranch);
 
         $generalStats = $this->statisticsService->getGeneralStatistics($startDate, $endDate, $branchData['clientsQuery'], $branchData['invoicesQuery'], $branchData['suivisQuery']);
-        $salesByModel = $this->statisticsService->getSalesByModel($startDate, $endDate, $branchData['invoicesQuery']);
+        $invoiceStats = $this->statisticsService->getInvoiceStats($startDate, $endDate, $branchData['invoicesQuery']);
         $satisfactionData = $this->statisticsService->getSatisfactionData($startDate, $endDate, $branchData['suivisQuery']);
         $topPerformers = $this->statisticsService->getTopPerformers($startDate, $endDate, $branchData['usersQuery']);
 
         return view('page.statistiques', array_merge(
-            compact('salesByModel', 'satisfactionData', 'topPerformers', 'startDate', 'endDate'),
-            $generalStats,
-            [
-                'branches' => $branchData['branches'],
-                'selectedBranch' => $selectedBranch
-            ]
-        ));
+    // حذف 'salesByModel' هنا
+    compact('satisfactionData', 'topPerformers', 'startDate', 'endDate'),
+    $generalStats,
+    [
+        'branches' => $branchData['branches'],
+        'selectedBranch' => $selectedBranch,
+        'invoiceStats' => $invoiceStats,
+    ]
+));
     }
 
     private function resolveBranchQueries($user, $selectedBranch): array
@@ -74,6 +77,7 @@ class StatistiquesController extends Controller
             'suivisQuery' => $suivisQuery,
             'invoicesQuery' => $invoicesQuery,
             'usersQuery' => $usersQuery,
+
             'branches' => in_array($user->role_id, [1, 2]) ? Branch::all() : collect()
         ];
     }

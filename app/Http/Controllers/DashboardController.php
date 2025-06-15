@@ -22,31 +22,36 @@ public function index(Request $request, DashboardService $dashboardService)
     $selectedBranch = $request->get('branch_filter', 'all');
     $period = $request->get('period', 'week');
 
-    // Spécifier les branches et les demandes
+    // Résoudre les données selon la branche
     $data = $dashboardService->resolveBranchInfo($user, $selectedBranch);
 
-
-    // Statistiques générales
+    // Statistiques
     $stats = $dashboardService->getDashboardStats(
         $data['clientsQuery'],
         $data['suivisQuery'],
         $data['invoicesQuery']
     );
-    $clients = $data['clientsQuery']
-    ->with('cars')
-    ->take(8)
-    ->get();
-    /// Clients vendus par terme
-    [$clientsVendus, $labels] = $dashboardService->getClientsVendus($data['invoicesQuery'], $period);
 
+    // Derniers clients
+    $clients = $data['clientsQuery']
+        ->with('cars')
+        ->take(8)
+        ->get();
+
+    // Top 5 clients payeurs : [clientsVendus, labels]
+    [$clientsVendus, $labels] = $dashboardService->getTopPayingClients($data['invoicesQuery'], $period);
+
+    // Retour à la vue
     return view('page.dashboard', array_merge($stats, [
         'branches' => $data['branches'],
         'selectedBranch' => $selectedBranch,
+        'clients' => $clients,
         'clientsVendus' => $clientsVendus,
         'labels' => $labels,
-        'clients' =>$clients,
     ]));
 }
+
+
 
 public function postSaleStats(Request $request, DashboardService $dashboardService)
 {

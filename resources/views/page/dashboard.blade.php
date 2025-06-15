@@ -107,100 +107,74 @@
 
                     <!-- Summary Stats -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                        <div class="bg-white rounded-xl shadow-card p-6 card-hover">
-                            <div class="flex items-center justify-between mb-4">
-                                <div class="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center">
-                                    <i class="fas fa-user-plus text-xl text-nucleus-primary"></i>
-                                </div>
-                                @php
-                                    $isPositive = str_starts_with($percentageClients, '+');
-                                    $colorBg = $isPositive ? 'bg-green-100' : 'bg-red-100';
-                                    $colorText = $isPositive ? 'text-green-700' : 'text-red-700';
-                                @endphp
-                                <span
-                                    class="{{ $colorBg }} {{ $colorText }} text-xs px-2 py-1 rounded-full font-medium">{{ $percentageClients }}</span>
-                            </div>
-                            <h3 class="text-lg font-semibold text-gray-800 mb-1">Total des clients</h3>
-                            <p class="text-3xl font-bold text-nucleus-primary">{{ $totalClientsCurrent }}</p>
-                            <p class="text-sm text-gray-500 mt-1">Cette semaine</p>
-                        </div>
+                        @php
+                            $factureStatuts = [
+                                'creation' => [
+                                    'label' => 'Factures en création',
+                                    'icon' => 'fa-pen',
+                                    'color' => 'blue',
+                                ],
+                                'facturé' => [
+                                    'label' => 'Factures facturées',
+                                    'icon' => 'fa-file-invoice',
+                                    'color' => 'yellow',
+                                ],
+                                'envoyée_pour_paiement' => [
+                                    'label' => 'Factures envoyées',
+                                    'icon' => 'fa-paper-plane',
+                                    'color' => 'green',
+                                ],
+                                'paiement' => [
+                                    'label' => 'Factures payées',
+                                    'icon' => 'fa-check-circle',
+                                    'color' => 'purple',
+                                ],
+                            ];
+                        @endphp
 
-                        <div class="bg-white rounded-xl shadow-card p-6 card-hover">
-                            <div class="flex items-center justify-between mb-4">
-                                <div class="w-12 h-12 rounded-lg bg-yellow-100 flex items-center justify-center">
-                                    <i class="fas fa-phone-alt text-xl text-yellow-600"></i>
-                                </div>
-                                @php
-                                    $isPositive = str_starts_with($percentageSuivis, '+');
-                                    $colorBg = $isPositive ? 'bg-green-100' : 'bg-red-100';
-                                    $colorText = $isPositive ? 'text-green-700' : 'text-red-700';
-                                @endphp
-                                <span
-                                    class="{{ $colorBg }} {{ $colorText }} text-xs px-2 py-1 rounded-full font-medium">{{ $percentageSuivis }}</span>
-                            </div>
-                            <h3 class="text-lg font-semibold text-gray-800 mb-1">Suivis en Cours</h3>
-                            <p class="text-3xl font-bold text-yellow-600">{{ $suivisEnCoursCurrent }}</p>
-                            <p class="text-sm text-gray-500 mt-1">Nécessitent une action</p>
-                        </div>
+                        @foreach ($factureStatuts as $key => $statut)
+                            @php
+                                $current = $factures_current[$key] ?? 0;
+                                $percentage = $factures_percentage_change[$key] ?? '0%';
+                                $isPositive = str_starts_with($percentage, '+');
+                                $colorBg = $isPositive ? 'bg-green-100' : 'bg-red-100';
+                                $colorText = $isPositive ? 'text-green-700' : 'text-red-700';
+                            @endphp
 
-                        <div class="bg-white rounded-xl shadow-card p-6 card-hover">
-                            <div class="flex items-center justify-between mb-4">
-                                <div class="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center">
-                                    <i class="fas fa-users text-xl text-green-600"></i>
+                            <div class="bg-white rounded-xl shadow-card p-6 card-hover">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div
+                                        class="w-12 h-12 rounded-lg bg-{{ $statut['color'] }}-100 flex items-center justify-center">
+                                        <i class="fas {{ $statut['icon'] }} text-xl text-{{ $statut['color'] }}-600"></i>
+                                    </div>
+                                    <span
+                                        class="{{ $colorBg }} {{ $colorText }} text-xs px-2 py-1 rounded-full font-medium">
+                                        {{ $percentage }}
+                                    </span>
                                 </div>
-                                @php
-                                    $isPositive = str_starts_with($percentageActive, '+');
-                                    $colorBg = $isPositive ? 'bg-green-100' : 'bg-red-100';
-                                    $colorText = $isPositive ? 'text-green-700' : 'text-red-700';
-                                @endphp
-                                <span
-                                    class="{{ $colorBg }} {{ $colorText }} text-xs px-2 py-1 rounded-full font-medium">{{ $percentageActive }}</span>
+                                <h3 class="text-lg font-semibold text-gray-800 mb-1">{{ $statut['label'] }}</h3>
+                                <p class="text-3xl font-bold text-{{ $statut['color'] }}-600">{{ $current }}</p>
+                                <p class="text-sm text-gray-500 mt-1">Ce mois-ci</p>
                             </div>
-                            <h3 class="text-lg font-semibold text-gray-800 mb-1">Clients Actifs</h3>
-                            <p class="text-3xl font-bold text-green-600">{{ $activeClientsCurrent }}</p>
-                            <p class="text-sm text-gray-500 mt-1">Total des clients</p>
-                        </div>
-
-                        <div class="bg-white rounded-xl shadow-card p-6 card-hover">
-                            <div class="flex items-center justify-between mb-4">
-                                <div class="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center">
-                                    <i class="fas fa-car text-xl text-purple-600"></i>
-                                </div>
-                                @php
-                                    $isPositive = str_starts_with($percentageSales, '+');
-                                    $colorBg = $isPositive ? 'bg-green-100' : 'bg-red-100';
-                                    $colorText = $isPositive ? 'text-green-700' : 'text-red-700';
-                                @endphp
-                                <span
-                                    class="{{ $colorBg }} {{ $colorText }} text-xs px-2 py-1 rounded-full font-medium">{{ $percentageSales }}</span>
-                            </div>
-                            <h3 class="text-lg font-semibold text-gray-800 mb-1">Ventes</h3>
-                            <p class="text-3xl font-bold text-purple-600">{{ $salesThisMonthCurrent }}</p>
-                            <p class="text-sm text-gray-500 mt-1">Ce mois-ci</p>
-                        </div>
+                        @endforeach
                     </div>
+
 
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                         <!-- Charts / Graphs -->
-                        <div class="bg-white rounded-xl shadow-card p-6 col-span-2">
+                        
+<div class="bg-white rounded-xl shadow-card p-6 col-span-2">
 
-                            <div class="flex justify-between items-center mb-6">
-                                <h3 class="text-lg font-semibold text-gray-800">Suivi des Clients</h3>
-                                <div class="flex space-x-2">
-                                    <div class="flex space-x-2">
-                                        <button onclick="changePeriod('week')"
-                                            class="period-btn px-3 py-1 text-sm bg-white text-gray-500 rounded-md hover:bg-nucleus-primary hover:text-white transition-colors">Semaine</button>
-                                        <button onclick="changePeriod('month')"
-                                            class="period-btn px-3 py-1 text-sm bg-white text-gray-500 rounded-md hover:bg-nucleus-primary hover:text-white transition-colors">Mois</button>
-                                        <button onclick="changePeriod('year')"
-                                            class="period-btn px-3 py-1 text-sm bg-white text-gray-500 rounded-md hover:bg-nucleus-primary hover:text-white transition-colors">Année</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="h-64 relative">
-                                <canvas id="prospectsChart"></canvas>
-                            </div>
-                        </div>
+
+
+    <div class="flex justify-between items-center mb-6">
+        <h3 class="text-lg font-semibold text-gray-800">Top 5 Clients Payeurs</h3>
+    </div>
+    <div class="h-64 relative">
+        <canvas id="prospectsChart"></canvas>
+    </div>
+</div>
+
 
                         <!-- Summary by Post-Sale Status -->
                         <div class="bg-white rounded-xl shadow-card p-6">
@@ -232,24 +206,18 @@
                             <div class="bg-white rounded-xl shadow-card overflow-hidden">
 
                                 <div class="overflow-x-auto">
-                                    <table
-                                        class="min-w-full divide-y divide-gray-200 shadow-sm rounded-lg overflow-hidden">
+                                    <table class="min-w-full divide-y divide-gray-200 shadow-sm rounded-lg overflow-hidden">
                                         <thead class="bg-gray-50">
                                             <tr>
-                                                <th
-                                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                                                     Client</th>
-                                                <th
-                                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                                                     Email</th>
-                                                <th
-                                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                                                     Phone</th>
-                                                <th
-                                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                                                     Address</th>
-                                                <th
-                                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                                                     Cin</th>
                                             </tr>
                                         </thead>
@@ -295,8 +263,7 @@
                                                 </tr>
                                             @empty
                                                 <tr>
-                                                    <td colspan="6"
-                                                        class="px-6 py-16 bg-white text-center text-gray-500"
+                                                    <td colspan="6" class="px-6 py-16 bg-white text-center text-gray-500"
                                                         colspan="6">
                                                         <div class="flex flex-col items-center justify-center space-y-3">
                                                             <svg class="w-12 h-12 text-gray-300" fill="none"
@@ -343,4 +310,4 @@
 
         <script src="js/dashboard.js"></script>
     @endsection
-        @include('page.button-loading')
+    @include('page.button-loading')

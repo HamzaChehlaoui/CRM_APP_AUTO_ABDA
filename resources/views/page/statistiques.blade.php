@@ -139,10 +139,10 @@
                             <div class="flex items-center">
                                 <div class="flex-shrink-0">
                                     <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center"><i
-                                            class="fas fa-car text-green-600"></i></div>
+                                            class="fas fa-file-invoice text-green-600"></i></div>
                                 </div>
                                 <div class="ml-4">
-                                    <p class="text-sm font-medium text-gray-500">Ventes Totales</p>
+                                    <p class="text-sm font-medium text-gray-500">Factures Totales</p>
                                     <p class="text-2xl font-bold text-gray-900">{{ $totalSales }}</p>
                                 </div>
                             </div>
@@ -176,20 +176,20 @@
 
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                         <div class="bg-white rounded-xl shadow-card p-6 col-span-2">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-6">Ventes par Modèle</h3>
-                            <div class="h-80 relative">
-                                @if ($salesByModel->isNotEmpty())
-                                    <canvas id="salesByModelChart"></canvas>
-                                @else
-                                    <div class="flex items-center justify-center h-full text-gray-500">
-                                        <div class="text-center">
-                                            <i class="fas fa-chart-bar text-4xl mb-4 text-gray-300"></i>
-                                            <p>Aucune donnée de vente disponible</p>
-                                        </div>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
+    <h3 class="text-lg font-semibold text-gray-800 mb-6">Statistiques des Factures</h3>
+    <div class="h-80 relative">
+        @if ($invoiceStats['total_invoices'] > 0)
+            <canvas id="invoiceStatsChart"></canvas>
+        @else
+            <div class="flex items-center justify-center h-full text-gray-500">
+                <div class="text-center">
+                    <i class="fas fa-chart-bar text-4xl mb-4 text-gray-300"></i>
+                    <p>Aucune donnée disponible pour cette période</p>
+                </div>
+            </div>
+        @endif
+    </div>
+</div>
 
                         <div class="bg-white rounded-xl shadow-card p-6">
                             <h3 class="text-lg font-semibold text-gray-800 mb-6">Satisfaction Client</h3>
@@ -218,7 +218,7 @@
                                     <thead>
                                         <tr class="text-left text-sm font-medium text-gray-500 border-b border-gray-200">
                                             <th class="pb-3 pl-1">Conseiller</th>
-                                            <th class="pb-3">Ventes</th>
+                                            <th class="pb-3">Factures</th>
                                             <th class="pb-3">Taux de conversion</th>
                                             <th class="pb-3">Satisfaction</th>
                                             <th class="pb-3 text-right">Performance</th>
@@ -282,60 +282,199 @@
         </div>
 
         {{-- Ensure Chart.js is loaded if any chart data is present --}}
-        @if ($salesByModel->isNotEmpty() || $satisfactionData)
-            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    // Sales by Model Chart
-                    @if ($salesByModel->isNotEmpty())
-                        const salesByModelCtx = document.getElementById('salesByModelChart').getContext('2d');
-                        new Chart(salesByModelCtx, {
-                            type: 'bar',
-                            data: {
-                                labels: @json($salesByModel->pluck('label')),
-                                datasets: [{
-                                    label: 'Ventes',
-                                    data: @json($salesByModel->pluck('sales')),
-                                    backgroundColor: ['rgba(14, 165, 233, 0.8)', 'rgba(139, 92, 246, 0.8)',
-                                        'rgba(34, 197, 94, 0.8)', 'rgba(245, 158, 11, 0.8)',
-                                        'rgba(239, 68, 68, 0.8)', 'rgba(20, 184, 166, 0.8)'
-                                    ],
-                                    borderRadius: 6,
-                                    maxBarThickness: 40
-                                }]
-                            },
-                            // ... chart options
-                        });
-                    @endif
+@if ($satisfactionData || $invoiceStats['total_invoices'] > 0)
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-                    // Customer Satisfaction Chart
-                    {{-- FIX: Check for data before initializing the chart --}}
-                    @if ($satisfactionData)
-                        const satisfactionCtx = document.getElementById('satisfactionChart').getContext('2d');
-                        new Chart(satisfactionCtx, {
-                            type: 'radar',
-                            data: {
-                                labels: ['Accueil', 'Conseil', 'Prix', 'Service', 'Suivi'],
-                                datasets: [{
-                                    label: 'Satisfaction',
-                                    {{-- FIX: Removed default fallback values --}}
-                                    data: [
-                                        {{ $satisfactionData['accueil'] }},
-                                        {{ $satisfactionData['conseil'] }},
-                                        {{ $satisfactionData['prix'] }},
-                                        {{ $satisfactionData['service'] }},
-                                        {{ $satisfactionData['suivi'] }}
-                                    ],
-                                    backgroundColor: 'rgba(14, 165, 233, 0.2)',
-                                    borderColor: '#0ea5e9',
-                                }]
+    @php
+        // ✅ نُحضّر البيانات الخاصة بالفواتير بشكل آمن
+        $statutData = [
+            $invoiceStats['statut_breakdown']['creation'] ?? 0,
+            $invoiceStats['statut_breakdown']['facturé'] ?? 0,
+            $invoiceStats['statut_breakdown']['envoyée_pour_paiement'] ?? 0,
+            $invoiceStats['statut_breakdown']['paiement'] ?? 0,
+        ];
+
+        // ✅ تحضير بيانات الرضا مسبقاً
+        $satisfactionChartData = [];
+        if ($satisfactionData) {
+            $satisfactionChartData = [
+                $satisfactionData['accueil'] ?? 0,
+                $satisfactionData['conseil'] ?? 0,
+                $satisfactionData['prix'] ?? 0,
+                $satisfactionData['service'] ?? 0,
+                $satisfactionData['suivi'] ?? 0
+            ];
+        }
+    @endphp
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // ✅ رسم إحصائيات الفواتير حسب الحالة
+           @if ($invoiceStats['total_invoices'] > 0)
+    const invoiceStatsCtx = document.getElementById('invoiceStatsChart');
+    if (invoiceStatsCtx) {
+        const ctx = invoiceStatsCtx.getContext('2d');
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Création', 'Facturé', 'Envoyée pour Paiement', 'Payé'],
+                datasets: [{
+                    label: 'Nombre de Factures',
+                    data: @json($statutData),
+                    backgroundColor: [
+                        '#2563EB',  // Professional blue
+                        '#7C3AED',  // Professional purple
+                        '#DC2626',  // Professional red
+                        '#059669'   // Professional green
+                    ],
+                    borderWidth: 0,
+                    barThickness: 40
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                layout: {
+                    padding: {
+                        top: 10,
+                        right: 10,
+                        bottom: 10,
+                        left: 10
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            color: '#374151',
+                            font: {
+                                family: 'Arial, sans-serif',
+                                size: 12
+                            }
+                        },
+                        border: {
+                            color: '#D1D5DB'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: '#E5E7EB',
+                            lineWidth: 1
+                        },
+                        ticks: {
+                            precision: 0,
+                            color: '#374151',
+                            font: {
+                                family: 'Arial, sans-serif',
+                                size: 11
                             },
-                            // ... chart options
-                        });
-                    @endif
-                });
-            </script>
-        @endif
+                            callback: function(value) {
+                                return value;
+                            }
+                        },
+                        border: {
+                            color: '#D1D5DB'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: '#FFFFFF',
+                        titleColor: '#111827',
+                        bodyColor: '#374151',
+                        borderColor: '#D1D5DB',
+                        borderWidth: 1,
+                        cornerRadius: 4,
+                        padding: 8,
+                        titleFont: {
+                            family: 'Arial, sans-serif',
+                            size: 12,
+                            weight: 'bold'
+                        },
+                        bodyFont: {
+                            family: 'Arial, sans-serif',
+                            size: 11
+                        },
+                        displayColors: false,
+                        callbacks: {
+                            label: function(context) {
+                                return context.parsed.y + ' factures';
+                            }
+                        }
+                    }
+                },
+                animation: {
+                    duration: 0
+                },
+                interaction: {
+                    intersect: true,
+                    mode: 'nearest'
+                }
+            }
+        });
+    }
+@endif
+
+            // ✅ رسم مؤشر رضا العملاء (رادار)
+            @if ($satisfactionData)
+                const satisfactionCtx = document.getElementById('satisfactionChart');
+                if (satisfactionCtx) {
+                    const ctx = satisfactionCtx.getContext('2d');
+                    new Chart(ctx, {
+                        type: 'radar',
+                        data: {
+                            labels: ['Accueil', 'Conseil', 'Prix', 'Service', 'Suivi'],
+                            datasets: [{
+                                label: 'Satisfaction',
+                                data: @json($satisfactionChartData),
+                                backgroundColor: 'rgba(14, 165, 233, 0.2)',
+                                borderColor: '#0ea5e9',
+                                pointBackgroundColor: '#0ea5e9',
+                                pointBorderColor: '#fff',
+                                pointHoverBackgroundColor: '#fff',
+                                pointHoverBorderColor: '#0ea5e9',
+                                borderWidth: 2
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                r: {
+                                    beginAtZero: true,
+                                    suggestedMax: 10,
+                                    ticks: {
+                                        stepSize: 1,
+                                        showLabelBackdrop: false
+                                    },
+                                    grid: {
+                                        color: 'rgba(0, 0, 0, 0.1)'
+                                    },
+                                    angleLines: {
+                                        color: 'rgba(0, 0, 0, 0.1)'
+                                    }
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    display: true,
+                                    position: 'top'
+                                }
+                            }
+                        }
+                    });
+                }
+            @endif
+        });
+    </script>
+@endif
         <script>
             // Auto-submit form when branch selection changes
             const branchSelect = document.querySelector('select[name="branch"]');

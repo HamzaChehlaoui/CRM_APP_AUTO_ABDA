@@ -237,7 +237,7 @@
                                                                 <input id="{{ $type }}-image"
                                                                     name="image_{{ $type }}" type="file"
                                                                     accept="image/*,application/pdf" class="sr-only"
-                                                                      >
+                                                                    required>
                                                             </label>
                                                             <p class="pl-1">ou glisser-déposer</p>
                                                         </div>

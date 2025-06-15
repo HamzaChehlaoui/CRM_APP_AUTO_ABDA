@@ -66,48 +66,43 @@ public function calculatePercentageChange($current, $previous): string
     }
 
 public function getDashboardStats($clientsQuery, $suivisQuery, $invoicesQuery): array
-    {
-        $now = Carbon::now();
-        $lastMonth = $now->copy()->subMonth();
+{
+    $now = Carbon::now();
+    $lastMonth = $now->copy()->subMonth();
 
-        // Current month
-        $totalClientsCurrent = $clientsQuery->count();
-        $suivisEnCoursCurrent = (clone $suivisQuery)->where('status', 'en_cours')->count();
-        $activeClientsCurrent = (clone $clientsQuery)->whereHas('invoices')->count();
-        $salesThisMonthCurrent = (clone $invoicesQuery)->whereMonth('sale_date', $now->month)
-                                                    ->whereYear('sale_date', $now->year)
-                                                    ->count();
+    $statuts = ['creation', 'facturé', 'envoyée_pour_paiement', 'paiement'];
 
-        // Last month
-        $totalClientsLast = (clone $clientsQuery)->whereMonth('created_at', $lastMonth->month)
-                                                ->whereYear('created_at', $lastMonth->year)
-                                                ->count();
+    $facturesCurrent = [];
+    $facturesLast = [];
+    $facturesPercentageChange = [];
 
-        $suivisEnCoursLast = (clone $suivisQuery)->where('status', 'en_cours')
-                                                ->whereMonth('created_at', $lastMonth->month)
-                                                ->whereYear('created_at', $lastMonth->year)
-                                                ->count();
+    foreach ($statuts as $statut) {
 
-        $activeClientsLast = (clone $clientsQuery)->whereHas('invoices', function ($q) use ($lastMonth) {
-            $q->whereMonth('sale_date', $lastMonth->month)
-              ->whereYear('sale_date', $lastMonth->year);
-        })->count();
+        $facturesCurrent[$statut] = (clone $invoicesQuery)
+            ->where('statut_facture', $statut)
+            ->whereMonth('sale_date', $now->month)
+            ->whereYear('sale_date', $now->year)
+            ->count();
 
-        $salesThisMonthLast = (clone $invoicesQuery)->whereMonth('sale_date', $lastMonth->month)
-                                                    ->whereYear('sale_date', $lastMonth->year)
-                                                    ->count();
+        $facturesLast[$statut] = (clone $invoicesQuery)
+            ->where('statut_facture', $statut)
+            ->whereMonth('sale_date', $lastMonth->month)
+            ->whereYear('sale_date', $lastMonth->year)
+            ->count();
 
-        return [
-            'totalClientsCurrent' => $totalClientsCurrent,
-            'suivisEnCoursCurrent' => $suivisEnCoursCurrent,
-            'activeClientsCurrent' => $activeClientsCurrent,
-            'salesThisMonthCurrent' => $salesThisMonthCurrent,
-            'percentageClients' => $this->calculatePercentageChange($totalClientsCurrent, $totalClientsLast),
-            'percentageSuivis' => $this->calculatePercentageChange($suivisEnCoursCurrent, $suivisEnCoursLast),
-            'percentageActive' => $this->calculatePercentageChange($activeClientsCurrent, $activeClientsLast),
-            'percentageSales' => $this->calculatePercentageChange($salesThisMonthCurrent, $salesThisMonthLast),
-        ];
+        $facturesPercentageChange[$statut] = $this->calculatePercentageChange(
+            $facturesCurrent[$statut],
+            $facturesLast[$statut]
+        );
     }
+
+    return [
+        'factures_current' => $facturesCurrent,
+        'factures_last' => $facturesLast,
+        'factures_percentage_change' => $facturesPercentageChange,
+    ];
+}
+
 /**
  * Calculates the total number of sales over a given period for chart display.
  *
@@ -115,58 +110,23 @@ public function getDashboardStats($clientsQuery, $suivisQuery, $invoicesQuery): 
  * @param string  $period        The time period ('week', 'month', or 'year').
  * @return array                An array containing sales counts and corresponding labels.
  */
-public function getClientsVendus($invoicesQuery, string $period): array
+public function getTopPayingClients($invoicesQuery, $period): array
 {
-    $salesData = [];
-    $labels = [];
+    $topClients = (clone $invoicesQuery)
+        ->selectRaw('client_id, SUM(total_amount) as total_paid')
+        ->with('client:id,full_name')
+        ->groupBy('client_id')
+        ->orderByDesc('total_paid')
+        ->take(5)
+        ->get();
 
-    if ($period === 'week') {
-        foreach (range(0, 6) as $i) {
-            $day = Carbon::now()->startOfWeek()->addDays($i);
+    $labels = $topClients->map(fn($item) => optional($item->client)->full_name ?? '—')->toArray();
+    $clientsVendus = $topClients->map(fn($item) => round($item->total_paid, 2))->toArray();
 
-            // CHANGED: Replaced distinct client count with total sales count
-            $count = (clone $invoicesQuery)
-                ->whereDate('sale_date', $day)
-                ->count();
-
-            $salesData[] = $count;
-        }
-        $labels = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
-
-    } elseif ($period === 'month') {
-        // Based on the current date, we get the number of days in the current month
-        $daysInMonth = Carbon::now()->daysInMonth;
-        foreach (range(1, $daysInMonth) as $dayNumber) {
-            $date = Carbon::now()->startOfMonth()->addDays($dayNumber - 1);
-
-            // CHANGED: Replaced distinct client count with total sales count
-            $count = (clone $invoicesQuery)
-                ->whereDate('sale_date', $date)
-                ->count();
-
-            $salesData[] = $count;
-            $labels[] = $dayNumber; // Use the day number as the label
-        }
-
-    } elseif ($period === 'year') {
-        foreach (range(1, 12) as $monthNumber) {
-            // Create a date object for the current year and the given month number
-            $date = Carbon::create(date('Y'), $monthNumber);
-            $startOfMonth = $date->copy()->startOfMonth();
-            $endOfMonth = $date->copy()->endOfMonth();
-
-            // CHANGED: Replaced distinct client count with total sales count
-            $count = (clone $invoicesQuery)
-                ->whereBetween('sale_date', [$startOfMonth, $endOfMonth])
-                ->count();
-
-            $salesData[] = $count;
-            $labels[] = $date->shortMonthName; // e.g., 'Jan', 'Feb'
-        }
-    }
-
-    return [$salesData, $labels];
+    return [$clientsVendus, $labels];
 }
+
+
 
 
 public function getPostSaleStats($user, $selectedBranch = 'all'): array

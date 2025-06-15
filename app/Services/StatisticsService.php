@@ -30,26 +30,35 @@ class StatisticsService
     /**
      * Get sales by car model.
      */
-    public function getSalesByModel(string $startDate, string $endDate, Builder $invoicesQuery)
-    {
-        $start = Carbon::parse($startDate)->startOfDay();
-        $end   = Carbon::parse($endDate)->endOfDay();
+    public function getInvoiceStats(string $startDate, string $endDate, Builder $invoicesQuery)
+{
+    $start = Carbon::parse($startDate)->startOfDay();
+    $end   = Carbon::parse($endDate)->endOfDay();
 
-        return $invoicesQuery
-            ->join('cars', 'invoices.car_id', '=', 'cars.id')
-            ->whereBetween('invoices.sale_date', [$start, $end])
-            ->select('cars.brand', 'cars.model', DB::raw('COUNT(invoices.id) as total_sales'))
-            ->groupBy('cars.brand', 'cars.model')
-            ->orderBy('total_sales', 'DESC')
-            ->limit(6)
-            ->get()
-            ->map(function ($item) {
-                return [
-                    'label' => $item->brand . ' ' . $item->model,
-                    'sales' => $item->total_sales
-                ];
-            });
-    }
+    $data = $invoicesQuery
+        ->whereBetween('sale_date', [$start, $end])
+        ->select(
+            DB::raw('COUNT(id) as total_invoices'),
+            DB::raw('SUM(total_amount) as total_amount'),
+            DB::raw("SUM(CASE WHEN statut_facture = 'creation' THEN 1 ELSE 0 END) as count_creation"),
+            DB::raw("SUM(CASE WHEN statut_facture = 'facturé' THEN 1 ELSE 0 END) as count_facturé"),
+            DB::raw("SUM(CASE WHEN statut_facture = 'envoyée_pour_paiement' THEN 1 ELSE 0 END) as count_envoyée"),
+            DB::raw("SUM(CASE WHEN statut_facture = 'paiement' THEN 1 ELSE 0 END) as count_paiement")
+        )
+        ->first();
+
+    return [
+        'total_invoices' => (int) $data->total_invoices,
+        'total_amount' => (float) $data->total_amount,
+        'statut_breakdown' => [
+            'creation' => (int) $data->count_creation,
+            'facturé' => (int) $data->count_facturé,
+            'envoyée_pour_paiement' => (int) $data->count_envoyée,
+            'paiement' => (int) $data->count_paiement,
+        ],
+    ];
+}
+
 
     /**
      * Get customer satisfaction data.
