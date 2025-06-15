@@ -194,6 +194,8 @@
                 }
             }
         </script>
+                @include('page.button-loading')
+
     </body>
 @endsection
 
