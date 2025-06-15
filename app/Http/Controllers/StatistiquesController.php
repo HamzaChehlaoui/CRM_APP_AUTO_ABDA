@@ -39,7 +39,6 @@ $endDate = $request->filled('end_date') ? $request->get('end_date') : Carbon::no
         $topPerformers = $this->statisticsService->getTopPerformers($startDate, $endDate, $branchData['usersQuery']);
 
         return view('page.statistiques', array_merge(
-    // حذف 'salesByModel' هنا
     compact('satisfactionData', 'topPerformers', 'startDate', 'endDate'),
     $generalStats,
     [

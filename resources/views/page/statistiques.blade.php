@@ -286,7 +286,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     @php
-        // ✅ نُحضّر البيانات الخاصة بالفواتير بشكل آمن
         $statutData = [
             $invoiceStats['statut_breakdown']['creation'] ?? 0,
             $invoiceStats['statut_breakdown']['facturé'] ?? 0,
@@ -294,7 +293,6 @@
             $invoiceStats['statut_breakdown']['paiement'] ?? 0,
         ];
 
-        // ✅ تحضير بيانات الرضا مسبقاً
         $satisfactionChartData = [];
         if ($satisfactionData) {
             $satisfactionChartData = [
@@ -422,7 +420,6 @@
     }
 @endif
 
-            // ✅ رسم مؤشر رضا العملاء (رادار)
             @if ($satisfactionData)
                 const satisfactionCtx = document.getElementById('satisfactionChart');
                 if (satisfactionCtx) {
