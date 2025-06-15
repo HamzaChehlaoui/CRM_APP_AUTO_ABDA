@@ -3,7 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Client;
-use App\Models\Invoice; // Make sure to import the Invoice model
+use App\Models\Invoice;
 use App\Services\DashboardService;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -28,17 +28,9 @@ class ClientsTable extends Component
     ];
     public $showEditModal = false;
 
-    // --- NEW PROPERTIES FOR INVOICE VIEW ---
-    /**
-     * @var Client|null The currently selected client object to view invoices for.
-     */
-    public $selectedClient = null;
-
-    /**
-     * @var \Illuminate\Database\Eloquent\Collection The invoices of the selected client.
-     */
-    public $invoices;
-    // --- END NEW PROPERTIES ---
+    // --- تعديل هنا ---
+    public $selectedClientId = null;
+    // --- نهاية التعديل ---
 
     protected $queryString = ['selectedBranch'];
     protected $paginationTheme = 'tailwind';
@@ -56,7 +48,6 @@ class ClientsTable extends Component
         );
 
         $this->clientData = $this->defaultClientData;
-        $this->invoices   = collect(); // Initialize as an empty collection
     }
 
     public function updatingSelectedBranch()
@@ -64,7 +55,6 @@ class ClientsTable extends Component
         $this->resetPage();
     }
 
-    // --- EXISTING EDIT/UPDATE METHODS (NO CHANGES NEEDED) ---
     public function editClient($clientId)
     {
         $client                = Client::findOrFail($clientId);
@@ -92,7 +82,7 @@ class ClientsTable extends Component
         $client = Client::findOrFail($this->editingClientId);
         $client->update($this->clientData);
 
-        $this->cancelEdit(); // Use the cancel method to reset state
+        $this->cancelEdit();
         session()->flash('message', 'Client updated successfully.');
     }
 
@@ -102,44 +92,40 @@ class ClientsTable extends Component
         $this->editingClientId = null;
         $this->showEditModal   = false;
     }
-    // --- END EXISTING METHODS ---
 
-
-    // --- NEW METHODS FOR INVOICE VIEW ---
-    /**
-     * Sets the selected client and loads their invoices to switch the view.
-     * This method is triggered when the user clicks the "View Invoices" button.
-     *
-     * @param int $clientId
-     */
+    // عرض فواتير عميل معيّن
     public function showInvoices($clientId)
     {
-        $this->selectedClient = Client::findOrFail($clientId);
-        $this->invoices       = Invoice::where('client_id', $this->selectedClient->id)
-                                       ->with('car') // Eager load related car data for performance
-                                       ->latest()
-                                       ->get();
+        $this->resetPage();
+        $this->selectedClientId = $clientId;
     }
 
-    /**
-     * Resets the view back to the clients list.
-     * This is triggered by the "Back" button in the invoice view.
-     */
     public function showClientsList()
     {
-        $this->selectedClient = null;
-        $this->invoices       = collect(); // Clear the invoices
+        $this->selectedClientId = null;
     }
-    // --- END NEW METHODS ---
 
     public function render(DashboardService $dashboardService)
     {
-        // The render method remains largely the same, but the view will handle the display logic.
-        $user  = Auth::user();
-        $data  = $dashboardService->resolveBranchInfo($user, $this->selectedBranch);
+        $user = Auth::user();
+        $data = $dashboardService->resolveBranchInfo($user, $this->selectedBranch);
+
+        if ($this->selectedClientId) {
+            $selectedClient = Client::find($this->selectedClientId);
+            $invoices = Invoice::where('client_id', $this->selectedClientId)
+                                ->with('car')
+                                ->latest()
+                                ->paginate(6);
+
+            return view('livewire.clients-table', [
+                'selectedClient' => $selectedClient,
+                'invoices'       => $invoices,
+                'clients'        => collect(),
+            ]);
+        }
 
         $clients = $data['clientsQuery']
-            ->with('cars') // Keep this for the client list view
+            ->with('cars')
             ->paginate(10);
 
         return view('livewire.clients-table', [
@@ -147,6 +133,8 @@ class ClientsTable extends Component
             'branches'       => $this->branches,
             'selectedBranch' => $this->selectedBranch,
             'stats'          => $this->stats,
+            'selectedClient' => null,
+            'invoices'       => null,
         ]);
     }
 }
