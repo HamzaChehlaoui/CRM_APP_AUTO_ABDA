@@ -190,5 +190,6 @@
         </div>
 
         <script src="js/client.js"></script>
+        @include('page.button-loading')
     </body>
 @endsection
