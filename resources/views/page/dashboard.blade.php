@@ -343,3 +343,4 @@
 
         <script src="js/dashboard.js"></script>
     @endsection
+        @include('page.button-loading')
