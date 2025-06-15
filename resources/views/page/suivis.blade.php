@@ -287,3 +287,4 @@
     </body>
     <script src="{{ asset('js/suivis.js') }}" defer></script>
 @endsection
+        @include('page.button-loading')
