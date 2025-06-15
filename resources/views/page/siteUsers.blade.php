@@ -191,3 +191,4 @@
         modal.classList.add('hidden');
     }
 </script>
+        @include('page.button-loading')
