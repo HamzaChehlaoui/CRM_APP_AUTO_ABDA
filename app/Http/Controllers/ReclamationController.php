@@ -110,7 +110,7 @@ class ReclamationController extends Controller
         $clients = Client::orderBy('full_name')->get();
         $users = User::orderBy('name')->get();
 
-        return view('reclamations.edit', compact('reclamation', 'clients', 'users'));
+        return view('', compact('reclamation', 'clients', 'users'));
     }
 
     /**
