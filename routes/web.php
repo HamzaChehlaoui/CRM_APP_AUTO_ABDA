@@ -58,7 +58,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/factures' ,[InvoiceController::class, 'index'])->name('invoice.index');
     Route::get('/clients' ,[ClientController::class, 'index'])->name('client.index');
     Route::post('invoice/store-all', [InvoiceController::class, 'storeAll'])->name('invoice.storeAll');
-    Route::view('/reclamations', 'page.reclamations');
     Route::get('/statistiques', [StatistiquesController::class, 'index'])->name('statistics.index');
 
     // Route::view('/exporter', 'page.exporter');
