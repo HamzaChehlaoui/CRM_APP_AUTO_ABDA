@@ -18,8 +18,8 @@ class ReclamationController extends Controller
     {
         $reclamations = Reclamation::with(['client', 'user', 'createdBy'])
             ->orderBy('created_at', 'desc')
-            ->get();
-
+            ->paginate(6);
+            
         $clients = Client::orderBy('full_name')->get();
         $users = User::orderBy('name')->get();
 
