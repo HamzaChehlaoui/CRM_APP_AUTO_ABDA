@@ -36,7 +36,6 @@
                     placeholder="Rechercher une facture, client, montant..."
                     class="block w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm placeholder-gray-500 shadow-sm">
             </div>
-
         </div>
 
         <!-- Invoice Status Filter -->
@@ -60,7 +59,7 @@
         <!-- After Sale Status Filter -->
         <div class="w-full lg:w-1/3">
             <label for="status_apres_vente_filter" class="block text-sm font-semibold text-slate-700 mb-2">
-                Statut Après-Vente ( Totale : {{ $filteredInvoiceCount }} )
+                Statut Vente ( Totale : {{ $filteredInvoiceCount }} )
             </label>
             <div class="relative">
                 <select wire:model.live="statusApresVente" id="status_apres_vente_filter"
