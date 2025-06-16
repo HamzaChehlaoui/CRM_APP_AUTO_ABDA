@@ -216,10 +216,7 @@
                                                     </button>
                                                 </form>
                                             </td>
-
                                         </tr>
-                                    
-
                                     @empty
                                         <tr>
                                             <td colspan="7" class="px-6 py-4 text-center text-gray-500">
@@ -262,7 +259,7 @@
                         class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                     <option value="">Sélectionner un client</option>
                     @foreach($clients as $client)
-                        <option value="{{ $client->id }}">{{ $client->nom }} {{ $client->prenom }}</option>
+                        <option value="{{ $client->id }}">{{ $client->full_name }}</option>
                     @endforeach
                 </select>
                 <div id="client_id_error" class="text-red-500 text-xs mt-1 hidden"></div>
@@ -274,8 +271,8 @@
                     Description du problème <span class="text-red-500">*</span>
                 </label>
                 <textarea id="description" name="description" rows="4" required
-                          placeholder="Décrivez le problème en détail..."
-                          class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 resize-vertical"></textarea>
+                        placeholder="Décrivez le problème en détail..."
+                        class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 resize-vertical"></textarea>
                 <div id="description_error" class="text-red-500 text-xs mt-1 hidden"></div>
             </div>
 
