@@ -135,13 +135,10 @@
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
                                     @forelse ($reclamations as $reclamation)
-                                        {{-- بداية صف لكل شكوى --}}
                                         <tr class="hover:bg-gray-50">
 
-                                            {{-- 1. خلية المرجع والتاريخ --}}
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 <div class="text-sm font-medium text-gray-900">
-                                                    {{-- افترض أن لديك حقل 'reference' أو استخدم الـ ID --}}
                                                     {{ $reclamation->reference ?? '#' . $reclamation->id }}
                                                 </div>
                                                 <div class="text-xs text-gray-500">
@@ -149,21 +146,15 @@
                                                 </div>
                                             </td>
 
-                                            {{-- 2. خلية العميل --}}
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 @if ($reclamation->client)
                                                     <div class="flex items-center">
-                                                        <div class="h-8 w-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-medium">
-                                                            {{-- عرض أول حرف من الاسم واللقب --}}
-                                                            {{ strtoupper(substr($reclamation->client->prenom, 0, 1) . substr($reclamation->client->nom, 0, 1)) }}
-                                                        </div>
+
                                                         <div class="ml-3">
                                                             <div class="text-sm font-medium text-gray-900">
-                                                                {{ $reclamation->client->nom }} {{ $reclamation->client->prenom }}
+                                                                {{ $reclamation->client->full_name }}
                                                             </div>
                                                             <div class="text-sm text-gray-500">
-                                                                {{-- يمكنك إضافة معلومات السيارة هنا إذا كانت متوفرة --}}
-                                                                {{-- $reclamation->client->vehicule->nom ?? '' --}}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -172,7 +163,7 @@
                                                 @endif
                                             </td>
 
-                                            {{-- 3. خلية الموضوع والوصف --}}
+
                                             <td class="px-6 py-4">
                                                 <div class="text-sm text-gray-900">{{ $reclamation->sujet }}</div>
                                                 <div class="text-xs text-gray-500 truncate max-w-xs" title="{{ $reclamation->description }}">
@@ -180,7 +171,7 @@
                                                 </div>
                                             </td>
 
-                                            {{-- 4. خلية الأولوية --}}
+
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 @php
                                                     $priorityClass = '';
@@ -189,37 +180,34 @@
                                                     else $priorityClass = 'complaint-priority-low';
                                                 @endphp
                                                 <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full {{ $priorityClass }}">
-                                                    {{ $reclamation->priorite }}
+                                                    {{ $reclamation->Priorite }}
                                                 </span>
                                             </td>
 
-                                            {{-- 5. خلية تاريخ التحديث --}}
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                                 {{ $reclamation->updated_at->format('d M Y') }}
                                             </td>
 
-                                            {{-- 6. خلية الحالة --}}
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 @php
                                                     $statusClass = '';
-                                                    if ($reclamation->statut == 'Nouvelle') $statusClass = 'complaint-status-new';
-                                                    elseif ($reclamation->statut == 'En cours') $statusClass = 'complaint-status-progress';
-                                                    elseif ($reclamation->statut == 'Résolue') $statusClass = 'complaint-status-resolved';
+                                                    if ($reclamation->status == 'Nouvelle') $statusClass = 'complaint-status-new';
+                                                    elseif ($reclamation->status == 'En cours') $statusClass = 'complaint-status-progress';
+                                                    elseif ($reclamation->status == 'Résolue') $statusClass = 'complaint-status-resolved';
                                                     else $statusClass = 'complaint-status-closed';
                                                 @endphp
                                                 <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $statusClass }}">
-                                                    {{ $reclamation->statut }}
+                                                    {{ $reclamation->status }}
                                                 </span>
                                             </td>
 
-                                            {{-- 7. خلية الإجراءات (تعديل وحذف) --}}
                                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                {{-- زر التعديل --}}
+
                                                 <a href="{{ route('reclamations.edit', $reclamation->id) }}" class="text-primary-600 hover:text-primary-900 mr-2" title="Modifier">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
 
-                                                {{-- زر الحذف --}}
+
                                                 <form action="{{ route('reclamations.destroy', $reclamation->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette réclamation ?');">
                                                     @csrf
                                                     @method('DELETE')
@@ -230,7 +218,7 @@
                                             </td>
 
                                         </tr>
-                                        {{-- نهاية صف الشكوى --}}
+                                    
 
                                     @empty
                                         <tr>
