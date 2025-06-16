@@ -11,6 +11,7 @@ use App\Http\Controllers\SuiviController;
 use App\Http\Controllers\StatistiquesController;
 use App\Http\Controllers\ExportController;
 use App\Livewire\FacturesTable;
+use App\Http\Controllers\ReclamationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -83,7 +84,16 @@ Route::patch('/invoices/{id}', [InvoiceController::class, 'updateInvoice'])
     ->name('invoices.patch')
     ->middleware(['auth']);
 // routes/web.php
-
+Route::middleware(['auth'])->group(function () {
+    Route::get('/reclamations', [ReclamationController::class, 'index'])->name('reclamations.index');
+    Route::get('/reclamations/create', [ReclamationController::class, 'create'])->name('reclamations.create');
+    Route::post('/reclamations', [ReclamationController::class, 'store'])->name('reclamations.store');
+    Route::get('/reclamations/{reclamation}', [ReclamationController::class, 'show'])->name('reclamations.show');
+    Route::get('/reclamations/{reclamation}/edit', [ReclamationController::class, 'edit'])->name('reclamations.edit');
+    Route::put('/reclamations/{reclamation}', [ReclamationController::class, 'update'])->name('reclamations.update');
+    Route::delete('/reclamations/{reclamation}', [ReclamationController::class, 'destroy'])->name('reclamations.destroy');
+    Route::get('/reclamations/filter/{status}', [ReclamationController::class, 'filterByStatus'])->name('reclamations.filter');
+});
 
 // Authentication Routes
 require __DIR__.'/auth.php';
