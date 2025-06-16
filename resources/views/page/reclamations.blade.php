@@ -290,19 +290,17 @@
                 <div id="priorite_error" class="text-red-500 text-xs mt-1 hidden"></div>
             </div>
 
-            <!-- Assigned User (Optional) -->
-            <div class="mb-6">
-                <label for="user_id" class="block text-sm font-medium text-gray-700 mb-2">
-                    Assigner à
-                </label>
-                <select id="user_id" name="user_id"
-                        class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                    <option value="">Non assigné</option>
-                    @foreach($users as $user)
-                        <option value="{{ $user->id }}">{{ $user->name }}</option>
-                    @endforeach
-                </select>
-            </div>
+           <!-- Assigned User (Only current user) -->
+<div class="mb-6">
+    <label for="user_id" class="block text-sm font-medium text-gray-700 mb-2">
+        Assigner à
+    </label>
+    <select id="user_id" name="user_id"
+            class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+        <option value="{{ auth()->id() }}" selected>{{ auth()->user()->name }}</option>
+    </select>
+</div>
+
 
             <!-- Modal Footer -->
             <div class="flex items-center justify-end pt-4 border-t border-gray-200 space-x-4">
