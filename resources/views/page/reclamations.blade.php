@@ -166,7 +166,8 @@
 
                                             <td class="px-6 py-4">
                                                 <div class="text-sm text-gray-900">{{ $reclamation->sujet }}</div>
-                                                <div class="text-xs text-gray-500 truncate max-w-xs" title="{{ $reclamation->description }}">
+                                                <div class="text-xs text-gray-500 truncate max-w-xs"
+                                                    title="{{ $reclamation->description }}">
                                                     {{ $reclamation->description }}
                                                 </div>
                                             </td>
@@ -175,11 +176,16 @@
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 @php
                                                     $priorityClass = '';
-                                                    if ($reclamation->priorite == 'Haute') $priorityClass = 'complaint-priority-high';
-                                                    elseif ($reclamation->priorite == 'Moyenne') $priorityClass = 'complaint-priority-medium';
-                                                    else $priorityClass = 'complaint-priority-low';
+                                                    if ($reclamation->priorite == 'Haute') {
+                                                        $priorityClass = 'complaint-priority-high';
+                                                    } elseif ($reclamation->priorite == 'Moyenne') {
+                                                        $priorityClass = 'complaint-priority-medium';
+                                                    } else {
+                                                        $priorityClass = 'complaint-priority-low';
+                                                    }
                                                 @endphp
-                                                <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full {{ $priorityClass }}">
+                                                <span
+                                                    class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full {{ $priorityClass }}">
                                                     {{ $reclamation->Priorite }}
                                                 </span>
                                             </td>
@@ -191,27 +197,37 @@
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 @php
                                                     $statusClass = '';
-                                                    if ($reclamation->status == 'Nouvelle') $statusClass = 'complaint-status-new';
-                                                    elseif ($reclamation->status == 'En cours') $statusClass = 'complaint-status-progress';
-                                                    elseif ($reclamation->status == 'Résolue') $statusClass = 'complaint-status-resolved';
-                                                    else $statusClass = 'complaint-status-closed';
+                                                    if ($reclamation->status == 'Nouvelle') {
+                                                        $statusClass = 'complaint-status-new';
+                                                    } elseif ($reclamation->status == 'En cours') {
+                                                        $statusClass = 'complaint-status-progress';
+                                                    } elseif ($reclamation->status == 'Résolue') {
+                                                        $statusClass = 'complaint-status-resolved';
+                                                    } else {
+                                                        $statusClass = 'complaint-status-closed';
+                                                    }
                                                 @endphp
-                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $statusClass }}">
+                                                <span
+                                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $statusClass }}">
                                                     {{ $reclamation->status }}
                                                 </span>
                                             </td>
 
                                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
 
-                                                <a href="{{ route('reclamations.edit', $reclamation->id) }}" class="text-primary-600 hover:text-primary-900 mr-2" title="Modifier">
+                                                <a href="{{ route('reclamations.edit', $reclamation->id) }}"
+                                                    class="text-primary-600 hover:text-primary-900 mr-2" title="Modifier">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
 
 
-                                                <form action="{{ route('reclamations.destroy', $reclamation->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette réclamation ?');">
+                                                <form action="{{ route('reclamations.destroy', $reclamation->id) }}"
+                                                    method="POST" class="inline-block"
+                                                    onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette réclamation ?');">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="text-red-600 hover:text-red-800" title="Supprimer">
+                                                    <button type="submit" class="text-red-600 hover:text-red-800"
+                                                        title="Supprimer">
                                                         <i class="fas fa-trash-alt"></i>
                                                     </button>
                                                 </form>
@@ -225,19 +241,19 @@
                                         </tr>
                                     @endforelse
                                 </tbody>
-</table>
-</div>
+                            </table>
+                        </div>
 
-<div class="mt-4 flex justify-center">
-    {{ $reclamations->links('vendor.pagination.tailwind') }}
-</div>
-</div>
+                        <div class="mt-4 flex justify-center">
+                            {{ $reclamations->links('vendor.pagination.tailwind') }}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         @include('page.add-reclamation')
 
-                @include('page.button-loading')
+        @include('page.button-loading')
     </body>
 @endsection
 
