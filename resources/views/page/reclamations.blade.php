@@ -40,8 +40,6 @@
 
                 <!-- Main Content Area -->
                 <div class="flex-1 p-6 overflow-y-auto">
-
-
                     <!-- Filters and Actions -->
                     <div class="flex flex-col md:flex-row md:items-center justify-between mb-6 space-y-4 md:space-y-0">
                         <div class="flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
@@ -187,6 +185,250 @@
                 </div>
             </div>
         </div>
+        <!-- Add this modal HTML just before the closing </body> tag in your blade template -->
+
+<!-- Modal Overlay -->
+<div id="complaintModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50 hidden">
+    <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-1/2 shadow-lg rounded-md bg-white">
+        <!-- Modal Header -->
+        <div class="flex items-center justify-between pb-4 border-b border-gray-200">
+            <h3 class="text-lg font-semibold text-gray-900">Nouvelle Réclamation</h3>
+            <button id="closeModal" class="text-gray-400 hover:text-gray-600 transition-colors">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+
+        <!-- Modal Body -->
+        <form id="complaintForm" action="{{ route('reclamations.store') }}" method="POST" class="mt-6">
+            @csrf
+
+            <!-- Client Selection -->
+            <div class="mb-6">
+                <label for="client_id" class="block text-sm font-medium text-gray-700 mb-2">
+                    Client <span class="text-red-500">*</span>
+                </label>
+                <select id="client_id" name="client_id" required
+                        class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                    <option value="">Sélectionner un client</option>
+                    @foreach($clients as $client)
+                        <option value="{{ $client->id }}">{{ $client->nom }} {{ $client->prenom }}</option>
+                    @endforeach
+                </select>
+                <div id="client_id_error" class="text-red-500 text-xs mt-1 hidden"></div>
+            </div>
+
+            <!-- Description -->
+            <div class="mb-6">
+                <label for="description" class="block text-sm font-medium text-gray-700 mb-2">
+                    Description du problème <span class="text-red-500">*</span>
+                </label>
+                <textarea id="description" name="description" rows="4" required
+                          placeholder="Décrivez le problème en détail..."
+                          class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 resize-vertical"></textarea>
+                <div id="description_error" class="text-red-500 text-xs mt-1 hidden"></div>
+            </div>
+
+            <!-- Priority -->
+            <div class="mb-6">
+                <label for="priorite" class="block text-sm font-medium text-gray-700 mb-2">
+                    Priorité <span class="text-red-500">*</span>
+                </label>
+                <select id="priorite" name="Priorite" required
+                        class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                    <option value="Basse">Basse</option>
+                    <option value="Moyenne" selected>Moyenne</option>
+                    <option value="Haute">Haute</option>
+                </select>
+                <div id="priorite_error" class="text-red-500 text-xs mt-1 hidden"></div>
+            </div>
+
+            <!-- Assigned User (Optional) -->
+            <div class="mb-6">
+                <label for="user_id" class="block text-sm font-medium text-gray-700 mb-2">
+                    Assigner à
+                </label>
+                <select id="user_id" name="user_id"
+                        class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                    <option value="">Non assigné</option>
+                    @foreach($users as $user)
+                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="flex items-center justify-end pt-4 border-t border-gray-200 space-x-4">
+                <button type="button" id="cancelBtn"
+                        class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors">
+                    Annuler
+                </button>
+                <button type="submit" id="submitBtn"
+                        class="px-4 py-2 text-sm font-medium text-white bg-primary-600 border border-transparent rounded-md hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors">
+                    <span id="submitText">Créer la réclamation</span>
+                    <span id="submitLoader" class="hidden">
+                        <i class="fas fa-spinner fa-spin mr-2"></i>
+                        Création...
+                    </span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('complaintModal');
+    const openModalBtn = document.querySelector('button:has(+ span:contains("Nouvelle Réclamation"))') ||
+                        document.querySelector('button span:contains("Nouvelle Réclamation")').parentElement;
+    const closeModalBtn = document.getElementById('closeModal');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const form = document.getElementById('complaintForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const submitText = document.getElementById('submitText');
+    const submitLoader = document.getElementById('submitLoader');
+
+    // Find the "Nouvelle Réclamation" button more reliably
+    const newComplaintBtn = Array.from(document.querySelectorAll('button')).find(btn =>
+        btn.textContent.includes('Nouvelle Réclamation')
+    );
+
+    // Open modal
+    if (newComplaintBtn) {
+        newComplaintBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        });
+    }
+
+    // Close modal function
+    function closeModal() {
+        modal.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+        form.reset();
+        clearErrors();
+    }
+
+    // Close modal events
+    closeModalBtn.addEventListener('click', closeModal);
+    cancelBtn.addEventListener('click', closeModal);
+
+    // Close modal when clicking outside
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+            closeModal();
+        }
+    });
+
+    // Form submission
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Show loading state
+        submitBtn.disabled = true;
+        submitText.classList.add('hidden');
+        submitLoader.classList.remove('hidden');
+
+        clearErrors();
+
+        // Create FormData
+        const formData = new FormData(form);
+
+        // Submit form via fetch
+        fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Show success message
+                showNotification('Réclamation créée avec succès!', 'success');
+                closeModal();
+                // Reload page or update table
+                window.location.reload();
+            } else {
+                // Handle validation errors
+                if (data.errors) {
+                    showValidationErrors(data.errors);
+                } else {
+                    showNotification('Une erreur est survenue', 'error');
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showNotification('Une erreur est survenue', 'error');
+        })
+        .finally(() => {
+            // Reset loading state
+            submitBtn.disabled = false;
+            submitText.classList.remove('hidden');
+            submitLoader.classList.add('hidden');
+        });
+    });
+
+    // Clear validation errors
+    function clearErrors() {
+        const errorElements = document.querySelectorAll('[id$="_error"]');
+        errorElements.forEach(element => {
+            element.classList.add('hidden');
+            element.textContent = '';
+        });
+
+        const inputElements = document.querySelectorAll('input, select, textarea');
+        inputElements.forEach(element => {
+            element.classList.remove('border-red-500');
+        });
+    }
+
+    // Show validation errors
+    function showValidationErrors(errors) {
+        Object.keys(errors).forEach(field => {
+            const errorElement = document.getElementById(field + '_error');
+            const inputElement = document.getElementById(field) || document.querySelector(`[name="${field}"]`);
+
+            if (errorElement) {
+                errorElement.textContent = errors[field][0];
+                errorElement.classList.remove('hidden');
+            }
+
+            if (inputElement) {
+                inputElement.classList.add('border-red-500');
+            }
+        });
+    }
+
+    // Show notification
+    function showNotification(message, type = 'info') {
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = `fixed top-4 right-4 px-6 py-4 rounded-md shadow-lg z-50 ${
+            type === 'success' ? 'bg-green-500 text-white' :
+            type === 'error' ? 'bg-red-500 text-white' :
+            'bg-blue-500 text-white'
+        }`;
+        notification.textContent = message;
+
+        document.body.appendChild(notification);
+
+        // Remove notification after 3 seconds
+        setTimeout(() => {
+            notification.remove();
+        }, 3000);
+    }
+});
+</script>
                 @include('page.button-loading')
 
     </body>
