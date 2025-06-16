@@ -64,7 +64,7 @@
 
                             </div>
                         </div>
-                        <button
+                        <button id="openComplaintModalBtn"
                             class="flex items-center justify-center space-x-2 rounded-md bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
                             <i class="fas fa-plus"></i>
                             <span>Nouvelle Réclamation</span>
@@ -134,58 +134,122 @@
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
-                                    <tr class="hover:bg-gray-50">
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm font-medium text-gray-900">#REC-2025-001</div>
-                                            <div class="text-xs text-gray-500">Créé le 15/05/2025</div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="flex items-center">
-                                                <div
-                                                    class="h-8 w-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-medium">
-                                                    TP</div>
-                                                <div class="ml-3">
-                                                    <div class="text-sm font-medium text-gray-900">Thomas Petit</div>
-                                                    <div class="text-sm text-gray-500">Audi A3 - 2023</div>
+                                    @forelse ($reclamations as $reclamation)
+                                        {{-- بداية صف لكل شكوى --}}
+                                        <tr class="hover:bg-gray-50">
+
+                                            {{-- 1. خلية المرجع والتاريخ --}}
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="text-sm font-medium text-gray-900">
+                                                    {{-- افترض أن لديك حقل 'reference' أو استخدم الـ ID --}}
+                                                    {{ $reclamation->reference ?? '#' . $reclamation->id }}
                                                 </div>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            <div class="text-sm text-gray-900">Problème de climatisation</div>
-                                            <div class="text-xs text-gray-500 truncate max-w-xs">La climatisation ne
-                                                fonctionne plus correctement depuis la dernière révision.</div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <span
-                                                class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full complaint-priority-high">
-                                                Haute
-                                            </span>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            20 mai 2025
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <span
-                                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full complaint-status-new">
-                                                Nouvelle
-                                            </span>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <button class="text-primary-600 hover:text-primary-900 mr-2"><i
-                                                    class="fas fa-edit"></i></button>
-                                            <button type="submit" class="text-red-600 hover:text-red-800">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
+                                                <div class="text-xs text-gray-500">
+                                                    Créé le {{ $reclamation->created_at->format('d/m/Y') }}
+                                                </div>
+                                            </td>
+
+                                            {{-- 2. خلية العميل --}}
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                @if ($reclamation->client)
+                                                    <div class="flex items-center">
+                                                        <div class="h-8 w-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-medium">
+                                                            {{-- عرض أول حرف من الاسم واللقب --}}
+                                                            {{ strtoupper(substr($reclamation->client->prenom, 0, 1) . substr($reclamation->client->nom, 0, 1)) }}
+                                                        </div>
+                                                        <div class="ml-3">
+                                                            <div class="text-sm font-medium text-gray-900">
+                                                                {{ $reclamation->client->nom }} {{ $reclamation->client->prenom }}
+                                                            </div>
+                                                            <div class="text-sm text-gray-500">
+                                                                {{-- يمكنك إضافة معلومات السيارة هنا إذا كانت متوفرة --}}
+                                                                {{-- $reclamation->client->vehicule->nom ?? '' --}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @else
+                                                    <span class="text-xs text-gray-500">Client non défini</span>
+                                                @endif
+                                            </td>
+
+                                            {{-- 3. خلية الموضوع والوصف --}}
+                                            <td class="px-6 py-4">
+                                                <div class="text-sm text-gray-900">{{ $reclamation->sujet }}</div>
+                                                <div class="text-xs text-gray-500 truncate max-w-xs" title="{{ $reclamation->description }}">
+                                                    {{ $reclamation->description }}
+                                                </div>
+                                            </td>
+
+                                            {{-- 4. خلية الأولوية --}}
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                @php
+                                                    $priorityClass = '';
+                                                    if ($reclamation->priorite == 'Haute') $priorityClass = 'complaint-priority-high';
+                                                    elseif ($reclamation->priorite == 'Moyenne') $priorityClass = 'complaint-priority-medium';
+                                                    else $priorityClass = 'complaint-priority-low';
+                                                @endphp
+                                                <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full {{ $priorityClass }}">
+                                                    {{ $reclamation->priorite }}
+                                                </span>
+                                            </td>
+
+                                            {{-- 5. خلية تاريخ التحديث --}}
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                {{ $reclamation->updated_at->format('d M Y') }}
+                                            </td>
+
+                                            {{-- 6. خلية الحالة --}}
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                @php
+                                                    $statusClass = '';
+                                                    if ($reclamation->statut == 'Nouvelle') $statusClass = 'complaint-status-new';
+                                                    elseif ($reclamation->statut == 'En cours') $statusClass = 'complaint-status-progress';
+                                                    elseif ($reclamation->statut == 'Résolue') $statusClass = 'complaint-status-resolved';
+                                                    else $statusClass = 'complaint-status-closed';
+                                                @endphp
+                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $statusClass }}">
+                                                    {{ $reclamation->statut }}
+                                                </span>
+                                            </td>
+
+                                            {{-- 7. خلية الإجراءات (تعديل وحذف) --}}
+                                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                {{-- زر التعديل --}}
+                                                <a href="{{ route('reclamations.edit', $reclamation->id) }}" class="text-primary-600 hover:text-primary-900 mr-2" title="Modifier">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+
+                                                {{-- زر الحذف --}}
+                                                <form action="{{ route('reclamations.destroy', $reclamation->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette réclamation ?');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="text-red-600 hover:text-red-800" title="Supprimer">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
+
+                                        </tr>
+                                        {{-- نهاية صف الشكوى --}}
+
+                                    @empty
+                                        <tr>
+                                            <td colspan="7" class="px-6 py-4 text-center text-gray-500">
+                                                Aucune réclamation trouvée.
+                                            </td>
+                                        </tr>
+                                    @endforelse
                                 </tbody>
-                            </table>
-                        </div>
-                    </div>
+</table>
+</div>
+
+<div class="mt-4 flex justify-center">
+    {{ $reclamations->links('vendor.pagination.tailwind') }}
+</div>
+</div>
                 </div>
             </div>
         </div>
-        <!-- Add this modal HTML just before the closing </body> tag in your blade template -->
 
 <!-- Modal Overlay -->
 <div id="complaintModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50 hidden">
@@ -201,7 +265,6 @@
         <!-- Modal Body -->
         <form id="complaintForm" action="{{ route('reclamations.store') }}" method="POST" class="mt-6">
             @csrf
-
             <!-- Client Selection -->
             <div class="mb-6">
                 <label for="client_id" class="block text-sm font-medium text-gray-700 mb-2">
@@ -277,9 +340,9 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // --- 1. تعريف العناصر الأساسية ---
     const modal = document.getElementById('complaintModal');
-    const openModalBtn = document.querySelector('button:has(+ span:contains("Nouvelle Réclamation"))') ||
-                        document.querySelector('button span:contains("Nouvelle Réclamation")').parentElement;
+    const openModalBtn = document.getElementById('openComplaintModalBtn'); // استهداف الزر مباشرة عبر الـ ID الجديد
     const closeModalBtn = document.getElementById('closeModal');
     const cancelBtn = document.getElementById('cancelBtn');
     const form = document.getElementById('complaintForm');
@@ -287,150 +350,155 @@ document.addEventListener('DOMContentLoaded', function() {
     const submitText = document.getElementById('submitText');
     const submitLoader = document.getElementById('submitLoader');
 
-    // Find the "Nouvelle Réclamation" button more reliably
-    const newComplaintBtn = Array.from(document.querySelectorAll('button')).find(btn =>
-        btn.textContent.includes('Nouvelle Réclamation')
-    );
+    // --- 2. وظائف فتح وإغلاق النافذة ---
 
-    // Open modal
-    if (newComplaintBtn) {
-        newComplaintBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            modal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
+    // وظيفة فتح النافذة
+    function openModal() {
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden'; // منع تمرير الصفحة في الخلفية
+    }
+
+    // وظيفة إغلاق النافذة وإعادة تعيين الحقول
+    function closeModal() {
+        modal.classList.add('hidden');
+        document.body.style.overflow = 'auto'; // السماح بالتمرير مرة أخرى
+        form.reset(); // مسح بيانات النموذج
+        clearErrors(); // إزالة رسائل الأخطاء
+    }
+
+    // --- 3. ربط الأحداث بالأزرار ---
+
+    // فتح النافذة عند الضغط على زر "Nouvelle Réclamation"
+    if (openModalBtn) {
+        openModalBtn.addEventListener('click', function(e) {
+            e.preventDefault(); // منع السلوك الافتراضي للزر
+            openModal();
         });
     }
 
-    // Close modal function
-    function closeModal() {
-        modal.classList.add('hidden');
-        document.body.style.overflow = 'auto';
-        form.reset();
-        clearErrors();
-    }
-
-    // Close modal events
+    // إغلاق النافذة عند الضغط على زر الإغلاق (X) أو زر الإلغاء
     closeModalBtn.addEventListener('click', closeModal);
     cancelBtn.addEventListener('click', closeModal);
 
-    // Close modal when clicking outside
+    // إغلاق النافذة عند الضغط خارجها
     modal.addEventListener('click', function(e) {
         if (e.target === modal) {
             closeModal();
         }
     });
 
-    // Close modal with Escape key
+    // إغلاق النافذة عند الضغط على مفتاح "Escape"
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
             closeModal();
         }
     });
 
-    // Form submission
+    // --- 4. معالجة إرسال النموذج (Form Submission) ---
     form.addEventListener('submit', function(e) {
-        e.preventDefault();
+        e.preventDefault(); // منع الإرسال التقليدي للصفحة
 
-        // Show loading state
+        // عرض مؤشر التحميل
         submitBtn.disabled = true;
         submitText.classList.add('hidden');
         submitLoader.classList.remove('hidden');
 
         clearErrors();
 
-        // Create FormData
         const formData = new FormData(form);
 
-        // Submit form via fetch
+        // إرسال البيانات باستخدام Fetch API
         fetch(form.action, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Show success message
-                showNotification('Réclamation créée avec succès!', 'success');
-                closeModal();
-                // Reload page or update table
-                window.location.reload();
-            } else {
-                // Handle validation errors
-                if (data.errors) {
-                    showValidationErrors(data.errors);
-                } else {
-                    showNotification('Une erreur est survenue', 'error');
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]') ? document.querySelector('meta[name="csrf-token"]').getAttribute('content') : '' // مهم في Laravel
                 }
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            showNotification('Une erreur est survenue', 'error');
-        })
-        .finally(() => {
-            // Reset loading state
-            submitBtn.disabled = false;
-            submitText.classList.remove('hidden');
-            submitLoader.classList.add('hidden');
-        });
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showNotification('Réclamation créée avec succès!', 'success');
+                    closeModal();
+                    // تحديث الصفحة لإظهار السجل الجديد
+                    setTimeout(() => window.location.reload(), 1500);
+                } else if (data.errors) {
+                    showValidationErrors(data.errors);
+                    showNotification('Veuillez corriger les erreurs dans le formulaire.', 'error');
+                } else {
+                    showNotification(data.message || 'Une erreur est survenue.', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showNotification('Une erreur de communication est survenue.', 'error');
+            })
+            .finally(() => {
+                // إعادة الزر إلى حالته الطبيعية
+                submitBtn.disabled = false;
+                submitText.classList.remove('hidden');
+                submitLoader.classList.add('hidden');
+            });
     });
 
-    // Clear validation errors
-    function clearErrors() {
-        const errorElements = document.querySelectorAll('[id$="_error"]');
-        errorElements.forEach(element => {
-            element.classList.add('hidden');
-            element.textContent = '';
-        });
+    // --- 5. وظائف مساعدة (Helper Functions) ---
 
-        const inputElements = document.querySelectorAll('input, select, textarea');
-        inputElements.forEach(element => {
-            element.classList.remove('border-red-500');
+    // وظيفة لمسح رسائل الأخطاء من الحقول
+    function clearErrors() {
+        document.querySelectorAll('[id$="_error"]').forEach(el => {
+            el.classList.add('hidden');
+            el.textContent = '';
+        });
+        form.querySelectorAll('.border-red-500').forEach(el => {
+            el.classList.remove('border-red-500');
         });
     }
 
-    // Show validation errors
+    // وظيفة لإظهار أخطاء التحقق من الصحة
     function showValidationErrors(errors) {
         Object.keys(errors).forEach(field => {
             const errorElement = document.getElementById(field + '_error');
-            const inputElement = document.getElementById(field) || document.querySelector(`[name="${field}"]`);
-
-            if (errorElement) {
-                errorElement.textContent = errors[field][0];
-                errorElement.classList.remove('hidden');
-            }
+            const inputElement = document.getElementById(field) || form.querySelector(`[name="${field}"]`);
 
             if (inputElement) {
                 inputElement.classList.add('border-red-500');
             }
+            if (errorElement) {
+                errorElement.textContent = errors[field][0];
+                errorElement.classList.remove('hidden');
+            }
         });
     }
 
-    // Show notification
+    // وظيفة لإظهار إشعار منبثق
     function showNotification(message, type = 'info') {
-        // Create notification element
         const notification = document.createElement('div');
-        notification.className = `fixed top-4 right-4 px-6 py-4 rounded-md shadow-lg z-50 ${
-            type === 'success' ? 'bg-green-500 text-white' :
-            type === 'error' ? 'bg-red-500 text-white' :
-            'bg-blue-500 text-white'
-        }`;
+        let bgColor = 'bg-blue-500';
+        if (type === 'success') bgColor = 'bg-green-500';
+        if (type === 'error') bgColor = 'bg-red-500';
+
+        notification.className = `fixed top-5 right-5 px-6 py-4 rounded-md shadow-lg text-white z-50 transition-transform transform translate-x-full ${bgColor}`;
         notification.textContent = message;
 
         document.body.appendChild(notification);
 
-        // Remove notification after 3 seconds
+        // Animate in
         setTimeout(() => {
-            notification.remove();
+            notification.classList.remove('translate-x-full');
+        }, 100);
+
+        // Animate out and remove
+        setTimeout(() => {
+            notification.classList.add('translate-x-full');
+            setTimeout(() => {
+                notification.remove();
+            }, 500);
         }, 3000);
     }
 });
 </script>
                 @include('page.button-loading')
-
     </body>
 @endsection
 
