@@ -215,11 +215,21 @@
 
                                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
 
-                                                <a href="{{ route('reclamations.edit', $reclamation->id) }}"
-                                                    class="text-primary-600 hover:text-primary-900 mr-2" title="Modifier">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-
+                                      <a href="#"
+   class="text-primary-600 hover:text-primary-900 mr-2 edit-complaint-btn"
+   data-complaint-id="{{ $reclamation->id }}"
+   data-reference="{{ $reclamation->reference ?? '#' . $reclamation->id }}"
+   data-client-id="{{ $reclamation->client_id ?? '' }}"
+   data-client-name="{{ $reclamation->client->full_name ?? '' }}"
+   data-sujet="{{ $reclamation->sujet }}"
+   data-description="{{ $reclamation->description }}"
+   data-priorite="{{ $reclamation->priorite }}"
+   data-status="{{ $reclamation->status }}"
+   data-created-at="{{ $reclamation->created_at->format('d/m/Y') }}"
+   data-updated-at="{{ $reclamation->updated_at->format('d M Y') }}"
+   title="Modifier">
+    <i class="fas fa-edit"></i>
+</a>
 
                                                 <form action="{{ route('reclamations.destroy', $reclamation->id) }}"
                                                     method="POST" class="inline-block"
@@ -251,6 +261,7 @@
                 </div>
             </div>
         </div>
+        @include('page.edit-reclamation')
         @include('page.add-reclamation')
 
         @include('page.button-loading')
