@@ -105,51 +105,54 @@ class ReclamationController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Reclamation $reclamation)
-    {
-        $clients = Client::orderBy('full_name')->get();
-        $users = User::orderBy('name')->get();
+    // public function edit(Reclamation $reclamation)
+    // {
+    //     $clients = Client::orderBy('full_name')->get();
+    //     $users = User::orderBy('name')->get();
 
-        return view('', compact('reclamation', 'clients', 'users'));
-    }
+    //     return view('page.reclamations');
+    // }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Reclamation $reclamation)
-    {
-        $validator = Validator::make($request->all(), [
-            'client_id' => 'required|exists:clients,id',
-            'description' => 'required|string|max:1000',
+   public function update(Request $request, $id)
+{
+    try {
+        $reclamation = Reclamation::findOrFail($id);
+
+        $validatedData = $request->validate([
+            'description' => 'required|string',
             'Priorite' => 'required|in:Basse,Moyenne,Haute',
             'status' => 'required|in:nouvelle,en_cours,résolue',
-            'user_id' => 'nullable|exists:users,id',
+            'client_id' => 'nullable|exists:clients,id'
         ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
+        $reclamation->update($validatedData);
 
-        try {
-            $reclamation->update([
-                'client_id' => $request->client_id,
-                'user_id' => $request->user_id,
-                'description' => $request->description,
-                'Priorite' => $request->Priorite,
-                'status' => $request->status,
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Réclamation mise à jour avec succès!'
             ]);
-
-            return redirect()->route('reclamations.index')
-                ->with('success', 'Réclamation mise à jour avec succès.');
-
-        } catch (\Exception $e) {
-            return redirect()->back()
-                ->with('error', 'Une erreur est survenue lors de la mise à jour.')
-                ->withInput();
         }
+
+        return redirect()->route('reclamations.index')
+                        ->with('success', 'Réclamation mise à jour avec succès!');
+
+    } catch (\Exception $e) {
+        if ($request->ajax()) {
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Erreur lors de la mise à jour: ' . $e->getMessage()
+            ]);
+        }
+
+        return redirect()->back()
+                        ->with('error', 'Erreur lors de la mise à jour de la réclamation');
     }
+}
 
     /**
      * Remove the specified resource from storage.
