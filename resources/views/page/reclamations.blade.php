@@ -90,10 +90,7 @@
                                 class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300">
                                 Résolues
                             </a>
-                            <a href="#"
-                                class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300">
-                                Fermées
-                            </a>
+
                         </nav>
                     </div>
 
@@ -215,21 +212,20 @@
 
                                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
 
-                                      <a href="#"
-   class="text-primary-600 hover:text-primary-900 mr-2 edit-complaint-btn"
-   data-complaint-id="{{ $reclamation->id }}"
-   data-reference="{{ $reclamation->reference ?? '#' . $reclamation->id }}"
-   data-client-id="{{ $reclamation->client_id ?? '' }}"
-   data-client-name="{{ $reclamation->client->full_name ?? '' }}"
-   data-sujet="{{ $reclamation->sujet }}"
-   data-description="{{ $reclamation->description }}"
-   data-priorite="{{ $reclamation->priorite }}"
-   data-status="{{ $reclamation->status }}"
-   data-created-at="{{ $reclamation->created_at->format('d/m/Y') }}"
-   data-updated-at="{{ $reclamation->updated_at->format('d M Y') }}"
-   title="Modifier">
-    <i class="fas fa-edit"></i>
-</a>
+                                                <a href="#"
+                                                    class="text-primary-600 hover:text-primary-900 mr-2 edit-complaint-btn"
+                                                    data-complaint-id="{{ $reclamation->id }}"
+                                                    data-reference="{{ $reclamation->reference ?? '#' . $reclamation->id }}"
+                                                    data-client-id="{{ $reclamation->client_id ?? '' }}"
+                                                    data-client-name="{{ $reclamation->client->full_name ?? '' }}"
+                                                    data-description="{{ $reclamation->description }}"
+                                                    data-priorite="{{ $reclamation->Priorite }}"
+                                                    data-status="{{ $reclamation->status }}"
+                                                    data-created-at="{{ $reclamation->created_at->format('d/m/Y') }}"
+                                                    data-updated-at="{{ $reclamation->updated_at->format('d M Y') }}"
+                                                    title="Modifier">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
 
                                                 <form action="{{ route('reclamations.destroy', $reclamation->id) }}"
                                                     method="POST" class="inline-block"
