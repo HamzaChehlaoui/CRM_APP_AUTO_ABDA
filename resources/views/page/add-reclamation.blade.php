@@ -147,7 +147,7 @@
                         'X-Requested-With': 'XMLHttpRequest',
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]') ? document
                             .querySelector('meta[name="csrf-token"]').getAttribute('content') :
-                            '' 
+                            '' // مهم في Laravel
                     }
                 })
                 .then(response => response.json())
