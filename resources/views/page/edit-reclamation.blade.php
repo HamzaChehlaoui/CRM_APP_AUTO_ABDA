@@ -39,7 +39,7 @@
                         <select id="editClient" name="client_id"
                             class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
                             <option value="">Sélectionner un client</option>
-                            @foreach($clients as $client)
+                            @foreach ($clients as $client)
                                 <option value="{{ $client->id }}">{{ $client->full_name }}</option>
                             @endforeach
                         </select>
@@ -59,18 +59,18 @@
 
                     <!-- Priorité -->
                     <div>
-    <label for="editPriorite" class="block text-sm font-medium text-gray-700 mb-2">
-        Priorité <span class="text-red-500">*</span>
-    </label>
-    <select id="editPriorite" name="Priorite" required
-        class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+                        <label for="editPriorite" class="block text-sm font-medium text-gray-700 mb-2">
+                            Priorité <span class="text-red-500">*</span>
+                        </label>
+                        <select id="editPriorite" name="Priorite" required
+                            class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
 
-        <option value="">Sélectionner une priorité</option>
-        <option value="Basse" @selected(old('Priorite', $reclamation->Priorite) == 'Basse')>Basse</option>
-        <option value="Moyenne" @selected(old('Priorite', $reclamation->Priorite) == 'Moyenne')>Moyenne</option>
-        <option value="Haute" @selected(old('Priorite', $reclamation->Priorite) == 'Haute')>Haute</option>
-    </select>
-</div>
+                            <option value="">Sélectionner une priorité</option>
+                            <option value="Basse" @selected(old('Priorite', $reclamation->Priorite) == 'Basse')>Basse</option>
+                            <option value="Moyenne" @selected(old('Priorite', $reclamation->Priorite) == 'Moyenne')>Moyenne</option>
+                            <option value="Haute" @selected(old('Priorite', $reclamation->Priorite) == 'Haute')>Haute</option>
+                        </select>
+                    </div>
 
 
                     <!-- Status -->
@@ -87,7 +87,7 @@
                         </select>
                     </div>
 
-                
+
                 </div>
 
                 <!-- Modal Footer -->
@@ -108,126 +108,127 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const editModal = document.getElementById('editComplaintModal');
-    const editForm = document.getElementById('editComplaintForm');
-    const closeEditModal = document.getElementById('closeEditModal');
-    const cancelEditBtn = document.getElementById('cancelEditBtn');
+    document.addEventListener('DOMContentLoaded', function() {
+        const editModal = document.getElementById('editComplaintModal');
+        const editForm = document.getElementById('editComplaintForm');
+        const closeEditModal = document.getElementById('closeEditModal');
+        const cancelEditBtn = document.getElementById('cancelEditBtn');
 
-    // Open modal when edit button is clicked
-    document.addEventListener('click', function(e) {
-        if (e.target.closest('.edit-complaint-btn')) {
+        // Open modal when edit button is clicked
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.edit-complaint-btn')) {
+                e.preventDefault();
+
+                const button = e.target.closest('.edit-complaint-btn');
+
+                // Get data from button attributes
+                const complaintId = button.getAttribute('data-complaint-id');
+                const reference = button.getAttribute('data-reference');
+                const clientId = button.getAttribute('data-client-id');
+                const clientName = button.getAttribute('data-client-name');
+                const description = button.getAttribute('data-description');
+                const priorite = button.getAttribute('data-priorite');
+                const status = button.getAttribute('data-status');
+
+
+                // Fill the form
+                document.getElementById('editComplaintId').value = complaintId;
+                document.getElementById('editReference').value = reference;
+                document.getElementById('editClient').value = clientId;
+                document.getElementById('editDescription').value = description;
+                document.getElementById('editPriorite').value = priorite;
+                document.getElementById('editStatus').value = status;
+
+
+                // Show modal
+                editModal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+        });
+
+        // Close modal functions
+        function closeModal() {
+            editModal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            editForm.reset();
+        }
+
+        closeEditModal.addEventListener('click', closeModal);
+        cancelEditBtn.addEventListener('click', closeModal);
+
+        // Close modal when clicking outside
+        editModal.addEventListener('click', function(e) {
+            if (e.target === editModal) {
+                closeModal();
+            }
+        });
+
+        // Handle form submission
+        editForm.addEventListener('submit', function(e) {
             e.preventDefault();
 
-            const button = e.target.closest('.edit-complaint-btn');
+            const formData = new FormData(editForm);
+            const complaintId = document.getElementById('editComplaintId').value;
 
-            // Get data from button attributes
-            const complaintId = button.getAttribute('data-complaint-id');
-            const reference = button.getAttribute('data-reference');
-            const clientId = button.getAttribute('data-client-id');
-            const clientName = button.getAttribute('data-client-name');
-            const description = button.getAttribute('data-description');
-            // const priorite = button.getAttribute('data-priorite');
-            const status = button.getAttribute('data-status');
+            // Show loading state
+            const saveBtn = document.getElementById('saveEditBtn');
+            const originalText = saveBtn.innerHTML;
+            saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Enregistrement...';
+            saveBtn.disabled = true;
 
+            // Send AJAX request
+            fetch(`/reclamations/${complaintId}`, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                            .getAttribute('content')
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Show success message
+                        showNotification('Réclamation mise à jour avec succès!', 'success');
 
-            // Fill the form
-            document.getElementById('editComplaintId').value = complaintId;
-            document.getElementById('editReference').value = reference;
-            document.getElementById('editClient').value = clientId;
-            document.getElementById('editDescription').value = description;
-            // document.getElementById('editPriorite').value = priorite;
-            document.getElementById('editStatus').value = status;
+                        // Close modal
+                        closeModal();
 
-
-            // Show modal
-            editModal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-        }
-    });
-
-    // Close modal functions
-    function closeModal() {
-        editModal.classList.add('hidden');
-        document.body.style.overflow = 'auto';
-        editForm.reset();
-    }
-
-    closeEditModal.addEventListener('click', closeModal);
-    cancelEditBtn.addEventListener('click', closeModal);
-
-    // Close modal when clicking outside
-    editModal.addEventListener('click', function(e) {
-        if (e.target === editModal) {
-            closeModal();
-        }
-    });
-
-    // Handle form submission
-    editForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        const formData = new FormData(editForm);
-        const complaintId = document.getElementById('editComplaintId').value;
-
-        // Show loading state
-        const saveBtn = document.getElementById('saveEditBtn');
-        const originalText = saveBtn.innerHTML;
-        saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Enregistrement...';
-        saveBtn.disabled = true;
-
-        // Send AJAX request
-        fetch(`/reclamations/${complaintId}`, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Show success message
-                showNotification('Réclamation mise à jour avec succès!', 'success');
-
-                // Close modal
-                closeModal();
-
-                // Refresh the page to show updated data
-                setTimeout(() => {
-                    window.location.reload();
-                }, 1000);
-            } else {
-                throw new Error(data.message || 'Erreur lors de la mise à jour');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            showNotification('Erreur lors de la mise à jour de la réclamation', 'error');
-        })
-        .finally(() => {
-            // Reset button
-            saveBtn.innerHTML = originalText;
-            saveBtn.disabled = false;
+                        // Refresh the page to show updated data
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 1000);
+                    } else {
+                        throw new Error(data.message || 'Erreur lors de la mise à jour');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showNotification('Erreur lors de la mise à jour de la réclamation', 'error');
+                })
+                .finally(() => {
+                    // Reset button
+                    saveBtn.innerHTML = originalText;
+                    saveBtn.disabled = false;
+                });
         });
-    });
 
-    // Notification function
-    function showNotification(message, type = 'info') {
-        const notification = document.createElement('div');
-        notification.className = `fixed top-4 right-4 z-50 px-6 py-3 rounded-md shadow-lg ${
+        // Notification function
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 z-50 px-6 py-3 rounded-md shadow-lg ${
             type === 'success' ? 'bg-green-500 text-white' :
             type === 'error' ? 'bg-red-500 text-white' :
             'bg-blue-500 text-white'
         }`;
-        notification.textContent = message;
+            notification.textContent = message;
 
-        document.body.appendChild(notification);
+            document.body.appendChild(notification);
 
-        setTimeout(() => {
-            notification.remove();
-        }, 3000);
-    }
-});
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+    });
 </script>
