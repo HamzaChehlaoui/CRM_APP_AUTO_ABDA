@@ -25,7 +25,7 @@ class AllDataExport implements WithMultipleSheets
     foreach ($this->sheets as $sheetName => $sheetData) {
         if (!empty($sheetData['fields'])) {
             $sheetsToExport[ucfirst($sheetName)] = new GenericExport(
-                $sheetData['data'], 
+                $sheetData['data'],
                 $sheetData['headings'],
                 $sheetData['fields']
             );
