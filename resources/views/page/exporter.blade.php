@@ -80,7 +80,7 @@
                                 <select id="exportFormatSelector"
                                     class="w-full px-4 py-3 border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
                                     <option value="xlsx">📗 Excel (.xlsx)</option>
-                                    <option value="csv">📘 CSV (.csv)</option>
+                                    <option value="csv" class="hidden">📘 CSV (.csv)</option>
                                     <option value="pdf">📕 PDF (.pdf)</option>
                                 </select>
                             </div>
