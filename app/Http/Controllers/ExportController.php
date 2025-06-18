@@ -14,6 +14,7 @@ use App\Exports\AllDataExport;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Branch;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ExportController extends Controller
 {
@@ -83,19 +84,25 @@ class ExportController extends Controller
             'end_date' => 'nullable|date|after_or_equal:start_date',
             'branch_id' => 'nullable|string',
         ]);
+
         $user = Auth::user();
-    $effectiveBranchId = null;
-    if ($user->role_id == 1 || $user->role_id == 2) {
-        $effectiveBranchId = $request->input('branch_id');
-    } else {
-        $effectiveBranchId = $user->branch_id;
-    }
+        $effectiveBranchId = null;
+        if ($user->role_id == 1 || $user->role_id == 2) {
+            $effectiveBranchId = $request->input('branch_id');
+        } else {
+            $effectiveBranchId = $user->branch_id;
+        }
 
         $dataType = $request->input('data_type');
         $format = $request->input('export_format');
         $selectedFields = json_decode($request->input('selected_fields'), true);
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
+
+        // Handle PDF export separately
+        if ($format === 'pdf') {
+            return $this->handlePdfExport($dataType, $selectedFields, $startDate, $endDate, $effectiveBranchId);
+        }
 
         // DEBUG: Log the received data
         Log::info('Export Request Debug:', [
@@ -173,11 +180,88 @@ class ExportController extends Controller
 
         $formatConstant = match(strtoupper($format)) {
             'CSV' => ExcelFormats::CSV,
-            'PDF' => ExcelFormats::DOMPDF,
             default => ExcelFormats::XLSX,
         };
 
         return Excel::download($export, $fileName, $formatConstant);
+    }
+
+    private function handlePdfExport(string $dataType, array $selectedFields, ?string $startDate, ?string $endDate, ?string $branchId)
+    {
+        if ($dataType === 'all') {
+            return back()->withErrors('L\'export PDF n\'est pas supporté pour tous les types de données. Veuillez sélectionner un type spécifique.');
+        }
+
+        // Clean the selected fields
+        $cleanedFields = array_map(function($field) use ($dataType) {
+            return Str::after($field, $dataType . '.');
+        }, $selectedFields);
+
+        $sheetInfo = $this->prepareSheetData($dataType, $cleanedFields, $startDate, $endDate, $branchId);
+
+        if (empty($sheetInfo['fields'])) {
+            return back()->withErrors('Veuillez sélectionner des champs valides pour le type de données choisi.');
+        }
+
+        $data = $sheetInfo['query']->get();
+
+        // Prepare data for PDF
+        $exportData = [];
+        foreach ($data as $item) {
+            $row = [];
+            foreach ($sheetInfo['fields'] as $field) {
+                $value = $this->getFieldValue($item, $field);
+                $row[] = $value;
+            }
+            $exportData[] = $row;
+        }
+
+        $pdf = Pdf::loadView('exports.pdf', [
+            'headers' => $sheetInfo['headings'],
+            'data' => $exportData,
+            'title' => $this->getExportTitle($dataType),
+            'dateRange' => $this->getDateRangeText($startDate, $endDate)
+        ]);
+
+        $fileName = "export_{$dataType}_" . now()->format('Y-m-d_H-i') . ".pdf";
+
+        return $pdf->download($fileName);
+    }
+
+    private function getFieldValue($item, $field)
+    {
+        if (strpos($field, '.') !== false) {
+            $parts = explode('.', $field);
+            $value = $item;
+            foreach ($parts as $part) {
+                $value = $value?->{$part};
+            }
+            return $value;
+        }
+
+        return $item->{$field} ?? '';
+    }
+
+    private function getExportTitle($dataType)
+    {
+        return match($dataType) {
+            'clients' => 'Export des Clients',
+            'cars' => 'Export des Voitures',
+            'invoices' => 'Export des Factures',
+            default => 'Export de Données'
+        };
+    }
+
+    private function getDateRangeText(?string $startDate, ?string $endDate): string
+    {
+        if ($startDate && $endDate) {
+            return "Période: du {$startDate} au {$endDate}";
+        } elseif ($startDate) {
+            return "À partir du: {$startDate}";
+        } elseif ($endDate) {
+            return "Jusqu'au: {$endDate}";
+        }
+        return "Toutes les données";
     }
 
 private function prepareSheetData(string $type, array $selectedFields, ?string $startDate, ?string $endDate, ?string $branchId): array
