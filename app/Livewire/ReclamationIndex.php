@@ -38,7 +38,6 @@ class ReclamationIndex extends Component
     {
         $user = auth()->user();
 
-        // إذا لم يكن المستخدم إداريًا، يتم قصر العرض على فرعه فقط
         if ($user->role_id > 2) {
             $this->branchFilter = $user->branch_id;
         }
@@ -50,7 +49,8 @@ class ReclamationIndex extends Component
             ->when($this->searchTerm, function ($q) {
                 $search = '%' . $this->searchTerm . '%';
                 $q->where(function ($query) use ($search) {
-                    $query->where('Priorite', 'like', $search)
+                    $query
+                        ->where('Priorite', 'like', $search)
                         ->orWhere('status', 'like', $search)
                         ->orWhere('description', 'like', $search)
                         ->orWhereHas('client', function ($q) use ($search) {
@@ -67,7 +67,12 @@ class ReclamationIndex extends Component
 
         return view('livewire.reclamation-index', [
             'reclamations' => $query->paginate(10),
-            'clients' => Client::orderBy('full_name')->get(),
+            'clients' => Client::when($this->branchFilter !== 'all', function ($q) {
+                $q->where('branch_id', $this->branchFilter);
+            })
+                ->orderBy('full_name')
+                ->get(),
+
             'users' => User::orderBy('name')->get(),
             'branches' => $user->role_id <= 2 ? Branch::all() : collect(),
         ]);
