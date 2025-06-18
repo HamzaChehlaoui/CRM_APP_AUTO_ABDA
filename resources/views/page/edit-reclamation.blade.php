@@ -1,7 +1,3 @@
-<!-- Fixed Edit Button in Main Table -->
-<!-- Replace the existing edit link in your main table with this: -->
-
-
 <!-- Fixed Edit Complaint Modal -->
 <div id="editComplaintModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50 hidden">
     <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-1/2 shadow-lg rounded-md bg-white">
