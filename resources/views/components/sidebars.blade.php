@@ -96,11 +96,11 @@
     <div class="mt-auto p-4 border-t border-gray-200">
         <div class="flex items-center space-x-3">
             <div
-                class="w-10 h-10 rounded-full bg-nucleus-primary text-white flex items-center justify-center font-semibold">
+                class="w-14 h-8 p-1 rounded-full bg-nucleus-primary text-white flex items-center justify-center font-semibold">
                 {{ strtoupper(Str::substr(explode(' ', $user->name)[0], 0, 1) . Str::substr(explode(' ', $user->name)[1] ?? '', 0, 1)) }}
             </div>
             <div>
-                <p class="text-sm font-medium text-gray-800">{{ $user->name }}</p>
+                <p class="text-sm font-medium text-gray-800 whitespace-nowrap">{{ $user->name }}</p>
                 <p class="text-xs text-gray-500">Accès complet</p>
             </div>
             <div class="ml-auto flex space-x-2">
@@ -109,12 +109,136 @@
                         <i class="fas fa-cog"></i>
                     </button>
                 </a>
-                <form method="POST" action="{{ route('logout') }}">
+                <!-- Enhanced logout button with modal -->
+                <button type="button" onclick="showLogoutModal()"
+                    class="group relative  text-gray-500 hover:text-red-600 transition-all duration-300 ease-in-out rounded-lg hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+                    <i
+                        class="fas fa-sign-out-alt transform group-hover:scale-110 transition-transform duration-300"></i>
+
+                    <!-- Animated background effect -->
+                    <div
+                        class="absolute inset-0 rounded-lg bg-gradient-to-r from-red-500 to-pink-500 opacity-0 group-hover:opacity-10 transition-opacity duration-300">
+                    </div>
+                </button>
+
+                <!-- Logout form -->
+                <form id="logout-form" method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button class="text-gray-500 hover:text-nucleus-primary transition-colors">
-                        <i class="fas fa-sign-out-alt"></i>
-                    </button>
                 </form>
+
+                <!-- Professional modal -->
+                <div id="logoutModal"
+                    class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 opacity-0 invisible transition-all duration-300 ease-in-out">
+
+                    <div
+                        class="bg-white rounded-2xl shadow-2xl w-full max-w-md transform scale-95 transition-all duration-300 ease-in-out">
+
+                        <!-- Modal header -->
+                        <div class="px-6 py-8 text-center">
+                            <!-- Warning icon -->
+                            <div
+                                class="mx-auto flex items-center justify-center w-16 h-16 bg-red-100 rounded-full mb-4">
+                                <i class="fas fa-exclamation-triangle text-red-600 text-xl"></i>
+                            </div>
+
+                            <!-- Title -->
+                            <h3 class="text-xl font-semibold text-gray-900 mb-2">
+                                Confirm Logout
+                            </h3>
+
+                            <!-- Description -->
+                            <p class="text-gray-600 text-sm leading-relaxed">
+                                Are you sure you want to log out? Your current session will be ended and you will need
+                                to log in again.
+                            </p>
+                        </div>
+
+                        <!-- Action buttons -->
+                        <div class="px-6 py-4 bg-gray-50 rounded-b-2xl flex flex-col sm:flex-row gap-3 sm:gap-2">
+
+                            <!-- Cancel button -->
+                            <button onclick="hideLogoutModal()"
+                                class="flex-1 px-4 py-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-all duration-200 ease-in-out transform hover:scale-[1.02] active:scale-[0.98]">
+                                Cancel
+                            </button>
+
+                            <!-- Confirm button -->
+                            <button onclick="confirmLogout()"
+                                class="flex-1 px-4 py-3 text-sm font-medium text-white bg-gradient-to-r from-red-600 to-red-700 rounded-lg hover:from-red-700 hover:to-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 shadow-lg hover:shadow-xl transition-all duration-200 ease-in-out transform hover:scale-[1.02] active:scale-[0.98]">
+                                <i class="fas fa-sign-out-alt mr-2"></i>
+                                Log Out
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Enhanced script -->
+                <script>
+                    function showLogoutModal() {
+                        const modal = document.getElementById('logoutModal');
+                        const modalContent = modal.querySelector('div > div');
+
+                        // Show modal
+                        modal.classList.remove('opacity-0', 'invisible');
+                        modal.classList.add('opacity-100', 'visible');
+
+                        // Animate content
+                        setTimeout(() => {
+                            modalContent.classList.remove('scale-95');
+                            modalContent.classList.add('scale-100');
+                        }, 10);
+
+                        // Prevent background scrolling
+                        document.body.style.overflow = 'hidden';
+                    }
+
+                    function hideLogoutModal() {
+                        const modal = document.getElementById('logoutModal');
+                        const modalContent = modal.querySelector('div > div');
+
+                        // Animate content
+                        modalContent.classList.remove('scale-100');
+                        modalContent.classList.add('scale-95');
+
+                        // Hide modal
+                        setTimeout(() => {
+                            modal.classList.remove('opacity-100', 'visible');
+                            modal.classList.add('opacity-0', 'invisible');
+                        }, 200);
+
+                        // Allow scrolling again
+                        document.body.style.overflow = 'auto';
+                    }
+
+                    function confirmLogout() {
+                        // Add loading effect
+                        const confirmBtn = event.target;
+                        const originalText = confirmBtn.innerHTML;
+
+                        confirmBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Logging out...';
+                        confirmBtn.disabled = true;
+
+                        // Short delay for visual effect
+                        setTimeout(() => {
+                            document.getElementById('logout-form').submit();
+                        }, 800);
+                    }
+
+                    // Close modal by clicking outside
+                    document.getElementById('logoutModal').addEventListener('click', function(e) {
+                        if (e.target === this) {
+                            hideLogoutModal();
+                        }
+                    });
+
+                    // Close modal with Escape key
+                    document.addEventListener('keydown', function(e) {
+                        if (e.key === 'Escape') {
+                            hideLogoutModal();
+                        }
+                    });
+                </script>
             </div>
         </div>
     </div>
