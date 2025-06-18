@@ -14,17 +14,31 @@ class ReclamationController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $reclamations = Reclamation::with(['client', 'user', 'createdBy'])
-            ->orderBy('created_at', 'desc')
-            ->paginate(6);
+   public function index()
+{
+    $user = auth()->user();
 
+    $reclamationsQuery = Reclamation::with(['client', 'user', 'createdBy'])
+        ->orderBy('created_at', 'desc');
+
+    if ($user->role_id > 2) {
+        $branchId = $user->branch_id;
+
+        $reclamationsQuery->whereHas('client', function ($query) use ($branchId) {
+            $query->where('branch_id', $branchId);
+        });
+
+        $clients = Client::where('branch_id', $branchId)->orderBy('full_name')->get();
+    } else {
         $clients = Client::orderBy('full_name')->get();
-        $users = User::orderBy('name')->get();
-
-        return view('page.reclamations', compact('reclamations', 'clients', 'users'));
     }
+
+    $reclamations = $reclamationsQuery->paginate(6);
+    $users = User::orderBy('name')->get();
+
+    return view('page.reclamations', compact('reclamations', 'clients', 'users'));
+}
+
 
     /**
      * Store a newly created resource in storage.
@@ -185,5 +199,5 @@ class ReclamationController extends Controller
         }
     }
 
-  
+
 }
