@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Livewire;
 
 use Livewire\Component;
@@ -13,12 +14,23 @@ class ReclamationIndex extends Component
 
     protected $paginationTheme = 'tailwind';
 
+    public $statusFilter = '';
+
+    public function updatingStatusFilter()
+    {
+        $this->resetPage();
+    }
+
     public function render()
     {
+        $query = Reclamation::with(['client', 'user', 'createdBy'])
+            ->when($this->statusFilter, function ($q) {
+                $q->where('status', $this->statusFilter);
+            })
+            ->orderBy('created_at', 'desc');
+
         return view('livewire.reclamation-index', [
-            'reclamations' => Reclamation::with(['client', 'user', 'createdBy'])
-                                ->orderBy('created_at', 'desc')
-                                ->paginate(10),
+            'reclamations' => $query->paginate(10),
             'clients' => Client::orderBy('full_name')->get(),
             'users' => User::orderBy('name')->get(),
         ]);
