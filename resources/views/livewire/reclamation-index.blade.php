@@ -3,11 +3,21 @@
         <div class="flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
             <div class="relative w-full sm:w-64">
                 <input type="text" placeholder="Rechercher une réclamation..."
+                    wire:model.live.debounce.300ms="searchTerm"
                     class="w-full rounded-md border border-gray-200 py-2 pl-10 pr-4 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+
                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    <i class="fas fa-search text-gray-400"></i>
+                    <!-- remove icons loading-->
+                    <i class="fas fa-search text-gray-400" wire:loading.remove wire:target="searchTerm"></i>
+
+                    <!-- icons loading -->
+                    <i class="fas fa-spinner fa-spin text-gray-400" wire:loading wire:target="searchTerm"></i>
                 </div>
             </div>
+
+
+
+
             <div class="flex space-x-2">
                 <div class="relative">
                     <button
@@ -26,35 +36,39 @@
         </button>
     </div>
 
-<div class="flex items-center flex-wrap gap-3 mb-6">
-    @php
-        $filters = [
-            '' => ['label' => 'Tout', 'color' => 'gray', 'icon' => 'fa-list'],
-            'nouvelle' => ['label' => 'Nouvelle', 'color' => 'blue', 'icon' => 'fa-star'],
-            'en_cours' => ['label' => 'En cours', 'color' => 'yellow', 'icon' => 'fa-spinner'],
-            'résolue' => ['label' => 'Résolue', 'color' => 'green', 'icon' => 'fa-check-circle'],
-        ];
-    @endphp
-
-    @foreach ($filters as $key => $filter)
+    <div class="flex items-center flex-wrap gap-3 mb-6">
         @php
-            $isActive = $statusFilter === $key;
-
-            $baseClass = "inline-flex items-center px-4 py-2 rounded-full text-sm font-medium shadow-sm transition-all duration-150 border";
-            $bgClass = $isActive
-                ? "bg-{$filter['color']}-600 text-white border-transparent"
-                : "bg-white text-{$filter['color']}-600 border border-{$filter['color']}-300 hover:bg-{$filter['color']}-50";
-
-            $iconClass = "fas {$filter['icon']} mr-2";
-            if ($key === 'en_cours') $iconClass .= ' animate-spin-slow';
+            $filters = [
+                '' => ['label' => 'Tout', 'color' => 'gray', 'icon' => 'fa-list'],
+                'nouvelle' => ['label' => 'Nouvelle', 'color' => 'blue', 'icon' => 'fa-star'],
+                'en_cours' => ['label' => 'En cours', 'color' => 'yellow', 'icon' => 'fa-spinner'],
+                'résolue' => ['label' => 'Résolue', 'color' => 'green', 'icon' => 'fa-check-circle'],
+            ];
         @endphp
 
-        <button wire:click="$set('statusFilter', '{{ $key }}')" class="{{ $baseClass }} {{ $bgClass }}">
-            <i class="{{ $iconClass }}"></i>
-            {{ $filter['label'] }}
-        </button>
-    @endforeach
-</div>
+        @foreach ($filters as $key => $filter)
+            @php
+                $isActive = $statusFilter === $key;
+
+                $baseClass =
+                    'inline-flex items-center px-4 py-2 rounded-full text-sm font-medium shadow-sm transition-all duration-150 border';
+                $bgClass = $isActive
+                    ? "bg-{$filter['color']}-600 text-white border-transparent"
+                    : "bg-white text-{$filter['color']}-600 border border-{$filter['color']}-300 hover:bg-{$filter['color']}-50";
+
+                $iconClass = "fas {$filter['icon']} mr-2";
+                if ($key === 'en_cours') {
+                    $iconClass .= ' animate-spin-slow';
+                }
+            @endphp
+
+            <button wire:click="$set('statusFilter', '{{ $key }}')"
+                class="{{ $baseClass }} {{ $bgClass }}">
+                <i class="{{ $iconClass }}"></i>
+                {{ $filter['label'] }}
+            </button>
+        @endforeach
+    </div>
 
 
 
@@ -190,18 +204,17 @@
 
                         </tr>
 
-                @empty
-    <tr>
-        <td colspan="7" class="px-6 py-12 text-center text-gray-500">
-            <div class="flex flex-col items-center space-y-2">
-                <i class="fas fa-inbox text-4xl text-gray-300"></i>
-                <p class="text-lg font-semibold">Aucune réclamation trouvée</p>
-                <p class="text-sm text-gray-400">Essayez de changer le filtre ou ajoutez une nouvelle réclamation.</p>
-            </div>
-        </td>
-    </tr>
-
-
+                    @empty
+                        <tr>
+                            <td colspan="7" class="px-6 py-12 text-center text-gray-500">
+                                <div class="flex flex-col items-center space-y-2">
+                                    <i class="fas fa-inbox text-4xl text-gray-300"></i>
+                                    <p class="text-lg font-semibold">Aucune réclamation trouvée</p>
+                                    <p class="text-sm text-gray-400">Essayez de changer le filtre ou ajoutez une
+                                        nouvelle réclamation.</p>
+                                </div>
+                            </td>
+                        </tr>
                     @endforelse
                 </tbody>
             </table>
@@ -210,7 +223,7 @@
         <div class="mt-4 flex justify-center">
             {{ $reclamations->links() }}
         </div>
-@include('page.edit-reclamation', ['reclamation' => $reclamations->first() ?? null])
+        @include('page.edit-reclamation', ['reclamation' => $reclamations->first() ?? null])
 
 
     </div>
