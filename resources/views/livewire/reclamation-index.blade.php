@@ -1,40 +1,62 @@
 <div class="flex-1 p-6 overflow-y-auto">
     <div class="flex flex-col md:flex-row md:items-center justify-between mb-6 space-y-4 md:space-y-0">
         <div class="flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
-            <div class="relative w-full sm:w-64">
-                <input type="text" placeholder="Rechercher une réclamation..."
-                    wire:model.live.debounce.300ms="searchTerm"
-                    class="w-full rounded-md border border-gray-200 py-2 pl-10 pr-4 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
+            <div class="w-full sm:w-64">
+                <label for="rechercher" class="block text-sm font-medium text-gray-700 mb-2">
+                    <i class="fas fa-search text-gray-400 mr-1"></i>
+                    Rechercher
+                </label>
 
-                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    <!-- remove icons loading-->
-                    <i class="fas fa-search text-gray-400" wire:loading.remove wire:target="searchTerm"></i>
-
-                    <!-- icons loading -->
-                    <i class="fas fa-spinner fa-spin text-gray-400" wire:loading wire:target="searchTerm"></i>
-                </div>
-            </div>
-
-
-
-
-            <div class="flex space-x-2">
                 <div class="relative">
-                    <button
-                        class="flex items-center space-x-2 rounded-md border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
-                        <i class="fas fa-filter text-gray-400"></i>
-                        <span>Filtres</span>
-                        <i class="fas fa-chevron-down text-xs text-gray-500"></i>
-                    </button>
+                    <input type="text" id="rechercher" placeholder="Rechercher une réclamation..."
+                        wire:model.live.debounce.300ms="searchTerm"
+                        class="w-full rounded-md border border-gray-300 bg-white py-2 pl-10 pr-4 text-sm shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3">
+                        <!-- icons serch-->
+                        <i class="fas fa-search text-gray-400" wire:loading.remove wire:target="searchTerm"></i>
+
+                        <!-- icons loading-->
+                        <i class="fas fa-spinner fa-spin text-gray-400" wire:loading wire:target="searchTerm"></i>
+                    </div>
                 </div>
             </div>
+
+
+
+
+
+            @php
+                $canFilterByBranch = auth()->user()->role_id == 1 || auth()->user()->role_id == 2;
+            @endphp
+
+            @if ($canFilterByBranch)
+                <div class="mb-4 w-full sm:w-72">
+                    <label for="branchFilter" class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-code-branch text-gray-400 mr-1"></i>
+                        Filtrer par branche
+                    </label>
+                    <div class="relative">
+                        <select wire:model.live="branchFilter" id="branchFilter"
+                            class="block w-full appearance-none rounded-lg border border-gray-300 bg-white px-4 py-2 pr-10 text-sm text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                            <option value="all">Toutes les branches</option>
+                            @foreach ($branches as $branch)
+                                <option value="{{ $branch->id }}">{{ $branch->name }}</option>
+                            @endforeach
+                        </select>
+
+                    </div>
+                </div>
+            @endif
+
+
         </div>
-        @if(auth()->user()->role_id !=1 && auth()->user()->role_id != 2)
-        <button id="openComplaintModalBtn"
-            class="flex items-center justify-center space-x-2 rounded-md bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
-            <i class="fas fa-plus"></i>
-            <span>Nouvelle Réclamation</span>
-        </button>
+        @if (auth()->user()->role_id != 1 && auth()->user()->role_id != 2)
+            <button id="openComplaintModalBtn"
+                class="flex items-center justify-center space-x-2 rounded-md bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
+                <i class="fas fa-plus"></i>
+                <span>Nouvelle Réclamation</span>
+            </button>
         @endif
     </div>
 
