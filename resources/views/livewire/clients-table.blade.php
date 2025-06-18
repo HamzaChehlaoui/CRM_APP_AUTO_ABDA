@@ -8,23 +8,33 @@
         </div>
     @endif
 
- <div class="w-full sm:w-64 m-2">
-              
+    @if (session()->has('error'))
+        <div x-data x-init="setTimeout(() => {
+            $el.remove();
+            location.reload();
+        }, 4000);" class="p-4 mb-4 text-sm text-red-600 bg-red-100 rounded-lg" role="alert">
+            {{ session('error') }}
+        </div>
+    @endif
 
-                <div class="relative">
-                    <input type="text" id="rechercher" placeholder="Rechercher un client..."
-                        wire:model.live.debounce.300ms="searchTerm"
-                        class="w-full rounded-md border border-gray-300 bg-white py-2 pl-10 pr-4 text-sm shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
 
-                    <div class="absolute inset-y-0 left-0 flex items-center pl-3">
-                        <!-- icons serch-->
-                        <i class="fas fa-search text-gray-400" wire:loading.remove wire:target="searchTerm"></i>
 
-                        <!-- icons loading-->
-                        <i class="fas fa-spinner fa-spin text-gray-400" wire:loading wire:target="searchTerm"></i>
-                    </div>
-                </div>
+
+    <div class="w-full sm:w-64 m-2">
+        <div class="relative">
+            <input type="text" id="rechercher" placeholder="Rechercher un client..."
+                wire:model.live.debounce.300ms="searchTerm"
+                class="w-full rounded-md border border-gray-300 bg-white py-2 pl-10 pr-4 text-sm shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+
+            <div class="absolute inset-y-0 left-0 flex items-center pl-3">
+                <!-- icons serch-->
+                <i class="fas fa-search text-gray-400" wire:loading.remove wire:target="searchTerm"></i>
+
+                <!-- icons loading-->
+                <i class="fas fa-spinner fa-spin text-gray-400" wire:loading wire:target="searchTerm"></i>
             </div>
+        </div>
+    </div>
     <!-- Branch Filter -->
     @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
         <div class="mb-6">
@@ -45,20 +55,22 @@
         @if ($selectedClient)
 
             <div>
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-6 bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-    <div class="flex-1">
-        <h2 class="text-3xl font-semibold text-gray-900 leading-tight">
-            Factures de : <span class="text-blue-700 font-medium">{{ $selectedClient->full_name }}</span>
-        </h2>
-        <div class="mt-2 h-1 w-16 bg-blue-600 rounded-full"></div>
-    </div>
+                <div
+                    class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-6 bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+                    <div class="flex-1">
+                        <h2 class="text-3xl font-semibold text-gray-900 leading-tight">
+                            Factures de : <span
+                                class="text-blue-700 font-medium">{{ $selectedClient->full_name }}</span>
+                        </h2>
+                        <div class="mt-2 h-1 w-16 bg-blue-600 rounded-full"></div>
+                    </div>
 
-    <button wire:click="showClientsList"
-        class="flex items-center justify-center px-6 py-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 shadow-sm hover:shadow-md">
-        <i class="fas fa-arrow-left mr-2 text-gray-600"></i>
-        Retour à la liste des clients
-    </button>
-</div>
+                    <button wire:click="showClientsList"
+                        class="flex items-center justify-center px-6 py-3 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 shadow-sm hover:shadow-md">
+                        <i class="fas fa-arrow-left mr-2 text-gray-600"></i>
+                        Retour à la liste des clients
+                    </button>
+                </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                     @forelse($invoices as $invoice)
@@ -103,4 +115,3 @@
 
 </div>
 <script src="js/delete-facture.js"></script>
-
