@@ -8,7 +8,23 @@
         </div>
     @endif
 
+ <div class="w-full sm:w-64 m-2">
+              
 
+                <div class="relative">
+                    <input type="text" id="rechercher" placeholder="Rechercher un client..."
+                        wire:model.live.debounce.300ms="searchTerm"
+                        class="w-full rounded-md border border-gray-300 bg-white py-2 pl-10 pr-4 text-sm shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3">
+                        <!-- icons serch-->
+                        <i class="fas fa-search text-gray-400" wire:loading.remove wire:target="searchTerm"></i>
+
+                        <!-- icons loading-->
+                        <i class="fas fa-spinner fa-spin text-gray-400" wire:loading wire:target="searchTerm"></i>
+                    </div>
+                </div>
+            </div>
     <!-- Branch Filter -->
     @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 2)
         <div class="mb-6">
