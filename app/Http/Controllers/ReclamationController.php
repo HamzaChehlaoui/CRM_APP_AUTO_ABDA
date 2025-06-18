@@ -185,25 +185,5 @@ class ReclamationController extends Controller
         }
     }
 
-    /**
-     * Get reclamations by status for filtering
-     */
-    public function filterByStatus($status)
-    {
-        $validStatuses = ['nouvelle', 'en_cours', 'résolue'];
-
-        if (!in_array($status, $validStatuses)) {
-            return redirect()->route('reclamations.index');
-        }
-
-        $reclamations = Reclamation::with(['client', 'user', 'createdBy'])
-            ->where('status', $status)
-            ->orderBy('created_at', 'desc')
-            ->get();
-
-        $clients = Client::orderBy('full_name')->get();
-        $users = User::orderBy('name')->get();
-
-        return view('reclamations.index', compact('reclamations', 'clients', 'users'));
-    }
+  
 }
