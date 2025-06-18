@@ -13,19 +13,17 @@
         <form id="complaintForm" action="{{ route('reclamations.store') }}" method="POST" class="mt-6">
             @csrf
             <!-- Client Selection -->
-            <div class="mb-6">
-                <label for="client_id" class="block text-sm font-medium text-gray-700 mb-2">
-                    Client <span class="text-red-500">*</span>
-                </label>
-                <select id="client_id" name="client_id" required
-                    class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
-                    <option value="">Sélectionner un client</option>
-                    @foreach ($clients as $client)
-                        <option value="{{ $client->id }}">{{ $client->full_name }}</option>
-                    @endforeach
-                </select>
-                <div id="client_id_error" class="text-red-500 text-xs mt-1 hidden"></div>
-            </div>
+            <div class="space-y-2">
+                                                    <label class="block text-sm font-medium text-gray-700">Client *</label>
+                                                    <select name="client_id" id="client_id" required
+                                                        class="select-client w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
+                                                        <option value="">Sélectionner un client</option>
+                                                        @foreach ($clients as $client)
+                                                            <option value="{{ $client->id }}">{{ $client->full_name }} ,
+                                                                {{ $client->cin }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
 
             <!-- Description -->
             <div class="mb-6">
@@ -227,5 +225,14 @@
                 }, 500);
             }, 3000);
         }
-    });
+         });
+         new TomSelect('.select-client', {
+                create: false,
+                sortField: {
+                    field: "text",
+                    direction: "asc"
+                },
+                placeholder: "Rechercher un client..."
+            });
+
 </script>
