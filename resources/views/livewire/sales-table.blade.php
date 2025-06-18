@@ -51,6 +51,7 @@
                                             class="px-2 py-0.5 rounded-full status-interested text-xs ml-2">{{ $suivi->status }}</span>
                                     </div>
                                 </div>
+                                @if(auth()->user()->role_id!=1)
                                 <div class="flex space-x-2">
                                     <button wire:click="editSuivi({{ $suivi->id }})"
                                         class="p-1 rounded-md text-gray-400 hover:text-gray-500">
@@ -62,6 +63,7 @@
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </div>
+                                @endif
                             </div>
 
                             <div class="mt-3 bg-gray-50 p-3 rounded-md">
