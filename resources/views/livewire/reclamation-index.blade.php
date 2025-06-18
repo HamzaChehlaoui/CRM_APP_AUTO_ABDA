@@ -16,7 +16,7 @@
                         <span>Filtres</span>
                         <i class="fas fa-chevron-down text-xs text-gray-500"></i>
                     </button>
-                    </div>
+                </div>
             </div>
         </div>
         <button id="openComplaintModalBtn"
@@ -26,26 +26,39 @@
         </button>
     </div>
 
-    <div class="border-b border-gray-200 mb-6">
-        <nav class="-mb-px flex space-x-8">
-            <a href="#"
-                class="whitespace-nowrap py-4 px-1 border-b-2 border-primary-500 font-medium text-sm text-primary-600">
-                Toutes
-            </a>
-            <a href="#"
-                class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300">
-                Nouvelles
-            </a>
-            <a href="#"
-                class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300">
-                En cours
-            </a>
-            <a href="#"
-                class="whitespace-nowrap py-4 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300">
-                Résolues
-            </a>
-        </nav>
-    </div>
+<div class="flex items-center flex-wrap gap-3 mb-6">
+    @php
+        $filters = [
+            '' => ['label' => 'Tout', 'color' => 'gray', 'icon' => 'fa-list'],
+            'nouvelle' => ['label' => 'Nouvelle', 'color' => 'blue', 'icon' => 'fa-star'],
+            'en_cours' => ['label' => 'En cours', 'color' => 'yellow', 'icon' => 'fa-spinner'],
+            'résolue' => ['label' => 'Résolue', 'color' => 'green', 'icon' => 'fa-check-circle'],
+        ];
+    @endphp
+
+    @foreach ($filters as $key => $filter)
+        @php
+            $isActive = $statusFilter === $key;
+
+            $baseClass = "inline-flex items-center px-4 py-2 rounded-full text-sm font-medium shadow-sm transition-all duration-150 border";
+            $bgClass = $isActive
+                ? "bg-{$filter['color']}-600 text-white border-transparent"
+                : "bg-white text-{$filter['color']}-600 border border-{$filter['color']}-300 hover:bg-{$filter['color']}-50";
+
+            $iconClass = "fas {$filter['icon']} mr-2";
+            if ($key === 'en_cours') $iconClass .= ' animate-spin-slow';
+        @endphp
+
+        <button wire:click="$set('statusFilter', '{{ $key }}')" class="{{ $baseClass }} {{ $bgClass }}">
+            <i class="{{ $iconClass }}"></i>
+            {{ $filter['label'] }}
+        </button>
+    @endforeach
+</div>
+
+
+
+
 
     <div class="bg-white rounded-xl shadow-card overflow-hidden">
         <div class="overflow-x-auto">
@@ -153,26 +166,42 @@
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <a href="#"
                                     class="text-primary-600 hover:text-primary-900 mr-2 edit-complaint-btn"
-                                    data-complaint-id="{{ $reclamation->id }}"
-                                    title="Modifier">
+                                    title="Modifier" data-complaint-id="{{ $reclamation->id }}"
+                                    data-reference="{{ $reclamation->reference ?? '#' . $reclamation->id }}"
+                                    data-client-id="{{ $reclamation->client->id ?? '' }}"
+                                    data-description="{{ $reclamation->description }}"
+                                    data-priorite="{{ $reclamation->Priorite }}"
+                                    data-status="{{ $reclamation->status }}">
                                     <i class="fas fa-edit"></i>
                                 </a>
 
-                                <form id="delete-form-{{ $reclamation->id }}" action="{{ route('reclamations.destroy', $reclamation->id) }}" method="POST" class="inline-block">
+                                <form id="delete-form-{{ $reclamation->id }}"
+                                    action="{{ route('reclamations.destroy', $reclamation->id) }}" method="POST"
+                                    class="inline-block">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="button" onclick="showDeleteModal({{ $reclamation->id }}, '{{ addslashes($reclamation->client->full_name ?? 'Client inconnu') }}')" class="text-red-600 hover:text-red-800" title="Supprimer">
+                                    <button type="button"
+                                        onclick="showDeleteModal({{ $reclamation->id }}, '{{ addslashes($reclamation->client->full_name ?? 'Client inconnu') }}')"
+                                        class="text-red-600 hover:text-red-800" title="Supprimer">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
                                 </form>
                             </td>
+
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="7" class="px-6 py-4 text-center text-gray-500">
-                                Aucune réclamation trouvée.
-                            </td>
-                        </tr>
+
+                @empty
+    <tr>
+        <td colspan="7" class="px-6 py-12 text-center text-gray-500">
+            <div class="flex flex-col items-center space-y-2">
+                <i class="fas fa-inbox text-4xl text-gray-300"></i>
+                <p class="text-lg font-semibold">Aucune réclamation trouvée</p>
+                <p class="text-sm text-gray-400">Essayez de changer le filtre ou ajoutez une nouvelle réclamation.</p>
+            </div>
+        </td>
+    </tr>
+
+
                     @endforelse
                 </tbody>
             </table>
@@ -181,13 +210,16 @@
         <div class="mt-4 flex justify-center">
             {{ $reclamations->links() }}
         </div>
+@include('page.edit-reclamation', ['reclamation' => $reclamations->first() ?? null])
 
-        @include('page.edit-reclamation')
 
     </div>
 
-    <div id="deleteModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden items-center justify-center transition-opacity duration-300" style="z-index: 9999;">
-        <div id="modalContent" class="relative mx-auto p-5 border w-11/12 md:w-1/3 shadow-lg rounded-md bg-white transform transition-transform duration-300 scale-95">
+    <div id="deleteModal"
+        class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden items-center justify-center transition-opacity duration-300"
+        style="z-index: 9999;">
+        <div id="modalContent"
+            class="relative mx-auto p-5 border w-11/12 md:w-1/3 shadow-lg rounded-md bg-white transform transition-transform duration-300 scale-95">
             <div class="mt-3 text-center">
                 <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
                     <i class="fas fa-exclamation-triangle text-red-600 fa-lg"></i>
@@ -195,7 +227,8 @@
                 <h3 class="text-lg leading-6 font-medium text-gray-900 mt-2">Supprimer la réclamation</h3>
                 <div class="mt-2 px-7 py-3">
                     <p class="text-sm text-gray-500">
-                        Êtes-vous sûr de vouloir supprimer la réclamation du client <strong id="clientNameSpan" class="font-bold"></strong> ? Cette action est irréversible.
+                        Êtes-vous sûr de vouloir supprimer la réclamation du client <strong id="clientNameSpan"
+                            class="font-bold"></strong> ? Cette action est irréversible.
                     </p>
                 </div>
                 <div class="items-center px-4 py-3">
