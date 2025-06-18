@@ -1,6 +1,6 @@
 {{-- Edit Modal --}}
 <div x-data="{ openEditModal: false }">
-     @if($invoice->statut_facture != 'paiement')
+     @if($invoice->statut_facture != 'paiement' && auth()->user()->role_id != 1)
     <button @click="openEditModal = true" class="p-1.5 text-yellow-600 hover:bg-yellow-100 rounded-lg transition-colors"
         title="Modifier">
         <i class="fas fa-edit text-sm"></i>
