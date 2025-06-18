@@ -66,9 +66,9 @@
                             class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500">
 
                             <option value="">Sélectionner une priorité</option>
-                            <option value="Basse" @selected(old('Priorite', $reclamation->Priorite) == 'Basse')>Basse</option>
-                            <option value="Moyenne" @selected(old('Priorite', $reclamation->Priorite) == 'Moyenne')>Moyenne</option>
-                            <option value="Haute" @selected(old('Priorite', $reclamation->Priorite) == 'Haute')>Haute</option>
+                            <option value="Basse" @selected(old('Priorite', $reclamation->Priorite ?? '') == 'Basse')>Basse</option>
+                            <option value="Moyenne" @selected(old('Priorite', $reclamation->Priorite ?? '') == 'Moyenne')>Moyenne</option>
+                            <option value="Haute" @selected(old('Priorite', $reclamation->Priorite ?? '') == 'Haute')>Haute</option>
                         </select>
                     </div>
 
