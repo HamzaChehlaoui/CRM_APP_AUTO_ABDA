@@ -1,5 +1,5 @@
 <div>
-    @if($invoice->statut_facture != 'paiement')
+    @if($invoice->statut_facture != 'paiement' && auth()->user()->role_id != 1)
     <button onclick="deleteInvoice({{ $invoice->id }})"
     class="inline-flex items-center justify-center w-9 h-9 text-red-600 hover:text-white hover:bg-red-600 transition-all duration-200 rounded-lg border border-red-200 hover:border-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1">
     <i class="fas fa-trash-alt text-sm"></i>
