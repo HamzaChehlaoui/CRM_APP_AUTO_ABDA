@@ -40,10 +40,12 @@
                                             class="text-blue-600 hover:text-blue-900" title="Voir les factures">
                                             <i class="fas fa-file-invoice text-base"></i>
                                         </button>
+                                        @if(auth()->user()->role_id!=1)
                                         <button wire:click="editClient({{ $client->id }})"
                                             class="text-yellow-600 hover:text-yellow-900" title="Modifier le client">
                                             <i class="fas fa-edit text-base"></i>
                                         </button>
+                                        @endif
                                     </td>
                                 </tr>
                             @empty
