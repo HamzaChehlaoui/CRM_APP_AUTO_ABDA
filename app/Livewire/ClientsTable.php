@@ -17,6 +17,8 @@ class ClientsTable extends Component
     public $branches = [];
     public $stats = [];
 
+    public $searchTerm = '';
+
     public $editingClientId = null;
     public $clientData = [];
     public $defaultClientData = [
@@ -28,11 +30,9 @@ class ClientsTable extends Component
     ];
     public $showEditModal = false;
 
-    // --- تعديل هنا ---
     public $selectedClientId = null;
-    // --- نهاية التعديل ---
 
-    protected $queryString = ['selectedBranch'];
+    protected $queryString = ['selectedBranch', 'searchTerm'];
     protected $paginationTheme = 'tailwind';
 
     public function mount(DashboardService $dashboardService)
@@ -51,6 +51,11 @@ class ClientsTable extends Component
     }
 
     public function updatingSelectedBranch()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingSearchTerm()
     {
         $this->resetPage();
     }
@@ -93,7 +98,6 @@ class ClientsTable extends Component
         $this->showEditModal   = false;
     }
 
-    // عرض فواتير عميل معيّن
     public function showInvoices($clientId)
     {
         $this->resetPage();
@@ -125,6 +129,15 @@ class ClientsTable extends Component
         }
 
         $clients = $data['clientsQuery']
+            ->when($this->searchTerm, function ($query) {
+                $search = '%' . $this->searchTerm . '%';
+                $query->where(function ($q) use ($search) {
+                    $q->where('full_name', 'like', $search)
+                       ->orWhere('email', 'like', $search)
+                       ->orWhere('phone', 'like', $search)
+                       ->orWhere('cin', 'like', $search);
+                });
+            })
             ->with('cars')
             ->paginate(10);
 
