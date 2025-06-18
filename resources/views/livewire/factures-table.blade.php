@@ -25,7 +25,6 @@
 
             @empty
                 @include('livewire.partials.no-results')
-
             @endforelse
 
         </div>
