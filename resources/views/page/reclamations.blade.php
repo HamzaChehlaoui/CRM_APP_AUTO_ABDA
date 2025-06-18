@@ -13,6 +13,7 @@
             <!-- Main Content -->
             <div class="flex-1 flex flex-col overflow-hidden">
                 <!-- Header -->
+
                 <header class="bg-white shadow-sm border-b border-gray-200 py-4 px-6">
                     <div class="flex items-center justify-between">
                         <div>
@@ -37,9 +38,28 @@
                         </div>
                     </div>
                 </header>
+                @if (session('success') || session('error'))
+                    <div id="toast-message"
+                        class="fixed top-4 right-4 z-50 max-w-xs px-4 py-3 rounded shadow-lg text-white
+        {{ session('success') ? 'bg-green-600' : 'bg-red-600' }}"
+                        role="alert">
+                        {{ session('success') ?? session('error') }}
+                    </div>
+
+                    <script>
+                        setTimeout(() => {
+                            const toast = document.getElementById('toast-message');
+                            if (toast) {
+                                toast.style.opacity = '0';
+                                toast.style.transition = 'opacity 0.5s ease-out';
+                                setTimeout(() => toast.remove(), 500);
+                            }
+                        }, 3000);
+                    </script>
+                @endif
+
 
                 <livewire:reclamation-index />
-
             </div>
         </div>
         @include('page.add-reclamation')
