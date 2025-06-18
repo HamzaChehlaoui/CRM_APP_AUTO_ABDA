@@ -29,11 +29,13 @@
                 </div>
             </div>
         </div>
+        @if(auth()->user()->role_id !=1 && auth()->user()->role_id != 2)
         <button id="openComplaintModalBtn"
             class="flex items-center justify-center space-x-2 rounded-md bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
             <i class="fas fa-plus"></i>
             <span>Nouvelle Réclamation</span>
         </button>
+        @endif
     </div>
 
     <div class="flex items-center flex-wrap gap-3 mb-6">
