@@ -127,10 +127,13 @@
                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Statut
                         </th>
+                    @if(auth()->user()->role_id != 1)
+
                         <th scope="col"
                             class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Actions
                         </th>
+                    @endif
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
@@ -201,6 +204,7 @@
                                     {{ $reclamation->status }}
                                 </span>
                             </td>
+                            @if(auth()->user()->role_id != 1)
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <a href="#"
                                     class="text-primary-600 hover:text-primary-900 mr-2 edit-complaint-btn"
@@ -225,7 +229,7 @@
                                     </button>
                                 </form>
                             </td>
-
+                        @endif
                         </tr>
 
                     @empty
