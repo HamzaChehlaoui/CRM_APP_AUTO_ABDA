@@ -21,11 +21,15 @@
                             <p class="text-sm text-gray-500">Gérez les réclamations clients</p>
                         </div>
                         <div class="flex items-center space-x-4">
-                            <button class="p-2 rounded-full hover:bg-gray-100 text-gray-500 transition-colors relative">
-                                <i class="fas fa-bell"></i>
-                                <span
-                                    class="absolute top-0 right-0 h-4 w-4 bg-red-500 rounded-full border-2 border-white"></span>
-                            </button>
+                               <a href="/notifications"> <button class="p-2 rounded-full hover:bg-gray-100 text-gray-500 transition-colors relative" id="notificationBell">
+                            <i class="fas fa-bell"></i>
+                            @if($unreadCount > 0)
+                            <span class="absolute top-0 right-0 h-4 w-4 bg-red-500 rounded-full border-2 border-white flex items-center justify-center">
+                                <span class="text-xs text-white font-bold">{{ $unreadCount > 9 ? '9+' : $unreadCount }}</span>
+                            </span>
+                            @endif
+                        </button>
+                        </a>
 
                             <span class="h-6 border-l border-gray-300"></span>
                             <button
