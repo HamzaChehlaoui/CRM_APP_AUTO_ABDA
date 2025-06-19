@@ -169,11 +169,11 @@
                                             <span class="absolute right-3 top-3 text-gray-500 text-sm">MAD</span>
                                         </div>
                                     </div>
-                                    <div class="space-y-2">
+                                    {{-- <div class="space-y-2">
                                         <label class="block text-sm font-medium text-gray-700">Accord / Contrat *</label>
                                         <input type="text" name="invoice[accord_reference]" required
                                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 bg-white">
-                                    </div>
+                                    </div> --}}
                                     <div class="space-y-2">
                                         <label class="block text-sm font-medium text-gray-700">Bon de commande *</label>
                                         <input type="text" name="invoice[purchase_order_number]" required
