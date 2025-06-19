@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-
+/**
+ * @property \Illuminate\Database\Eloquent\Relations\MorphMany $notifications
+ */
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
@@ -54,6 +56,21 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Suivi::class);
     }
+    public function notifications()
+{
+    return $this->hasMany(Notification::class, 'user_id');
+}
+
+
+public function unreadNotifications()
+{
+    return $this->notifications()->unread();
+}
+
+public function getUnreadNotificationsCountAttribute()
+{
+    return $this->unreadNotifications()->count();
+}
     public const ROLE_MANAGER = 2;
 
 }
