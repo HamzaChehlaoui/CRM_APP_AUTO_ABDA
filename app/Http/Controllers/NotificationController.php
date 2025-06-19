@@ -26,7 +26,7 @@ class NotificationController extends Controller
             $query->byType($type);
         }
 
-        $notifications = $query->paginate(20);
+        $notifications = $query->paginate(50);
 
         // Get counts (only for client and invoice)
         $unreadCount = $user->notifications()->unread()->count();
