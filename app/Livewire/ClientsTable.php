@@ -161,31 +161,22 @@ class ClientsTable extends Component
 
 public function deleteClient($clientId)
 {
-    // البحث عن العميل أو إظهار خطأ إذا لم يتم العثور عليه
     $client = Client::findOrFail($clientId);
 
-    // التحقق مما إذا كان العميل مرتبطًا بأي فواتير
     if ($client->invoices()->exists()) {
-        // إذا كان مرتبطًا، أرسل رسالة خطأ
         session()->flash('error', 'Impossible de supprimer ce client car il est lié à des factures.');
 
-        // أغلق نافذة التأكيد
         $this->dispatch('closeDeleteModal');
 
-        // أوقف التنفيذ
         return;
     }
 
-    // إذا لم يكن هناك فواتير، قم بحذف العميل
     $client->delete();
 
-    // أرسل رسالة نجاح للمستخدم
     session()->flash('message', 'Le client a été supprimé avec succès.');
 
-    // أعد تعيين الصفحة لتحديث القائمة
     $this->resetPage();
 
-    // أغلق نافذة التأكيد بعد النجاح أيضاً (هذا هو السطر المضاف)
     $this->dispatch('closeDeleteModal');
 }
 
