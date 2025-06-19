@@ -66,11 +66,7 @@
                                 <i class="fas fa-check-circle mr-1.5"></i>
                                 Tous
                             </button>
-                            <button
-                                class="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-50">
-                                <i class="fas fa-user-plus mr-1.5 text-primary-500"></i>
-                                Prospects
-                            </button>
+                        
                             <button
                                 class="inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-50">
                                 <i class="fas fa-clock mr-1.5 text-purple-500"></i>
@@ -109,11 +105,10 @@
                                     </div>
                                     <div class="flex-1">
                                         <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start">
-                                            <h4 class="font-medium text-gray-900">Nouveau prospect</h4>
+                                            <h4 class="font-medium text-gray-900">Nouveau client</h4>
                                             <span class="text-xs text-gray-500 mt-1 sm:mt-0">Il y a 1 heure</span>
                                         </div>
-                                        <p class="text-sm text-gray-600 mt-1">Martin Leclerc a demandé des informations sur
-                                            la Renault Clio</p>
+                                        <p class="text-sm text-gray-600 mt-1">description</p>
                                         <div class="mt-3 flex flex-wrap gap-2">
                                             <button
                                                 class="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
@@ -129,206 +124,15 @@
                                 </div>
                             </div>
 
-                            <!-- Notification 2 -->
-                            <div class="bg-primary-50 rounded-xl shadow-sm p-4 border border-primary-100">
-                                <div class="flex flex-col sm:flex-row">
-                                    <div class="mb-3 sm:mb-0 sm:mr-4">
-                                        <div
-                                            class="h-12 w-12 rounded-full notification-reminder flex items-center justify-center">
-                                            <i class="fas fa-clock"></i>
-                                        </div>
-                                    </div>
-                                    <div class="flex-1">
-                                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start">
-                                            <h4 class="font-medium text-gray-900">Rappel de suivi</h4>
-                                            <span class="text-xs text-gray-500 mt-1 sm:mt-0">Il y a 2 heures</span>
-                                        </div>
-                                        <p class="text-sm text-gray-600 mt-1">Appel à effectuer avec Sophie Dubois
-                                            aujourd'hui à 10:30</p>
-                                        <div class="mt-3 flex flex-wrap gap-2">
-                                            <button
-                                                class="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
-                                                <i class="fas fa-eye mr-1.5"></i>
-                                                Voir le détail
-                                            </button>
-                                            <button
-                                                class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none">
-                                                Marquer comme lu
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <!-- Notification 3 -->
-                            <div class="bg-primary-50 rounded-xl shadow-sm p-4 border border-primary-100">
-                                <div class="flex flex-col sm:flex-row">
-                                    <div class="mb-3 sm:mb-0 sm:mr-4">
-                                        <div
-                                            class="h-12 w-12 rounded-full notification-alert flex items-center justify-center">
-                                            <i class="fas fa-exclamation-circle"></i>
-                                        </div>
-                                    </div>
-                                    <div class="flex-1">
-                                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start">
-                                            <h4 class="font-medium text-gray-900">Réclamation client</h4>
-                                            <span class="text-xs text-gray-500 mt-1 sm:mt-0">Hier à 16:45</span>
-                                        </div>
-                                        <p class="text-sm text-gray-600 mt-1">Nouvelle réclamation de M. Petit concernant
-                                            son véhicule</p>
-                                        <div class="mt-3 flex flex-wrap gap-2">
-                                            <button
-                                                class="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
-                                                <i class="fas fa-eye mr-1.5"></i>
-                                                Voir le détail
-                                            </button>
-                                            <button
-                                                class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none">
-                                                Marquer comme lu
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
+
                         </div>
                     </div>
 
-                    <!-- Read Notifications -->
-                    <div>
-                        <h3 class="text-sm font-medium text-gray-500 mb-3">Lues récemment</h3>
-                        <div class="space-y-4">
-                            <!-- Notification 4 -->
-                            <div class="bg-white rounded-xl shadow-sm p-4 border border-gray-200">
-                                <div class="flex flex-col sm:flex-row">
-                                    <div class="mb-3 sm:mb-0 sm:mr-4">
-                                        <div
-                                            class="h-12 w-12 rounded-full notification-event flex items-center justify-center opacity-70">
-                                            <i class="fas fa-calendar-check"></i>
-                                        </div>
-                                    </div>
-                                    <div class="flex-1">
-                                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start">
-                                            <h4 class="font-medium text-gray-700">Essai routier</h4>
-                                            <span class="text-xs text-gray-500 mt-1 sm:mt-0">Aujourd'hui à 07:30</span>
-                                        </div>
-                                        <p class="text-sm text-gray-500 mt-1">Essai routier avec M. Bernard prévu
-                                            aujourd'hui à 14:00</p>
-                                        <div class="mt-3">
-                                            <button
-                                                class="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
-                                                <i class="fas fa-eye mr-1.5"></i>
-                                                Voir le détail
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <!-- Notification 5 -->
-                            <div class="bg-white rounded-xl shadow-sm p-4 border border-gray-200">
-                                <div class="flex flex-col sm:flex-row">
-                                    <div class="mb-3 sm:mb-0 sm:mr-4">
-                                        <div
-                                            class="h-12 w-12 rounded-full notification-document flex items-center justify-center opacity-70">
-                                            <i class="fas fa-file-signature"></i>
-                                        </div>
-                                    </div>
-                                    <div class="flex-1">
-                                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start">
-                                            <h4 class="font-medium text-gray-700">Document à signer</h4>
-                                            <span class="text-xs text-gray-500 mt-1 sm:mt-0">Hier à 15:20</span>
-                                        </div>
-                                        <p class="text-sm text-gray-500 mt-1">Contrat de vente pour la famille Richard prêt
-                                            à être signé</p>
-                                        <div class="mt-3">
-                                            <button
-                                                class="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
-                                                <i class="fas fa-eye mr-1.5"></i>
-                                                Voir le détail
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <!-- Notification 6 -->
-                            <div class="bg-white rounded-xl shadow-sm p-4 border border-gray-200">
-                                <div class="flex flex-col sm:flex-row">
-                                    <div class="mb-3 sm:mb-0 sm:mr-4">
-                                        <div
-                                            class="h-12 w-12 rounded-full notification-service flex items-center justify-center opacity-70">
-                                            <i class="fas fa-wrench"></i>
-                                        </div>
-                                    </div>
-                                    <div class="flex-1">
-                                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start">
-                                            <h4 class="font-medium text-gray-700">Entretien programmé</h4>
-                                            <span class="text-xs text-gray-500 mt-1 sm:mt-0">Il y a 2 jours</span>
-                                        </div>
-                                        <p class="text-sm text-gray-500 mt-1">Entretien des 30 000 km pour le véhicule de
-                                            Mme Moreau</p>
-                                        <div class="mt-3">
-                                            <button
-                                                class="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
-                                                <i class="fas fa-eye mr-1.5"></i>
-                                                Voir le détail
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <!-- Notification 7 -->
-                            <div class="bg-white rounded-xl shadow-sm p-4 border border-gray-200">
-                                <div class="flex flex-col sm:flex-row">
-                                    <div class="mb-3 sm:mb-0 sm:mr-4">
-                                        <div
-                                            class="h-12 w-12 rounded-full notification-prospect flex items-center justify-center opacity-70">
-                                            <i class="fas fa-user-plus"></i>
-                                        </div>
-                                    </div>
-                                    <div class="flex-1">
-                                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start">
-                                            <h4 class="font-medium text-gray-700">Nouveau prospect</h4>
-                                            <span class="text-xs text-gray-500 mt-1 sm:mt-0">Il y a 3 jours</span>
-                                        </div>
-                                        <p class="text-sm text-gray-500 mt-1">Jean Dupont a demandé des informations sur la
-                                            Peugeot 3008</p>
-                                        <div class="mt-3">
-                                            <button
-                                                class="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500">
-                                                <i class="fas fa-eye mr-1.5"></i>
-                                                Voir le détail
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Pagination -->
-                    <div class="mt-8 flex justify-center">
-                        <nav class="flex items-center space-x-2">
-                            <button
-                                class="px-3 py-1.5 border border-gray-300 rounded-md text-sm text-gray-500 hover:bg-gray-50">
-                                <i class="fas fa-chevron-left"></i>
-                            </button>
-                            <button
-                                class="px-3 py-1.5 border border-primary-500 bg-primary-50 rounded-md text-sm text-primary-600 font-medium">1</button>
-                            <button
-                                class="px-3 py-1.5 border border-gray-300 rounded-md text-sm text-gray-500 hover:bg-gray-50">2</button>
-                            <button
-                                class="px-3 py-1.5 border border-gray-300 rounded-md text-sm text-gray-500 hover:bg-gray-50">3</button>
-                            <span class="px-2 text-gray-500">...</span>
-                            <button
-                                class="px-3 py-1.5 border border-gray-300 rounded-md text-sm text-gray-500 hover:bg-gray-50">8</button>
-                            <button
-                                class="px-3 py-1.5 border border-gray-300 rounded-md text-sm text-gray-500 hover:bg-gray-50">
-                                <i class="fas fa-chevron-right"></i>
-                            </button>
-                        </nav>
-                    </div>
                 </div>
             </div>
         </div>
