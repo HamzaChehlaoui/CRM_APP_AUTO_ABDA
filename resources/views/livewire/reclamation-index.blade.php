@@ -65,7 +65,7 @@
             $filters = [
                 '' => ['label' => 'Tout', 'color' => 'gray', 'icon' => 'fa-list'],
                 'nouvelle' => ['label' => 'Nouvelle', 'color' => 'blue', 'icon' => 'fa-star'],
-                'en_cours' => ['label' => 'En cours', 'color' => 'yellow', 'icon' => 'fa-spinner'],
+                'en_cours' => ['label' => 'En cours', 'color' => 'green', 'icon' => 'fa-spinner'],
                 'résolue' => ['label' => 'Résolue', 'color' => 'green', 'icon' => 'fa-check-circle'],
             ];
         @endphp
