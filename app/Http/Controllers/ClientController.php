@@ -55,9 +55,21 @@ public function store(StoreClientRequest $request)
             'created_by' => auth()->id(),
         ]);
 
+        // Create notification for the user who created the client
+        \App\Http\Controllers\NotificationController::createNotification(
+            auth()->id(),
+            'Nouveau client créé',
+            'Le client ' . $client->full_name . ' a été créé avec succès.',
+            'client',
+            auth()->id(),
+            [
+                'client_id' => $client->id
+            ]
+        );
+
         return redirect()->route('client.index')->with('success', 'Client créé avec succès.');
     } catch (\Exception $e) {
-        
+
         Log::error('Error creating client: ' . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
         return back()->withErrors(['error' => 'Erreur lors de la création du client : ' . $e->getMessage()])->withInput();
     }
