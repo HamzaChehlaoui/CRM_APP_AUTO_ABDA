@@ -107,25 +107,7 @@ class ReclamationController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Reclamation $reclamation)
-    {
-        $reclamation->load(['client', 'user', 'createdBy']);
-        return view('reclamations.show', compact('reclamation'));
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    // public function edit(Reclamation $reclamation)
-    // {
-    //     $clients = Client::orderBy('full_name')->get();
-    //     $users = User::orderBy('name')->get();
-
-    //     return view('page.reclamations');
-    // }
 
     /**
      * Update the specified resource in storage.
