@@ -41,12 +41,15 @@
                             </p>
                         </div>
                         <div class="flex items-center space-x-4">
-                            <button class="p-2 rounded-full hover:bg-gray-100 text-gray-500 transition-colors relative">
-                                <i class="fas fa-bell"></i>
-                                <span
-                                    class="absolute top-0 right-0 h-4 w-4 bg-red-500 rounded-full border-2 border-white"></span>
-                            </button>
-
+                              <a href="/notifications"> <button class="p-2 rounded-full hover:bg-gray-100 text-gray-500 transition-colors relative" id="notificationBell">
+                            <i class="fas fa-bell"></i>
+                            @if($unreadCount > 0)
+                            <span class="absolute top-0 right-0 h-4 w-4 bg-red-500 rounded-full border-2 border-white flex items-center justify-center">
+                                <span class="text-xs text-white font-bold">{{ $unreadCount > 9 ? '9+' : $unreadCount }}</span>
+                            </span>
+                            @endif
+                        </button>
+                        </a>
                             <span class="h-6 border-l border-gray-300"></span>
                             <button
                                 class="flex items-center space-x-2 hover:bg-gray-100 rounded-md px-3 py-1.5 transition-colors">
@@ -162,7 +165,7 @@
 
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                         <!-- Charts / Graphs -->
-                        
+
 <div class="bg-white rounded-xl shadow-card p-6 col-span-2">
 
 
@@ -299,7 +302,7 @@
                 </div>
             </div>
         </div>
-
+    @include('page.button-loading')
         <script>
             window.chartData = {
                 selectedBranch: "{{ $selectedBranch ?? (auth()->user()->branch_id ?? 'all') }}",
@@ -310,4 +313,4 @@
 
         <script src="js/dashboard.js"></script>
     @endsection
-    @include('page.button-loading')
+
