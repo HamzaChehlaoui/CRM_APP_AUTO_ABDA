@@ -12,6 +12,8 @@ use App\Http\Controllers\StatistiquesController;
 use App\Http\Controllers\ExportController;
 use App\Livewire\FacturesTable;
 use App\Http\Controllers\ReclamationController;
+use App\Http\Controllers\NotificationController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -93,6 +95,12 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/reclamations/{reclamation}', [ReclamationController::class, 'destroy'])->name('reclamations.destroy');
     Route::get('/reclamations/filter/{status}', [ReclamationController::class, 'filterByStatus'])->name('reclamations.filter');
 });
-
+Route::middleware(['auth'])->group(function () {
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');
+    Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead'])->name('notifications.read-all');
+    Route::delete('/notifications/{id}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
+    Route::get('/notifications/unread-count', [NotificationController::class, 'getUnreadCount'])->name('notifications.unread-count');
+});
 // Authentication Routes
 require __DIR__.'/auth.php';
