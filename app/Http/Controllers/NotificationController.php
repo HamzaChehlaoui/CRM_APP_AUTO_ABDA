@@ -122,7 +122,11 @@ class NotificationController extends Controller
     // Static method to create notifications
     public static function createNotification($userId, $title, $content, $type = 'info', $creatorId = null, $data = null)
     {
-        return Notification::create([
+        $notifications = [];
+        $notifiedUserIds = [];
+
+        // Create notification for the original user
+        $notifications[] = Notification::create([
             'user_id' => $userId,
             'title' => $title,
             'content' => $content,
@@ -131,6 +135,28 @@ class NotificationController extends Controller
             'data' => $data,
             'is_read' => false,
         ]);
+        $notifiedUserIds[] = $userId;
+
+        // Get all admin and assistant users
+        $adminUsers = \App\Models\User::whereIn('role_id', [1, 2])->get();
+
+        // Create notifications for admins and assistants (if they haven't received it yet)
+        foreach ($adminUsers as $admin) {
+            if (!in_array($admin->id, $notifiedUserIds)) {
+                $notifications[] = Notification::create([
+                    'user_id' => $admin->id,
+                    'title' => $title,
+                    'content' => $content,
+                    'type' => $type,
+                    'created_by' => $creatorId ?? Auth::id(),
+                    'data' => $data,
+                    'is_read' => false,
+                ]);
+                $notifiedUserIds[] = $admin->id;
+            }
+        }
+
+        return $notifications;
     }
 }
 
