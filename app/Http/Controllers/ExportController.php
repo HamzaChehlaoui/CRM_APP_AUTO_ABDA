@@ -45,34 +45,33 @@ class ExportController extends Controller
             'total_amount' => 'Montant TTC',
             'statut_facture' => 'Statut',
             'client.full_name' => 'Client',
-            'accord_reference'=> 'Accord / Contrat (accord)',
+            'accord_reference' => 'Accord / Contrat (accord)',
             'purchase_order_number' => 'Bon de commande (bc)',
             'delivery_note_number' => 'Bon de livraison (bl)',
             'payment_order_reference' => 'Ordre de réparation (or)',
             'car.registration_number' => 'Voiture (Immat.)',
-        ]
+        ],
     ];
 
-   public function showExportPage()
-{
-    $user = Auth::user();
-    $branches = collect();
+    public function showExportPage()
+    {
+        $user = Auth::user();
+        $branches = collect();
 
-    if ($user->role_id == 1 || $user->role_id == 2) {
-        $branches = Branch::all();
-    }
+        if ($user->role_id == 1 || $user->role_id == 2) {
+            $branches = Branch::all();
+        }
 
-    return view('page.exporter', [
-        'clientFields' => self::EXPORTABLE_FIELDS['clients'],
-        'carFields' => self::EXPORTABLE_FIELDS['cars'],
-        'invoiceFields' => self::EXPORTABLE_FIELDS['invoices'],
-        'branches' => $branches,
-    ]);
-
+        return view('page.exporter', [
+            'clientFields' => self::EXPORTABLE_FIELDS['clients'],
+            'carFields' => self::EXPORTABLE_FIELDS['cars'],
+            'invoiceFields' => self::EXPORTABLE_FIELDS['invoices'],
+            'branches' => $branches,
+        ]);
     }
 
     public function handleExport(Request $request)
-    {
+{
         ini_set('memory_limit', '512M');
         ini_set('max_execution_time', 300);
 
@@ -108,7 +107,7 @@ class ExportController extends Controller
         Log::info('Export Request Debug:', [
             'dataType' => $dataType,
             'selectedFields' => $selectedFields,
-            'format' => $format
+            'format' => $format,
         ]);
 
         if ($dataType === 'all') {
@@ -119,7 +118,7 @@ class ExportController extends Controller
                 // DEBUG: Log filtering for each type
                 Log::info("Processing type: {$type}");
 
-                $fieldsForType = array_filter($selectedFields, function($field) use ($type) {
+                $fieldsForType = array_filter($selectedFields, function ($field) use ($type) {
                     $matches = Str::startsWith($field, $type . '.');
                     Log::info("Field: {$field}, Type: {$type}, Matches: " . ($matches ? 'YES' : 'NO'));
                     return $matches;
@@ -129,13 +128,13 @@ class ExportController extends Controller
 
                 if (!empty($fieldsForType)) {
                     // Convert field names to remove the type prefix for processing
-                    $cleanedFields = array_map(function($field) use ($type) {
+                    $cleanedFields = array_map(function ($field) use ($type) {
                         return Str::after($field, $type . '.');
                     }, $fieldsForType);
 
                     Log::info("Cleaned fields for {$type}:", $cleanedFields);
 
-        $sheetInfo = $this->prepareSheetData($type, $cleanedFields, $startDate, $endDate, $effectiveBranchId);
+                    $sheetInfo = $this->prepareSheetData($type, $cleanedFields, $startDate, $endDate, $effectiveBranchId);
 
                     // DEBUG: Log query and data count
                     $data = $sheetInfo['query']->get();
@@ -157,17 +156,17 @@ class ExportController extends Controller
             }
 
             $export = new AllDataExport($sheetsData);
-            $fileName = "export_complet_" . now()->format('Y-m-d') . ".xlsx";
+            $fileName = 'export_complet_' . now()->format('Y-m-d') . '.xlsx';
 
             return Excel::download($export, $fileName, ExcelFormats::XLSX);
         }
 
         // For single data type exports
-        $cleanedFields = array_map(function($field) use ($dataType) {
+        $cleanedFields = array_map(function ($field) use ($dataType) {
             return Str::after($field, $dataType . '.');
         }, $selectedFields);
 
-    $sheetInfo = $this->prepareSheetData($dataType, $cleanedFields, $startDate, $endDate, $effectiveBranchId);
+        $sheetInfo = $this->prepareSheetData($dataType, $cleanedFields, $startDate, $endDate, $effectiveBranchId);
 
         if (empty($sheetInfo['fields'])) {
             return back()->withErrors('Veuillez sélectionner des champs valides pour le type de données choisi.');
@@ -178,13 +177,13 @@ class ExportController extends Controller
         $export = new GenericExport($data, $sheetInfo['headings'], $sheetInfo['fields']);
         $fileName = "export_{$dataType}_" . now()->format('Y-m-d_H-i') . ".{$format}";
 
-        $formatConstant = match(strtoupper($format)) {
+        $formatConstant = match (strtoupper($format)) {
             'CSV' => ExcelFormats::CSV,
             default => ExcelFormats::XLSX,
         };
 
         return Excel::download($export, $fileName, $formatConstant);
-    }
+}
 
     private function handlePdfExport(string $dataType, array $selectedFields, ?string $startDate, ?string $endDate, ?string $branchId)
     {
@@ -193,7 +192,7 @@ class ExportController extends Controller
         }
 
         // Clean the selected fields
-        $cleanedFields = array_map(function($field) use ($dataType) {
+        $cleanedFields = array_map(function ($field) use ($dataType) {
             return Str::after($field, $dataType . '.');
         }, $selectedFields);
 
@@ -220,10 +219,10 @@ class ExportController extends Controller
             'headers' => $sheetInfo['headings'],
             'data' => $exportData,
             'title' => $this->getExportTitle($dataType),
-            'dateRange' => $this->getDateRangeText($startDate, $endDate)
+            'dateRange' => $this->getDateRangeText($startDate, $endDate),
         ]);
 
-        $fileName = "export_{$dataType}_" . now()->format('Y-m-d_H-i') . ".pdf";
+        $fileName = "export_{$dataType}_" . now()->format('Y-m-d_H-i') . '.pdf';
 
         return $pdf->download($fileName);
     }
@@ -244,11 +243,11 @@ class ExportController extends Controller
 
     private function getExportTitle($dataType)
     {
-        return match($dataType) {
+        return match ($dataType) {
             'clients' => 'Export des Clients',
             'cars' => 'Export des Voitures',
             'invoices' => 'Export des Factures',
-            default => 'Export de Données'
+            default => 'Export de Données',
         };
     }
 
@@ -261,14 +260,14 @@ class ExportController extends Controller
         } elseif ($endDate) {
             return "Jusqu'au: {$endDate}";
         }
-        return "Toutes les données";
+        return 'Toutes les données';
     }
 
-private function prepareSheetData(string $type, array $selectedFields, ?string $startDate, ?string $endDate, ?string $branchId): array
+    private function prepareSheetData(string $type, array $selectedFields, ?string $startDate, ?string $endDate, ?string $branchId): array
     {
         [, $query] = $this->getModelAndQuery($type);
 
-        $dateColumn = ($type === 'invoices') ? 'sale_date' : 'created_at';
+        $dateColumn = $type === 'invoices' ? 'sale_date' : 'created_at';
         if ($startDate) {
             $query->whereDate($dateColumn, '>=', $startDate);
         }
@@ -276,14 +275,14 @@ private function prepareSheetData(string $type, array $selectedFields, ?string $
             $query->whereDate($dateColumn, '<=', $endDate);
         }
         if ($branchId && $branchId !== 'all') {
-        if ($type === 'clients') {
-            $query->where('branch_id', $branchId);
-        } elseif ($type === 'cars' || $type === 'invoices') {
-            $query->whereHas('client', function ($q) use ($branchId) {
-                $q->where('branch_id', $branchId);
-            });
+            if ($type === 'clients') {
+                $query->where('branch_id', $branchId);
+            } elseif ($type === 'cars' || $type === 'invoices') {
+                $query->whereHas('client', function ($q) use ($branchId) {
+                    $q->where('branch_id', $branchId);
+                });
+            }
         }
-    }
 
         $fieldsForExport = [];
         $headings = [];
@@ -299,7 +298,7 @@ private function prepareSheetData(string $type, array $selectedFields, ?string $
 
         Log::info("Final fields for {$type}:", [
             'fieldsForExport' => $fieldsForExport,
-            'headings' => $headings
+            'headings' => $headings,
         ]);
 
         return [
