@@ -62,7 +62,7 @@
             <a href="/notifications"
                 class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('notifications') }}">
                 <i class="fas fa-bell mr-2 {{ iconClass('notifications') }}"></i> Notifications
-                <span class="ml-auto bg-red-100 text-red-500 text-xs font-semibold px-2 py-0.5 rounded-full">3</span>
+                <span class="ml-auto bg-red-100 text-red-500 text-xs font-semibold px-2 py-0.5 rounded-full">{{ $unreadCount > 9 ? '9+' : $unreadCount }}</span>
             </a>
             <a href="/factures"
                 class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('factures') }}">
