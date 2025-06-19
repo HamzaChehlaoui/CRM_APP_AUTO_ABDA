@@ -74,27 +74,5 @@ public function store(StoreClientRequest $request)
         return back()->withErrors(['error' => 'Erreur lors de la création du client : ' . $e->getMessage()])->withInput();
     }
 }
-    public function show(Client $client)
-    {
-        $client->load(['invoices', 'suivis', 'reclamations']);
-        return view('clients.show', compact('client'));
-    }
 
-    public function edit(Client $client)
-    {
-        return view('clients.edit', compact('client'));
-    }
-
-    public function update(UpdateClientRequest $request, Client $client)
-    {
-        $client->update($request->validated());
-
-        return redirect()->route('clients.index')->with('success', 'Client updated successfully.');
-    }
-
-    public function destroy(Client $client)
-    {
-        $client->delete();
-        return redirect()->route('clients.index')->with('success', 'Client deleted successfully.');
-    }
 }
