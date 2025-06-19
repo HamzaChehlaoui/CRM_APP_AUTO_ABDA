@@ -124,19 +124,6 @@ class InvoiceController extends Controller
         }
     }
 
-    public function show(Invoice $invoice)
-    {
-        $invoice->load(['client', 'car', 'user', 'branch']);
-        return view('invoices.show', compact('invoice'));
-    }
-
-    public function edit(Invoice $id)
-    {
-        $invoice = Invoice::findOrFail($id);
-        $car = $invoice->car;
-        return view('invoices.edit', compact('invoice'));
-    }
-
     public function updateInvoice(Request $request, $id)
     {
         // Validation rules
