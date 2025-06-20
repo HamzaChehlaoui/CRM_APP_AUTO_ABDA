@@ -1,173 +1,160 @@
+document.addEventListener('DOMContentLoaded', function () {
+const openBtn = document.getElementById('openModalBtn');
+const modal = document.getElementById('clientModal');
+const closeBtn = document.getElementById('closeModalBtn');
+const cancelBtn = document.getElementById('cancelModalBtn');
+const form = modal.querySelector('form');
 
-        document.addEventListener('DOMContentLoaded', function () {
-            const openBtn = document.getElementById('openModalBtn');
-            const modal = document.getElementById('clientModal');
-            const closeBtn = document.getElementById('closeModalBtn');
-            const cancelBtn = document.getElementById('cancelModalBtn');
-            const form = modal.querySelector('form');
+if (openBtn) {
+openBtn.addEventListener('click', () => {
+modal.classList.remove('hidden');
+document.body.style.overflow = 'hidden';
+});
+}
 
-            // Open modal
-            if (openBtn) {
-                openBtn.addEventListener('click', () => {
-                    modal.classList.remove('hidden');
-                    document.body.style.overflow = 'hidden';
-                });
-            }
+function closeModal() {
+modal.classList.add('hidden');
+document.body.style.overflow = 'auto';
+form.reset();
+}
 
-            // Close modal functions
-            function closeModal() {
-                modal.classList.add('hidden');
-                document.body.style.overflow = 'auto';
-                form.reset();
-            }
+closeBtn.addEventListener('click', closeModal);
+cancelBtn.addEventListener('click', closeModal);
 
-            closeBtn.addEventListener('click', closeModal);
-            cancelBtn.addEventListener('click', closeModal);
+modal.addEventListener('click', (e) => {
+if (e.target === modal) {
+closeModal();
+}
+});
 
-            // Close on backdrop click
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    closeModal();
-                }
-            });
+document.addEventListener('keydown', (e) => {
+if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+closeModal();
+}
+});
 
-            // Close on Escape key
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-                    closeModal();
-                }
-            });
+form.addEventListener('submit', function(e) {
+const submitBtn = form.querySelector('button[type="submit"]');
+const originalText = submitBtn.innerHTML;
 
-            // Form submission handling
-            form.addEventListener('submit', function(e) {
-                const submitBtn = form.querySelector('button[type="submit"]');
-                const originalText = submitBtn.innerHTML;
+submitBtn.disabled = true;
+submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Enregistrement...';
 
-                submitBtn.disabled = true;
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Enregistrement...';
+setTimeout(() => {
+submitBtn.disabled = false;
+submitBtn.innerHTML = originalText;
+}, 5000);
+});
 
-                // Re-enable after a delay in case of errors
-                setTimeout(() => {
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = originalText;
-                }, 5000);
-            });
-
-            // Add form ID for submit button
-            form.id = 'clientForm';
+form.id = 'clientForm';
 
 
-            const types = ['invoice', 'bl', 'or', 'bc'];
+const types = ['invoice', 'bl', 'or', 'bc'];
 
-            types.forEach(type => {
-                const fileInput = document.getElementById(`${type}-image`);
-                const preview = document.getElementById(`preview-${type}`);
-                const previewImage = document.getElementById(`preview-image-${type}`);
-                const placeholder = document.getElementById(`placeholder-${type}`);
-                const uploadArea = document.getElementById(`upload-area-${type}`);
-                const fileName = document.getElementById(`file-name-${type}`);
-                const fileSize = document.getElementById(`file-size-${type}`);
-                const removeBtn = document.getElementById(`remove-image-${type}`);
-                const pdfLinkContainer = preview.querySelector('.preview-pdf-link-container');
+types.forEach(type => {
+const fileInput = document.getElementById(`${type}-image`);
+const preview = document.getElementById(`preview-${type}`);
+const previewImage = document.getElementById(`preview-image-${type}`);
+const placeholder = document.getElementById(`placeholder-${type}`);
+const uploadArea = document.getElementById(`upload-area-${type}`);
+const fileName = document.getElementById(`file-name-${type}`);
+const fileSize = document.getElementById(`file-size-${type}`);
+const removeBtn = document.getElementById(`remove-image-${type}`);
+const pdfLinkContainer = preview.querySelector('.preview-pdf-link-container');
 
-                fileInput.addEventListener('change', () => {
-                    const file = fileInput.files[0];
-                    handleFile(file, {
-                        previewImage,
-                        preview,
-                        placeholder,
-                        uploadArea,
-                        fileName,
-                        fileSize,
-                        fileInput,
-                        pdfLinkContainer,
-                    });
-                });
+fileInput.addEventListener('change', () => {
+const file = fileInput.files[0];
+handleFile(file, {
+previewImage,
+preview,
+placeholder,
+uploadArea,
+fileName,
+fileSize,
+fileInput,
+pdfLinkContainer,
+});
+});
 
-                removeBtn.addEventListener('click', () => {
-                    fileInput.value = '';
-                    fileName.textContent = '';
-                    fileSize.textContent = '';
-                    preview.classList.add('hidden');
-                    placeholder.classList.remove('hidden');
-                    uploadArea.classList.remove('border-green-500');
-                    uploadArea.classList.add('border-gray-300');
+removeBtn.addEventListener('click', () => {
+fileInput.value = '';
+fileName.textContent = '';
+fileSize.textContent = '';
+preview.classList.add('hidden');
+placeholder.classList.remove('hidden');
+uploadArea.classList.remove('border-green-500');
+uploadArea.classList.add('border-gray-300');
 
-                    // إزالة أي رابط PDF سابق
-                    pdfLinkContainer.innerHTML = '';
+pdfLinkContainer.innerHTML = '';
 
-                    // إعادة إظهار الصورة إذا كانت مخفية
-                    previewImage.classList.remove('hidden');
-                    previewImage.src = '';
-                });
-            });
-        });
+previewImage.classList.remove('hidden');
+previewImage.src = '';
+});
+});
+});
 
 function handleFile(file, elements) {
-    const {
-        previewImage,
-        preview,
-        placeholder,
-        uploadArea,
-        fileName,
-        fileSize,
-        fileInput,
-        pdfLinkContainer,
-    } = elements;
+const {
+previewImage,
+preview,
+placeholder,
+uploadArea,
+fileName,
+fileSize,
+fileInput,
+pdfLinkContainer,
+} = elements;
 
-    if (!file) return;
+if (!file) return;
 
-    const isImage = file.type.startsWith('image/');
-    const isPDF = file.type === 'application/pdf';
+const isImage = file.type.startsWith('image/');
+const isPDF = file.type === 'application/pdf';
 
-    if (!isImage && !isPDF) {
-        alert('Veuillez sélectionner une image ou un fichier PDF valide.');
-        fileInput.value = '';
-        return;
-    }
+if (!isImage && !isPDF) {
+alert('Veuillez sélectionner une image ou un fichier PDF valide.');
+fileInput.value = '';
+return;
+}
 
-    if (file.size > 10 * 1024 * 1024) {
-        alert('Le fichier est trop volumineux. Max: 10MB.');
-        fileInput.value = '';
-        return;
-    }
+if (file.size > 10 * 1024 * 1024) {
+alert('Le fichier est trop volumineux. Max: 10MB.');
+fileInput.value = '';
+return;
+}
 
-    const reader = new FileReader();
-    reader.onload = (e) => {
-        // إزالة أي رابط PDF أو صورة قديمة
-        pdfLinkContainer.innerHTML = '';
+const reader = new FileReader();
+reader.onload = (e) => {
+pdfLinkContainer.innerHTML = '';
 
-        if (isImage) {
-            previewImage.src = e.target.result;
-            previewImage.classList.remove('hidden');
-        } else {
-            // ملف PDF: إخفاء الصورة
-            previewImage.classList.add('hidden');
+if (isImage) {
+previewImage.src = e.target.result;
+previewImage.classList.remove('hidden');
+} else {
+previewImage.classList.add('hidden');
 
-            // إنشاء رابط PDF جديد
-            const pdfLink = document.createElement('a');
-            pdfLink.href = e.target.result;
-            pdfLink.target = "_blank";
-            pdfLink.className = "text-sm text-blue-600 underline flex items-center space-x-1";
-            pdfLink.innerHTML = `<i class="fas fa-file-pdf text-red-600"></i><span>Voir le fichier PDF</span>`;
+const pdfLink = document.createElement('a');
+pdfLink.href = e.target.result;
+pdfLink.target = "_blank";
+pdfLink.className = "text-sm text-blue-600 underline flex items-center space-x-1";
+pdfLink.innerHTML = `<i class="fas fa-file-pdf text-red-600"></i><span>Voir le fichier PDF</span>`;
 
-            pdfLinkContainer.appendChild(pdfLink);
-        }
+pdfLinkContainer.appendChild(pdfLink);
+}
 
-        fileName.textContent = file.name;
-        fileSize.textContent = formatFileSize(file.size);
-        placeholder.classList.add('hidden');
-        preview.classList.remove('hidden');
-        uploadArea.classList.add('border-green-500');
-        uploadArea.classList.remove('border-gray-300');
-    };
+fileName.textContent = file.name;
+fileSize.textContent = formatFileSize(file.size);
+placeholder.classList.add('hidden');
+preview.classList.remove('hidden');
+uploadArea.classList.add('border-green-500');
+uploadArea.classList.remove('border-gray-300');
+};
 
-    reader.readAsDataURL(file);
+reader.readAsDataURL(file);
 }
 
 function formatFileSize(bytes) {
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-    if (bytes === 0) return '0 Byte';
-    const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-    return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+if (bytes === 0) return '0 Byte';
+const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
 }
