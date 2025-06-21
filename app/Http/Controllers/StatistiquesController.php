@@ -35,11 +35,11 @@ $endDate = $request->filled('end_date') ? $request->get('end_date') : Carbon::no
 
         $generalStats = $this->statisticsService->getGeneralStatistics($startDate, $endDate, $branchData['clientsQuery'], $branchData['invoicesQuery'], $branchData['suivisQuery']);
         $invoiceStats = $this->statisticsService->getInvoiceStats($startDate, $endDate, $branchData['invoicesQuery']);
-        $satisfactionData = $this->statisticsService->getSatisfactionData($startDate, $endDate, $branchData['suivisQuery']);
+        $clientsWithPayments  = $this->statisticsService->getClientsWithPaymentsByStatus($startDate, $endDate, 'paiement');
         $topPerformers = $this->statisticsService->getTopPerformers($startDate, $endDate, $branchData['usersQuery']);
-
+// dd($clientsWithPayments );
         return view('page.statistiques', array_merge(
-    compact('satisfactionData', 'topPerformers', 'startDate', 'endDate'),
+    compact('clientsWithPayments', 'topPerformers', 'startDate', 'endDate'),
     $generalStats,
     [
         'branches' => $branchData['branches'],
@@ -81,4 +81,13 @@ $endDate = $request->filled('end_date') ? $request->get('end_date') : Carbon::no
         ];
     }
 
+    public function clientsWithPaymentsAjax(Request $request)
+    {
+        $startDate = $request->filled('start_date') ? $request->get('start_date') : Carbon::now()->startOfMonth()->format('Y-m-d');
+        $endDate = $request->filled('end_date') ? $request->get('end_date') : Carbon::now()->endOfMonth()->format('Y-m-d');
+        $perPage = 5;
+        $query = $this->statisticsService->getClientsWithPaymentsByStatusQuery($startDate, $endDate, 'paiement');
+        $paginated = $query->paginate($perPage);
+        return response()->json($paginated);
+    }
 }
