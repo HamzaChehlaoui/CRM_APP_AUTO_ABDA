@@ -61,52 +61,6 @@ class FacturesTable extends Component
         $this->branches = $data['branches'];
         $this->stats = $dashboardService->getDashboardStats($data['clientsQuery'], $data['suivisQuery'], $data['invoicesQuery']);
     }
-public function deleteInvoice(Request $request)
-{
-    try {
-        // Validation
-        $request->validate([
-            'invoice_id' => 'required|integer|exists:invoices,id',
-            'password' => 'required|string'
-        ]);
-
-        // Vérifier le mot de passe
-        if (!Hash::check($request->password, auth()->user()->password)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Mot de passe incorrect. Veuillez vérifier et réessayer.'
-            ], 422);
-        }
-
-        // Supprimer la facture
-        $invoice = Invoice::findOrFail($request->invoice_id);
-
-        // (Optionnel) Vérifier si l'utilisateur a l'autorisation
-        // if ($invoice->user_id !== auth()->id()) {
-        //     return response()->json(['success' => false, 'message' => 'Vous n\'avez pas la permission de supprimer cette facture.'], 403);
-        // }
-
-        $invoice->delete();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Facture supprimée avec succès.'
-        ]);
-
-    } catch (ValidationException $e) {
-        $errors = collect($e->errors())->flatten()->implode(' ');
-        return response()->json([
-            'success' => false,
-            'message' => 'Des informations sont manquantes ou incorrectes. ' . $errors
-        ], 422);
-    } catch (Exception $e) {
-        Log::error('Erreur lors de la suppression de la facture : ' . $e->getMessage());
-        return response()->json([
-            'success' => false,
-            'message' => 'Une erreur est survenue. Merci de réessayer plus tard ou de contacter l\'administrateur.'
-        ], 500);
-    }
-}
 
     public function render(DashboardService $dashboardService)
     {
