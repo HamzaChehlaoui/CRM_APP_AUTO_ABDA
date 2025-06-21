@@ -65,6 +65,7 @@ Route::middleware('auth')->group(function () {
 
     // Statistiques
     Route::get('/statistiques', [StatistiquesController::class, 'index'])->name('statistics.index');
+    Route::get('/statistiques/clients-with-payments', [StatistiquesController::class, 'clientsWithPaymentsAjax'])->name('statistics.clientsWithPaymentsAjax');
 
     // Export
     Route::get('/exporter', [ExportController::class, 'showExportPage'])->name('export.page');
