@@ -35,8 +35,6 @@
                                 <span class="font-medium text-sm">{{ date('d/m/Y') }}</span>
                                 <i class="fas fa-calendar-alt text-xs text-gray-500"></i>
                             </button>
-
-
                         </div>
                     </div>
                 </header>
