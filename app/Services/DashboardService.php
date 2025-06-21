@@ -113,6 +113,7 @@ public function getDashboardStats($clientsQuery, $suivisQuery, $invoicesQuery): 
 public function getTopPayingClients($invoicesQuery, $period): array
 {
     $topClients = (clone $invoicesQuery)
+        ->where('statut_facture', 'paiement') 
         ->selectRaw('client_id, SUM(total_amount) as total_paid')
         ->with('client:id,full_name')
         ->groupBy('client_id')
@@ -129,18 +130,22 @@ public function getTopPayingClients($invoicesQuery, $period): array
 
 
 
+
 public function getPostSaleStats($user, $selectedBranch = 'all'): array
 {
     $query = DB::table('clients')
-        ->leftJoin('invoices', 'clients.id', '=', 'invoices.client_id')
+        ->join('invoices', function ($join) {
+            $join->on('clients.id', '=', 'invoices.client_id')
+                ->where('invoices.statut_facture', 'paiement');
+        })
         ->select(
             'clients.id',
             'clients.full_name',
-            DB::raw('COALESCE(SUM(invoices.total_amount), 0) as total_amount')
+            DB::raw('SUM(invoices.total_amount) as total_amount')
         )
-        ->groupBy('clients.id', 'clients.full_name');
+        ->groupBy('clients.id', 'clients.full_name')
+        ->havingRaw('SUM(invoices.total_amount) > 0');
 
-    // تصفية حسب الفرع
     if ($user->role_id == 1 || $user->role_id == 2) {
         if ($selectedBranch !== 'all') {
             $query->where('clients.branch_id', $selectedBranch);
@@ -149,8 +154,10 @@ public function getPostSaleStats($user, $selectedBranch = 'all'): array
         $query->where('clients.branch_id', $user->branch_id);
     }
 
-    return $query->get()->toArray(); // ترجع لائحة الزبناء مع المبلغ الإجمالي لكل واحد
+    return $query->get()->toArray();
 }
+
+
 
 
 public function getFilteredInvoices($user, $selectedBranch)
