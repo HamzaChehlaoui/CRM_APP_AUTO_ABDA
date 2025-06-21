@@ -114,4 +114,3 @@
 
 
 </div>
-<script src="js/delete-facture.js"></script>
