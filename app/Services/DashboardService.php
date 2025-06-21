@@ -130,37 +130,28 @@ public function getTopPayingClients($invoicesQuery, $period): array
 
 
 public function getPostSaleStats($user, $selectedBranch = 'all'): array
-
 {
     $query = DB::table('clients')
-            ->join('cars', 'clients.id', '=', 'cars.client_id');
+        ->leftJoin('invoices', 'clients.id', '=', 'invoices.client_id')
+        ->select(
+            'clients.id',
+            'clients.full_name',
+            DB::raw('COALESCE(SUM(invoices.total_amount), 0) as total_amount')
+        )
+        ->groupBy('clients.id', 'clients.full_name');
 
-        if ($user->role_id == 1 || $user->role_id == 2) {
-            if ($selectedBranch !== 'all') {
-                $query->where('clients.branch_id', $selectedBranch);
-            }
-        } else {
-            $query->where('clients.branch_id', $user->branch_id);
+    // تصفية حسب الفرع
+    if ($user->role_id == 1 || $user->role_id == 2) {
+        if ($selectedBranch !== 'all') {
+            $query->where('clients.branch_id', $selectedBranch);
         }
+    } else {
+        $query->where('clients.branch_id', $user->branch_id);
+    }
 
-        return [
-            'en_attente_livraison' => (clone $query)
-                ->where('cars.post_sale_status', 'en_attente_livraison')
-                ->count(),
-
-            'livre' => (clone $query)
-                ->where('cars.post_sale_status', 'livre')
-                ->count(),
-
-            'sav_1ere_visite' => (clone $query)
-                ->where('cars.post_sale_status', 'sav_1ere_visite')
-                ->count(),
-
-            'relance' => (clone $query)
-                ->where('cars.post_sale_status', 'relance')
-                ->count(),
-        ];
+    return $query->get()->toArray(); // ترجع لائحة الزبناء مع المبلغ الإجمالي لكل واحد
 }
+
 
 public function getFilteredInvoices($user, $selectedBranch)
     {
