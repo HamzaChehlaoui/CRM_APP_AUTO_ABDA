@@ -182,7 +182,7 @@
                         <!-- Summary by Post-Sale Status -->
                         <div class="bg-white rounded-xl shadow-card p-6">
 
-                            <h3 class="text-lg font-semibold text-gray-800 mb-6">Phase Post-Vente</h3>
+<h3 class="text-lg font-semibold text-gray-800 mb-6 text-center">Répartition % des meilleurs clients</h3>
 
                             <div class="h-64 relative" wire:init="initChart">
                                 <canvas id="statusChart"></canvas>
