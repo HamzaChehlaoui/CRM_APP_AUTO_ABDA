@@ -180,107 +180,105 @@ padding-bottom: 5px;
 }
 
 
+
 function fetchPostSaleStats() {
-fetch(`/clients/post-sale-stats?branch_filter=${selectedBranch}`)
-.then(response => response.json())
-.then(data => {
-const labelsMap = {
-'en_attente_livraison': 'En attente de livraison',
-'livre': 'Livré',
-'sav_1ere_visite': '1ère visite SAV',
-'relance': 'À relancer'
-};
+    fetch(`/clients/post-sale-stats?branch_filter=${selectedBranch}`)
+        .then(response => response.json())
+        .then(data => {
+            if (!data || data.length === 0) {
+                displayNoDataMessage();
+                return;
+            }
 
-const colorMap = {
-'en_attente_livraison': '#1f77b4',
-'livre': '#2ca02c',
-'sav_1ere_visite': '#ff7f0e',
-'relance': '#d62728'
-};
+            // ✅ ترتيب البيانات تنازليًا حسب المبلغ
+            const sortedData = data.sort((a, b) => b.total_amount - a.total_amount);
+
+            // ✅ أخذ فقط أول 5 زبناء
+            const topClients = sortedData.slice(0, 5);
+
+            const labels = topClients.map(item => item.full_name);
+            const values = topClients.map(item => parseFloat(item.total_amount));
+
+            const colors = [
+                '#1f77b4', '#ff7f0e', '#2ca02c', '#d62728',
+                '#9467bd', '#8c564b', '#e377c2', '#7f7f7f',
+                '#bcbd22', '#17becf', '#aec7e8', '#ffbb78'
+            ];
+            const backgroundColors = labels.map((_, i) => colors[i % colors.length]);
+
+            const hasData = values.some(value => value > 0);
+            if (!hasData) {
+                displayNoDataMessage();
+                return;
+            }
+
+            const statusCtx = document.getElementById('statusChart').getContext('2d');
+            new Chart(statusCtx, {
+                type: 'doughnut',
+                data: {
+                    labels,
+                    datasets: [{
+                        data: values,
+                        backgroundColor: backgroundColors,
+                        borderColor: '#ffffff',
+                        borderWidth: 2,
+                        hoverOffset: 8,
+                        hoverBorderWidth: 3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '65%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 12,
+                                padding: 20,
+                                usePointStyle: true,
+                                pointStyle: 'circle',
+                                font: {
+                                    size: 12,
+                                    family: 'Arial, sans-serif'
+                                },
+                                color: '#333333'
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                            titleColor: '#1a1a1a',
+                            bodyColor: '#404040',
+                            bodyFont: {
+                                size: 13,
+                                family: 'Arial, sans-serif'
+                            },
+                            borderColor: '#cccccc',
+                            borderWidth: 1,
+                            padding: 12,
+                            boxPadding: 6,
+                            cornerRadius: 4,
+                            displayColors: true,
+                            callbacks: {
+                                label: function (context) {
+                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                    const percentage = ((context.raw / total) * 100).toFixed(1);
+                                    return `${context.label}: ${context.formattedValue.toLocaleString()} DH (${percentage}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        })
+        .catch(error => {
+            console.error("Erreur lors du chargement des données post-vente:", error);
+            displayNoDataMessage();
+        });
+}
 
 
 
-const labels = [], values = [], backgroundColors = [];
-
-for (let key in data) {
-if (labelsMap[key]) {
-labels.push(labelsMap[key]);
-values.push(data[key]);
-backgroundColors.push(colorMap[key]);
-}
-}
-
-const hasData = values.length > 0 && values.some(value => value > 0);
-
-if (!hasData) {
-displayNoDataMessage();
-return;
-}
-
-const statusCtx = document.getElementById('statusChart').getContext('2d');
-new Chart(statusCtx, {
-type: 'doughnut',
-data: {
-labels,
-datasets: [{
-data: values,
-backgroundColor: backgroundColors,
-borderWidth: 2,
-borderColor: '#ffffff',
-hoverOffset: 8,
-hoverBorderWidth: 3
-}]
-},
-options: {
-responsive: true,
-maintainAspectRatio: false,
-cutout: '65%',
-plugins: {
-legend: {
-position: 'bottom',
-labels: {
-boxWidth: 12,
-padding: 20,
-usePointStyle: true,
-pointStyle: 'circle',
-font: {
-size: 12,
-family: 'Arial, sans-serif'
-},
-color: '#333333'
-}
-},
-tooltip: {
-backgroundColor: 'rgba(255, 255, 255, 0.95)',
-titleColor: '#1a1a1a',
-bodyColor: '#404040',
-bodyFont: {
-size: 13,
-family: 'Arial, sans-serif'
-},
-borderColor: '#cccccc',
-borderWidth: 1,
-padding: 12,
-boxPadding: 6,
-cornerRadius: 4,
-displayColors: true,
-callbacks: {
-label: function (context) {
-const total = context.dataset.data.reduce((a, b) => a + b, 0);
-const percentage = ((context.raw / total) * 100).toFixed(1);
-return `${context.label}: ${context.formattedValue} (${percentage}%)`;
-}
-}
-}
-}
-}
-});
-})
-.catch(error => {
-console.error("Erreur lors du chargement des données post-vente:", error);
-displayNoDataMessage();
-});
-}
 
 function displayNoDataMessage() {
 const chartContainer = document.getElementById('statusChart').parentElement;
