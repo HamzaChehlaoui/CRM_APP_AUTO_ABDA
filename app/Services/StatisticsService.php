@@ -63,29 +63,51 @@ class StatisticsService
     /**
      * Get customer satisfaction data.
      */
-    public function getSatisfactionData(string $startDate, string $endDate, Builder $suivisQuery): ?array
+  public function getClientsWithPaymentsByStatus(string $startDate, string $endDate, string $status = 'paiement'): array
+{
+    $start = Carbon::parse($startDate)->startOfDay();
+    $end = Carbon::parse($endDate)->endOfDay();
+
+    $clientsWithPayments = DB::table('clients')
+        ->leftJoin('invoices', function($join) use ($status, $start, $end) {
+            $join->on('clients.id', '=', 'invoices.client_id')
+                 ->where('invoices.statut_facture', '=', $status)
+                 ->whereBetween('invoices.sale_date', [$start, $end]);
+        })
+        ->select(
+            'clients.id',
+            'clients.full_name',
+            DB::raw('COALESCE(SUM(invoices.total_amount), 0) as total_paid')
+        )
+        ->groupBy('clients.id', 'clients.full_name')
+        ->orderByDesc('total_paid')
+        ->get()
+        ->toArray();
+
+    return $clientsWithPayments;
+}
+
+    /**
+     * Get a query builder for clients with payments, for use with Laravel's paginate().
+     */
+    public function getClientsWithPaymentsByStatusQuery(string $startDate, string $endDate, string $status = 'paiement')
     {
         $start = Carbon::parse($startDate)->startOfDay();
-        $end   = Carbon::parse($endDate)->endOfDay();
+        $end = Carbon::parse($endDate)->endOfDay();
 
-        $totalSuivis = (clone $suivisQuery)->whereBetween('date_suivi', [$start, $end])->count();
-
-        // If there are no suivis, return null to indicate no data
-        if ($totalSuivis == 0) {
-            return null;
-        }
-
-        $completedSuivis = (clone $suivisQuery)->where('status', 'termine')->whereBetween('date_suivi', [$start, $end])->count();
-
-        $categories = ['accueil' => 5, 'conseil' => -2, 'prix' => -8, 'service' => 3, 'suivi' => -1];
-        $baseScore = ($completedSuivis / $totalSuivis) * 100;
-
-        $result = [];
-        foreach ($categories as $category => $variation) {
-            $score = round($baseScore + $variation);
-            $result[$category] = min(100, max(50, $score)); // Ensure score is between 50 and 100
-        }
-        return $result;
+        return DB::table('clients')
+            ->leftJoin('invoices', function($join) use ($status, $start, $end) {
+                $join->on('clients.id', '=', 'invoices.client_id')
+                     ->where('invoices.statut_facture', '=', $status)
+                     ->whereBetween('invoices.sale_date', [$start, $end]);
+            })
+            ->select(
+                'clients.id',
+                'clients.full_name',
+                DB::raw('COALESCE(SUM(invoices.total_amount), 0) as total_paid')
+            )
+            ->groupBy('clients.id', 'clients.full_name')
+            ->orderByDesc('total_paid');
     }
 
     /**
