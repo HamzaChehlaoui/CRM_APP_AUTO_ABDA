@@ -233,9 +233,7 @@
 
 <!-- Enhanced Delete Button with Professional Confirmation -->
 
-                @include('livewire.partials.delete-facture')
             </div>
         </div>
     </div>
 </div>
-<script src="js/delete-facture.js"></script>
