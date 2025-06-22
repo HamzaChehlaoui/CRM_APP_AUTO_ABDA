@@ -231,7 +231,6 @@
 
                 @include('livewire.partials.modals.edit-invoice', ['invoice' => $invoice, 'car' => $car])
 
-<!-- Enhanced Delete Button with Professional Confirmation -->
 
             </div>
         </div>
