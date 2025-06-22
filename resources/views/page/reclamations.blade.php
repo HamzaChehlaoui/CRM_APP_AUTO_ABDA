@@ -1,6 +1,7 @@
 @extends('layouts.mastere')
+{{-- page Remarques --}}
 
-@section('title', 'Reclamation - Tableau de Bord')
+@section('title', 'Remarques - Tableau de Bord')
 
 @section('content')
 
@@ -17,8 +18,8 @@
                 <header class="bg-white shadow-sm border-b border-gray-200 py-4 px-6">
                     <div class="flex items-center justify-between">
                         <div>
-                            <h1 class="text-2xl font-bold text-gray-800">Réclamations</h1>
-                            <p class="text-sm text-gray-500">Gérez les réclamations clients</p>
+                            <h1 class="text-2xl font-bold text-gray-800">Remarques</h1>
+                            <p class="text-sm text-gray-500">Gérez les Remarques clients</p>
                         </div>
                         <div class="flex items-center space-x-4">
                                <a href="/notifications"> <button class="p-2 rounded-full hover:bg-gray-100 text-gray-500 transition-colors relative" id="notificationBell">
