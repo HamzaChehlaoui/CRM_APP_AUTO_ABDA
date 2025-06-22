@@ -55,10 +55,10 @@
                 class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('clients') }}">
                 <i class="fas fa-car mr-2 {{ iconClass('clients') }}"></i> Clients
             </a>
-            <a href="/suivis"
+            {{-- <a href="/suivis"
                 class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('suivis') }}">
                 <i class="fas fa-calendar-alt mr-2 {{ iconClass('suivis') }}"></i> Suivis
-            </a>
+            </a> --}}
             <a href="/notifications"
                 class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('notifications') }}">
                 <i class="fas fa-bell mr-2 {{ iconClass('notifications') }}"></i> Notifications
@@ -70,7 +70,8 @@
             </a>
             <a href="/reclamations"
                 class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('reclamations') }}">
-                <i class="fas fa-exclamation-triangle mr-2 {{ iconClass('reclamations') }}"></i> Réclamations
+                <i class="fas fa-clipboard mr-2 {{ iconClass('reclamations') }}"></i> Remarques
+
             </a>
             <a href="/statistiques"
                 class="flex items-center py-2 px-3 rounded-md font-medium transition-colors duration-200 {{ activeClass('statistiques') }}">
