@@ -10,20 +10,21 @@
         </div>
 
         <!-- Modal Body -->
-        <form id="complaintForm" action="{{ route('reclamations.store') }}" method="POST" class="mt-6">
+        <form id="complaintForm" action="{{ route('reclamations.store') }}" method="POST" class="mt-6"
+            enctype="multipart/form-data">
             @csrf
             <!-- Client Selection -->
             <div class="space-y-2">
-                                                    <label class="block text-sm font-medium text-gray-700">Client *</label>
-                                                    <select name="client_id" id="client_id" required
-                                                        class="select-client w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
-                                                        <option value="">Sélectionner un client</option>
-                                                        @foreach ($clients as $client)
-                                                            <option value="{{ $client->id }}">{{ $client->full_name }} ,
-                                                                {{ $client->cin }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
+                <label class="block text-sm font-medium text-gray-700">Client *</label>
+                <select name="client_id" id="client_id" required
+                    class="select-client w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white">
+                    <option value="">Sélectionner un client</option>
+                    @foreach ($clients as $client)
+                        <option value="{{ $client->id }}">{{ $client->full_name }} ,
+                            {{ $client->cin }}</option>
+                    @endforeach
+                </select>
+            </div>
 
             <!-- Description -->
             <div class="mb-6">
@@ -60,6 +61,15 @@
                 </select>
             </div>
 
+            <!-- Image Upload -->
+            <div class="mb-6">
+                <label for="image_remarque" class="block text-sm font-medium text-gray-700 mb-2">
+                    Image ou PDF de la Remarque
+                </label>
+                <input type="file" id="image_remarque" name="image_remarque" accept="image/*,application/pdf"
+                    class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500" />
+                <div id="image_remarque_error" class="text-red-500 text-xs mt-1 hidden"></div>
+            </div>
 
             <!-- Modal Footer -->
             <div class="flex items-center justify-end pt-4 border-t border-gray-200 space-x-4">
@@ -145,7 +155,7 @@
                         'X-Requested-With': 'XMLHttpRequest',
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]') ? document
                             .querySelector('meta[name="csrf-token"]').getAttribute('content') :
-                            '' // مهم في Laravel
+                            ''
                     }
                 })
                 .then(response => response.json())
@@ -225,8 +235,8 @@
                 }, 500);
             }, 3000);
         }
-         });
-         new TomSelect('.select-client', {
+        });
+        new TomSelect('.select-client', {
                 create: false,
                 sortField: {
                     field: "text",
@@ -234,5 +244,4 @@
                 },
                 placeholder: "Rechercher un client..."
             });
-
 </script>
