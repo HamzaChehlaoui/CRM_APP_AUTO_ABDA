@@ -20,6 +20,7 @@ class Reclamation extends Model
         'user_id',
         'description',
         'status',
+        'image_remarque',
         'created_by',
         'Priorite',
     ];
