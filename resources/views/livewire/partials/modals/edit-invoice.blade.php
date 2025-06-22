@@ -65,25 +65,7 @@
                                         value="{{ old('car_registration', $car->registration_number) }}"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
                                 </div>
-                                <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1">Statut
-                                        après-vente</label>
-                                    <select name="post_sale_status"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
-                                        <option value="en_attente_livraison"
-                                            {{ old('post_sale_status', $car->post_sale_status) == 'en_attente_livraison' ? 'selected' : '' }}>
-                                            En attente livraison</option>
-                                        <option value="livre"
-                                            {{ old('post_sale_status', $car->post_sale_status) == 'livre' ? 'selected' : '' }}>
-                                            Livré</option>
-                                        <option value="sav_1ere_visite"
-                                            {{ old('post_sale_status', $car->post_sale_status) == 'sav_1ere_visite' ? 'selected' : '' }}>
-                                            SAV 1ère visite</option>
-                                        <option value="relance"
-                                            {{ old('post_sale_status', $car->post_sale_status) == 'relance' ? 'selected' : '' }}>
-                                            Relance</option>
-                                    </select>
-                                </div>
+                            
                                 <div class="md:col-span-2">
                                     <label class="block text-sm font-medium text-gray-700 mb-1">IVN</label>
                                     <input type="text" name="car_ivn" value="{{ old('car_ivn', $car->ivn) }}"

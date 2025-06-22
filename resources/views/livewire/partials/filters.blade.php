@@ -56,23 +56,7 @@
             </div>
         </div>
 
-        <!-- After Sale Status Filter -->
-        <div class="w-full lg:w-1/3">
-            <label for="status_apres_vente_filter" class="block text-sm font-semibold text-slate-700 mb-2">
-                Statut Vente ( Totale : {{ $filteredInvoiceCount }} )
-            </label>
-            <div class="relative">
-                <select wire:model.live="statusApresVente" id="status_apres_vente_filter"
-                    class="w-full border border-gray-300 rounded-lg px-4 py-2.5 bg-white text-sm text-slate-700 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all shadow-sm">
-                    <option value="all">Tous les statuts</option>
-                    <option value="en_attente_livraison">En attente de livraison</option>
-                    <option value="livre">Livré</option>
-                    <option value="sav_1ere_visite">SAV 1ère visite</option>
-                    <option value="relance">Relance</option>
-                </select>
-
-            </div>
-        </div>
+    
 
             <div class="flex flex-col sm:flex-row gap-4 mb-4">
     <div class="flex flex-col">

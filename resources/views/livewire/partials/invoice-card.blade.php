@@ -83,7 +83,7 @@
     <div class="px-4 py-3 bg-green-50 border-t border-green-100">
         <div class="flex items-center mb-2">
             <i class="fas fa-file-invoice text-green-600 mr-2"></i>
-            <h4 class="font-medium text-gray-900 text-sm">Facture ({{ $invoice->statut_facture }})</h4>
+            <h4 class="font-medium text-gray-900 text-sm">Facture </h4>
         </div>
         <div class="grid grid-cols-2 gap-2 text-xs">
             <div>
