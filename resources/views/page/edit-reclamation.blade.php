@@ -83,7 +83,18 @@
                         </select>
                     </div>
 
-
+                    <!-- Image/PDF Remarque -->
+                    <div class="md:col-span-2">
+                        <label for="editImageRemarque" class="block text-sm font-medium text-gray-700 mb-2">
+                            Image ou PDF de la Remarque
+                        </label>
+                        <input type="file" id="editImageRemarque" name="image_remarque" accept="image/*,application/pdf"
+                            class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500" style="display:none;" />
+                        <div id="currentImageRemarque" class="mt-2">
+                            <!-- Current file will be shown here by JS -->
+                        </div>
+                        <button type="button" id="removeImageBtn" class="mt-2 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-xs hidden">Retirer le fichier</button>
+                    </div>
                 </div>
 
                 <!-- Modal Footer -->
@@ -114,7 +125,6 @@
         document.addEventListener('click', function(e) {
             if (e.target.closest('.edit-complaint-btn')) {
                 e.preventDefault();
-
                 const button = e.target.closest('.edit-complaint-btn');
 
                 // Get data from button attributes
@@ -125,6 +135,7 @@
                 const description = button.getAttribute('data-description');
                 const priorite = button.getAttribute('data-priorite');
                 const status = button.getAttribute('data-status');
+                const imageRemarque = button.getAttribute('data-image-remarque');
 
 
                 // Fill the form
@@ -134,6 +145,51 @@
                 document.getElementById('editDescription').value = description;
                 document.getElementById('editPriorite').value = priorite;
                 document.getElementById('editStatus').value = status;
+
+
+                // Show current image/pdf if exists
+                const currentImageDiv = document.getElementById('currentImageRemarque');
+                const removeImageBtn = document.getElementById('removeImageBtn');
+                const fileInput = document.getElementById('editImageRemarque');
+                fileInput.value = '';
+                fileInput.style.display = 'none';
+                removeImageBtn.classList.add('hidden');
+                if (imageRemarque) {
+                    const ext = imageRemarque.split('.').pop().toLowerCase();
+                    let html = '';
+                    if (["jpg","jpeg","png","gif","svg","webp","bmp"].includes(ext)) {
+                        html = `<img src="/storage/${imageRemarque}" alt="Image Remarque" class="max-w-xs max-h-40 rounded shadow" />`;
+                    } else if (ext === 'pdf') {
+                        html = `<embed src="/storage/${imageRemarque}" type="application/pdf" class="w-full h-32" />\n<a href="/storage/${imageRemarque}" target="_blank" class="mt-2 text-blue-600 underline">Télécharger le PDF</a>`;
+                    } else {
+                        html = '<span class="text-gray-500">Fichier actuel non supporté.</span>';
+                    }
+                    currentImageDiv.innerHTML = html;
+                    removeImageBtn.classList.remove('hidden');
+                } else {
+                    currentImageDiv.innerHTML = '<span class="text-gray-400">Aucun fichier actuel.</span>';
+                    fileInput.style.display = '';
+                }
+                // Remove file logic
+                removeImageBtn.onclick = function() {
+                    currentImageDiv.innerHTML = '<span class="text-gray-400">Aucun fichier actuel.</span>';
+                    removeImageBtn.classList.add('hidden');
+                    fileInput.style.display = '';
+                    // Optionally, set a hidden input to flag removal
+                    if (!document.getElementById('remove_image_flag')) {
+                        const removeFlag = document.createElement('input');
+                        removeFlag.type = 'hidden';
+                        removeFlag.name = 'remove_image';
+                        removeFlag.value = '1';
+                        removeFlag.id = 'remove_image_flag';
+                        editForm.appendChild(removeFlag);
+                    }
+                };
+                // Remove flag if a new file is selected
+                fileInput.onchange = function() {
+                    const removeFlag = document.getElementById('remove_image_flag');
+                    if (removeFlag) removeFlag.remove();
+                };
 
 
                 // Show modal
