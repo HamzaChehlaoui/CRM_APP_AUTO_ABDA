@@ -22,7 +22,6 @@ class FacturesTable extends Component
     public $stats = [];
     public $search = '';
     public $statusFacture = 'all';
-    public $statusApresVente = 'all';
     public $dateFrom;
     public $dateTo;
     public $dateErrorMessage;
@@ -30,7 +29,7 @@ class FacturesTable extends Component
     public $filteredInvoiceCount = 0;
     public $totalInvoiceCount = 0;
 
-    protected $queryString = ['selectedBranch', 'statusFacture', 'statusApresVente', 'search', 'dateFrom', 'dateTo'];
+    protected $queryString = ['selectedBranch', 'statusFacture', 'search', 'dateFrom', 'dateTo'];
     protected $paginationTheme = 'tailwind';
 
     public function updatedSearch()
@@ -48,10 +47,7 @@ class FacturesTable extends Component
         $this->resetPage();
     }
 
-    public function updatingStatusApresVente()
-    {
-        $this->resetPage();
-    }
+
 
     public function mount(DashboardService $dashboardService)
     {
@@ -87,11 +83,7 @@ class FacturesTable extends Component
             $invoicesQuery->where('statut_facture', $this->statusFacture);
         }
 
-        if ($this->statusApresVente !== 'all') {
-            $invoicesQuery->whereHas('car', function ($query) {
-                $query->where('post_sale_status', $this->statusApresVente);
-            });
-        }
+    
         $this->dateErrorMessage = null;
         if ($this->dateFrom && $this->dateTo && $this->dateFrom > $this->dateTo) {
             $this->dateErrorMessage = '⚠️ La date de début ne peut pas être postérieure à la date de fin.';
