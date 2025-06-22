@@ -26,7 +26,6 @@ class ClientSeeder extends Seeder
         //         'branch_id' => $faker->randomElement($branches),
         //         'created_by' => $faker->randomElement($users),
         //         'branch_id'=>2,
-        //         'post_sale_status'=>'livre',
         //     ]);
         // }
     }
