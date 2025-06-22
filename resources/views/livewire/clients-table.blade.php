@@ -77,7 +77,6 @@
                         @php
                             $client = $invoice->client;
                             $car = $invoice->car; // Assuming invoice has a direct relationship to a car
-                            $status = $car->post_sale_status;
                             $colors = [
                                 'en_attente_livraison' => 'bg-yellow-100 text-yellow-800 border-yellow-300',
                                 'livre' => 'bg-green-100 text-green-800 border-green-300',
