@@ -19,6 +19,7 @@ return new class extends Migration
             $table->enum('status', ['nouvelle', 'en_cours', 'résolue'])->default('nouvelle');
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->comment('Utilisateur qui a enregistré le client');
             $table->enum('Priorite', ['Basse' , 'Moyenne' , 'Haute'])->default('Moyenne');
+            $table->string('image_remarque');
             $table->timestamps();
         });
     }
