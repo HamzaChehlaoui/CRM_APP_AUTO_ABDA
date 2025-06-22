@@ -85,7 +85,7 @@ $endDate = $request->filled('end_date') ? $request->get('end_date') : Carbon::no
     {
         $startDate = $request->filled('start_date') ? $request->get('start_date') : Carbon::now()->startOfMonth()->format('Y-m-d');
         $endDate = $request->filled('end_date') ? $request->get('end_date') : Carbon::now()->endOfMonth()->format('Y-m-d');
-        $perPage = 5;
+        $perPage = 10;
         $query = $this->statisticsService->getClientsWithPaymentsByStatusQuery($startDate, $endDate, 'paiement');
         $paginated = $query->paginate($perPage);
         return response()->json($paginated);
