@@ -59,7 +59,6 @@ class InvoiceController extends Controller
                 'chassis_number' => $validated['car']['chassis_number'],
                 'color' => $validated['car']['color'] ?? null,
                 'year' => $validated['car']['year'] ?? null,
-                'post_sale_status' => $validated['car']['post_sale_status'] ?? 'en_attente_livraison',
                 'client_id' => $client->id,
                 'branch_id' => $client->branch_id,
                 'created_by' => auth()->id(),
@@ -135,7 +134,6 @@ class InvoiceController extends Controller
                 'car_year' => 'nullable|integer|min:1900|max:' . (date('Y') + 1),
                 'car_color' => 'nullable|string|max:50',
                 'car_registration' => 'nullable|string|max:20',
-                'post_sale_status' => 'nullable|in:en_attente_livraison,livre,sav_1ere_visite,relance',
                 'car_ivn' => 'nullable|string|max:50',
                 'car_chassis' => 'nullable|string|max:100',
 
@@ -189,7 +187,6 @@ class InvoiceController extends Controller
                     'year' => $validatedData['car_year'],
                     'color' => $validatedData['car_color'],
                     'registration_number' => $validatedData['car_registration'],
-                    'post_sale_status' => $validatedData['post_sale_status'],
                     'ivn' => $validatedData['car_ivn'],
                     'chassis_number' => $validatedData['car_chassis'],
                 ]);
