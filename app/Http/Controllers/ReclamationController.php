@@ -85,24 +85,24 @@ public function index()
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
-                    'message' => 'Réclamation créée avec succès.',
+                    'message' => 'Remarque créée avec succès.',
                     'reclamation' => $reclamation->load(['client', 'user', 'createdBy'])
                 ]);
             }
 
             return redirect()->route('reclamations.index')
-                ->with('success', 'Réclamation créée avec succès.');
+                ->with('success', 'Remarque créée avec succès.');
 
         } catch (\Exception $e) {
             if ($request->ajax()) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Une erreur est survenue lors de la création de la réclamation.'
+                    'message' => 'Une erreur est survenue lors de la création de la Remarque.'
                 ], 500);
             }
 
             return redirect()->back()
-                ->with('error', 'Une erreur est survenue lors de la création de la réclamation.')
+                ->with('error', 'Une erreur est survenue lors de la création de la Remarque.')
                 ->withInput();
         }
     }
@@ -129,12 +129,12 @@ public function index()
         if ($request->ajax()) {
             return response()->json([
                 'success' => true,
-                'message' => 'Réclamation mise à jour avec succès!'
+                'message' => 'Remarque mise à jour avec succès!'
             ]);
         }
 
         return redirect()->route('reclamations.index')
-                        ->with('success', 'Réclamation mise à jour avec succès!');
+                        ->with('success', 'Remarque mise à jour avec succès!');
 
     } catch (\Exception $e) {
         if ($request->ajax()) {
@@ -146,7 +146,7 @@ public function index()
         }
 
         return redirect()->back()
-                        ->with('error', 'Erreur lors de la mise à jour de la réclamation');
+                        ->with('error', 'Erreur lors de la mise à jour de la Remarque');
     }
 }
 
@@ -161,12 +161,12 @@ public function index()
             if (request()->ajax()) {
                 return response()->json([
                     'success' => true,
-                    'message' => 'Réclamation supprimée avec succès.'
+                    'message' => 'Remarque supprimée avec succès.'
                 ]);
             }
 
             return redirect()->route('reclamations.index')
-                ->with('success', 'Réclamation supprimée avec succès.');
+                ->with('success', 'Remarque supprimée avec succès.');
 
         } catch (\Exception $e) {
             if (request()->ajax()) {
