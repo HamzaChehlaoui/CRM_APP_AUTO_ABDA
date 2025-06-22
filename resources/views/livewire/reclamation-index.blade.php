@@ -206,6 +206,11 @@
                             </td>
                             @if(auth()->user()->role_id != 1)
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                <button type="button" onclick="showRemarqueFile('{{ $reclamation->image_remarque }}')"
+                                    class="p-1.5 text-blue-600 hover:bg-blue-100 rounded-lg transition-colors"
+                                    title="Voir les images">
+                                    <i class="fas fa-eye text-sm"></i>
+                                </button>
                                 <a href="#"
                                     class="text-primary-600 hover:text-primary-900 mr-2 edit-complaint-btn"
                                     title="Modifier" data-complaint-id="{{ $reclamation->id }}"
@@ -216,6 +221,7 @@
                                     data-status="{{ $reclamation->status }}">
                                     <i class="fas fa-edit"></i>
                                 </a>
+
 
                                 <form id="delete-form-{{ $reclamation->id }}"
                                     action="{{ route('reclamations.destroy', $reclamation->id) }}" method="POST"
@@ -251,6 +257,7 @@
         <div class="mt-4 flex justify-center">
             {{ $reclamations->links() }}
         </div>
+
         @include('page.edit-reclamation', ['reclamation' => $reclamations->first() ?? null])
 
 
@@ -282,6 +289,18 @@
                         Annuler
                     </button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Remarque File Modal -->
+    <div id="remarqueFileModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-lg p-6 relative max-w-lg w-full">
+            <button onclick="closeRemarqueFileModal()" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
+            </button>
+            <div id="remarqueFileContent" class="flex flex-col items-center justify-center min-h-[200px]">
+                <!-- Content will be injected here -->
             </div>
         </div>
     </div>
@@ -328,6 +347,29 @@
                 }
                 hideDeleteModal();
             }
+        }
+
+        function showRemarqueFile(filePath) {
+            const modal = document.getElementById('remarqueFileModal');
+            const content = document.getElementById('remarqueFileContent');
+            content.innerHTML = '';
+            if (!filePath) {
+                content.innerHTML = '<p class="text-gray-500">Aucun fichier disponible.</p>';
+            } else {
+                const ext = filePath.split('.').pop().toLowerCase();
+                if (["jpg","jpeg","png","gif","svg","webp","bmp"].includes(ext)) {
+                    content.innerHTML = `<img src="/storage/${filePath}" alt="Image Remarque" class="max-w-full max-h-96 rounded shadow" />`;
+                } else if (ext === 'pdf') {
+                    content.innerHTML = `<embed src="/storage/${filePath}" type="application/pdf" class="w-full h-96" />\n<a href="/storage/${filePath}" target="_blank" class="mt-2 text-blue-600 underline">Télécharger le PDF</a>`;
+                } else {
+                    content.innerHTML = '<p class="text-gray-500">Format de fichier non supporté.</p>';
+                }
+            }
+            modal.classList.remove('hidden');
+        }
+
+        function closeRemarqueFileModal() {
+            document.getElementById('remarqueFileModal').classList.add('hidden');
         }
     </script>
 </div>
