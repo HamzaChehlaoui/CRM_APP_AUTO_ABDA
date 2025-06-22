@@ -56,8 +56,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/invoices/delete', [FacturesTable::class, 'deleteInvoice'])->name('invoices.delete');
 
     // Suivis
-    Route::get('/suivis', [SuiviController::class, 'index'])->name('page.suivis');
-    Route::post('/suivis', [SuiviController::class, 'store'])->name('suivis.store');
+    // Route::get('/suivis', [SuiviController::class, 'index'])->name('page.suivis');
+    // Route::post('/suivis', [SuiviController::class, 'store'])->name('suivis.store');
 
     // Users
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
