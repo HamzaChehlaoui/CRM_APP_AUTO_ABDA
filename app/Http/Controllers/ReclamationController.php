@@ -8,71 +8,86 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class ReclamationController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-public function index()
-{
-    $user = auth()->user();
+    public function index()
+    {
+        $user = auth()->user();
 
-    $reclamationsQuery = Reclamation::with(['client', 'user', 'createdBy'])
-        ->orderBy('created_at', 'desc');
+        $reclamationsQuery = Reclamation::with(['client', 'user', 'createdBy'])->orderBy('created_at', 'desc');
 
-    if ($user->role_id > 2) {
-        $branchId = $user->branch_id;
+        if ($user->role_id > 2) {
+            $branchId = $user->branch_id;
 
-        $reclamationsQuery->whereHas('client', function ($query) use ($branchId) {
-            $query->where('branch_id', $branchId);
-        });
+            $reclamationsQuery->whereHas('client', function ($query) use ($branchId) {
+                $query->where('branch_id', $branchId);
+            });
 
-        $clients = Client::where('branch_id', $branchId)->orderBy('full_name')->get();
-    } else {
-        $clients = Client::orderBy('full_name')->get();
+            $clients = Client::where('branch_id', $branchId)->orderBy('full_name')->get();
+        } else {
+            $clients = Client::orderBy('full_name')->get();
+        }
+
+        $reclamations = $reclamationsQuery->paginate(6);
+        $users = User::orderBy('name')->get();
+
+        return view('page.reclamations', compact('reclamations', 'clients', 'users'));
     }
-
-    $reclamations = $reclamationsQuery->paginate(6);
-    $users = User::orderBy('name')->get();
-
-    return view('page.reclamations', compact('reclamations', 'clients', 'users'));
-}
-
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'client_id' => 'required|exists:clients,id',
-            'description' => 'required|string|max:1000',
-            'Priorite' => 'required|in:Basse,Moyenne,Haute',
-            'user_id' => 'nullable|exists:users,id',
-        ], [
-            'client_id.required' => 'Veuillez sélectionner un client.',
-            'client_id.exists' => 'Le client sélectionné n\'existe pas.',
-            'description.required' => 'La description est obligatoire.',
-            'description.max' => 'La description ne peut pas dépasser 1000 caractères.',
-            'Priorite.required' => 'Veuillez sélectionner une priorité.',
-            'Priorite.in' => 'La priorité sélectionnée n\'est pas valide.',
-            'user_id.exists' => 'L\'utilisateur sélectionné n\'existe pas.',
-        ]);
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'client_id' => 'required|exists:clients,id',
+                'description' => 'required|string|max:1000',
+                'Priorite' => 'required|in:Basse,Moyenne,Haute',
+                'user_id' => 'nullable|exists:users,id',
+                'image_remarque' => 'nullable|mimes:jpeg,png,jpg,gif,svg,pdf|max:10096',
+            ],
+            [
+                'client_id.required' => 'Veuillez sélectionner un client.',
+                'client_id.exists' => 'Le client sélectionné n\'existe pas.',
+                'description.required' => 'La description est obligatoire.',
+                'description.max' => 'La description ne peut pas dépasser 1000 caractères.',
+                'Priorite.required' => 'Veuillez sélectionner une priorité.',
+                'Priorite.in' => 'La priorité sélectionnée n\'est pas valide.',
+                'user_id.exists' => 'L\'utilisateur sélectionné n\'existe pas.',
+                'image_remarque.mimes' => 'Le fichier doit être une image (jpeg, png, jpg, gif, svg) ou un PDF.',
+                'image_remarque.max' => 'Le fichier ne doit pas dépasser 10 Mo.',
+            ],
+        );
 
         if ($validator->fails()) {
             if ($request->ajax()) {
-                return response()->json([
-                    'success' => false,
-                    'errors' => $validator->errors()
-                ], 422);
+                return response()->json(
+                    [
+                        'success' => false,
+                        'errors' => $validator->errors(),
+                    ],
+                    422,
+                );
             }
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
+            return redirect()->back()->withErrors($validator)->withInput();
         }
 
         try {
+            $imagePath = null;
+            if ($request->hasFile('image_remarque')) {
+                $file = $request->file('image_remarque');
+                $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                $file->storeAs('public/reclamations', $fileName);
+                $imagePath = 'reclamations/' . $fileName;
+            }
+
             $reclamation = Reclamation::create([
                 'client_id' => $request->client_id,
                 'user_id' => $request->user_id,
@@ -80,75 +95,88 @@ public function index()
                 'Priorite' => $request->Priorite,
                 'status' => 'nouvelle',
                 'created_by' => Auth::id(),
+                'image_remarque' => $imagePath,
             ]);
 
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
                     'message' => 'Remarque créée avec succès.',
-                    'reclamation' => $reclamation->load(['client', 'user', 'createdBy'])
+                    'reclamation' => $reclamation->load(['client', 'user', 'createdBy']),
                 ]);
             }
 
-            return redirect()->route('reclamations.index')
-                ->with('success', 'Remarque créée avec succès.');
-
+            return redirect()->route('reclamations.index')->with('success', 'Remarque créée avec succès.');
         } catch (\Exception $e) {
             if ($request->ajax()) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Une erreur est survenue lors de la création de la Remarque.'
-                ], 500);
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'Une erreur est survenue lors de la création de la Remarque.',
+                    ],
+                    500,
+                );
             }
 
-            return redirect()->back()
-                ->with('error', 'Une erreur est survenue lors de la création de la Remarque.')
-                ->withInput();
+            return redirect()->back()->with('error', 'Une erreur est survenue lors de la création de la Remarque.')->withInput();
         }
     }
-
-
 
     /**
      * Update the specified resource in storage.
      */
-   public function update(Request $request, $id)
-{
-    try {
-        $reclamation = Reclamation::findOrFail($id);
+    public function update(Request $request, $id)
+    {
+        try {
+            $reclamation = Reclamation::findOrFail($id);
 
-        $validatedData = $request->validate([
-            'description' => 'required|string',
-            'Priorite' => 'required|in:Basse,Moyenne,Haute',
-            'status' => 'required|in:nouvelle,en_cours,résolue',
-            'client_id' => 'nullable|exists:clients,id'
-        ]);
-
-        $reclamation->update($validatedData);
-
-        if ($request->ajax()) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Remarque mise à jour avec succès!'
+            $validatedData = $request->validate([
+                'description' => 'required|string',
+                'Priorite' => 'required|in:Basse,Moyenne,Haute',
+                'status' => 'required|in:nouvelle,en_cours,résolue',
+                'client_id' => 'nullable|exists:clients,id',
+                'image_remarque' => 'nullable|mimes:jpeg,png,jpg,gif,svg,pdf|max:10096',
             ]);
+
+            // Handle image removal
+            if ($request->has('remove_image') && $reclamation->image_remarque) {
+                Storage::delete('public/' . $reclamation->image_remarque);
+                $validatedData['image_remarque'] = null;
+            }
+
+            // Handle new image upload
+            if ($request->hasFile('image_remarque')) {
+                // Delete old file if exists
+                if ($reclamation->image_remarque) {
+                    Storage::delete('public/' . $reclamation->image_remarque);
+                }
+                $file = $request->file('image_remarque');
+                $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                $file->storeAs('public/reclamations', $fileName);
+                $validatedData['image_remarque'] = 'reclamations/' . $fileName;
+            }
+
+            $reclamation->update($validatedData);
+
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Remarque mise à jour avec succès!',
+                ]);
+            }
+
+            return redirect()->route('reclamations.index')->with('success', 'Remarque mise à jour avec succès!');
+        } catch (\Exception $e) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Erreur lors de la mise à jour: ' . $e->getMessage(),
+                ]);
+            }
+
+            return redirect()->back()->with('error', 'Erreur lors de la mise à jour de la Remarque');
         }
-
-        return redirect()->route('reclamations.index')
-                        ->with('success', 'Remarque mise à jour avec succès!');
-
-    } catch (\Exception $e) {
-        if ($request->ajax()) {
-
-            return response()->json([
-                'success' => false,
-                'message' => 'Erreur lors de la mise à jour: ' . $e->getMessage()
-            ]);
-        }
-
-        return redirect()->back()
-                        ->with('error', 'Erreur lors de la mise à jour de la Remarque');
     }
-}
 
     /**
      * Remove the specified resource from storage.
@@ -161,25 +189,23 @@ public function index()
             if (request()->ajax()) {
                 return response()->json([
                     'success' => true,
-                    'message' => 'Remarque supprimée avec succès.'
+                    'message' => 'Remarque supprimée avec succès.',
                 ]);
             }
 
-            return redirect()->route('reclamations.index')
-                ->with('success', 'Remarque supprimée avec succès.');
-
+            return redirect()->route('reclamations.index')->with('success', 'Remarque supprimée avec succès.');
         } catch (\Exception $e) {
             if (request()->ajax()) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Une erreur est survenue lors de la suppression.'
-                ], 500);
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'Une erreur est survenue lors de la suppression.',
+                    ],
+                    500,
+                );
             }
 
-            return redirect()->back()
-                ->with('error', 'Une erreur est survenue lors de la suppression.');
+            return redirect()->back()->with('error', 'Une erreur est survenue lors de la suppression.');
         }
     }
-
-
 }
