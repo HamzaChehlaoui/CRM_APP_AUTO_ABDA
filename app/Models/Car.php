@@ -15,7 +15,6 @@ class Car extends Model
     'chassis_number',
     'color',
     'year',
-    'post_sale_status',
     'client_id',
     'branch_id',
     'created_by',
