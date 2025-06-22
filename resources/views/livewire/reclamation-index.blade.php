@@ -8,7 +8,7 @@
                 </label>
 
                 <div class="relative">
-                    <input type="text" id="rechercher" placeholder="Rechercher une réclamation..."
+                    <input type="text" id="rechercher" placeholder="Rechercher une Remarque..."
                         wire:model.live.debounce.300ms="searchTerm"
                         class="w-full rounded-md border border-gray-300 bg-white py-2 pl-10 pr-4 text-sm shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
 
@@ -55,7 +55,7 @@
             <button id="openComplaintModalBtn"
                 class="flex items-center justify-center space-x-2 rounded-md bg-primary-600 px-4 py-2 text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
                 <i class="fas fa-plus"></i>
-                <span>Nouvelle Réclamation</span>
+                <span>Nouvelle Remarque</span>
             </button>
         @endif
     </div>
@@ -237,9 +237,9 @@
                             <td colspan="7" class="px-6 py-12 text-center text-gray-500">
                                 <div class="flex flex-col items-center space-y-2">
                                     <i class="fas fa-inbox text-4xl text-gray-300"></i>
-                                    <p class="text-lg font-semibold">Aucune réclamation trouvée</p>
+                                    <p class="text-lg font-semibold">Aucune Remarque trouvée</p>
                                     <p class="text-sm text-gray-400">Essayez de changer le filtre ou ajoutez une
-                                        nouvelle réclamation.</p>
+                                        nouvelle Remarque.</p>
                                 </div>
                             </td>
                         </tr>
@@ -265,10 +265,10 @@
                 <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
                     <i class="fas fa-exclamation-triangle text-red-600 fa-lg"></i>
                 </div>
-                <h3 class="text-lg leading-6 font-medium text-gray-900 mt-2">Supprimer la réclamation</h3>
+                <h3 class="text-lg leading-6 font-medium text-gray-900 mt-2">Supprimer la Remarque</h3>
                 <div class="mt-2 px-7 py-3">
                     <p class="text-sm text-gray-500">
-                        Êtes-vous sûr de vouloir supprimer la réclamation du client <strong id="clientNameSpan"
+                        Êtes-vous sûr de vouloir supprimer la Remarque du client <strong id="clientNameSpan"
                             class="font-bold"></strong> ? Cette action est irréversible.
                     </p>
                 </div>
