@@ -3,7 +3,7 @@
     <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-1/2 shadow-lg rounded-md bg-white">
         <!-- Modal Header -->
         <div class="flex items-center justify-between pb-4 border-b border-gray-200">
-            <h3 class="text-lg font-semibold text-gray-900">Nouvelle Réclamation</h3>
+            <h3 class="text-lg font-semibold text-gray-900">Nouvelle Remarque</h3>
             <button id="closeModal" class="text-gray-400 hover:text-gray-600 transition-colors">
                 <i class="fas fa-times text-xl"></i>
             </button>
@@ -69,7 +69,7 @@
                 </button>
                 <button type="submit" id="submitBtn"
                     class="px-4 py-2 text-sm font-medium text-white bg-primary-600 border border-transparent rounded-md hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors">
-                    <span id="submitText">Créer la réclamation</span>
+                    <span id="submitText">Créer la Remarque</span>
                     <span id="submitLoader" class="hidden">
                         <i class="fas fa-spinner fa-spin mr-2"></i>
                         Création...
@@ -151,7 +151,7 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        showNotification('Réclamation créée avec succès!', 'success');
+                        showNotification('Remarque créée avec succès!', 'success');
                         closeModal();
                         setTimeout(() => window.location.reload(), 1500);
                     } else if (data.errors) {
