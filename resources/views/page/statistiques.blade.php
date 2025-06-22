@@ -137,11 +137,12 @@
                     <div class="bg-white rounded-xl shadow-card p-6">
                         <div class="flex items-center">
                             <div class="flex-shrink-0">
-                                <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center"><i class="fas fa-tasks text-purple-600"></i></div>
+                                <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center"><i class="fas fa-money-check-alt text-purple-600"></i>
+</div>
                             </div>
                             <div class="ml-4">
-                                <p class="text-sm font-medium text-gray-500">Suivis Actifs</p>
-                                <p class="text-2xl font-bold text-gray-900">{{ $activeSuivis }}</p>
+                                <p class="text-sm font-medium text-gray-500">Factures payé</p>
+                                <p class="text-2xl font-bold text-gray-900">{{ $facture_paye }}</p>
                             </div>
                         </div>
                     </div>
@@ -166,7 +167,7 @@
                             @endif
                         </div>
                     </div>
-                    <div class="bg-white rounded-xl shadow-card border border-blue-100 p-0 col-span-1 flex flex-col h-80 min-w-[320px] max-w-[380px]">
+                    <div class="bg-white rounded-xl shadow-card border border-blue-100 p-0 col-span-1 flex flex-col h-[23rem] min-w-[320px] max-w-[380px]">
                         <div class="flex items-center justify-between px-6 pt-6 pb-4 border-b border-blue-50 bg-gradient-to-r from-blue-50 to-white rounded-t-xl">
                             <div class="flex items-center gap-2">
                                 <i class="fas fa-users text-blue-400"></i>
@@ -381,7 +382,6 @@ function renderClientsList(clients, page, perPage, total, totalAmount) {
                 </div>
                 <div class='min-w-0 flex-1'>
                     <h4 class='text-sm font-medium text-gray-900 truncate'>${client.full_name}</h4>
-                    <p class='text-xs text-gray-400'>ID: ${client.id}</p>
                 </div>
             </div>
             <div class='text-right flex-shrink-0'>
