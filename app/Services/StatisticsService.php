@@ -21,9 +21,11 @@ class StatisticsService
             'totalClients' => (clone $clientsQuery)->whereBetween('created_at', [$start, $end])->count(),
             'totalSales' => (clone $invoicesQuery)->whereBetween('sale_date', [$start, $end])->count(),
             'totalRevenue' => (clone $invoicesQuery)->whereBetween('sale_date', [$start, $end])->sum('total_amount'),
-            'activeSuivis' => (clone $suivisQuery)->where('status', 'en_cours')
-                ->whereBetween('date_suivi', [$start, $end])
-                ->count(),
+           'facture_paye' => DB::table('invoices')
+    ->whereBetween('sale_date', [$start, $end])
+    ->selectRaw("SUM(CASE WHEN statut_facture = 'paiement' THEN 1 ELSE 0 END) as count_paiement")
+    ->value('count_paiement'),
+
         ];
     }
 
