@@ -17,7 +17,6 @@ class StoreInvoiceRequest extends FormRequest
         'car.chassis_number' => 'required|string|max:255|unique:cars,chassis_number',
         'car.color' => 'nullable|string|max:255',
         'car.year' => 'nullable|integer|min:1900|max:2099',
-        'car.post_sale_status' => 'required|in:en_attente_livraison,livre,sav_1ere_visite,relance',
         'invoice.invoice_number' => 'required|string|max:255|unique:invoices,invoice_number',
         'invoice.sale_date' => 'required|date',
         'invoice.total_amount' => 'required|numeric|min:0',
