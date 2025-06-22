@@ -4,7 +4,7 @@
         <div class="mt-3">
             <!-- Modal Header -->
             <div class="flex items-center justify-between pb-4 border-b border-gray-200">
-                <h3 class="text-lg font-semibold text-gray-900">Modifier la Réclamation</h3>
+                <h3 class="text-lg font-semibold text-gray-900">Modifier la Remarque</h3>
                 <button id="closeEditModal" class="text-gray-400 hover:text-gray-600 transition-colors">
                     <i class="fas fa-times text-xl"></i>
                 </button>
@@ -50,7 +50,7 @@
                         </label>
                         <textarea id="editDescription" name="description" rows="4" required
                             class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
-                            placeholder="Décrivez la réclamation en détail..."></textarea>
+                            placeholder="Décrivez la Remarque en détail..."></textarea>
                     </div>
 
                     <!-- Priorité -->
@@ -186,7 +186,7 @@
                 .then(data => {
                     if (data.success) {
                         // Show success message
-                        showNotification('Réclamation mise à jour avec succès!', 'success');
+                        showNotification('Remarque mise à jour avec succès!', 'success');
 
                         // Close modal
                         closeModal();
@@ -201,7 +201,7 @@
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    showNotification('Erreur lors de la mise à jour de la réclamation', 'error');
+                    showNotification('Erreur lors de la mise à jour de la Remarque', 'error');
                 })
                 .finally(() => {
                     // Reset button
