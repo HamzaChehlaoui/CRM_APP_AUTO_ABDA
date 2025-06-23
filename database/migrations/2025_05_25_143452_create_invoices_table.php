@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
 
-            $table->string('invoice_number')->unique()->comment('Numéro de facture (numfact)');
-            $table->date('sale_date')->comment('Date de la facture (date)');
-            $table->decimal('total_amount', 10, 2)->comment('Montant TTC (mtttc)');
+            $table->string('invoice_number')->nullable()->unique()->comment('Numéro de facture (numfact)');
+            $table->date('sale_date')->nullable()->comment('Date de la facture (date)');
+            $table->decimal('total_amount', 10, 2)->nullable()->comment('Montant TTC (mtttc)');
             $table->string('image_path')->nullable()->comment('Chemin de l’image de la facture');
             $table->string('image_bc')->nullable()->comment('image bon de commande');
             $table->string('image_bl')->nullable()->comment('image bon kivraison');
@@ -31,8 +31,9 @@ return new class extends Migration
             'envoyée_pour_paiement',
             'paiement'
         ])->default('creation')->comment('statut_facture');
-            $table->foreignId('client_id')->constrained('clients')->onDelete('cascade')->comment('Client');
-            $table->foreignId('car_id')->constrained('cars')->onDelete('cascade')->comment('Véhicule');
+            $table->foreignId('branch_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('client_id')->nullable()->constrained('clients')->onDelete('cascade')->comment('Client');
+            $table->foreignId('car_id')->nullable()->constrained('cars')->onDelete('cascade')->comment('Véhicule');
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null')->comment('Utilisateur qui a créé la facture');
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null')->comment('Utilisateur qui a enregistré le client');
 
