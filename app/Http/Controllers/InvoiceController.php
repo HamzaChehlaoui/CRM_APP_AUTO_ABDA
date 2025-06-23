@@ -39,12 +39,75 @@ class InvoiceController extends Controller
 
     public function storeAll(StoreInvoiceRequest $request)
     {
-        $validated = $request->validated();
-
-        Log::info('Validated data:', $validated);
-
+        $action = $request->input('action');
+        $statut = $action === 'facturer' ? 'facturé' : 'creation';
+        if ($action === 'save') {
         DB::beginTransaction();
+        try {
 
+            // dd($request);
+            $carData = $request->input('car', []);
+            $car = Car::create([
+                'brand' => $carData['brand'] ?? null,
+                'model' => $carData['model'] ?? null,
+                'ivn' => $carData['ivn'] ?? null,
+                'registration_number' => $carData['registration_number'] ?? null,
+                'chassis_number' => $carData['chassis_number'] ?? null,
+                'color' => $carData['color'] ?? null,
+                'year' => $carData['year'] ?? null,
+                'client_id' => $request->input('client_id'),
+
+                'branch_id' => auth()->user()->branch_id,
+                'created_by' => auth()->id(),
+            ]);
+            $invoiceData = $request->input('invoice', []);
+            $invoice = Invoice::create([
+                'invoice_number' => $invoiceData['invoice_number'] ?? null,
+                'sale_date' => $invoiceData['sale_date'] ?? null,
+                'total_amount' => $invoiceData['total_amount'] ?? null,
+                'accord_reference' => $invoiceData['purchase_order_number'] ?? null,
+                'purchase_order_number' => $invoiceData['purchase_order_number'] ?? null,
+                'delivery_note_number' => $invoiceData['delivery_note_number'] ?? null,
+                'payment_order_reference' => $invoiceData['payment_order_reference'] ?? null,
+                'statut_facture' => 'creation',
+                'client_id' =>$request->input('client_id'),
+                'car_id' => $car->id,
+                'branch_id' => auth()->user()->branch_id,
+                'user_id' => auth()->id(),
+                'created_by' => auth()->id(),
+            ]);
+
+            // Sauvegarder les images si elles existent
+            if ($request->hasFile('image_invoice')) {
+                $invoice->image_path = $request->file('image_invoice')->store('invoices', 'public');
+            }
+
+            if ($request->hasFile('image_bl')) {
+                $invoice->image_bl = $request->file('image_bl')->store('bons_livraison', 'public');
+            }
+
+            if ($request->hasFile('image_or')) {
+                $invoice->image_or = $request->file('image_or')->store('ordres_reparation', 'public');
+            }
+
+            if ($request->hasFile('image_bc')) {
+                $invoice->image_bc = $request->file('image_bc')->store('bons_commande', 'public');
+            }
+
+            $invoice->save(); // enregistrer les chemins d'image
+
+            DB::commit();
+            return redirect()->route('invoice.index')->with('success', 'Facture sauvegardée en mode CREATION.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Error in storeAll (save): ' . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
+            return back()->with('error', 'Erreur lors de la sauvegarde.')->withInput();
+        }
+        }
+
+        $validated = $request->validated();
+        Log::info('Validated data:', $validated);
+        DB::beginTransaction();
         try {
             // Retrieve existing client
             $client = Client::findOrFail($validated['client_id']);
@@ -78,9 +141,10 @@ class InvoiceController extends Controller
                 'purchase_order_number' => $validated['invoice']['purchase_order_number'] ?? null,
                 'delivery_note_number' => $validated['invoice']['delivery_note_number'] ?? null,
                 'payment_order_reference' => $validated['invoice']['payment_order_reference'] ?? null,
-                'statut_facture' => $validated['invoice']['statut_facture'],
+                'statut_facture' => $statut,
                 'client_id' => $client->id,
                 'car_id' => $car->id,
+                'branch_id' => auth()->user()->branch_id,
                 'user_id' => auth()->id(),
                 'created_by' => auth()->id(),
             ];
@@ -234,6 +298,6 @@ class InvoiceController extends Controller
     public function destroy(Invoice $invoice)
     {
         $invoice->delete();
-        return redirect()->route('invoices.index')->with('success', 'Invoice deleted successfully.');
+        return redirect()->route('invoice.index')->with('success', 'Invoice deleted successfully.');
     }
 }
