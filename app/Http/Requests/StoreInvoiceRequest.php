@@ -6,28 +6,43 @@ use Illuminate\Foundation\Http\FormRequest;
 class StoreInvoiceRequest extends FormRequest
 {
     public function authorize() { return true; }
-    public function rules()
+ public function rules()
 {
-    return [
-        'client_id' => 'required|exists:clients,id',
-        'car.brand' => 'required|string|max:255',
-        'car.model' => 'required|string|max:255',
-        'car.ivn' => 'required|string|max:255|unique:cars,ivn',
-        'car.registration_number' => 'required|string|max:255|unique:cars,registration_number',
-        'car.chassis_number' => 'required|string|max:255|unique:cars,chassis_number',
-        'car.color' => 'nullable|string|max:255',
-        'car.year' => 'nullable|integer|min:1900|max:2099',
-        'invoice.invoice_number' => 'required|string|max:255|unique:invoices,invoice_number',
-        'invoice.sale_date' => 'required|date',
-        'invoice.total_amount' => 'required|numeric|min:0',
-        'invoice.accord_reference' => 'nullable|string|max:255',
-        'invoice.purchase_order_number' => 'nullable|string|max:255',
-        'invoice.delivery_note_number' => 'nullable|string|max:255',
-        'invoice.payment_order_reference' => 'nullable|string|max:255',
-        'invoice.statut_facture' => 'required|in:creation,facturé,envoyée_pour_paiement,paiement',
-        'invoice.image' => 'nullable|image|mimes:png,jpg,jpeg|max:10240', // 10MB max
-    ];
+    $action = $this->input('action');
+
+    if ($action === 'facturer') {
+
+        return [
+            'client_id' => 'required|exists:clients,id',
+
+            // Informations voiture
+            'car.brand' => 'required|string|max:255',
+            'car.model' => 'required|string|max:255',
+            'car.ivn' => 'required|string|max:255|unique:cars,ivn',
+            'car.registration_number' => 'required|string|max:255|unique:cars,registration_number',
+            'car.chassis_number' => 'required|string|max:255|unique:cars,chassis_number',
+
+            // Informations facture
+            'invoice.invoice_number' => 'required|string|max:255|unique:invoices,invoice_number',
+            'invoice.sale_date' => 'required|date',
+            'invoice.total_amount' => 'required|numeric|min:0',
+            'invoice.purchase_order_number' => 'required|string|max:255',
+            'invoice.delivery_note_number' => 'required|string|max:255',
+            'invoice.payment_order_reference' => 'required|string|max:255',
+
+            // Images (optionnelles ici, ajouter validation si obligatoires)
+            'image_invoice' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:10240',
+            'image_bl' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:10240',
+            'image_or' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:10240',
+            'image_bc' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:10240',
+        ];
+    }
+    // Si le bouton est "save" (Enregistrer) : aucune validation requise
+    return [];
 }
+
+
+
 
     public function messages()
     {
