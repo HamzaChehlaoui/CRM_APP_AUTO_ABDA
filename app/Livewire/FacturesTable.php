@@ -83,7 +83,7 @@ class FacturesTable extends Component
             $invoicesQuery->where('statut_facture', $this->statusFacture);
         }
 
-    
+
         $this->dateErrorMessage = null;
         if ($this->dateFrom && $this->dateTo && $this->dateFrom > $this->dateTo) {
             $this->dateErrorMessage = '⚠️ La date de début ne peut pas être postérieure à la date de fin.';
