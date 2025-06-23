@@ -25,14 +25,13 @@ public function resolveBranchInfo($user, $selectedBranch): array
 
             $clientIds = Client::where('branch_id', $selectedBranch)->pluck('id');
 
-    $invoicesQuery->where(function ($query) use ($clientIds, $selectedBranch) {
-    $query->whereIn('client_id', $clientIds)
-            ->orWhere(function ($q) use ($selectedBranch) {
-            $q->whereNull('client_id')
-                ->where('branch_id', $selectedBranch);
-        });
-});
-
+            $invoicesQuery->where(function ($query) use ($clientIds, $selectedBranch) {
+                $query->whereIn('client_id', $clientIds)
+                      ->orWhere(function ($q) use ($selectedBranch) {
+                          $q->whereNull('client_id')
+                            ->where('branch_id', $selectedBranch);
+                      });
+            });
 
             $suivisQuery->whereIn('client_id', $clientIds);
         }
@@ -45,6 +44,7 @@ public function resolveBranchInfo($user, $selectedBranch): array
         ];
     }
 
+    // Utilisateur normal : restreint حسب الفرع الخاص به فقط
     $branchId = $user->branch_id;
     $clientIds = Client::where('branch_id', $branchId)->pluck('id');
 
@@ -53,15 +53,17 @@ public function resolveBranchInfo($user, $selectedBranch): array
 
         'suivisQuery' => Suivi::whereIn('client_id', $clientIds),
 
-        'invoicesQuery' => Invoice::where(function ($query) use ($clientIds) {
+        'invoicesQuery' => Invoice::where(function ($query) use ($clientIds, $branchId) {
             $query->whereIn('client_id', $clientIds)
-                ->orWhereNull('client_id');
+                  ->orWhere(function ($q) use ($branchId) {
+                      $q->whereNull('client_id')
+                        ->where('branch_id', $branchId);
+                  });
         }),
 
         'branches' => collect(),
     ];
 }
-
 
 public function calculatePercentageChange($current, $previous): string
     {
@@ -85,16 +87,16 @@ public function getDashboardStats($clientsQuery, $suivisQuery, $invoicesQuery): 
     foreach ($statuts as $statut) {
 
         $facturesCurrent[$statut] = (clone $invoicesQuery)
-            ->where('statut_facture', $statut)
-            ->whereMonth('sale_date', $now->month)
-            ->whereYear('sale_date', $now->year)
-            ->count();
+    ->where('statut_facture', $statut)
+    ->whereRaw('EXTRACT(MONTH FROM COALESCE(sale_date, updated_at)) = ?', [$now->month])
+    ->whereRaw('EXTRACT(YEAR FROM COALESCE(sale_date, updated_at)) = ?', [$now->year])
+    ->count();
 
-        $facturesLast[$statut] = (clone $invoicesQuery)
-            ->where('statut_facture', $statut)
-            ->whereMonth('sale_date', $lastMonth->month)
-            ->whereYear('sale_date', $lastMonth->year)
-            ->count();
+$facturesLast[$statut] = (clone $invoicesQuery)
+    ->where('statut_facture', $statut)
+    ->whereRaw('EXTRACT(MONTH FROM COALESCE(sale_date, updated_at)) = ?', [$lastMonth->month])
+    ->whereRaw('EXTRACT(YEAR FROM COALESCE(sale_date, updated_at)) = ?', [$lastMonth->year])
+    ->count();
 
         $facturesPercentageChange[$statut] = $this->calculatePercentageChange(
             $facturesCurrent[$statut],
@@ -132,9 +134,6 @@ public function getTopPayingClients($invoicesQuery, $period): array
 
     return [$clientsVendus, $labels];
 }
-
-
-
 
 
 public function getPostSaleStats($user, $selectedBranch = 'all'): array
