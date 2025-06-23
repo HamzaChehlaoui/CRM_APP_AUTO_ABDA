@@ -138,7 +138,7 @@
                         <div class="flex items-center">
                             <div class="flex-shrink-0">
                                 <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center"><i class="fas fa-money-check-alt text-purple-600"></i>
-</div>
+                                </div>
                             </div>
                             <div class="ml-4">
                                 <p class="text-sm font-medium text-gray-500">Factures payé</p>
@@ -147,7 +147,7 @@
                         </div>
                     </div>
                 </div>
-
+                
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
                     <div class="bg-white rounded-xl shadow-card p-6 col-span-2 flex flex-col">
                         <h3 class="text-lg font-semibold text-gray-800 mb-6 flex items-center gap-2">
