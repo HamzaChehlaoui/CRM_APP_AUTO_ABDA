@@ -14,48 +14,54 @@ use Illuminate\Support\Facades\DB;
 class DashboardService
 {
 public function resolveBranchInfo($user, $selectedBranch): array
-    {
-        if ($user->role_id == 1 || $user->role_id == 2) {
-            $clientsQuery = Client::query();
-            $suivisQuery = Suivi::query();
-            $invoicesQuery = Invoice::query();
+{
+    if ($user->role_id == 1 || $user->role_id == 2) {
+        $clientsQuery = Client::query();
+        $suivisQuery = Suivi::query();
+        $invoicesQuery = Invoice::query();
 
-            if ($selectedBranch !== 'all') {
-                $clientsQuery->where('branch_id', $selectedBranch);
+        if ($selectedBranch !== 'all') {
+            $clientsQuery->where('branch_id', $selectedBranch);
 
-                $suivisQuery->whereHas('client', function ($query) use ($selectedBranch) {
-                    $query->where('branch_id', $selectedBranch);
-                });
+            $clientIds = Client::where('branch_id', $selectedBranch)->pluck('id');
 
-                $invoicesQuery->whereHas('client', function ($query) use ($selectedBranch) {
-                    $query->where('branch_id', $selectedBranch);
-                });
-            }
+    $invoicesQuery->where(function ($query) use ($clientIds, $selectedBranch) {
+    $query->whereIn('client_id', $clientIds)
+            ->orWhere(function ($q) use ($selectedBranch) {
+            $q->whereNull('client_id')
+                ->where('branch_id', $selectedBranch);
+        });
+});
 
-            return [
-                'clientsQuery' => $clientsQuery,
-                'suivisQuery' => $suivisQuery,
-                'invoicesQuery' => $invoicesQuery,
-                'branches' => Branch::all()
-            ];
+
+            $suivisQuery->whereIn('client_id', $clientIds);
         }
 
-        $branchId = $user->branch_id;
-
         return [
-            'clientsQuery' => Client::where('branch_id', $branchId),
-
-            'suivisQuery' => Suivi::whereHas('client', function ($query) use ($branchId) {
-                $query->where('branch_id', $branchId);
-            }),
-
-            'invoicesQuery' => Invoice::whereHas('client', function ($query) use ($branchId) {
-                $query->where('branch_id', $branchId);
-            }),
-
-            'branches' => collect()
+            'clientsQuery' => $clientsQuery,
+            'suivisQuery' => $suivisQuery,
+            'invoicesQuery' => $invoicesQuery,
+            'branches' => Branch::all(),
         ];
     }
+
+    $branchId = $user->branch_id;
+    $clientIds = Client::where('branch_id', $branchId)->pluck('id');
+
+    return [
+        'clientsQuery' => Client::where('branch_id', $branchId),
+
+        'suivisQuery' => Suivi::whereIn('client_id', $clientIds),
+
+        'invoicesQuery' => Invoice::where(function ($query) use ($clientIds) {
+            $query->whereIn('client_id', $clientIds)
+                ->orWhereNull('client_id');
+        }),
+
+        'branches' => collect(),
+    ];
+}
+
 
 public function calculatePercentageChange($current, $previous): string
     {
@@ -113,7 +119,7 @@ public function getDashboardStats($clientsQuery, $suivisQuery, $invoicesQuery): 
 public function getTopPayingClients($invoicesQuery, $period): array
 {
     $topClients = (clone $invoicesQuery)
-        ->where('statut_facture', 'paiement') 
+        ->where('statut_facture', 'paiement')
         ->selectRaw('client_id, SUM(total_amount) as total_paid')
         ->with('client:id,full_name')
         ->groupBy('client_id')
