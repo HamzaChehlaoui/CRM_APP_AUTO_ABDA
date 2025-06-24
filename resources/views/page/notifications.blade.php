@@ -25,7 +25,7 @@
                                 <i class="fas fa-bell"></i>
                                 @if ($unreadCount > 0)
                                     <span
-                                        class="absolute top-0 right-0 h-4 w-4 bg-red-500 rounded-full border-2 border-white flex items-center justify-center">
+                                        class="absolute top-0 right-0 h-5 w-5 bg-red-500 rounded-full border-2 border-white flex items-center justify-center">
                                         <span
                                             class="text-xs text-white font-bold">{{ $unreadCount > 9 ? '9+' : $unreadCount }}</span>
                                     </span>
