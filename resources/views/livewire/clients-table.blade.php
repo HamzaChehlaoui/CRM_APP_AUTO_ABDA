@@ -76,12 +76,14 @@
                     @forelse($invoices as $invoice)
                         @php
                             $client = $invoice->client;
-                            $car = $invoice->car; // Assuming invoice has a direct relationship to a car
+                            $car = $invoice->car;
+                            $status = $invoice->statut_facture ;
+                             // Assuming invoice has a direct relationship to a car
                             $colors = [
-                                'en_attente_livraison' => 'bg-yellow-100 text-yellow-800 border-yellow-300',
-                                'livre' => 'bg-green-100 text-green-800 border-green-300',
-                                'sav_1ere_visite' => 'bg-blue-100 text-blue-800 border-blue-300',
-                                'relance' => 'bg-red-100 text-red-800 border-red-300',
+                                'envoyée_pour_paiement' => 'bg-yellow-100 text-yellow-800 border-yellow-300',
+                                'paiement' => 'bg-green-100 text-green-800 border-green-300',
+                                'facturé' => 'bg-blue-100 text-blue-800 border-blue-300',
+                                'creation' => 'bg-red-100 text-red-800 border-red-300',
                             ];
                             $colorClass = $colors[$status] ?? 'bg-gray-100 text-gray-800 border-gray-300';
                         @endphp
