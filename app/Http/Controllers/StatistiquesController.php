@@ -84,11 +84,16 @@ private function resolveBranchQueries($user, $selectedBranch): array
 public function clientsWithPaymentsAjax(Request $request)
     {
         $user = $request->user();
-        $selectedBranch = $request->get('branch', in_array($user->role_id, [1, 2]) ? 'all' : $user->branch_id);
+        // Forcer la succursale de l'utilisateur si ce n'est pas un admin/superviseur
+        if (in_array($user->role_id, [1, 2])) {
+            $selectedBranch = $request->get('branch', 'all');
+        } else {
+            $selectedBranch = $user->branch_id;
+        }
         $startDate = $request->filled('start_date') ? $request->get('start_date') : Carbon::now()->startOfMonth()->format('Y-m-d');
         $endDate = $request->filled('end_date') ? $request->get('end_date') : Carbon::now()->endOfMonth()->format('Y-m-d');
         $perPage = 10;
-        $query = $this->statisticsService->getClientsWithPaymentsByStatusQuery($startDate, $endDate, $selectedBranch,'paiement');
+        $query = $this->statisticsService->getClientsWithPaymentsByStatusQuery($startDate, $endDate, $selectedBranch, 'paiement');
         $paginated = $query->paginate($perPage);
         return response()->json($paginated);
     }
