@@ -139,7 +139,7 @@ class ClientsTable extends Component
                 });
             })
             ->with('cars')
-            ->paginate(3);
+            ->paginate(10);
 
         return view('livewire.clients-table', [
             'clients'        => $clients,
