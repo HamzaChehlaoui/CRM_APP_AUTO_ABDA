@@ -64,8 +64,8 @@ class StatisticsService
             ];
     }
 
-        public function getClientsWithPaymentsByStatus(string $startDate, string $endDate, int|string $branchId, string $status = 'paiement'): array
-        {
+    public function getClientsWithPaymentsByStatus(string $startDate, string $endDate, int|string $branchId, string $status = 'paiement'): array
+    {
             $start = Carbon::parse($startDate)->startOfDay();
             $end = Carbon::parse($endDate)->endOfDay();
 
@@ -89,72 +89,72 @@ class StatisticsService
                 ->toArray();
 
             return $clientsWithPayments;
-        }
+    }
 
 
 
-public function getClientsWithPaymentsByStatusQuery(string $startDate, string $endDate, int|string $branchId = 'all', string $status = 'paiement')
-{
-    $start = Carbon::parse($startDate)->startOfDay();
-    $end = Carbon::parse($endDate)->endOfDay();
+    public function getClientsWithPaymentsByStatusQuery(string $startDate, string $endDate, int|string $branchId = 'all', string $status = 'paiement')
+    {
+        $start = Carbon::parse($startDate)->startOfDay();
+        $end = Carbon::parse($endDate)->endOfDay();
 
-    return DB::table('clients')
-        ->leftJoin('invoices', function($join) use ($status, $start, $end) {
-            $join->on('clients.id', '=', 'invoices.client_id')
-                ->where('invoices.statut_facture', '=', $status)
-                ->whereRaw("COALESCE(invoices.sale_date, invoices.updated_at) BETWEEN ? AND ?", [$start, $end]);
-        })
-        ->when($branchId !== 'all', function($query) use ($branchId) {
-            $query->where('clients.branch_id', '=', $branchId);
-        })
-        ->select(
-            'clients.id',
-            'clients.full_name',
-            DB::raw('COALESCE(SUM(invoices.total_amount), 0) as total_paid')
-        )
-        ->groupBy('clients.id', 'clients.full_name')
-        ->orderByDesc('total_paid');
-}
+        return DB::table('clients')
+            ->leftJoin('invoices', function($join) use ($status, $start, $end) {
+                $join->on('clients.id', '=', 'invoices.client_id')
+                    ->where('invoices.statut_facture', '=', $status)
+                    ->whereRaw("COALESCE(invoices.sale_date, invoices.updated_at) BETWEEN ? AND ?", [$start, $end]);
+            })
+            ->when($branchId !== 'all', function($query) use ($branchId) {
+                $query->where('clients.branch_id', '=', $branchId);
+            })
+            ->select(
+                'clients.id',
+                'clients.full_name',
+                DB::raw('COALESCE(SUM(invoices.total_amount), 0) as total_paid')
+            )
+            ->groupBy('clients.id', 'clients.full_name')
+            ->orderByDesc('total_paid');
+    }
 
- public function getTopPerformers(string $startDate, string $endDate, Builder $usersQuery)
-{
-    $start = Carbon::parse($startDate)->startOfDay();
-    $end   = Carbon::parse($endDate)->endOfDay();
+    public function getTopPerformers(string $startDate, string $endDate, Builder $usersQuery)
+    {
+        $start = Carbon::parse($startDate)->startOfDay();
+        $end   = Carbon::parse($endDate)->endOfDay();
 
-    $users = $usersQuery
-        ->withCount([
-            'clients as clients_count',
-            'invoices as sales_count' => function ($query) use ($start, $end) {
+        $users = $usersQuery
+            ->withCount([
+                'clients as clients_count',
+                'invoices as sales_count' => function ($query) use ($start, $end) {
+                    $query->where('statut_facture', 'paiement')
+                        ->whereRaw("COALESCE(sale_date, updated_at) BETWEEN ? AND ?", [$start, $end]);
+                },
+                'invoices as total_invoices_count' => function ($query) use ($start, $end) {
+                    $query->whereRaw("COALESCE(sale_date, updated_at) BETWEEN ? AND ?", [$start, $end]);
+                },
+            ])
+            ->whereHas('invoices', function ($query) use ($start, $end) {
                 $query->where('statut_facture', 'paiement')
-                      ->whereRaw("COALESCE(sale_date, updated_at) BETWEEN ? AND ?", [$start, $end]);
-            },
-            'invoices as total_invoices_count' => function ($query) use ($start, $end) {
-                $query->whereRaw("COALESCE(sale_date, updated_at) BETWEEN ? AND ?", [$start, $end]);
-            },
-        ])
-        ->whereHas('invoices', function ($query) use ($start, $end) {
-            $query->where('statut_facture', 'paiement')
-                  ->whereRaw("COALESCE(sale_date, updated_at) BETWEEN ? AND ?", [$start, $end]);
-        })
-        ->orderBy('sales_count', 'desc')
-        ->limit(5)
-        ->get();
+                    ->whereRaw("COALESCE(sale_date, updated_at) BETWEEN ? AND ?", [$start, $end]);
+            })
+            ->orderBy('sales_count', 'desc')
+            ->limit(5)
+            ->get();
 
-    return $users->map(function ($user) {
-        $percentage = $user->total_invoices_count > 0
-            ? round(($user->sales_count / $user->total_invoices_count) * 100, 1)
-            : 0;
+        return $users->map(function ($user) {
+            $percentage = $user->total_invoices_count > 0
+                ? round(($user->sales_count / $user->total_invoices_count) * 100, 1)
+                : 0;
 
-        return [
-            'name' => $user->name,
-            'initials' => $this->getInitials($user->name),
-            'clients' => $user->clients_count,
-            'sales' => $user->sales_count,
-            'total_invoices' => $user->total_invoices_count,
-            'percentage' => $percentage,
-        ];
-    });
-}
+            return [
+                'name' => $user->name,
+                'initials' => $this->getInitials($user->name),
+                'clients' => $user->clients_count,
+                'sales' => $user->sales_count,
+                'total_invoices' => $user->total_invoices_count,
+                'percentage' => $percentage,
+            ];
+        });
+    }
 
 
 
