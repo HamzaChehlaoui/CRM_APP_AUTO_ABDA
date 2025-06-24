@@ -28,7 +28,7 @@ class StatisticsService
         ->where('statut_facture', 'paiement')
         ->sum('total_amount'),
 
-            'facture_paye' => DB::table('invoices')
+            'facture_paye' => (clone $invoicesQuery)
                 ->whereRaw("COALESCE(sale_date, updated_at) BETWEEN ? AND ?", [$start, $end])
                 ->selectRaw("SUM(CASE WHEN statut_facture = 'paiement' THEN 1 ELSE 0 END) as count_paiement")
                 ->value('count_paiement'),
@@ -116,51 +116,48 @@ public function getClientsWithPaymentsByStatusQuery(string $startDate, string $e
         ->orderByDesc('total_paid');
 }
 
-    public function getTopPerformers(string $startDate, string $endDate, Builder $usersQuery)
-    {
-        $start = Carbon::parse($startDate)->startOfDay();
-        $end   = Carbon::parse($endDate)->endOfDay();
+ public function getTopPerformers(string $startDate, string $endDate, Builder $usersQuery)
+{
+    $start = Carbon::parse($startDate)->startOfDay();
+    $end   = Carbon::parse($endDate)->endOfDay();
 
-        $users = $usersQuery
-            ->withCount([
-                'clients as prospects_count',
-                'invoices as sales_count' => function ($query) use ($start, $end) {
-                    $query->whereRaw("COALESCE(sale_date, updated_at) BETWEEN ? AND ?", [$start, $end]);
-                },
-                'suivis as total_suivis_count' => function ($query) use ($start, $end) {
-                    $query->whereBetween('date_suivi', [$start, $end]);
-                },
-                'suivis as completed_suivis_count' => function ($query) use ($start, $end) {
-                    $query->where('status', 'termine')->whereBetween('date_suivi', [$start, $end]);
-                }
-            ])
-            ->whereHas('invoices', function ($query) use ($start, $end) {
+    $users = $usersQuery
+        ->withCount([
+            'clients as clients_count',
+            'invoices as sales_count' => function ($query) use ($start, $end) {
+                $query->where('statut_facture', 'paiement')
+                      ->whereRaw("COALESCE(sale_date, updated_at) BETWEEN ? AND ?", [$start, $end]);
+            },
+            'invoices as total_invoices_count' => function ($query) use ($start, $end) {
                 $query->whereRaw("COALESCE(sale_date, updated_at) BETWEEN ? AND ?", [$start, $end]);
-            })
-            ->orderBy('sales_count', 'desc')
-            ->limit(5)
-            ->get();
+            },
+        ])
+        ->whereHas('invoices', function ($query) use ($start, $end) {
+            $query->where('statut_facture', 'paiement')
+                  ->whereRaw("COALESCE(sale_date, updated_at) BETWEEN ? AND ?", [$start, $end]);
+        })
+        ->orderBy('sales_count', 'desc')
+        ->limit(5)
+        ->get();
 
-        return $users->map(function ($user) {
-            $conversionRate = $user->prospects_count > 0
-                ? round(($user->sales_count / $user->prospects_count) * 100, 1)
-                : 0;
+    return $users->map(function ($user) {
+        $percentage = $user->total_invoices_count > 0
+            ? round(($user->sales_count / $user->total_invoices_count) * 100, 1)
+            : 0;
 
-            $satisfactionRate = $user->total_suivis_count > 0
-                ? round(($user->completed_suivis_count / $user->total_suivis_count) * 100, 1)
-                : 0;
+        return [
+            'name' => $user->name,
+            'initials' => $this->getInitials($user->name),
+            'clients' => $user->clients_count,
+            'sales' => $user->sales_count,
+            'total_invoices' => $user->total_invoices_count,
+            'percentage' => $percentage,
+        ];
+    });
+}
 
-            return [
-                'name' => $user->name,
-                'initials' => $this->getInitials($user->name),
-                'prospects' => $user->prospects_count,
-                'sales' => $user->sales_count,
-                'conversion_rate' => $conversionRate,
-                'satisfaction_rate' => $satisfactionRate,
-                'performance_label' => $this->getPerformanceLabel($conversionRate, $satisfactionRate)
-            ];
-        });
-    }
+
+
 
     private function getInitials(string $name): string
     {
