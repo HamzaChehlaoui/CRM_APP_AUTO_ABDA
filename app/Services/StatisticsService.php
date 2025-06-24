@@ -52,48 +52,48 @@ class StatisticsService
             )
             ->first();
 
-        return [
-            'total_invoices' => (int) $data->total_invoices,
-            'total_amount' => (float) $data->total_amount,
-            'statut_breakdown' => [
-                'creation' => (int) $data->count_creation,
-                'facturé' => (int) $data->count_facturé,
-                'envoyée_pour_paiement' => (int) $data->count_envoyée,
-                'paiement' => (int) $data->count_paiement,
-            ],
-        ];
+            return [
+                'total_invoices' => (int) $data->total_invoices,
+                'total_amount' => (float) $data->total_amount,
+                'statut_breakdown' => [
+                    'creation' => (int) $data->count_creation,
+                    'facturé' => (int) $data->count_facturé,
+                    'envoyée_pour_paiement' => (int) $data->count_envoyée,
+                    'paiement' => (int) $data->count_paiement,
+                ],
+            ];
     }
 
-public function getClientsWithPaymentsByStatus(string $startDate, string $endDate, int|string $branchId, string $status = 'paiement'): array
-{
-    $start = Carbon::parse($startDate)->startOfDay();
-    $end = Carbon::parse($endDate)->endOfDay();
+        public function getClientsWithPaymentsByStatus(string $startDate, string $endDate, int|string $branchId, string $status = 'paiement'): array
+        {
+            $start = Carbon::parse($startDate)->startOfDay();
+            $end = Carbon::parse($endDate)->endOfDay();
 
-    $clientsWithPayments = DB::table('clients')
-        ->leftJoin('invoices', function($join) use ($status, $start, $end) {
-            $join->on('clients.id', '=', 'invoices.client_id')
-                ->where('invoices.statut_facture', '=', $status)
-                ->whereRaw("COALESCE(invoices.sale_date, invoices.updated_at) BETWEEN ? AND ?", [$start, $end]);
-        })
-        ->when($branchId !== 'all', function ($query) use ($branchId) {
-            $query->where('clients.branch_id', '=', $branchId);
-        })
-        ->select(
-            'clients.id',
-            'clients.full_name',
-            DB::raw('COALESCE(SUM(invoices.total_amount), 0) as total_paid')
-        )
-        ->groupBy('clients.id', 'clients.full_name')
-        ->orderByDesc('total_paid')
-        ->get()
-        ->toArray();
+            $clientsWithPayments = DB::table('clients')
+                ->leftJoin('invoices', function($join) use ($status, $start, $end) {
+                    $join->on('clients.id', '=', 'invoices.client_id')
+                        ->where('invoices.statut_facture', '=', $status)
+                        ->whereRaw("COALESCE(invoices.sale_date, invoices.updated_at) BETWEEN ? AND ?", [$start, $end]);
+                })
+                ->when($branchId !== 'all', function ($query) use ($branchId) {
+                    $query->where('clients.branch_id', '=', $branchId);
+                })
+                ->select(
+                    'clients.id',
+                    'clients.full_name',
+                    DB::raw('COALESCE(SUM(invoices.total_amount), 0) as total_paid')
+                )
+                ->groupBy('clients.id', 'clients.full_name')
+                ->orderByDesc('total_paid')
+                ->get()
+                ->toArray();
 
-    return $clientsWithPayments;
-}
+            return $clientsWithPayments;
+        }
 
 
 
-    public function getClientsWithPaymentsByStatusQuery(string $startDate, string $endDate, int|string $branchId = 'all', string $status = 'paiement')
+public function getClientsWithPaymentsByStatusQuery(string $startDate, string $endDate, int|string $branchId = 'all', string $status = 'paiement')
 {
     $start = Carbon::parse($startDate)->startOfDay();
     $end = Carbon::parse($endDate)->endOfDay();
@@ -115,7 +115,6 @@ public function getClientsWithPaymentsByStatus(string $startDate, string $endDat
         ->groupBy('clients.id', 'clients.full_name')
         ->orderByDesc('total_paid');
 }
-
 
     public function getTopPerformers(string $startDate, string $endDate, Builder $usersQuery)
     {
