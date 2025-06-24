@@ -192,65 +192,56 @@
                     </div>
                 </div>
 
-                <div class="bg-white rounded-xl shadow-card p-6">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-lg font-semibold text-gray-800">Meilleures Performances</h3>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full">
-                            <thead>
-                                <tr class="text-left text-sm font-medium text-gray-500 border-b border-gray-200">
-                                    <th class="pb-3 pl-1">Conseiller</th>
-                                    <th class="pb-3">Factures payé</th>
-                                    <th class="pb-3">Taux de conversion</th>
-                                    <th class="pb-3">Satisfaction</th>
-                                    <th class="pb-3 text-right">Performance</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-100">
-                                @forelse($topPerformers as $performer)
-                                <tr class="hover:bg-gray-50">
-                                    <td class="py-3 pl-1">
-                                        <div class="flex items-center">
-                                            <div class="h-8 w-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-medium">
-                                                {{ $performer['initials'] }}
-                                            </div>
-                                            <div class="ml-3">
-                                                <p class="text-sm font-medium text-gray-800">{{ $performer['name'] }}</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="py-3">
-                                        <p class="text-sm font-medium text-gray-800">{{$facture_paye}}</p>
-                                    </td>
-                                    <td class="py-3">
-                                        <p class="text-sm font-medium text-gray-800">{{ $performer['conversion_rate'] }}%</p>
-                                    </td>
-                                    <td class="py-3">
-                                        <div class="flex items-center">
-                                            <div class="w-24 h-2 bg-gray-200 rounded-full mr-2">
-                                                <div class="h-full {{ $performer['satisfaction_rate'] >= 80 ? 'bg-green-500' : ($performer['satisfaction_rate'] >= 60 ? 'bg-yellow-500' : 'bg-red-500') }} rounded-full" style="width: {{ $performer['satisfaction_rate'] }}%"></div>
-                                            </div>
-                                            <span class="text-sm font-medium text-gray-800">{{ $performer['satisfaction_rate'] }}%</span>
-                                        </div>
-                                    </td>
-                                    <td class="py-3 text-right">
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $performer['performance_label'] == 'Excellente' ? 'bg-green-100 text-green-800' : ($performer['performance_label'] == 'Très bonne' ? 'bg-blue-100 text-blue-800' : ($performer['performance_label'] == 'Bonne' ? 'bg-yellow-100 text-yellow-800' : ($performer['performance_label'] == 'Moyenne' ? 'bg-orange-100 text-orange-800' : 'bg-red-100 text-red-800'))) }}">
-                                            {{ $performer['performance_label'] }}
-                                        </span>
-                                    </td>
-                                </tr>
-                                @empty
-                                <tr>
-                                    <td colspan="5" class="py-6 text-center text-gray-500">
-                                        Aucune donnée de performance disponible pour cette période
-                                    </td>
-                                </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+<div class="bg-white rounded-xl shadow-card p-6">
+    <div class="flex justify-between items-center mb-6">
+        <h3 class="text-lg font-semibold text-gray-800">Meilleures Performances</h3>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="min-w-full">
+            <thead>
+                <tr class="text-left text-sm font-medium text-gray-500 border-b border-gray-200">
+                    <th class="pb-3 pl-1">Conseiller</th>
+                    <th class="pb-3">Clients</th>
+                    <th class="pb-3">Factures payées</th>
+                    <th class="pb-3">Taux (%)</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+                @forelse($topPerformers as $performer)
+                <tr class="hover:bg-gray-50">
+                    <td class="py-3 pl-1">
+                        <div class="flex items-center">
+                            <div class="h-8 w-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-medium">
+                                {{ $performer['initials'] }}
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-gray-800">{{ $performer['name'] }}</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="py-3">
+                        <p class="text-sm font-medium text-gray-800">{{ $performer['clients'] }}</p>
+                    </td>
+                    <td class="py-3">
+                        <p class="text-sm font-medium text-gray-800">{{ $performer['sales'] }}</p>
+                    </td>
+                    <td class="py-3">
+                        <p class="text-sm font-medium text-gray-800">{{ $performer['percentage'] }}%</p>
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="4" class="py-6 text-center text-gray-500">
+                        Aucune donnée de performance disponible pour cette période.
+                    </td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
             </div>
         </div>
     </div>
