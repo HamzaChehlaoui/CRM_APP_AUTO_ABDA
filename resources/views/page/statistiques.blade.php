@@ -201,7 +201,7 @@
                             <thead>
                                 <tr class="text-left text-sm font-medium text-gray-500 border-b border-gray-200">
                                     <th class="pb-3 pl-1">Conseiller</th>
-                                    <th class="pb-3">Factures</th>
+                                    <th class="pb-3">Factures payé</th>
                                     <th class="pb-3">Taux de conversion</th>
                                     <th class="pb-3">Satisfaction</th>
                                     <th class="pb-3 text-right">Performance</th>
@@ -221,7 +221,7 @@
                                         </div>
                                     </td>
                                     <td class="py-3">
-                                        <p class="text-sm font-medium text-gray-800">{{ $performer['sales'] }}</p>
+                                        <p class="text-sm font-medium text-gray-800">{{$facture_paye}}</p>
                                     </td>
                                     <td class="py-3">
                                         <p class="text-sm font-medium text-gray-800">{{ $performer['conversion_rate'] }}%</p>
@@ -425,9 +425,13 @@ function renderClientsPagination(page, totalPages) {
     });
 }
 function loadClientsWithPayments(page=1) {
+    // Récupérer la valeur du filtre de succursale
+    const branchSelect = document.querySelector('select[name="branch"]');
+    const branch = branchSelect ? branchSelect.value : 'all';
     const params = new URLSearchParams({
         start_date: '{{ $startDate }}',
         end_date: '{{ $endDate }}',
+        branch: branch, // Ajout du filtre de branche
         page: page
     });
     fetch(`{{ route('statistics.clientsWithPaymentsAjax') }}?${params}`)
