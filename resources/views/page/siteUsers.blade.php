@@ -21,15 +21,19 @@
                             <p class="text-sm text-gray-500">Gérez Utilisateurs</p>
                         </div>
                         <div class="flex items-center space-x-4">
-                              <a href="/notifications"> <button class="p-2 rounded-full hover:bg-gray-100 text-gray-500 transition-colors relative" id="notificationBell">
-                            <i class="fas fa-bell"></i>
-                            @if($unreadCount > 0)
-                            <span class="absolute top-0 right-0 h-5 w-5 bg-red-500 rounded-full border-2 border-white flex items-center justify-center">
-                                <span class="text-xs text-white font-bold">{{ $unreadCount > 9 ? '9+' : $unreadCount }}</span>
-                            </span>
-                            @endif
-                        </button>
-                        </a>
+                            <a href="/notifications"> <button
+                                    class="p-2 rounded-full hover:bg-gray-100 text-gray-500 transition-colors relative"
+                                    id="notificationBell">
+                                    <i class="fas fa-bell"></i>
+                                    @if ($unreadCount > 0)
+                                        <span
+                                            class="absolute top-0 right-0 h-5 w-5 bg-red-500 rounded-full border-2 border-white flex items-center justify-center">
+                                            <span
+                                                class="text-xs text-white font-bold">{{ $unreadCount > 9 ? '9+' : $unreadCount }}</span>
+                                        </span>
+                                    @endif
+                                </button>
+                            </a>
 
                             <span class="h-6 border-l border-gray-300"></span>
                             <button
@@ -134,12 +138,12 @@
                                                         </div>
 
                                                         <!-- Content -->
-                                                       <div class="px-6 py-5 w-full overflow-hidden">
-    <p class="text-gray-800 text-sm font-medium leading-relaxed break-words whitespace-normal"
-       id="confirmMessage">
-        Êtes-vous sûr de vouloir supprimer ?
-    </p>
-</div>
+                                                        <div class="px-6 py-5 w-full overflow-hidden">
+                                                            <p class="text-gray-800 text-sm font-medium leading-relaxed break-words whitespace-normal"
+                                                                id="confirmMessage">
+                                                                Êtes-vous sûr de vouloir supprimer ?
+                                                            </p>
+                                                        </div>
 
 
                                                         <!-- Actions -->
@@ -176,7 +180,7 @@
                     </div>
                 </div>
             </div>
-             @include('page.button-loading')
+            @include('page.button-loading')
     </body>
 @endsection
 
@@ -197,4 +201,3 @@
         modal.classList.add('hidden');
     }
 </script>
-
