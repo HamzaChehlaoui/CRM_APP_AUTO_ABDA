@@ -36,20 +36,27 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {{ $client->cin ?? '—' }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-3">
-                            <button wire:click="showInvoices({{ $client->id }})"
-                                class="text-blue-600 hover:text-blue-900" title="Voir les factures">
-                                <i class="fas fa-file-invoice text-base"></i>
-                            </button>
-                            @if (auth()->user()->role_id != 1)
-                                <button wire:click="editClient({{ $client->id }})"
-                                    class="text-yellow-600 hover:text-yellow-900" title="Modifier le client">
-                                    <i class="fas fa-edit text-base"></i>
-                                </button>
-                                <!-- Modified Delete Button -->
-                                <button onclick="showDeleteConfirmation({{ $client->id }}, '{{ $client->name }}')"
-                                    class="text-red-600 hover:text-red-900">
-                                    <i class="fas fa-trash"></i>
-                                </button>
+                          <!-- Replace wire:click buttons with data attributes -->
+<button data-action="show-invoices"
+        data-client-id="{{ $client->id }}"
+        class="text-blue-600 hover:text-blue-900"
+        title="Voir les factures">
+    <i class="fas fa-file-invoice text-base"></i>
+</button>
+@if (auth()->user()->role_id != 1)
+<button data-action="edit-client"
+        data-client-id="{{ $client->id }}"
+        class="text-yellow-600 hover:text-yellow-900"
+        title="Modifier le client">
+    <i class="fas fa-edit text-base"></i>
+</button>
+
+<button data-delete-client
+        data-client-id="{{ $client->id }}"
+        data-client-name="{{ $client->full_name }}"
+        class="text-red-600 hover:text-red-900">
+    <i class="fas fa-trash"></i>
+</button>
 
                                 <!-- Professional Confirmation Modal -->
                                 <div id="deleteModal"
@@ -110,21 +117,15 @@
                                         <!-- Modal Footer -->
                                         <div
                                             class="px-6 py-4 bg-gray-50 border-t border-gray-200 rounded-b-lg flex flex-col sm:flex-row justify-end gap-3">
-                                            <button onclick="hideDeleteConfirmation()"
-                                                class="w-full sm:w-auto px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-100 transition">
-                                                Cancel
-                                            </button>
-                                            <button onclick="confirmDelet()"
-                                                class="w-full sm:w-auto px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-md transition">
-                                                <svg class="w-4 h-4 inline-block mr-1" fill="none"
-                                                    stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                                                    </path>
-                                                </svg>
-                                                Delete Client
-                                            </button>
+                                           <button data-close-modal
+        class="w-full sm:w-auto px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-100 transition">
+    Cancel
+</button>
+                                            <!-- Confirm button -->
+<button data-confirm-delete
+        class="w-full sm:w-auto px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-md transition">
+    Delete Client
+</button>
                                         </div>
                                     </div>
                                 </div>
@@ -155,61 +156,5 @@
     <div class="mt-4">
         {{ $clients->links() }}
     </div>
-    <script>
-        let clientToDelete = null;
 
-        function showDeleteConfirmation(clientId, clientName) {
-            clientToDelete = clientId;
-            document.getElementById('clientNameDisplay').textContent = clientName;
-
-            const modal = document.getElementById('deleteModal');
-            const modalContent = document.getElementById('modalContent');
-
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-
-            // Animate in
-            setTimeout(() => {
-                modalContent.classList.remove('scale-95', 'opacity-0');
-                modalContent.classList.add('scale-100', 'opacity-100');
-            }, 10);
-        }
-
-        function hideDeleteConfirmation() {
-            const modal = document.getElementById('deleteModal');
-            const modalContent = document.getElementById('modalContent');
-
-            // Animate out
-            modalContent.classList.remove('scale-100', 'opacity-100');
-            modalContent.classList.add('scale-95', 'opacity-0');
-
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-                clientToDelete = null;
-            }, 300);
-        }
-
-        function confirmDelet() {
-            if (clientToDelete) {
-                // Call Livewire method
-                Livewire.find('{{ $_instance->getId() }}').call('deleteClient', clientToDelete);
-                hideDeleteConfirmation();
-            }
-        }
-
-        // Close modal when clicking outside
-        document.getElementById('deleteModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                hideDeleteConfirmation();
-            }
-        });
-
-        // Close modal with Escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                hideDeleteConfirmation();
-            }
-        });
-    </script>
 </div>
