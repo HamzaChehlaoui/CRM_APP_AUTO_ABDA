@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 USE Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Log;
+use App\Models\Client;
 
 class FacturesTable extends Component
 {
@@ -100,7 +101,7 @@ class FacturesTable extends Component
         $this->filteredInvoiceCount = $invoicesQuery->count();
 
         $invoices = $invoicesQuery->paginate(6);
-
+         $clients = Client::all();
         return view('livewire.factures-table', [
             'invoices' => $invoices,
             'branches' => $this->branches,
@@ -108,6 +109,7 @@ class FacturesTable extends Component
             'stats' => $this->stats,
             'filteredInvoiceCount' => $this->filteredInvoiceCount,
             'totalInvoiceCount' => $this->totalInvoiceCount,
+            'clients' =>$clients,
         ]);
     }
 
