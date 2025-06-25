@@ -91,8 +91,6 @@ class StatisticsService
             return $clientsWithPayments;
     }
 
-
-
     public function getClientsWithPaymentsByStatusQuery(string $startDate, string $endDate, int|string $branchId = 'all', string $status = 'paiement')
     {
         $start = Carbon::parse($startDate)->startOfDay();
@@ -155,9 +153,6 @@ class StatisticsService
             ];
         });
     }
-
-
-
 
     private function getInitials(string $name): string
     {
