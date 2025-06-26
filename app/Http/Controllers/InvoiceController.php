@@ -233,7 +233,7 @@ class InvoiceController extends Controller
 
         DB::commit();
 
-        return redirect()->route('invoice.index')->with('message', 'Facture mise à jour avec succès.');
+        return redirect()->route('invoice.index')->with('success', 'Facture mise à jour avec succès.');
     } catch (\Throwable $e) {
 
         DB::rollBack();
