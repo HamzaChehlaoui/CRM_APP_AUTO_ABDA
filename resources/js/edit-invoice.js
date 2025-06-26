@@ -170,4 +170,12 @@ errorText.textContent = `Veuillez remplir ou téléverser les champs suivants : 
 errorMessage.classList.remove('hidden');
 errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
+  new TomSelect('#client_id', {
+            create: false,
+            sortField: {
+                field: "text",
+                direction: "asc"
+            },
+            placeholder: "Rechercher un client...",
+        });
 });
