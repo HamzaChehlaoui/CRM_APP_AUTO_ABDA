@@ -202,14 +202,22 @@ class InvoiceController extends Controller
 
 
 
-    public function update(UpdateInvoiceRequest $request, Invoice $invoice)
+public function update(UpdateInvoiceRequest $request, Invoice $invoice)
 {
     DB::beginTransaction();
 
     try {
 
         $action = $request->input('action');
+
         $invoice->statut_facture = $action === 'facture' ? 'facturé' : 'creation';
+
+        $statutFromSelect = $request->input('statut_facture');
+        if ($statutFromSelect === 'paiement') {
+            $invoice->statut_facture = 'paiement';
+        } elseif ($statutFromSelect) {
+            $invoice->statut_facture = $statutFromSelect;
+        }
 
         $invoice->client_id = $request->client_id;
         $invoice->fill($request->input('invoice', []));
@@ -221,6 +229,15 @@ class InvoiceController extends Controller
             }
         }
 
+        if ($invoice->statut_facture === 'paiement' && $request->hasFile('paiement_file')) {
+            if ($invoice->paiement_file_path) {
+                Storage::disk('public')->delete($invoice->paiement_file_path);
+            }
+
+            $paiementFilePath = $request->file('paiement_file')->store('paiements', 'public');
+            $invoice->paiement_file_path = $paiementFilePath;
+        }
+
         $invoice->save();
 
         $carData = $request->input('car', []);
@@ -228,20 +245,20 @@ class InvoiceController extends Controller
         if ($invoice->car) {
             $invoice->car->update($carData);
         } elseif (!empty($carData)) {
-            $car = $invoice->car()->create($carData); // Créer la voiture si elle n’existe pas
+            $invoice->car()->create($carData); // Créer la voiture si elle n’existe pas
         }
 
         DB::commit();
 
         return redirect()->route('invoice.index')->with('success', 'Facture mise à jour avec succès.');
     } catch (\Throwable $e) {
-
         DB::rollBack();
         report($e);
 
         return redirect()->back()->withInput()->with('error', 'Une erreur est survenue lors de la mise à jour de la facture.');
     }
 }
+
 
     public function destroy(Invoice $invoice)
     {

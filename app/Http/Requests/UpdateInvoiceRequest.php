@@ -15,11 +15,12 @@ class UpdateInvoiceRequest extends FormRequest
     public function rules()
     {
         $action = $this->input('action');
+        $statutFacture = $this->input('statut_facture'); // إضافة قراءة الحالة من الـ select
         $invoiceId = $this->route('invoice') ? $this->route('invoice')->id : null;
         $carId = $this->route('invoice') && $this->route('invoice')->car ? $this->route('invoice')->car->id : null;
 
         if ($action === 'facture') {
-            return [
+            $rules = [
                 'client_id' => 'required|exists:clients,id',
 
                 // Informations voiture
@@ -65,9 +66,14 @@ class UpdateInvoiceRequest extends FormRequest
                 'image_or' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:10240',
                 'image_bc' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:10240',
             ];
+
+            if ($statutFacture === 'paiement') {
+                $rules['paiement_file'] = 'required|file|mimes:pdf,jpeg,png,jpg,gif|max:5120'; // 5MB
+            }
+
+            return $rules;
         }
 
-        // If the button is "save" (Brouillon/Draft) or if no action specified: no validation required
         return [];
     }
 
@@ -110,6 +116,11 @@ class UpdateInvoiceRequest extends FormRequest
             'image_bc.file' => 'Le fichier du bon de commande doit être un fichier.',
             'image_bc.mimes' => 'L’image du bon de commande doit être au format JPG, JPEG, PNG ou PDF.',
             'image_bc.max' => 'L’image du bon de commande ne doit pas dépasser 10MB.',
+
+            'paiement_file.required' => 'Le reçu de paiement est obligatoire lorsque le statut est "paiement".',
+            'paiement_file.file' => 'Le reçu de paiement doit être un fichier valide.',
+            'paiement_file.mimes' => 'Le reçu de paiement doit être au format PDF ou image (JPG, PNG, JPEG, GIF).',
+            'paiement_file.max' => 'Le reçu de paiement ne doit pas dépasser 5MB.',
         ];
     }
 }

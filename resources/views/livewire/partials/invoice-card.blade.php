@@ -215,11 +215,74 @@
                                             </div>
                                         @endif
                                     </div>
+
                                 @endforeach
+
                             </div>
                         </div>
                     </div>
                 </div>
+                @if($invoice->statut_facture === 'paiement')
+    @php
+        $paiementPath = $invoice->paiement_file_path;
+        $paiementUrl = null;
+
+        if ($paiementPath && file_exists(storage_path('app/public/' . $paiementPath))) {
+            $paiementUrl = asset('storage/' . $paiementPath);
+        } elseif ($paiementPath && file_exists(public_path($paiementPath))) {
+            $paiementUrl = asset($paiementPath);
+        } elseif ($paiementPath && file_exists(public_path('storage/' . $paiementPath))) {
+            $paiementUrl = asset('storage/' . $paiementPath);
+        }
+    @endphp
+
+    <div class="ml-2">
+        <button
+            x-data="{ openPaiementImage: false }"
+            @click="openPaiementImage = true"
+            class="p-1.5 text-green-600 hover:bg-green-100 rounded-lg transition-colors"
+            title="Voir l'image du paiement"
+        >
+            <i class="fas fa-file-invoice-dollar text-sm"></i>
+        </button>
+
+        <div x-show="openPaiementImage" x-transition x-cloak
+            class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <div @click.away="openPaiementImage = false"
+                class="bg-white rounded-lg shadow-lg max-w-3xl w-full p-6 relative max-h-[80vh] overflow-auto">
+                <button @click="openPaiementImage = false"
+                    class="absolute top-2 right-2 text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times"></i>
+                </button>
+                <h2 class="text-lg font-semibold mb-4">Image du Paiement</h2>
+
+                @if ($paiementUrl)
+                    @php
+                        $ext = strtolower(pathinfo($paiementPath, PATHINFO_EXTENSION));
+                    @endphp
+
+                    @if ($ext === 'pdf')
+                        <a href="{{ $paiementUrl }}" target="_blank"
+                            class="text-blue-600 underline flex items-center space-x-2">
+                            <i class="fas fa-file-pdf text-red-600"></i>
+                            <span>Voir le fichier PDF</span>
+                        </a>
+                    @else
+                        <img src="{{ $paiementUrl }}" alt="Image du Paiement"
+                            class="w-full h-64 object-contain rounded border"
+                            onerror="this.parentElement.innerHTML='<p class=\'text-red-500 text-sm\'>Erreur lors du chargement de l\'image</p>'">
+                    @endif
+                @else     
+                    <div class="text-center py-8">
+                        <i class="fas fa-exclamation-triangle text-yellow-500 text-3xl mb-3"></i>
+                        <p class="text-sm text-gray-600">Image du paiement introuvable</p>
+                        <p class="text-xs text-gray-400 mt-1">Chemin: {{ $paiementPath }}</p>
+                    </div>
+                @endif
+            </div>
+        </div>
+    </div>
+@endif
                 @if($invoice->statut_facture != 'paiement')
             @if(auth()->user()->role_id!=1 && auth()->user()->role_id!=2 )
                 <a href="{{ route('invoices.edit', $invoice->id) }}"

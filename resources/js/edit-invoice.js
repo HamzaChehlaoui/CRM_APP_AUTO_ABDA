@@ -9,6 +9,20 @@ clearErrors();
 
 const requiredFields = document.querySelectorAll('[data-required="true"]');
 const missingFields = [];
+// vérifivation select client
+ const clientSelect = document.getElementById('client_id');
+const clientError = document.getElementById('clientError');
+
+if (!clientSelect.value || clientSelect.value === '') {
+    missingFields.push({
+        element: clientSelect,
+        label: clientSelect.closest('div').querySelector('label').textContent.trim()
+    });
+    highlightError(clientSelect);
+    if (clientError) clientError.classList.remove('hidden'); // إظهار رسالة الخطأ
+} else {
+    if (clientError) clientError.classList.add('hidden'); // إخفاء الرسالة إذا تم الاختيار
+}
 
 // Vérification champs texte/num/date
 requiredFields.forEach(field => {
@@ -178,4 +192,23 @@ errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
             },
             placeholder: "Rechercher un client...",
         });
+
+// ✅ Suppression automatique de l'erreur client_id au changement
+const clientSelect = document.getElementById('client_id');
+if (clientSelect) {
+    clientSelect.addEventListener('change', function () {
+        if (clientSelect.value !== '') {
+            clientSelect.classList.remove('border-red-500', 'bg-red-50');
+            clientSelect.classList.add('border-gray-300');
+            const clientError = document.getElementById('clientError');
+            if (clientError) clientError.classList.add('hidden');
+
+            const remainingErrors = document.querySelectorAll('.border-red-500');
+            if (remainingErrors.length === 0) {
+                document.getElementById('error-message').classList.add('hidden');
+            }
+        }
+    });
+}
+
 });

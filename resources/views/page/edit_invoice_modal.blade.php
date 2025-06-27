@@ -16,7 +16,7 @@
                         <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z" />
                         <path fill-rule="evenodd"
                             d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z"
-                            clip-rule="evenodd" />
+                            clip-rule="evenodd"/>
                     </svg>
                     Modifier la Facture N° {{ $invoice->invoice_number }}
                 </h1>
@@ -52,6 +52,7 @@
                                 </option>
                             @endforeach
                         </select>
+                        <p id="clientError" class="text-red-500 text-sm mt-1 hidden">Veuillez sélectionner un client.</p>
                     </div>
 
                 </div>
@@ -312,113 +313,145 @@
             </div>
         </form>
         @vite('resources/js/edit-invoice.js')
-    @elseif($invoice->statut_facture == 'facturé')
-        <form action="{{ route('invoices.update', $invoice->id) }}" method="POST" enctype="multipart/form-data"
-            class="max-w-5xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
-            @csrf
-            @method('PUT')
+        @else
+   <form action="{{ route('invoices.update', $invoice->id) }}" method="POST" enctype="multipart/form-data"
+    class="max-w-5xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
+    @csrf
+    @method('PUT')
 
-            <!-- Header du formulaire -->
-            <div
-                class="bg-gradient-to-r from-blue-600 to-blue-700 px-8 py-6 flex items-center justify-between shadow-lg">
-                <h1 class="text-2xl font-semibold text-white flex items-center">
-                    <svg class="w-7 h-7 mr-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z" />
-                        <path fill-rule="evenodd"
-                            d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z"
-                            clip-rule="evenodd" />
-                    </svg>
-                    Modifier la Facture N° {{ $invoice->invoice_number }}
-                </h1>
-                <a href="/factures"
-                    class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 bg-white hover:bg-blue-50 rounded-md transition-colors duration-200 shadow-md">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                    </svg>
-                    Retourner à la page de facturation
-                </a>
+    <!-- Header -->
+    <div class="bg-gradient-to-r from-blue-600 to-blue-700 px-8 py-6 flex items-center justify-between shadow-lg">
+        <h1 class="text-2xl font-semibold text-white flex items-center">
+            <svg class="w-7 h-7 mr-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z" />
+                <path fill-rule="evenodd"
+                      d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z"
+                      clip-rule="evenodd" />
+            </svg>
+            Modifier la Facture N° {{ $invoice->invoice_number }}
+        </h1>
+        <a href="/factures"
+           class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 bg-white hover:bg-blue-50 rounded-md transition-colors duration-200 shadow-md">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Retourner à la page de facturation
+        </a>
+    </div>
+
+    <p class="text-xs text-blue-600 m-3">Statut: {{ ucfirst(str_replace('_', ' ', $invoice->statut_facture)) }}</p>
+
+    <div class="p-8 space-y-8">
+        <!-- Section Statut -->
+        <div class="bg-gray-50 rounded-xl p-6 border border-gray-200">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                <svg class="w-6 h-6 mr-2 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                        clip-rule="evenodd" />
+                </svg>
+                Statut Facture
+            </h2>
+
+            <!-- Select Statut -->
+            <div>
+                <label for="statut_facture" class="block text-sm font-medium text-gray-700 mb-2">Sélectionner un statut</label>
+                <select id="statut_facture" name="statut_facture"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white"
+                        onchange="handleStatutChange(this)">
+                    @if ($invoice->statut_facture == 'facturé')
+                        <option value="creation">Création</option>
+                        <option value="facturé" selected>Facturé</option>
+                        <option value="envoyée_pour_paiement">Envoyée pour paiement</option>
+                    @elseif ($invoice->statut_facture == 'envoyée_pour_paiement')
+                        <option value="facturé">Facturé</option>
+                        <option value="envoyée_pour_paiement" selected>Envoyée pour paiement</option>
+                        <option value="paiement">Paiement</option>
+                    @endif
+                </select>
             </div>
-            <p class="text-xs text-blue-600 m-3">statut: Facturé</p>
 
-            <div class="p-8 space-y-8">
-                <!-- Section Client -->
-                <div class="bg-gray-50 rounded-xl p-6 border border-gray-200">
-                    <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-                        <svg class="w-6 h-6 mr-2 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                                clip-rule="evenodd" />
-                        </svg>
-                        Statut Facture
-                    </h2>
-                    <div>
-                        <label for="statut_facture" class="block text-sm font-medium text-gray-700 mb-2">Sélectionner
-                            un statut</label>
-                        <select id="statut_facture" name="statut_facture"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white">
-                            <option value="creation">Création</option>
-                            <option value="facturé" selected>Facturé</option>
-                            <option value="envoyée_pour_paiement">Envoyée pour paiement</option>
-                        </select>
+            <!-- Upload File for "paiement" -->
+            <div id="paiement_file_upload" class="mt-6 hidden">
+                <label for="paiement_file" class="block text-sm font-medium text-gray-700 mb-2">
+                    Joindre un reçu de paiement (PDF ou image)
+                </label>
+                <input type="file" id="paiement_file" name="paiement_file"
+                       accept="application/pdf,image/*"
+                       onchange="previewFile()"
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white">
 
-                    </div>
-                </div>
+                <!-- Preview -->
+                <div id="file_preview" class="mt-4"></div>
             </div>
-        </form>
-    @elseif($invoice->statut_facture == 'envoyée_pour_paiement')
-        <form action="{{ route('invoices.update', $invoice->id) }}" method="POST" enctype="multipart/form-data"
-            class="max-w-5xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
-            @csrf
-            @method('PUT')
+        </div>
+            <input type="hidden" name="client_id" value="{{ old('client_id', $invoice->client_id) }}">
 
-            <!-- Header du formulaire -->
-            <div
-                class="bg-gradient-to-r from-blue-600 to-blue-700 px-8 py-6 flex items-center justify-between shadow-lg">
-                <h1 class="text-2xl font-semibold text-white flex items-center">
-                    <svg class="w-7 h-7 mr-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z" />
-                        <path fill-rule="evenodd"
-                            d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z"
-                            clip-rule="evenodd" />
-                    </svg>
-                    Modifier la Facture N° {{ $invoice->invoice_number }}
+        <!-- Submit Button -->
+        <div class="text-right">
+            <button type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition">
+                Enregistrer les modifications
+            </button>
+        </div>
+    </div>
+</form>
 
-                </h1>
+<!-- JS: Gestion du changement de statut et de l'aperçu -->
+<script>
+    function handleStatutChange(select) {
+        const uploadDiv = document.getElementById('paiement_file_upload');
+        const fileInput = document.getElementById('paiement_file');
+        const preview = document.getElementById('file_preview');
 
-                <a href="/factures"
-                    class="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 bg-white hover:bg-blue-50 rounded-md transition-colors duration-200 shadow-md">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                    </svg>
-                    Retourner à la page de facturation
-                </a>
-            </div>
-            <p class="text-xs text-blue-600 m-3">statut: Envoyée pour le paiement</p>
-            <div class="p-8 space-y-8">
-                <!-- Section Client -->
-                <div class="bg-gray-50 rounded-xl p-6 border border-gray-200">
-                    <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-                        <svg class="w-6 h-6 mr-2 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                                clip-rule="evenodd" />
-                        </svg>
-                        Statut Facture
-                    </h2>
-                    <div>
-                        <label for="statut_facture" class="block text-sm font-medium text-gray-700 mb-2">Sélectionner
-                            un statut</label>
-                        <select id="statut_facture" name="statut_facture"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white">
-                            <option value="envoyée_pour_paiement" selected>Envoyée pour le paiement</option>
-                            <option value="facturé">Facturé</option>
-                            <option value="paiement">Paiement</option>
-                        </select>
+        if (select.value === 'paiement') {
+            uploadDiv.classList.remove('hidden');
+            fileInput.required = true;
+        } else {
+            uploadDiv.classList.add('hidden');
+            fileInput.required = false;
+            fileInput.value = "";
+            preview.innerHTML = "";
+        }
+    }
 
-                    </div>
-                </div>
-            </div>
-        </form>
-        <p>envoyée_pour_paiement</p>
-    @endif
+    function previewFile() {
+        const input = document.getElementById('paiement_file');
+        const preview = document.getElementById('file_preview');
+        const file = input.files[0];
+        preview.innerHTML = "";
+
+        if (file) {
+            const type = file.type;
+            if (type.startsWith('image/')) {
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(file);
+                img.className = "w-32 h-32 object-contain border rounded mb-2";
+                preview.appendChild(img);
+            } else if (type === "application/pdf") {
+                const info = document.createElement('p');
+                info.textContent = "Fichier PDF sélectionné : " + file.name;
+                info.className = "text-sm text-gray-800";
+                preview.appendChild(info);
+            }
+
+            const removeBtn = document.createElement('button');
+            removeBtn.type = 'button';
+            removeBtn.textContent = "Supprimer le fichier";
+            removeBtn.className = "mt-2 px-4 py-1 text-sm bg-red-600 text-white rounded hover:bg-red-700";
+            removeBtn.onclick = () => {
+                input.value = "";
+                preview.innerHTML = "";
+            };
+            preview.appendChild(removeBtn);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const current = document.getElementById('statut_facture');
+        handleStatutChange(current);
+    });
+</script>
+
+@endif
 </div>

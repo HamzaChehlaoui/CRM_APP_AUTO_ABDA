@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('image_bc')->nullable()->comment('image bon de commande');
             $table->string('image_bl')->nullable()->comment('image bon kivraison');
             $table->string('image_or')->nullable()->comment('Accord');
+            $table->string('paiement_file_path')->nullable()->comment('accuse de reseption');
             $table->string('accord_reference')->nullable()->comment('Accord / Contrat (accord)');
             $table->string('purchase_order_number')->nullable()->comment('Bon de commande (bc)');
             $table->string('delivery_note_number')->nullable()->comment('Bon de livraison (bl)');
