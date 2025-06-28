@@ -32,7 +32,7 @@ Route::middleware(['auth', 'manager'])->group(function () {
 });
 
 // Authenticated Routes
-Route::middleware('auth')->group(function () {
+Route::middleware('auth' )->group(function () {
 
     // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -54,7 +54,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/invoices/{id}/update', [InvoiceController::class, 'updateInvoice'])->name('invoices.update.post');
     Route::patch('/invoices/{id}', [InvoiceController::class, 'updateInvoice'])->name('invoices.patch');
     Route::post('/invoices/delete', [FacturesTable::class, 'deleteInvoice'])->name('invoices.delete');
-    
+
     // Existing routes...
 Route::get('/invoices/{invoice}/edit', [InvoiceController::class, 'edit'])->name('invoices.edit');
 Route::put('/invoices/{invoice}', [InvoiceController::class, 'update'])->name('invoices.update');   // Suivis
