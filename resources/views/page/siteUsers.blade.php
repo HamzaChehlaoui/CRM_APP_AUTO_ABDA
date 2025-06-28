@@ -180,24 +180,25 @@
                     </div>
                 </div>
             </div>
-            @include('page.button-loading')
+
     </body>
+    <script>
+        function openConfirmModal(userId, userName) {
+            const modal = document.getElementById('confirmModal');
+            const message = document.getElementById('confirmMessage');
+            const form = document.getElementById('deleteForm');
+
+            message.textContent = `Êtes-vous sûr de vouloir supprimer "${userName}" ?`;
+            form.action = `/users/${userId}`;
+            modal.classList.remove('hidden');
+        }
+
+        function closeConfirmModal() {
+            const modal = document.getElementById('confirmModal');
+            modal.classList.add('hidden');
+        }
+    </script>
+    @include('page.button-loading')
 @endsection
 
 </html>
-<script>
-    function openConfirmModal(userId, userName) {
-        const modal = document.getElementById('confirmModal');
-        const message = document.getElementById('confirmMessage');
-        const form = document.getElementById('deleteForm');
-
-        message.textContent = `Êtes-vous sûr de vouloir supprimer "${userName}" ?`;
-        form.action = `/users/${userId}`;
-        modal.classList.remove('hidden');
-    }
-
-    function closeConfirmModal() {
-        const modal = document.getElementById('confirmModal');
-        modal.classList.add('hidden');
-    }
-</script>

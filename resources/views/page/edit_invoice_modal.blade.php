@@ -1,4 +1,4 @@
-<div class="bg-gray-300">
+<div class="bg-gray-300 h-full">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <!-- CSS JS Tom Select -->
     <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet">
