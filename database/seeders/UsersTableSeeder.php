@@ -13,15 +13,15 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             [
                 'name' => 'General Director',
-                'email' => 'hamzachehlaoui3@gmail.com',
+                'email' => 'admin@gmail.com',
                 'password' => Hash::make('password'),
                 'role_id' => 1,
                 'branch_id' => null,
             ],
             [
                 'name' => 'Assistant Director',
-                'email' => 'assistant@crm.com',
-                'password' => Hash::make('password'),
+                'email' => 'hamzachehlaoui3@gmail.com',
+                'password' => Hash::make('password@autoabda'),
                 'role_id' => 2,
                 'branch_id' => null,
             ],
