@@ -88,14 +88,14 @@ public function getDashboardStats($clientsQuery, $suivisQuery, $invoicesQuery): 
 
         $facturesCurrent[$statut] = (clone $invoicesQuery)
     ->where('statut_facture', $statut)
-    ->whereRaw('EXTRACT(MONTH FROM COALESCE(sale_date, updated_at)) = ?', [$now->month])
-    ->whereRaw('EXTRACT(YEAR FROM COALESCE(sale_date, updated_at)) = ?', [$now->year])
+    ->whereRaw('MONTH(COALESCE(sale_date, updated_at)) = ?', [$now->month])
+    ->whereRaw('YEAR(COALESCE(sale_date, updated_at)) = ?', [$now->year])
     ->count();
 
 $facturesLast[$statut] = (clone $invoicesQuery)
     ->where('statut_facture', $statut)
-    ->whereRaw('EXTRACT(MONTH FROM COALESCE(sale_date, updated_at)) = ?', [$lastMonth->month])
-    ->whereRaw('EXTRACT(YEAR FROM COALESCE(sale_date, updated_at)) = ?', [$lastMonth->year])
+    ->whereRaw('MONTH(COALESCE(sale_date, updated_at)) = ?', [$lastMonth->month])
+    ->whereRaw('YEAR(COALESCE(sale_date, updated_at)) = ?', [$lastMonth->year])
     ->count();
 
         $facturesPercentageChange[$statut] = $this->calculatePercentageChange(
