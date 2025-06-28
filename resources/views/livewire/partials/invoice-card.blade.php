@@ -1,6 +1,7 @@
 {{-- cart facture--}}
 <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow duration-200 mb-6">
     {{-- Card Header --}}
+
     <div class="p-4 pb-3">
         <div class="flex items-start justify-between">
             <div class="flex items-center">
@@ -222,7 +223,7 @@
                         </div>
                     </div>
                 </div>
-                @if($invoice->statut_facture === 'paiement')
+              @if($invoice->statut_facture === 'paiement')
     @php
         $paiementPath = $invoice->paiement_file_path;
         $paiementUrl = null;
@@ -236,9 +237,8 @@
         }
     @endphp
 
-    <div class="ml-2">
+    <div x-data="{ openPaiementImage: false }" class="ml-2">
         <button
-            x-data="{ openPaiementImage: false }"
             @click="openPaiementImage = true"
             class="p-1.5 text-green-600 hover:bg-green-100 rounded-lg transition-colors"
             title="Voir l'image du paiement"
@@ -263,16 +263,23 @@
 
                     @if ($ext === 'pdf')
                         <a href="{{ $paiementUrl }}" target="_blank"
-                            class="text-blue-600 underline flex items-center space-x-2">
+                            class="text-blue-600 underline flex items-center space-x-2 mb-4">
                             <i class="fas fa-file-pdf text-red-600"></i>
                             <span>Voir le fichier PDF</span>
                         </a>
                     @else
                         <img src="{{ $paiementUrl }}" alt="Image du Paiement"
-                            class="w-full h-64 object-contain rounded border"
+                            class="w-full h-64 object-contain rounded border mb-4"
                             onerror="this.parentElement.innerHTML='<p class=\'text-red-500 text-sm\'>Erreur lors du chargement de l\'image</p>'">
                     @endif
-                @else     
+
+                    {{-- download--}}
+                    <a href="{{ $paiementUrl }}" download
+                        class="inline-flex items-center mt-2 px-4 py-2 bg-green-600 text-white text-sm font-medium rounded hover:bg-green-700 transition">
+                        <i class="fas fa-download mr-2"></i>
+                        Télécharger
+                    </a>
+                @else
                     <div class="text-center py-8">
                         <i class="fas fa-exclamation-triangle text-yellow-500 text-3xl mb-3"></i>
                         <p class="text-sm text-gray-600">Image du paiement introuvable</p>
@@ -283,6 +290,7 @@
         </div>
     </div>
 @endif
+
                 @if($invoice->statut_facture != 'paiement')
             @if(auth()->user()->role_id!=1 && auth()->user()->role_id!=2 )
                 <a href="{{ route('invoices.edit', $invoice->id) }}"
