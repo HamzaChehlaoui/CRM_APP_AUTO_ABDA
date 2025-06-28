@@ -1,4 +1,5 @@
 @extends('layouts.mastere')
+    <link rel="icon" href="img/logo-dacia-oggi-removebg-preview.png" type="image/png" />
 
 @section('title', 'Register - Tableau de Bord')
 

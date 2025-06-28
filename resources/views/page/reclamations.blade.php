@@ -1,5 +1,6 @@
 @extends('layouts.mastere')
 {{-- page Remarques --}}
+    <link rel="icon" href="img/logo-dacia-oggi-removebg-preview.png" type="image/png" />
 
 @section('title', 'Remarques - Tableau de Bord')
 

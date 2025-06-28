@@ -1,5 +1,6 @@
 <!-- resources/views/dashboard.blade.php -->
 @extends('layouts.mastere')
+    <link rel="icon" href="img/logo-dacia-oggi-removebg-preview.png" type="image/png" />
 
 @section('title', 'Dashboard - Tableau de Bord')
 

@@ -1,5 +1,6 @@
 {{-- resources/views/notifications/index.blade.php --}}
 @extends('layouts.mastere')
+    <link rel="icon" href="img/logo-dacia-oggi-removebg-preview.png" type="image/png" />
 
 @section('title', 'Notifications - Tableau de Bord')
 
