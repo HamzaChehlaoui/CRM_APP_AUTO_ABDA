@@ -374,7 +374,7 @@
             <!-- Upload File for "paiement" -->
             <div id="paiement_file_upload" class="mt-6 hidden">
                 <label for="paiement_file" class="block text-sm font-medium text-gray-700 mb-2">
-                    Joindre un reçu de paiement (PDF ou image)
+                    Joindre un reçu de paiement (PDF ou image) (accuse de reseption)
                 </label>
                 <input type="file" id="paiement_file" name="paiement_file"
                        accept="application/pdf,image/*"
