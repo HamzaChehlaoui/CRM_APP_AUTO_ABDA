@@ -19,9 +19,9 @@ if (!clientSelect.value || clientSelect.value === '') {
         label: clientSelect.closest('div').querySelector('label').textContent.trim()
     });
     highlightError(clientSelect);
-    if (clientError) clientError.classList.remove('hidden'); // إظهار رسالة الخطأ
+    if (clientError) clientError.classList.remove('hidden');
 } else {
-    if (clientError) clientError.classList.add('hidden'); // إخفاء الرسالة إذا تم الاختيار
+    if (clientError) clientError.classList.add('hidden'); 
 }
 
 // Vérification champs texte/num/date

@@ -379,9 +379,9 @@
                     Joindre un reçu de paiement (PDF ou image) (accuse de reseption)
                 </label>
                 <input type="file" id="paiement_file" name="paiement_file"
-                       accept="application/pdf,image/*"
-                       onchange="previewFile()"
-                       class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white">
+                        accept="application/pdf,image/*"
+                        onchange="previewFile()"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white">
 
                 <!-- Preview -->
                 <div id="file_preview" class="mt-4"></div>
