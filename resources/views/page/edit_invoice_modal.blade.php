@@ -1,4 +1,4 @@
-<div class="bg-gray-300 h-full">
+<div class="bg-gray-300 min-h-screen">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="icon" href="img/logo-dacia-oggi-removebg-preview.png" type="image/png" />
 
