@@ -348,95 +348,95 @@
         }
     </script>
 
-    <script>
-// AJAX pagination for Clients et Montants Payés
-function renderClientsList(clients, page, perPage, total, totalAmount) {
-    const container = document.getElementById('clients-list-container');
-    if (!clients.length) {
-        container.innerHTML = `<div class='flex flex-col items-center justify-center text-gray-400 h-full'>
-            <div class='w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center mb-3'>
-                <i class='fas fa-user-slash text-2xl'></i>
-            </div>
-            <p class='text-sm font-medium'>Aucune donnée disponible</p>
-            <p class='text-xs text-gray-300 mt-1'>Aucun paiement trouvé</p>
-        </div>`;
-        document.getElementById('clients-total-amount').textContent = '0 DH';
-        document.getElementById('clients-total-count').textContent = 'Total: 0';
-        document.getElementById('clients-pagination').innerHTML = '';
-        return;
-    }
-    let html = '<div class="space-y-2">';
-    clients.forEach((client, idx) => {
-        html += `<div class='flex items-center justify-between p-2 bg-blue-50 rounded-lg hover:bg-blue-100 transition-all duration-200 border border-blue-100 hover:border-blue-200 shadow-sm'>
-            <div class='flex items-center space-x-3'>
-                <div class='flex-shrink-0'>
-                    <div class='w-7 h-7 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white font-semibold text-xs shadow-sm'>${(page-1)*perPage+idx+1}</div>
-                </div>
-                <div class='min-w-0 flex-1'>
-                    <h4 class='text-sm font-medium text-gray-900 truncate'>${client.full_name}</h4>
-                </div>
-            </div>
-            <div class='text-right flex-shrink-0'>
-                <div class='text-sm font-bold text-emerald-600'>${parseFloat(client.total_paid).toLocaleString('fr-FR', {minimumFractionDigits:2})} DH</div>
-                <div class='text-xs text-gray-400'>Payé</div>
-            </div>
-        </div>`;
-    });
-    html += '</div>';
-    container.innerHTML = html;
-    document.getElementById('clients-total-amount').textContent = `${totalAmount.toLocaleString('fr-FR', {minimumFractionDigits:2})} DH`;
-    document.getElementById('clients-total-count').textContent = `Total: ${total}`;
-}
-function renderClientsPagination(page, totalPages) {
-    const pag = document.getElementById('clients-pagination');
-    if (totalPages <= 1) { pag.innerHTML = ''; return; }
-    let html = '';
-    // Prev button
-    html += `<button class='px-2 py-1 mx-1 rounded ${page===1?'bg-gray-200 text-gray-400 cursor-not-allowed':'bg-white text-blue-500 border border-blue-200 hover:bg-blue-100'}' data-page='${page-1}' ${page===1?'disabled':''}>Préc.</button>`;
-    // Page numbers
-    let start = Math.max(1, page - 2);
-    let end = Math.min(totalPages, page + 2);
-    if (start > 1) {
-        html += `<button class='px-2 py-1 mx-1 rounded bg-white text-blue-500 border border-blue-200 hover:bg-blue-100' data-page='1'>1</button>`;
-        if (start > 2) html += `<span class='px-2 text-gray-400'>...</span>`;
-    }
-    for (let i = start; i <= end; i++) {
-        html += `<button class='px-2 py-1 mx-1 rounded ${i===page?'bg-blue-500 text-white':'bg-white text-blue-500 border border-blue-200 hover:bg-blue-100'}' data-page='${i}'>${i}</button>`;
-    }
-    if (end < totalPages) {
-        if (end < totalPages - 1) html += `<span class='px-2 text-gray-400'>...</span>`;
-        html += `<button class='px-2 py-1 mx-1 rounded bg-white text-blue-500 border border-blue-200 hover:bg-blue-100' data-page='${totalPages}'>${totalPages}</button>`;
-    }
-    // Next button
-    html += `<button class='px-2 py-1 mx-1 rounded ${page===totalPages?'bg-gray-200 text-gray-400 cursor-not-allowed':'bg-white text-blue-500 border border-blue-200 hover:bg-blue-100'}' data-page='${page+1}' ${page===totalPages?'disabled':''}>Suiv.</button>`;
-    pag.innerHTML = html;
-    Array.from(pag.querySelectorAll('button')).forEach(btn => {
-        if (!btn.disabled) {
-            btn.onclick = function() { loadClientsWithPayments(parseInt(this.dataset.page)); };
+<script>
+        // AJAX pagination for Clients et Montants Payés
+        function renderClientsList(clients, page, perPage, total, totalAmount) {
+            const container = document.getElementById('clients-list-container');
+            if (!clients.length) {
+                container.innerHTML = `<div class='flex flex-col items-center justify-center text-gray-400 h-full'>
+                    <div class='w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center mb-3'>
+                        <i class='fas fa-user-slash text-2xl'></i>
+                    </div>
+                    <p class='text-sm font-medium'>Aucune donnée disponible</p>
+                    <p class='text-xs text-gray-300 mt-1'>Aucun paiement trouvé</p>
+                </div>`;
+                document.getElementById('clients-total-amount').textContent = '0 DH';
+                document.getElementById('clients-total-count').textContent = 'Total: 0';
+                document.getElementById('clients-pagination').innerHTML = '';
+                return;
+            }
+            let html = '<div class="space-y-2">';
+            clients.forEach((client, idx) => {
+                html += `<div class='flex items-center justify-between p-2 bg-blue-50 rounded-lg hover:bg-blue-100 transition-all duration-200 border border-blue-100 hover:border-blue-200 shadow-sm'>
+                    <div class='flex items-center space-x-3'>
+                        <div class='flex-shrink-0'>
+                            <div class='w-7 h-7 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white font-semibold text-xs shadow-sm'>${(page-1)*perPage+idx+1}</div>
+                        </div>
+                        <div class='min-w-0 flex-1'>
+                            <h4 class='text-sm font-medium text-gray-900 truncate'>${client.full_name}</h4>
+                        </div>
+                    </div>
+                    <div class='text-right flex-shrink-0'>
+                        <div class='text-sm font-bold text-emerald-600'>${parseFloat(client.total_paid).toLocaleString('fr-FR', {minimumFractionDigits:2})} DH</div>
+                        <div class='text-xs text-gray-400'>Payé</div>
+                    </div>
+                </div>`;
+            });
+            html += '</div>';
+            container.innerHTML = html;
+            document.getElementById('clients-total-amount').textContent = `${totalAmount.toLocaleString('fr-FR', {minimumFractionDigits:2})} DH`;
+            document.getElementById('clients-total-count').textContent = `Total: ${total}`;
         }
-    });
-}
-function loadClientsWithPayments(page=1) {
-    // Récupérer la valeur du filtre de succursale
-    const branchSelect = document.querySelector('select[name="branch"]');
-    const branch = branchSelect ? branchSelect.value : 'all';
-    const params = new URLSearchParams({
-        start_date: '{{ $startDate }}',
-        end_date: '{{ $endDate }}',
-        branch: branch, // Ajout du filtre de branche
-        page: page
-    });
-    fetch(`{{ route('statistics.clientsWithPaymentsAjax') }}?${params}`)
-        .then(r => r.json())
-        .then(data => {
-            renderClientsList(data.data, data.current_page, data.per_page, data.total, data.data.reduce((sum, c) => sum + parseFloat(c.total_paid), 0));
-            renderClientsPagination(data.current_page, data.last_page);
+        function renderClientsPagination(page, totalPages) {
+            const pag = document.getElementById('clients-pagination');
+            if (totalPages <= 1) { pag.innerHTML = ''; return; }
+            let html = '';
+            // Prev button
+            html += `<button class='px-2 py-1 mx-1 rounded ${page===1?'bg-gray-200 text-gray-400 cursor-not-allowed':'bg-white text-blue-500 border border-blue-200 hover:bg-blue-100'}' data-page='${page-1}' ${page===1?'disabled':''}>Préc.</button>`;
+            // Page numbers
+            let start = Math.max(1, page - 2);
+            let end = Math.min(totalPages, page + 2);
+            if (start > 1) {
+                html += `<button class='px-2 py-1 mx-1 rounded bg-white text-blue-500 border border-blue-200 hover:bg-blue-100' data-page='1'>1</button>`;
+                if (start > 2) html += `<span class='px-2 text-gray-400'>...</span>`;
+            }
+            for (let i = start; i <= end; i++) {
+                html += `<button class='px-2 py-1 mx-1 rounded ${i===page?'bg-blue-500 text-white':'bg-white text-blue-500 border border-blue-200 hover:bg-blue-100'}' data-page='${i}'>${i}</button>`;
+            }
+            if (end < totalPages) {
+                if (end < totalPages - 1) html += `<span class='px-2 text-gray-400'>...</span>`;
+                html += `<button class='px-2 py-1 mx-1 rounded bg-white text-blue-500 border border-blue-200 hover:bg-blue-100' data-page='${totalPages}'>${totalPages}</button>`;
+            }
+            // Next button
+            html += `<button class='px-2 py-1 mx-1 rounded ${page===totalPages?'bg-gray-200 text-gray-400 cursor-not-allowed':'bg-white text-blue-500 border border-blue-200 hover:bg-blue-100'}' data-page='${page+1}' ${page===totalPages?'disabled':''}>Suiv.</button>`;
+            pag.innerHTML = html;
+            Array.from(pag.querySelectorAll('button')).forEach(btn => {
+                if (!btn.disabled) {
+                    btn.onclick = function() { loadClientsWithPayments(parseInt(this.dataset.page)); };
+                }
+            });
+        }
+        function loadClientsWithPayments(page=1) {
+            // Récupérer la valeur du filtre de succursale
+            const branchSelect = document.querySelector('select[name="branch"]');
+            const branch = branchSelect ? branchSelect.value : 'all';
+            const params = new URLSearchParams({
+                start_date: '{{ $startDate }}',
+                end_date: '{{ $endDate }}',
+                branch: branch, // Ajout du filtre de branche
+                page: page
+            });
+            fetch(`{{ route('statistics.clientsWithPaymentsAjax') }}?${params}`)
+                .then(r => r.json())
+                .then(data => {
+                    renderClientsList(data.data, data.current_page, data.per_page, data.total, data.data.reduce((sum, c) => sum + parseFloat(c.total_paid), 0));
+                    renderClientsPagination(data.current_page, data.last_page);
+                });
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            loadClientsWithPayments();
         });
-}
-document.addEventListener('DOMContentLoaded', function() {
-    loadClientsWithPayments();
-});
 </script>
 </body>
-@endsection
 @include('page.button-loading')
+@endsection

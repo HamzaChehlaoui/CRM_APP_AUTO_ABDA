@@ -190,10 +190,8 @@ function fetchPostSaleStats() {
                 return;
             }
 
-            // ✅ ترتيب البيانات تنازليًا حسب المبلغ
             const sortedData = data.sort((a, b) => b.total_amount - a.total_amount);
 
-            // ✅ أخذ فقط أول 5 زبناء
             const topClients = sortedData.slice(0, 5);
 
             const labels = topClients.map(item => item.full_name);

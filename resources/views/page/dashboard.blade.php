@@ -175,7 +175,7 @@
         <h3 class="text-lg font-semibold text-gray-800">Top 5 Clients Payeurs</h3>
     </div>
     <div class="h-64 relative">
-        <canvas id="prospectsChart"></canvas>
+        <canvas id="prospectsChart" ></canvas>
     </div>
 </div>
 
