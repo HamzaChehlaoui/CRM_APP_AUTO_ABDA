@@ -15,7 +15,7 @@ class StoreCarRequest extends FormRequest
             'registration_number' => 'required|string|unique:cars,registration_number|max:100',
             'chassis_number' => 'required|string|unique:cars,chassis_number|max:100',
             'color' => 'nullable|string|max:50',
-            'year' => 'nullable|digits:4|integer|min:1900|max:' . (date('Y') + 1),
+            'year' => 'nullable|digits:4|integer|min:1900|max:',
         ];
     }
 }

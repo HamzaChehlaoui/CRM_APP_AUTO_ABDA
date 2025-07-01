@@ -25,6 +25,41 @@ class UsersTableSeeder extends Seeder
                 'role_id' => 2,
                 'branch_id' => null,
             ],
+            [
+                'name' => 'Safi Magasin - e',
+                'email' => 'safimagasin@crm.com',
+                'password' => 'password',
+                'role_id' => 3,
+                'branch_id' => 1,
+            ],
+            [
+                'name' => 'Safi Carrosserie - e',
+                'email' => 'saficarrosserie@crm.com',
+                'password' => 'password',
+                'role_id' => 4,
+                'branch_id' => 2,
+            ],
+            [
+                'name' => 'Safi Atelier - e',
+                'email' => 'safiatelier@crm.com',
+                'password' => 'password',
+                'role_id' => 5,
+                'branch_id' => 3,
+            ],
+            [
+                'name' => 'Essaouira e',
+                'email' => 'essaouira@crm.com',
+                'password' => 'password',
+                'role_id' => 6,
+                'branch_id' => 4,
+            ],
+            [
+                'name' => 'Sidi Bennour e',
+                'email' => 'sidi@crm.com',
+                'password' => 'password',
+                'role_id' => 7,
+                'branch_id' => 5,
+            ],
         ];
 
         foreach ($users as $userData) {

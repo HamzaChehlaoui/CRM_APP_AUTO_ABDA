@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
 
-            $table->string('invoice_number')->nullable()->unique()->comment('Numéro de facture (numfact)');
+            $table->string('invoice_number')->nullable()->comment('Numéro de facture (numfact)');
             $table->date('sale_date')->nullable()->comment('Date de la facture (date)');
             $table->decimal('total_amount', 10, 2)->nullable()->comment('Montant TTC (mtttc)');
             $table->string('image_path')->nullable()->comment('Chemin de l’image de la facture');

@@ -43,7 +43,6 @@ class ClientController extends Controller
 public function store(StoreClientRequest $request)
 {
     $validated = $request->validated();
-
     try {
         $client = Client::create([
             'full_name' => $validated['client']['full_name'],

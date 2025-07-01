@@ -84,7 +84,7 @@
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Année</label>
-                            <input type="number" name="car[year]" data-required="true" data-label="Année du véhicule"
+                            <input type="number" name="car[year]"  data-label="Année du véhicule"
                                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
                                 value="{{ old('car.year', $invoice->car->year ?? '') }}" placeholder="Ex: 2022">
                         </div>

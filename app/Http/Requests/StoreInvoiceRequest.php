@@ -21,7 +21,8 @@ class StoreInvoiceRequest extends FormRequest
             'car.ivn' => 'required|string|max:255|unique:cars,ivn',
             'car.registration_number' => 'required|string|max:255|unique:cars,registration_number',
             'car.chassis_number' => 'required|string|max:255|unique:cars,chassis_number',
-
+            'color' => 'nullable|string|max:50',
+            'year' => 'nullable|digits:4|integer|min:1900|max:',
             // Informations facture
             'invoice.invoice_number' => 'required|string|max:255|unique:invoices,invoice_number',
             'invoice.sale_date' => 'required|date',
