@@ -167,15 +167,13 @@
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                         <!-- Charts / Graphs -->
 
-<div class="bg-white rounded-xl shadow-card p-6 col-span-2">
-
-
+<div class="bg-white rounded-xl shadow-card p-6 col-span-2 ">
 
     <div class="flex justify-between items-center mb-6">
         <h3 class="text-lg font-semibold text-gray-800">Top 5 Clients Payeurs</h3>
     </div>
-    <div class="h-64 relative">
-        <canvas id="prospectsChart" ></canvas>
+    <div class="h-64 ">
+        <canvas id="prospectsChart"></canvas>
     </div>
 </div>
 
