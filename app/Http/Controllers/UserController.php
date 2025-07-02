@@ -11,7 +11,7 @@ class UserController extends Controller
 public function index()
 {
     $users = User::with('branch')->
-    whereNotIn('role_id', [1, 2])->paginate(6);
+    whereNotIn('role_id', [1, 2])->paginate(10);
     return view('page.siteUsers', compact('users'));
 }
 public function destroy(User $user)
